@@ -42,6 +42,10 @@ export class SearchComponent {
 
     this.meta.updateTag({ name: 'robots', content: 'noindex, follow' });
 
+  }
+
+
+  ngAfterViewInit(): void {
     if (this.isBrowser) {
       const header = document.querySelector('header');
       if (header) {
@@ -52,6 +56,7 @@ export class SearchComponent {
 
 
   onSearch(): void {
+    if (!this.isBrowser) return;
     if (this.query.trim().length >= 3) {
       this.searchService.searchRecipes(this.query).subscribe(results => {
         this.recipes = results;
