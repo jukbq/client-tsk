@@ -3,6 +3,8 @@ import { dishesAlResolver } from './shared/resolver/dishes/dishes-al/dishes-al.r
 import { lastRecipesResolver } from './shared/resolver/recipe/last-recipe/last-recipe.resolver';
 import { PrivacyPolicyComponent } from './shared/components/privacy-policy/privacy-policy.component';
 import { SearchComponent } from './shared/components/search/search.component';
+import { dishByIdResolver } from './shared/resolver/dishes/dish-by-id/dish-by-id.resolver';
+import { categoryListResolver } from './shared/resolver/category/category-list/category-list.resolver';
 
 export const routes: Routes = [
     {
@@ -23,6 +25,18 @@ export const routes: Routes = [
             import('./pages/dishes/dishes.component').then((m) => m.DishesComponent),
         resolve: {
             dishes: dishesAlResolver,
+        },
+    },
+
+    {
+        path: 'categories/:dishesid',
+        loadComponent: () =>
+            import('./pages/category/category.component').then(
+                (m) => m.CategoryComponent
+            ),
+        resolve: {
+            dishes: dishByIdResolver,
+            categryList: categoryListResolver
         },
     },
 
