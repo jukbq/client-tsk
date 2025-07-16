@@ -1,0 +1,140 @@
+<section>
+  <!--carousel-->
+  <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel" data-bs-interval="5000"
+    data-bs-wrap="true">
+    <div class="carousel-inner">
+      <!-- Перша слайд з головним зображенням -->
+      <div class="carousel-item active">
+        <img [src]="mainImage" alt="Таверна Синій Кіт" class="d-block w-100" loading="lazy" />
+        <div class="carousel-caption">
+          <div class="home_tite">'Таверна "Синій Кіт"'</div>
+          <div class="container">
+            <div class="line left"></div>
+            <div class="icon">
+              <img src="../../../assets/icon/logo.webp" alt="логотип" loading="lazy" />
+            </div>
+            <div class="line right"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Слайди з рецептами -->
+      <div *ngFor="let recipessList of recipes; let i = index" class="carousel-item">
+        <img [src]="recipessList.mainImage" loading="lazy" alt="{{ recipessList.recipeTitle }}" class="d-block w-100"
+          loading="lazy" />
+
+        <div class="carousel-caption recipes">
+          <div class="recipe_tite">
+            {{ recipessList.recipeTitle }}
+          </div>
+          <a class="button" [appSsrLink]="['recipe-page', recipessList.id]">
+            <div class="open">ВІдкрити</div>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Кнопки управління каруселлю -->
+    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators"
+      data-bs-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Previous</span>
+    </button>
+
+    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators"
+      data-bs-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Next</span>
+    </button>
+  </div>
+
+  <!---description of the sayat-->
+
+  <div #textBlocks class="description_sayat" [class.visible]="isVisible">
+    <h1 style="text-align: center">
+      Привіт, подорожній! Вітаю тебе в таверні <strong>"Синій Кіт"</strong>!
+    </h1>
+    <br />
+    <p>
+      Мене звуть <strong>Томидло</strong>, і так, я дійсно синій кіт – як би це
+      не було дивно. Я є власником цієї таверни і її головним кухарем. Тут я
+      зібрав рецепти, які завжди виходять, навіть якщо ти ніколи не тримав(-ла)
+      ложку, але дуже бажаєш навчитися готувати.
+    </p>
+
+    <p>
+      Розумію, що інколи важко спробувати приготувати нову страву: «А що, як не
+      вдасться?» або «Що робити, якщо щось піде не так?» Не переживай! Я
+      максимально докладно виклав усе поетапно, без зайвої метушні. Просто
+      дотримуйся вказівок – і навіть найскладніше блюдо перетвориться на твій
+      кулінарний шедевр!
+    </p>
+
+    <p>
+      А якщо ти досвідчений кухар, то тут знайдеш нові смаки, незвичні
+      комбінації інгредієнтів, цікаві методи та маленькі секрети, які піднімуть
+      твої страви до ресторанного рівня.
+    </p>
+    <br />
+    <h2 style="text-align: center">Що тобі приготувала таверна "Синій Кіт"?</h2>
+    <br />
+    <ul style="list-style: none">
+      <li>
+        <strong>Рецепти з перевіреним ефектом</strong> – лише ті, що справді
+        діють.
+      </li>
+      <li>
+        <strong>Покрокові детальні вказівки</strong> – навіть для новачків в
+        кухні.
+      </li>
+      <li>
+        <strong>Кулінарні поради</strong> – як полегшити приготування та досягти
+        ідеального смаку.
+      </li>
+    </ul>
+    <br />
+    <!--  <p>А також у таверні є цікаві факти про кулінарію! Бажаєш дізнатися, які приправи найкраще поєднуються з м’ясом?
+            Чому
+            автентичний італійський соус повинен готуватися саме так, а не інакше? Або як вибрати найсвіжіші інгредієнти
+            для
+            своїх страв? Шукай відповіді в розділі <strong>"Цікаве про кухню"</strong>, де я ділюсь історією страв,
+            корисними
+            властивостями продуктів та кулінарними секретами.</p> -->
+
+    <p>
+      Приготування їжі – це просто! Це захопливо, смачно і навіть весело.
+      Вибирай рецепт, збирай інгредієнти – і вперед до нових делікатесів!
+    </p>
+
+    <p>Я близько, щоб все вдалося!</p>
+  </div>
+
+  <!--Dishes List-->
+  <ul class="dishes_list">
+    <li class="dishes_block" *ngFor="let subItem of dishesList; let j = index">
+      <h3>{{ subItem.dishesName }}</h3>
+      <!-- 
+      <div class="recipe_counts">
+        <h2>{{ recipeCounts[subItem.id] }}</h2>
+        <p>{{ getRecipeLabel(recipeCounts[subItem.id]) }}</p>
+      </div>
+ -->
+      <a class="dishes_img" [appSsrLink]="['categories', subItem.id]">
+
+        <img [src]="subItem.image" alt="{{subItem.dishesName}}" loading="lazy" />
+      </a>
+
+      <div class="categories" *ngIf="dishCategories[subItem.id]">
+        <ul>
+          <li *ngFor="let category of dishCategories[subItem.id]">
+            <a [appSsrLink]="['recipes-list', category.id]">
+              {{ category.categoryName }}
+            </a>
+          </li>
+        </ul>
+      </div>
+    </li>
+  </ul>
+
+  <app-fooyer></app-fooyer>
+</section>
