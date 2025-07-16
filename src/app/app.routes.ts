@@ -19,26 +19,26 @@ export const routes: Routes = [
 
     },
 
-    {
-        path: 'dishes',
-        loadComponent: () =>
-            import('./pages/dishes/dishes.component').then((m) => m.DishesComponent),
-        resolve: {
-            dishes: dishesAlResolver,
-        },
-    },
+    /*     {
+            path: 'dishes',
+            loadComponent: () =>
+                import('./pages/dishes/dishes.component').then((m) => m.DishesComponent),
+            resolve: {
+                dishes: dishesAlResolver,
+            },
+        }, */
 
-    {
-        path: 'categories/:dishesid',
-        loadComponent: () =>
-            import('./pages/category/category.component').then(
-                (m) => m.CategoryComponent
-            ),
-        resolve: {
-            dishes: dishByIdResolver,
-            categryList: categoryListResolver
-        },
-    },
+    /*   {
+          path: 'categories/:dishesid',
+          loadComponent: () =>
+              import('./pages/category/category.component').then(
+                  (m) => m.CategoryComponent
+              ),
+          resolve: {
+              dishes: dishByIdResolver,
+              categryList: categoryListResolver
+          },
+      }, */
 
     {
         path: 'search',
