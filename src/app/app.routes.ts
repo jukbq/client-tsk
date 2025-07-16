@@ -18,6 +18,15 @@ export const routes: Routes = [
     },
 
     {
+        path: 'dishes',
+        loadComponent: () =>
+            import('./pages/dishes/dishes.component').then((m) => m.DishesComponent),
+        resolve: {
+            dishes: dishesAlResolver,
+        },
+    },
+
+    {
         path: 'search',
         component: SearchComponent,
 

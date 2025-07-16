@@ -1,0 +1,90 @@
+<section>
+  <div class="background_image">
+    <div class="bg_image" alt="Фонове зображення"></div>
+  </div>
+
+  <div class="home_titel">
+    <h1 [ngStyle]="{ 'font-size': fontSize }">Рецепти Синього Кота</h1>
+  </div>
+
+  <div class="breadcrumb_line">
+    <nav aria-label="breadcrumb" class="bread_crumbs">
+      <!-- Кнопка для мобільних пристроїв -->
+      <button class="btn btn-outline-secondary d-md-none" type="button" data-bs-toggle="collapse"
+        data-bs-target="#breadcrumbMenu" aria-expanded="false" aria-controls="breadcrumbMenu"></button>
+
+      <!-- Хлібні крихти для десктопу і приховані на мобільних пристроях -->
+      <ol class="breadcrumb collapse d-md-flex" id="breadcrumbMenu">
+        <li class="breadcrumb-item">
+          <a [appSsrLink]="'/'">Головна</a>
+        </li>
+        <li class="breadcrumb-item"><a>Рецепти Синього Кота</a></li>
+      </ol>
+    </nav>
+  </div>
+
+  <div class="list_block">
+    <div class="deskription_block">
+      <div #textBlocks class="content" [class.visible]="isVisible">
+        <div class="deskription">
+          <p><strong>Довгих днів, та приємних ночей, подорожній!</strong></p>
+          <p>
+            Якщо ти не знаєш, з чого почати — то ти вже там, де треба. Бо тут зібрано все, чим живе наша таверна. Перед
+            тобою
+            основні категорії Синього Кота, перевірені на сковорідці, черпаках, гостях і навіть одній вередливій
+            ельфійці.
+          </p>
+          <p>
+            Тут ти знайдеш: і соковиті гарячі м’ясні страви, і легкі овочеві салати, і старі добрі закуски з оселедцем,
+            і каші,
+            які навіть гном не відмовиться з’їсти без пива. Тут і теплий борщ з пампушками, і холодна паста з буряка з
+            сиром, і
+            печене м’ясо, і намазки, і пироги, і навіть поради, що з чим запити.
+          </p>
+          <p>
+            Ці рецепти я збирав роками: в тавернах на роздоріжжях, у бабусь у передмісті Дрімучого Лісу, в трактирі
+            “Схибленого
+            Козака” і навіть на ринку в Печерській Брамі. І тепер вони всі тут, для тебе.
+          </p>
+          <p>
+            Тож не вагайся. Пролистай, обери, готуй. А якщо буде добре — розкажи друзям і налий кухоль на моє здоров’я.
+          </p>
+          <p>
+            Бо кожна страва — це не просто їжа. Це історія, яка пахне дровами, зеленню, та краплями горілки. І ти можеш
+            стати її
+            частиною — просто візьми й приготуй.
+          </p>
+        </div>
+
+
+        <div class="cat_img">
+          <img src="../../../assets/image/recepty-synoho-kota-kit.webp" alt="Кіт" srcset="" loading="lazy" />
+        </div>
+      </div>
+    </div>
+
+    <div class="dishes_list_block">
+      <ul class="dishes_list">
+        @for (dishesList of dishes; track dishesList) {
+        <li class="dishes_card">
+          <a [appSsrLink]="['categories', dishesList.id]">
+
+            <div class="img_black">
+              <img [src]="dishesList.image" alt="{{ dishesList.dishesName }}" loading="lazy" />
+            </div>
+          </a>
+          <div class="text_block">
+            <div class="recipe_name">
+              <a [appSsrLink]="['categories', dishesList.id]">
+                {{ dishesList.dishesName }}
+              </a>
+            </div>
+          </div>
+        </li>
+        }
+      </ul>
+    </div>
+  </div>
+
+  <app-fooyer></app-fooyer>
+</section>
