@@ -5,6 +5,7 @@ import { PrivacyPolicyComponent } from './shared/components/privacy-policy/priva
 import { SearchComponent } from './shared/components/search/search.component';
 import { dishByIdResolver } from './shared/resolver/dishes/dish-by-id/dish-by-id.resolver';
 import { categoryListResolver } from './shared/resolver/category/category-list/category-list.resolver';
+import { categoryByIdResolver } from './shared/resolver/category/category-by-id/category-by-id.resolver';
 
 export const routes: Routes = [
     {
@@ -39,6 +40,18 @@ export const routes: Routes = [
             categryList: categoryListResolver
         },
     },
+    {
+        path: 'recipes-list/:categoryid',
+        loadComponent: () =>
+            import('./pages/recipe-list/recipe-list.component').then(
+                (m) => m.RecipeListComponent
+            ),
+        resolve: {
+            category: categoryByIdResolver,
+        },
+    },
+
+
 
     {
         path: 'search',

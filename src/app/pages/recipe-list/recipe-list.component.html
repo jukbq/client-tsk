@@ -1,0 +1,177 @@
+<section>
+  <div class="background_image">
+    <img class="bg_image" [src]="image" alt="{{ categoryName }}" loading="lazy" />
+  </div>
+
+  <div class="home_titel">
+    <h1 [ngStyle]="{ 'font-size': fontSize }">{{ categoryName }}</h1>
+  </div>
+
+  <div class="breadcrumb_line">
+    <nav aria-label="breadcrumb" class="bread_crumbs">
+      <!-- Кнопка для мобільних пристроїв -->
+      <button class="btn btn-outline-secondary d-md-none" type="button" data-bs-toggle="collapse"
+        data-bs-target="#breadcrumbMenu" aria-expanded="false" aria-controls="breadcrumbMenu"></button>
+
+      <!-- Хлібні крихти для десктопу і приховані на мобільних пристроях -->
+      <ol class="breadcrumb collapse d-md-flex" id="breadcrumbMenu">
+        <li class="breadcrumb-item">
+          <a [appSsrLink]="'/'">Головна</a>
+        </li>
+        <li class="breadcrumb-item">
+          <a [appSsrLink]="'/dishes'">Рецепти Синього Кота</a>
+        </li>
+        <li class="breadcrumb-item">
+          <a [appSsrLink]="['categories', dishesID]">{{ dishesName }}</a>
+        </li>
+        <li class="breadcrumb-item">
+          <a>{{ categoryName }}</a>
+        </li>
+      </ol>
+    </nav>
+  </div>
+
+  <div class="list_block">
+    <div class="deskription_block">
+      <div #textBlocks class="content" [class.visible]="isVisible">
+        <div class="deskription" [innerHTML]="categoryDescription"></div>
+        <div class="cat_img">
+          <img src="{{ additionalImage }}" alt="Кіт" srcset="" loading="lazy" />
+        </div>
+      </div>
+    </div>
+
+    <!--Кнопка фільтру-->
+    <div class="filter_button_block">
+      <button class="filtr_button" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample"
+        aria-controls="offcanvasExample"></button>
+    </div>
+
+    <!--Вікно фільтру-->
+    <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
+
+      <div class="offcanvas-header">
+        <h5 class="offcanvas-title" id="offcanvasExampleLabel">
+          Відсортуй рецепти
+        </h5>
+        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+      </div>
+
+      <div class="filyer_lists accordion" id="accordionFilters">
+
+        <!-- Фільтр по країні -->
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="headingCountry">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+              data-bs-target="#collapseCountry" aria-expanded="true" aria-controls="collapseCountry">
+              Обери країну
+            </button>
+          </h2>
+          <div id="collapseCountry" class="accordion-collapse collapse" aria-labelledby="headingCountry"
+            data-bs-parent="#accordionFilters">
+            <div class="accordion-body p-2">
+              <ul class="list-unstyled mb-0">
+                <li (click)="onCountriSelection('all')" class="cursor-pointer">Всі</li>
+                @for (cuisine of countries; track cuisine) {
+                <li (click)="onCountriSelection(cuisine.id)" class="cursor-pointer">
+                  {{ cuisine.cuisineName }}
+                </li>
+                }
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- Фільтр по регіону -->
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="headingRegion">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+              data-bs-target="#collapseRegion" aria-expanded="false" aria-controls="collapseRegion">
+              Обери регіон
+            </button>
+          </h2>
+          <div id="collapseRegion" class="accordion-collapse collapse" aria-labelledby="headingRegion"
+            data-bs-parent="#accordionFilters">
+            <div class="accordion-body p-2">
+              <ul class="list-unstyled mb-0">
+                <li (click)="onRegionSelection('all')" class="cursor-pointer">Всі</li>
+                @for (regios of filteredRegions; track regios) {
+                <li (click)="onRegionSelection(regios.id)" class="cursor-pointer">
+                  {{ regios.regionName }}
+                </li>
+                }
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- Фільтр по продуктах -->
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="headingProduct">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+              data-bs-target="#collapseProduct" aria-expanded="false" aria-controls="collapseProduct">
+              Обери продукти
+            </button>
+          </h2>
+          <div id="collapseProduct" class="accordion-collapse collapse" aria-labelledby="headingProduct"
+            data-bs-parent="#accordionFilters">
+            <div class="accordion-body p-2">
+              <button type="button" class="btn btn-sm btn-secondary mb-2" (click)="resetProducts()">
+                Скинути вибране
+              </button>
+              <ul class="list-unstyled mb-0">
+                @for (product of filyerIngredients; track product) {
+                <li>
+                  <div class="form-check">
+                    <input class="form-check-input" type="checkbox" [id]="'product_' + product.id" [value]="product.id"
+                      [checked]="selectedProducts.includes(product.id)" (change)="onProductToggle(product.id)" />
+                    <label class="form-check-label" [for]="'product_' + product.id">
+                      {{ product.name }}
+                    </label>
+                  </div>
+                </li>
+                }
+              </ul>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <div type="button" class="btn btn-primary mt-3" data-bs-dismiss="offcanvas">
+        Застосувати
+      </div>
+    </div>
+
+
+    <div class="dishes_list_block">
+      <ul class="dishes_list">
+        @for (recipeList of recipesFilter; track recipeList; ) {
+        <li class="dishes_card">
+          <a [appSsrLink]="['recipe-page', recipeList.id]">
+
+            <div class="img_black">
+              <img [src]="recipeList.mainImage" alt="{{ recipeList.recipeTitle }}" loading="lazy" />
+            </div>
+          </a>
+          <div class="text_block">
+            <div class="recipe_name">
+              <a [appSsrLink]="['recipe-page', recipeList.id]">
+                {{ recipeList.recipeTitle }}
+              </a>
+            </div>
+          </div>
+        </li>
+        }
+
+        <!--    <div class="show_more">
+                      <button *ngIf="recipes.length < allRecipes.length" (click)="loadMore()" class="sm_button">
+                          Показати ще
+                      </button>
+                  </div> -->
+      </ul>
+    </div>
+  </div>
+
+  <app-fooyer></app-fooyer>
+</section>

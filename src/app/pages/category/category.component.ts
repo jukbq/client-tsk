@@ -51,13 +51,15 @@ export class CategoryComponent {
       this.viewportScroller.scrollToPosition([0, 0]);
     }
     this.route.data.subscribe((data: any) => {
-
-
-      const wrapper = data.dishes as { data: DishesResponse; url: string };
-      const dishes = wrapper.data;
-      this.currentURL = wrapper.url;
-      this.categryList = data.categryList as CategoriesDishesResponse[];
-      this.setupSeo(dishes);
+      if (data.dishes.data) {
+        const wrapper = data.dishes as { data: DishesResponse; url: string };
+        const dishes = wrapper.data;
+        this.currentURL = wrapper.url;
+        this.categryList = data.categryList as CategoriesDishesResponse[];
+        this.setupSeo(dishes);
+      } else {
+        this.router.navigate(['/404']);
+      }
 
 
     });
