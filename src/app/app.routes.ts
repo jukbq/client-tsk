@@ -2,6 +2,7 @@ import { Routes } from '@angular/router';
 import { dishesAlResolver } from './shared/resolver/dishes/dishes-al/dishes-al.resolver';
 import { lastRecipesResolver } from './shared/resolver/recipe/last-recipe/last-recipe.resolver';
 import { PrivacyPolicyComponent } from './shared/components/privacy-policy/privacy-policy.component';
+import { SearchComponent } from './shared/components/search/search.component';
 
 export const routes: Routes = [
     {
@@ -16,7 +17,11 @@ export const routes: Routes = [
 
     },
 
+    {
+        path: 'search',
+        component: SearchComponent,
 
+    },
 
 
     {
