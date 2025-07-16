@@ -1,4 +1,4 @@
-import { Routes } from '@angular/router';
+import { RouterModule, Routes } from '@angular/router';
 import { dishesAlResolver } from './shared/resolver/dishes/dishes-al/dishes-al.resolver';
 import { lastRecipesResolver } from './shared/resolver/recipe/last-recipe/last-recipe.resolver';
 import { PrivacyPolicyComponent } from './shared/components/privacy-policy/privacy-policy.component';
@@ -6,6 +6,10 @@ import { SearchComponent } from './shared/components/search/search.component';
 import { dishByIdResolver } from './shared/resolver/dishes/dish-by-id/dish-by-id.resolver';
 import { categoryListResolver } from './shared/resolver/category/category-list/category-list.resolver';
 import { categoryByIdResolver } from './shared/resolver/category/category-by-id/category-by-id.resolver';
+import { recipeResolver } from './shared/resolver/recipe/recipe/recipe.resolver';
+import { DishFilterComponent } from './shared/components/dish-filter/dish-filter.component';
+import { filterResolver } from './shared/resolver/filter/filter.resolver';
+import { NgModule } from '@angular/core';
 
 export const routes: Routes = [
     {
@@ -51,6 +55,27 @@ export const routes: Routes = [
         },
     },
 
+    {
+        path: 'recipe-page/:recipeid',
+        loadComponent: () =>
+            import('./pages/recipe-page/recipe-page.component').then(
+                (m) => m.RecipePageComponent
+            ),
+
+        resolve: {
+            recipe: recipeResolver,
+
+        },
+
+    },
+
+    {
+        path: 'recipe-filte/:filterType/:slug',
+        component: DishFilterComponent,
+        resolve: {
+            recipes: filterResolver
+        }
+    },
 
 
     {
@@ -72,3 +97,12 @@ export const routes: Routes = [
     }
 
 ];
+
+
+@NgModule({
+    imports: [RouterModule.forRoot(routes, { onSameUrlNavigation: 'reload' })],
+    exports: [RouterModule]
+})
+
+
+export class AppRoutingModule { }

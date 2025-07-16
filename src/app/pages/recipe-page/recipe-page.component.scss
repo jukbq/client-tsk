@@ -1,0 +1,26 @@
+@use "./resipe-style/desktop" as *;
+@use "./resipe-style/mobile" as *;
+
+.modal-dialog.modal-90w {
+  max-width: 90vw; /* 90% від ширини вьюпорта */
+  width: 90vw; /* щоб не вилітав */
+  margin: 1.75rem auto; /* вертикальні відступи як у бутстрапу */
+  height: auto;
+
+  .modal-content {
+    background: transparent; /* якщо хочеш прозорий фон */
+    border: none;
+    padding: 0;
+  }
+
+  .modal-body {
+    padding: 0;
+  }
+}
+#modalImage {
+  width: 100%;
+  height: auto;
+  max-height: 90vh; /* щоб не виходило за висоту екрану */
+  object-fit: contain; /* щоб не спотворювало */
+  border-radius: 0.3rem;
+}

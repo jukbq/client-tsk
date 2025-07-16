@@ -1,0 +1,306 @@
+<section>
+  <!--МЕНЮ РЕЦЕПТА-->
+  <div class="menu_block">
+    <ul class="recipe_menu">
+      <li [ngClass]="{ active: 0 == activeItem }" class="item_menu">
+        <a href="javascript:void(0)" (click)="scroll('recipe-about', 0)">ПРО РЕЦЕПТ</a>
+      </li>
+      <li [ngClass]="{ active: 1 == activeItem }" class="item_menu">
+        <a href="javascript:void(0)" (click)="scroll('ingredients', 1)">ІНГРЕДІЄНТИ</a>
+      </li>
+      <li [ngClass]="{ active: 2 == activeItem }" class="item_menu">
+        <a href="javascript:void(0)" (click)="scroll('instruction', 2)">КРОКИ</a>
+      </li>
+      <li [ngClass]="{ active: 3 == activeItem }" class="item_menu">
+        <a href="javascript:void(0)" (click)="scroll('council', 3)">ПОРАДИ</a>
+      </li>
+    </ul>
+  </div>
+
+  <div class="recipe_block">
+    <div class="ads"></div>
+
+    <div class="recipe_body">
+      <!--ХЛІБНІ КРИХТИ-->
+      <nav id="recipe-about" aria-label="breadcrumb" class="bread_crumbs">
+        <!-- Кнопка для мобільних пристроїв -->
+
+        <!-- Хлібні крихти для десктопу і приховані на мобільних пристроях -->
+        <div class="breadcrumb-wrapper">
+          <ol class="breadcrumb d-md-flex" id="breadcrumbMenu">
+            <li class="breadcrumb-item">
+              <a [appSsrLink]="'/'">Головна</a>
+            </li>
+            <li class="breadcrumb-item">
+              <a [appSsrLink]="'/dishes'">Рецепти Синього Кота</a>
+            </li>
+            <li class="breadcrumb-item">
+              <a [appSsrLink]="['categories', dishesID]">{{ dishesName }}</a>
+            </li>
+            <li class="breadcrumb-item">
+              <a [appSsrLink]="['recipes-list', categoryID]">{{
+                categoryName
+              }}</a>
+            </li>
+            <li class="breadcrumb-item active" aria-current="page">
+              {{ recipeTitle }}
+            </li>
+          </ol>
+        </div>
+      </nav>
+
+      <!--ЗАГОЛОВОК-->
+      <div class="recipe_title">
+        <h1 [ngStyle]="{ 'font-size': fontSize }">{{ recipeTitle }}</h1>
+      </div>
+      <!--ІНФОРМАЦІЯ ПРО РЕЦЕПТ-->
+      <div class="info_block">
+        <div class="image_block" [class.active]="isActive">
+          <img class="recipe_image" src="{{ mainImage }}" alt="Фотографія страви під назвою {{ recipeTitle }}"
+            fetchpriority="high" loading="eager" decoding="auto" (click)="openModal(mainImage)"
+            style="cursor: pointer;" />
+        </div>
+
+
+        <div class="seasobs" [ngClass]="'count-' + seasons.length">
+          @for (item of seasons; track $index) {
+
+          <a [ngClass]="'season_item ' + item.list" [appSsrLink]="['recipe-filte', 'season', item.list]">
+            <img [src]="item.image" [alt]="item.name" width="50" height="50" loading="lazy" />
+            <p>{{ item.name }}</p>
+          </a>
+          }
+        </div>
+
+
+        <div class="info">
+          <div class="info_block_item">
+            @for (item of info; track $index) {
+            <ng-container *ngIf="item.name !== null && !isBlockedFilter(item.infoLink)">
+              <a class="info_item" [appSsrLink]="['recipe-filte', item.infoLink, item.slug]">
+
+                <div class="image">
+                  <img [src]="item.image" [alt]="item.name" width="70" height="70" loading="lazy" />
+                </div>
+                <div class="name">
+                  <p>{{ item.name }}</p>
+                </div>
+              </a>
+            </ng-container>
+
+            <!-- 🛑 Заборонені фільтри — без посилання -->
+            <ng-container *ngIf="item.name !== null && isBlockedFilter(item.infoLink)">
+              <div class="info_item info_item--disabled">
+                <div class="image">
+                  <img [src]="item.image" [alt]="item.name" width="70" height="70" loading="lazy" />
+                </div>
+                <div class="name">
+                  <p>{{ item.name }}</p>
+                </div>
+              </div>
+            </ng-container>
+            }
+          </div>
+        </div>
+
+
+
+
+
+      </div>
+
+      <!--ОПИС РЕЦЕПТА-->
+      <div class="recipe_description">
+        <h2 *ngIf="recipeSubtitles" class="recipe_subtitles">
+          {{ recipeSubtitles }}
+        </h2>
+        <div class="recipe_description_block" [innerHTML]="descriptionRecipe"></div>
+      </div>
+
+      <!--ІНГРИДІЄНТИ-->
+      <div id="ingredients" class="ingredients_block">
+        <h3 class="ingredients_title">Інгредієнти</h3>
+        <div class="main_data">
+          <div class="ingredients">
+            @for (item of ingredients; track $index) {
+            <div *ngIf="item.name" class="group_name">
+              <h4>{{ item.name }}</h4>
+            </div>
+
+            <div class="ing_block">
+              @for (group of item.group; track $index) {
+              <div class="ingredient_information">
+                <!--Зображення-->
+                <div class="image">
+                  <img [src]="group.image" alt="{{ group.text }}" loading="lazy" />
+                </div>
+
+                <!--Назва-->
+                <div class="title text">
+                  <p>
+                    {{ group.text }}
+                  </p>
+                </div>
+
+                <!--Посилання-->
+                <div *ngIf="group.recipeID" class="links">
+                  <a class="recipeLink" [appSsrLink]="['recipe-page', group.recipeID]" target="_blank">
+                    <div class="iamge"></div>
+                  </a>
+                  <!--
+                              <a *ngIf="group.selectedProduct.articleList"
+                                class="recipeLink"
+                                [href]="group.selectedProduct.articleList"
+                                target="_blank"
+                              >
+                                <div class="iamge"></div>
+                              </a>
+                              -->
+                </div>
+              </div>
+
+              }
+            </div>
+            }
+          </div>
+
+          <h4>Збережи інгридієнти</h4>
+          <div class="save_ibgredients">
+            <div (click)="saveToViber()" class="social_icon viber">
+              <div class="icon">
+                <img src="../../../assets/icon/social/viber.webp" alt="Зберегти у Viber" loading="lazy" />
+              </div>
+            </div>
+            <div (click)="saveToTelegram()" class="social_icon telegram">
+              <div class="icon">
+                <img src="../../../assets/icon/social/telegram.webp" alt="Зберегти у Telegram" loading="lazy" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!--СУПУТНІ РЕЦЕПТИ-->
+      <div *ngIf="accompanyingRecipes && accompanyingRecipes.length > 0" class="accompanying_recipes">
+        <h3 class="accompanying_recipes_title">Супутні рецепти</h3>
+        <ul>
+          @for (item of accompanyingRecipes; track $index) {
+          <li>
+            <a class="recipeLink" [appSsrLink]="['recipe-page', item.recipeID]" target="_blank">
+              {{ item.recipeName }}
+            </a>
+          </li>
+          }
+        </ul>
+      </div>
+
+      <!-- ІНСТРУКЦІЯ -->
+      <div id="instruction" class="recipe_preparation">
+        <div class="instructions">
+          <div class="group_block">
+            <ng-container *ngFor="let steps of instructions; let i = index">
+              <div *ngIf="steps.groupName" class="group_name mb-3">
+                <h4>{{ steps.groupName }}</h4>
+              </div>
+
+              <ng-container *ngFor="let group of steps.group; let j = index">
+                <div id="Step{{ j + 1 }}" class="ing_line mb-4">
+                  <h4>
+                    Крок {{ j + 1 }}: {{ group.stepName || '' }}
+                  </h4>
+
+                  <div *ngIf="group.stepImage" class="step_img" (click)="openModal(group.stepImage)"
+                    style="cursor: pointer;">
+                    <img [src]="group.stepImage" [alt]="group.stepName" class="img-fluid" loading="lazy" />
+                  </div>
+
+                  <div class="text mb-2" [innerHTML]="group.description"></div>
+
+                  <div *ngIf="group.fullDescription" class="accordion" id="accordionFullDesc{{ i }}-{{ j }}">
+                    <div class="accordion-item">
+                      <h2 class="accordion-header" id="headingFullDesc{{ i }}-{{ j }}">
+                        <button class="accordion-button collapsed p-2" type="button" data-bs-toggle="collapse"
+                          [attr.data-bs-target]="'#collapseFullDesc' + i + '-' + j" aria-expanded="false"
+                          [attr.aria-controls]="'collapseFullDesc' + i + '-' + j" style="font-size: 0.9rem;">
+                          Детальніше </button>
+                      </h2>
+
+                      <div [attr.id]="'collapseFullDesc' + i + '-' + j" class="accordion-collapse collapse"
+                        [attr.aria-labelledby]="'headingFullDesc' + i + '-' + j"
+                        [attr.data-bs-parent]="'#accordionFullDesc' + i + '-' + j">
+                        <div class="accordion-body small" [innerHTML]="group.fullDescription"></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </ng-container>
+            </ng-container>
+          </div>
+        </div>
+      </div>
+
+
+
+      <!--  ПОРАДИ  -->
+      <div id="council" class="advice_block">
+        <h2>Деякі поради</h2>
+        <div class="text" [innerHTML]="advice"></div>
+      </div>
+
+      <!--  Завершення  -->
+      <div *ngIf="completion" class="completion_block">
+        <h2>Завершення</h2>
+        <div class="text" [innerHTML]="completion"></div>
+      </div>
+
+      <!--  Соціальні мережі  -->
+      <div class="social_holder">
+        <a class="share_btn_item fb" [href]="fbShareUrl" target="_blank" title="Поділитися у Facebook"></a>
+        <a class="share_btn_item pi" [href]="piShareUrl" target="_blank" title="Поділитися у Pinterest"></a>
+        <a class="share_btn_item wa" [href]="waShareUrl" target="_blank" title="Поділитися у Whatsapp"></a>
+        <a class="share_btn_item tg" [href]="tgShareUrl" target="_blank" title="Поділитися у Telegram"></a>
+        <a class="share_btn_item vb" [href]="vbShareUrl" target="_blank" title="Поділитися у Viber"></a>
+      </div>
+
+
+    </div>
+
+
+    <!--РЕКЛАМНИЙ БЛОК-->
+    <div class="ads"></div>
+  </div>
+
+  <!--Випадкові рецепти-->
+  <div class="auto-scroll-container" #scrollContainer (mouseenter)="stopAutoScroll()" (mouseleave)="startAutoScroll()">
+
+    <div class="scroll-inner">
+      <div class="recipe-card" *ngFor="let recipe of recipes">
+        <a [appSsrLink]="['recipe-page', recipe.id]" target="_parent" (click)="reloadMenu()">
+          <img [src]="recipe.mainImage" [alt]="recipe.recipeTitle" loading="lazy" />
+          <p>{{ recipe.recipeTitle }}</p>
+        </a>
+      </div>
+    </div>
+
+  </div>
+
+
+
+  <div class="modal fade" id="imageModal" tabindex="-1" aria-labelledby="imageModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-90w">
+      <div class="modal-content bg-transparent border-0">
+        <div class="modal-body p-0">
+          <div class="ratio ratio-16x9">
+            <img id="modalImage" src="" alt="Відкрите зображення" class="img-fluid rounded" loading="lazy" />
+          </div>
+        </div>
+        <button type="button" class="btn-close position-absolute top-0 end-0 m-3" data-bs-dismiss="modal"
+          aria-label="Close" style="z-index: 1055;"></button>
+      </div>
+    </div>
+  </div>
+
+
+
+  <app-fooyer></app-fooyer>
+</section>
