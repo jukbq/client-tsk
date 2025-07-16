@@ -110,8 +110,6 @@ export class DishesComponent {
 
   checkPlatform(data: Array<any>) {
     this.dishes = data;
-    console.log(this.dishes);
-
     if (this.isBrowser) {
       this.updateFontSize();
     }
