@@ -1,0 +1,142 @@
+/* Регулярний стиль */
+@font-face {
+  font-family: "Cormorant Garamond";
+  src: url("/assets/fonts/Cormorant_Garamond,Roboto/Cormorant_Garamond/CormorantGaramond-Regular.ttf")
+    format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Жирний стиль */
+@font-face {
+  font-family: "Cormorant Garamond";
+  src: url("/assets/fonts/Cormorant_Garamond,Roboto/Cormorant_Garamond/CormorantGaramond-Bold.ttf")
+    format("truetype");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Жирний курсив */
+@font-face {
+  font-family: "Cormorant Garamond";
+  src: url("/assets/fonts/Cormorant_Garamond,Roboto/Cormorant_Garamond/CormorantGaramond-BoldItalic.ttf")
+    format("truetype");
+  font-weight: 700;
+  font-style: italic;
+  font-display: swap;
+}
+
+/* Курсив */
+@font-face {
+  font-family: "Cormorant Garamond";
+  src: url("/assets/fonts/Cormorant_Garamond,Roboto/Cormorant_Garamond/CormorantGaramond-Italic.ttf")
+    format("truetype");
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+
+/* Легкий стиль */
+@font-face {
+  font-family: "Cormorant Garamond";
+  src: url("/assets/fonts/Cormorant_Garamond,Roboto/Cormorant_Garamond/CormorantGaramond-Light.ttf")
+    format("truetype");
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Легкий курсив */
+@font-face {
+  font-family: "Cormorant Garamond";
+  src: url("/assets/fonts/Cormorant_Garamond,Roboto/Cormorant_Garamond/CormorantGaramond-LightItalic.ttf")
+    format("truetype");
+  font-weight: 300;
+  font-style: italic;
+  font-display: swap;
+}
+
+/* Середній стиль */
+@font-face {
+  font-family: "Cormorant Garamond";
+  src: url("/assets/fonts/Cormorant_Garamond,Roboto/Cormorant_Garamond/CormorantGaramond-Medium.ttf")
+    format("truetype");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Середній курсив */
+@font-face {
+  font-family: "Cormorant Garamond";
+  src: url("/assets/fonts/Cormorant_Garamond,Roboto/Cormorant_Garamond/CormorantGaramond-MediumItalic.ttf")
+    format("truetype");
+  font-weight: 500;
+  font-style: italic;
+  font-display: swap;
+}
+
+/* Напівжирний */
+@font-face {
+  font-family: "Cormorant Garamond";
+  src: url("/assets/fonts/Cormorant_Garamond,Roboto/Cormorant_Garamond/CormorantGaramond-SemiBold.ttf")
+    format("truetype");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Напівжирний курсив */
+@font-face {
+  font-family: "Cormorant Garamond";
+  src: url("/assets/fonts/Cormorant_Garamond,Roboto/Cormorant_Garamond/CormorantGaramond-SemiBoldItalic.ttf")
+    format("truetype");
+  font-weight: 600;
+  font-style: italic;
+  font-display: swap;
+}
+
+// _typography.scss
+
+@mixin heading($mobile, $tablet, $desktop) {
+  font-weight: 600;
+  line-height: 1.2;
+  margin-bottom: 1rem;
+  text-wrap: balance;
+
+  font-size: $mobile;
+
+  @media (min-width: 481px) {
+    font-size: $tablet;
+  }
+
+  @media (min-width: 769px) {
+    font-size: $desktop;
+  }
+}
+
+h1 {
+  @include heading(2rem, 2.5rem, 3rem); // 32px → 40px → 48px
+}
+
+h2 {
+  @include heading(1.5rem, 2rem, 2.25rem); // 24px → 32px → 36px
+}
+
+h3 {
+  @include heading(1.25rem, 1.5rem, 1.75rem); // 20px → 24px → 28px
+}
+
+h4 {
+  @include heading(1.125rem, 1.25rem, 1.5rem); // 18px → 20px → 24px
+}
+
+h5 {
+  @include heading(1rem, 1.125rem, 1.25rem); // 16px → 18px → 20px
+}
+
+h6 {
+  @include heading(0.875rem, 1rem, 1rem); // 14px → 16px → 16px
+}

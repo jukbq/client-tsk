@@ -1,0 +1,23 @@
+<footer>
+
+    <div class="block_1">
+        <ul>
+            @for (item of dishesList; track $index) {
+            <li>
+                <a class="dropdown-item" [appSsrLink]="['categories', item.id]">
+                    {{ item.dishesName }}</a>
+            </li>
+            }
+            <li>
+                <a class="dropdown-item" routerLink='/privacyy'>
+                    Політика конфіденційності</a>
+            </li>
+        </ul>
+    </div>
+
+    <div class="block_2">
+        <p>© 2024 <a href="https://ohle-dev.in.ua/" target="_blank">OhleDev</a> All Rights Reserved.</p>
+    </div>
+
+
+</footer>

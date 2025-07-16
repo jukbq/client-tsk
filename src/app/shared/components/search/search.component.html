@@ -1,0 +1,40 @@
+<section>
+    <input type="text" [(ngModel)]="query" (input)="onSearch()" placeholder="Пошук рецептів..." class="serch_area" />
+
+
+    <div *ngIf="searchResults.length > 0" class="search_results">
+
+
+        <div class="dishes_list_block">
+            <ul class="dishes_list">
+                @for (recipeList of searchResults; track recipeList) {
+                <li class="dishes_card">
+                    <a [appSsrLink]="['recipe-page', recipeList.id]">
+
+                        <div class="img_black">
+                            <img [src]="recipeList.mainImage" alt="{{recipeList.recipeTitle}}" loading="lazy" />
+                        </div>
+                    </a>
+                    <div class="text_block">
+
+                        <div class="recipe_name">
+
+                            <a [appSsrLink]="['recipe-page', recipeList.id]">
+                                {{recipeList.recipeTitle}}
+                            </a>
+                        </div>
+                    </div>
+                </li>
+                }
+                @empty {
+                <li>Рецептів не знайдено.</li> }
+                <div class="show_more">
+                    <button *ngIf="searchResults.length < recipes.length" (click)="loadMore()" class="sm_button">
+                        Показати ще
+                    </button>
+                </div>
+            </ul>
+        </div>
+    </div>
+
+</section>

@@ -1,0 +1,24 @@
+.scroll-to-top {
+  width: 60px;
+  height: 60px;
+  position: fixed;
+  bottom: 30px;
+  right: 50px;
+  background-image: url(../assets/icon/up.png);
+  background-repeat: no-repeat;
+  background-size: cover;
+
+  border-radius: 50%;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+  cursor: pointer;
+  z-index: 1000;
+  transition: opacity 0.3s, transform 0.3s;
+
+  &:hover {
+    background-color: var(--clr-2);
+  }
+
+  &:active {
+    transform: scale(0.95);
+  }
+}

@@ -4,10 +4,14 @@ import express from 'express';
 import { fileURLToPath } from 'node:url';
 import { dirname, join, resolve } from 'node:path';
 import bootstrap from './src/main.server';
+import fs from 'fs';
+import compression from 'compression';
+import { RESPONSE } from './src/express.tokens';
 
-// The Express app is exported so that it can be used by serverless Functions.
 export function app(): express.Express {
   const server = express();
+  server.use(compression({ threshold: 0 }));
+
   const serverDistFolder = dirname(fileURLToPath(import.meta.url));
   const browserDistFolder = resolve(serverDistFolder, '../browser');
   const indexHtml = join(serverDistFolder, 'index.server.html');
@@ -17,28 +21,84 @@ export function app(): express.Express {
   server.set('view engine', 'html');
   server.set('views', browserDistFolder);
 
-  // Example Express Rest API endpoints
-  // server.get('/api/**', (req, res) => { });
-  // Serve static files from /browser
+  // 🔐 HTTPS редірект
+  server.use((req, res, next) => {
+    if (req.headers['x-forwarded-proto'] !== 'https') {
+      return res.redirect(301, `https://${req.headers.host}${req.url}`);
+    }
+    next();
+  });
+
+  // 🤖 robots.txt і sitemap.xml
+  server.get('/robots.txt', (req, res) => {
+    const path = join(browserDistFolder, 'robots.txt');
+    fs.existsSync(path)
+      ? res.setHeader('Cache-Control', 'public, max-age=86400') && res.sendFile(path)
+      : res.status(404).send('Not Found');
+  });
+
+  server.get('/sitemap.xml', (req, res) => {
+    const path = join(browserDistFolder, 'sitemap.xml');
+    fs.existsSync(path)
+      ? res.setHeader('Cache-Control', 'public, max-age=86400') && res.sendFile(path)
+      : res.status(404).send('Not Found');
+  });
+
+  // 🧼 Стара версія recipe-filte з query
+  server.get('/recipe-filte', (req, res, next) => {
+    const { tag, id } = req.query;
+
+    if (tag && id) {
+      const cleanUrl = `/recipe-filte/${tag}/${id}`;
+      console.log(`🔀 Редірект з ${req.url} → ${cleanUrl}`);
+      return res.redirect(301, cleanUrl);
+    }
+
+    return res.status(404).send('Not Found');
+  });
+
+  // 🧱 Статика
   server.get('**', express.static(browserDistFolder, {
     maxAge: '1y',
     index: 'index.html',
   }));
 
-  // All regular routes use the Angular engine
-  server.get('**', (req, res, next) => {
-    const { protocol, originalUrl, baseUrl, headers } = req;
+  // 🚫 API заглушка
+  server.get('/api/**', (req, res) => {
+    res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate');
+    res.setHeader('Pragma', 'no-cache');
+    res.setHeader('Expires', '0');
+    res.status(404).send('API not implemented');
+  });
 
+  // 🧠 Angular SSR з перевіркою на 404
+  server.get('**', (req, res, next) => {
     commonEngine
       .render({
         bootstrap,
         documentFilePath: indexHtml,
-        url: `${protocol}://${headers.host}${originalUrl}`,
+        url: `${req.protocol}://${req.headers.host}${req.originalUrl}`,
         publicPath: browserDistFolder,
-        providers: [{ provide: APP_BASE_HREF, useValue: baseUrl }],
+        providers: [
+          { provide: APP_BASE_HREF, useValue: req.baseUrl },
+          { provide: RESPONSE, useValue: res }
+        ],
       })
-      .then((html) => res.send(html))
-      .catch((err) => next(err));
+      .then((html) => {
+        // 🧠 Якщо в HTML є маркери 404-сторінки — віддаємо 404 статус
+        if (html.includes('id="soft-404-marker"')) {
+          console.warn(`⚠️ SSR DETECTED 404 FOR ${req.originalUrl}`);
+          res.status(404).send(html);
+        }
+        else {
+          res.status(200).send(html);
+        }
+      })
+      .catch((err) => {
+        console.error('❌ SSR error:', err);
+        res.status(500).send('Internal Server Error');
+        next(err);
+      });
   });
 
   return server;
@@ -46,11 +106,9 @@ export function app(): express.Express {
 
 function run(): void {
   const port = process.env['PORT'] || 4000;
-
-  // Start up the Node server
   const server = app();
   server.listen(port, () => {
-    console.log(`Node Express server listening on http://localhost:${port}`);
+    console.log(`🚀 Сервер слухає на http://localhost:${port}`);
   });
 }
 
