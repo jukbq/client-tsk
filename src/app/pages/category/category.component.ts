@@ -52,15 +52,13 @@ export class CategoryComponent {
     }
     this.route.data.subscribe((data: any) => {
 
-      if (data.dishes.data) {
-        const wrapper = data.dishes as { data: DishesResponse; url: string };
-        const dishes = wrapper.data;
-        this.currentURL = wrapper.url;
-        this.categryList = data.categryList as CategoriesDishesResponse[];
-        this.setupSeo(dishes);
-      } else {
-        this.router.navigate(['/404']);
-      }
+
+      const wrapper = data.dishes as { data: DishesResponse; url: string };
+      const dishes = wrapper.data;
+      this.currentURL = wrapper.url;
+      this.categryList = data.categryList as CategoriesDishesResponse[];
+      this.setupSeo(dishes);
+
 
     });
   }

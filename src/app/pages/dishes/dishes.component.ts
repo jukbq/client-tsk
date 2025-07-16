@@ -24,6 +24,8 @@ export class DishesComponent {
   dishesName: string = '';
   isBrowser: boolean = false;
 
+  private ldJsonScript?: HTMLScriptElement;
+
   constructor(
     @Inject(DOCUMENT) private document: Document,
     @Inject(PLATFORM_ID) private platformId: any,
@@ -99,7 +101,11 @@ export class DishesComponent {
 
 
   setSchema(schema: any): void {
-    if (!this.isBrowser) return;
+
+    if (this.ldJsonScript) {
+      this.renderer.removeChild(this.document.head, this.ldJsonScript);
+    }
+
     const script = this.renderer.createElement('script');
     script.type = 'application/ld+json';
     script.text = JSON.stringify(schema);

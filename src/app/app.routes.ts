@@ -28,17 +28,17 @@ export const routes: Routes = [
         },
     },
 
-    /*   {
-          path: 'categories/:dishesid',
-          loadComponent: () =>
-              import('./pages/category/category.component').then(
-                  (m) => m.CategoryComponent
-              ),
-          resolve: {
-              dishes: dishByIdResolver,
-              categryList: categoryListResolver
-          },
-      }, */
+    {
+        path: 'categories/:dishesid',
+        loadComponent: () =>
+            import('./pages/category/category.component').then(
+                (m) => m.CategoryComponent
+            ),
+        resolve: {
+            dishes: dishByIdResolver,
+            categryList: categoryListResolver
+        },
+    },
 
     {
         path: 'search',
