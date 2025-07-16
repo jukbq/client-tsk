@@ -14,4 +14,13 @@ export const routes: Routes = [
 
 
     },
+
+
+    {
+        path: '**',
+        loadComponent: () =>
+            import('./../app/shared/components/soft-404/soft-404.component')
+                .then(m => m.Soft404Component)
+    }
+
 ];
