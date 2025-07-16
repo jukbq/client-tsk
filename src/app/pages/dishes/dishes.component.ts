@@ -37,7 +37,9 @@ export class DishesComponent {
   ) { this.isBrowser = isPlatformBrowser(this.platformId); }
 
   ngOnInit(): void {
-    this.viewportScroller.scrollToPosition([0, 0]);
+    if (this.isBrowser) {
+      this.viewportScroller.scrollToPosition([0, 0]);
+    }
     this.route.data.subscribe((data: any) => {
       this.currentURL = data.dishes.url
       this.loadDishesList();
@@ -97,6 +99,7 @@ export class DishesComponent {
 
 
   setSchema(schema: any): void {
+    if (!this.isBrowser) return;
     const script = this.renderer.createElement('script');
     script.type = 'application/ld+json';
     script.text = JSON.stringify(schema);
@@ -119,6 +122,7 @@ export class DishesComponent {
   // Відстежування події прокрутки вікна
   @HostListener('window:scroll', ['$event'])
   onScroll(event: any) {
+    if (!this.isBrowser) return;
     const scrollPosition = window.scrollY;
     //паралакс фонового зображення
     const bgImage = document.querySelector('.bg_image') as HTMLElement;
