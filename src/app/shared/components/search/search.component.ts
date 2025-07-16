@@ -56,8 +56,11 @@ export class SearchComponent {
 
 
   onSearch(): void {
+
     if (!this.isBrowser) return;
     if (this.query.trim().length >= 3) {
+
+
       this.searchService.searchRecipes(this.query).subscribe(results => {
         this.recipes = results;
         this.searchResults = this.recipes.slice(0, this.displayCount);

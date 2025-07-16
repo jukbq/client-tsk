@@ -1,4 +1,4 @@
-import { inject, Injectable, PLATFORM_ID } from '@angular/core';
+import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { collection, collectionData, CollectionReference, DocumentData, Firestore } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -10,8 +10,13 @@ import { isPlatformBrowser } from '@angular/common';
 })
 export class SearchService {
   private collection!: CollectionReference<DocumentData>;
+  private isBrowser: boolean;
 
-  constructor(private afs: Firestore) {
+  constructor(
+    private afs: Firestore,
+    @Inject(PLATFORM_ID) platformId: Object
+  ) {
+    this.isBrowser = isPlatformBrowser(platformId);
     this.collection = collection(this.afs, 'short-recipes');
   }
 
@@ -20,11 +25,9 @@ export class SearchService {
   }
 
   searchRecipes(query: string): Observable<any[]> {
-
-    const platformId = inject(PLATFORM_ID);
-    if (!isPlatformBrowser(platformId)) {
+    if (!this.isBrowser) {
       return new Observable((observer) => {
-        observer.next([]); // або можна throwError(() => new Error('SSR can’t search'));
+        observer.next([]);
         observer.complete();
       });
     }
