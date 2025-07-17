@@ -1,4 +1,4 @@
-<section>
+<section *ngIf="hasData; else notFoundTpl">
   <div class="background_image">
     <img class="bg_image" [src]="image" alt="{{ dishesName }}" loading="lazy" />
   </div>
@@ -67,3 +67,7 @@
 
   <app-fooyer></app-fooyer>
 </section>
+
+<ng-template #notFoundTpl>
+  <app-soft-404></app-soft-404>
+</ng-template>

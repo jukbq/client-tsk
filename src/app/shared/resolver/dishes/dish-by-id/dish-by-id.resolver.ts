@@ -11,6 +11,7 @@ export const dishByIdResolver: ResolveFn<boolean> = (
   const currentURL = state.url;
   const dishesService = inject(DishesService);
 
+
   return dishesService.getObjectById(dishesID).pipe(
     map((data) => (
       {
