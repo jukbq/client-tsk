@@ -2,6 +2,7 @@ import { Response } from 'express';
 import { CommonModule, isPlatformServer } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Inject, inject, Optional, PLATFORM_ID } from '@angular/core';
 import { RESPONSE } from '../../../../express.tokens';
+import { Meta, Title } from '@angular/platform-browser';
 
 
 
@@ -14,14 +15,19 @@ import { RESPONSE } from '../../../../express.tokens';
   styleUrl: './soft-404.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
+
 export class Soft404Component {
   platformId = inject(PLATFORM_ID);
+
   constructor(
-    @Optional() @Inject(RESPONSE) private response: Response
+    @Optional() @Inject(RESPONSE) private response: Response,
+    private titleService: Title,
+    private metaService: Meta
   ) {
-    // Only executes server-side
     if (isPlatformServer(this.platformId)) {
       this.response?.status(404);
+      this.titleService.setTitle('Сторінку не знайдено – Синій Кіт');
+      this.metaService.updateTag({ name: 'robots', content: 'noindex, nofollow' });
     }
   }
 }

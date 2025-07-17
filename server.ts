@@ -85,14 +85,10 @@ export function app(): express.Express {
         ],
       })
       .then((html) => {
-        // 🧠 Якщо в HTML є маркери 404-сторінки — віддаємо 404 статус
-        if (html.includes('id="soft-404-marker"')) {
-          console.warn(`⚠️ SSR DETECTED 404 FOR ${req.originalUrl}`);
-          res.status(404).send(html);
-        }
-        else {
-          res.status(200).send(html);
-        }
+        const is404 = html.includes('id="soft-404-marker"');
+        if (is404) console.warn(`⚠️ SSR SOFT404 for ${req.originalUrl}`);
+        // 🔴 Не робимо res.status(404) — навпаки завжди 200
+        res.status(200).send(html);
       })
       .catch((err) => {
         console.error('❌ SSR error:', err);
