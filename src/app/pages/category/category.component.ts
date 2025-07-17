@@ -7,12 +7,11 @@ import { Meta, Title } from '@angular/platform-browser';
 import { CategoriesDishesResponse } from '../../shared/interfaces/categories -dishes';
 import { SsrLinkDirective } from '../../shared/directives/ssr-link.directive';
 import { DishesResponse } from '../../shared/interfaces/dishes';
-import { Soft404Component } from '../../shared/components/soft-404/soft-404.component';
 
 @Component({
   selector: 'app-category',
   standalone: true,
-  imports: [CommonModule, SsrLinkDirective, FooyerComponent, Soft404Component],
+  imports: [CommonModule, SsrLinkDirective, FooyerComponent],
   templateUrl: './category.component.html',
   styleUrl: './category.component.scss'
 })
@@ -30,7 +29,6 @@ export class CategoryComponent {
   schema: any;
   isVisible = false;
   isBrowser: boolean = false;
-  hasData = false;
 
   private ldJsonScript?: HTMLScriptElement;
 
@@ -53,21 +51,14 @@ export class CategoryComponent {
       this.viewportScroller.scrollToPosition([0, 0]);
     }
     this.route.data.subscribe((data: any) => {
-      const wrapper = data?.dishes;
-      const dishData = wrapper?.data;
-
-      if (dishData) {
-        this.hasData = true;
-        const dishes = dishData as DishesResponse;
+      if (data.dishes.data) {
+        const wrapper = data.dishes as { data: DishesResponse; url: string };
+        const dishes = wrapper.data;
         this.currentURL = wrapper.url;
         this.categryList = data.categryList as CategoriesDishesResponse[];
         this.setupSeo(dishes);
       } else {
-        this.hasData = false;
-        if (this.isBrowser) {
-          // Дамо Angular шанс промалювати маркер перед навігацією
-          queueMicrotask(() => this.router.navigate(['/404']));
-        }
+        this.router.navigate(['/404']);
       }
 
 

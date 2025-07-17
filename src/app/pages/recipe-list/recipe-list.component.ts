@@ -84,12 +84,10 @@ export class RecipeListComponent {
     });
 
     this.route.data.subscribe((data: any) => {
-      if (data.category) {
-        this.dataLoad(data);
-      } else {
-        this.router.navigate(['/404']);
+      this.currentURL = data.category.url;
+      this.dataLoad(data);
 
-      }
+
     });
 
   }
@@ -157,7 +155,10 @@ export class RecipeListComponent {
     function stripHtml(html: string): string {
       return html.replace(/<\/?[^>]+(>|$)/g, '');
     }
-    const category = data.category;
+    this.seoServices.setCanonicalUrl(this.currentURL)
+    const category = data.category.data;
+
+
 
     if (
       !category ||
@@ -242,14 +243,12 @@ export class RecipeListComponent {
 
   checkPlatform(data: any) {
     if (this.isBrowser) {
-      this.image = data.category.image
-      this.categoryDescription = data.category.categoryDescription
-      this.additionalImage = data.category.additionalImage
-      this.dishesName = data.category.dishes.dishesName;
-      this.dishesID = data.category.dishes.id;
-      this.updateFontSize(data.category.categoryName); // Встановлюємо при початковому завантаженні
-
-
+      this.image = data.category.data.image
+      this.categoryDescription = data.category.data.categoryDescription
+      this.additionalImage = data.category.data.additionalImage
+      this.dishesName = data.category.data.dishes.dishesName;
+      this.dishesID = data.category.data.dishes.id;
+      this.updateFontSize(data.category.data.categoryName); // Встановлюємо при початковому завантаженні
     }
   }
 
