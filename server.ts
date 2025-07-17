@@ -94,11 +94,28 @@ export function app(): express.Express {
           res.status(200).send(html);
         }
       })
-      .catch((err) => {
+      .catch(async (err) => {
+        if (err?.message === 'NotFound') {
+          console.warn(`⚠️ SSR DETECTED 404 ERROR FOR ${req.originalUrl}`);
+          const html = await commonEngine.render({
+            bootstrap,
+            documentFilePath: indexHtml,
+            url: '/404',
+            publicPath: browserDistFolder,
+            providers: [
+              { provide: APP_BASE_HREF, useValue: req.baseUrl },
+              { provide: RESPONSE, useValue: res }
+            ],
+          });
+          return res.status(404).send(html);
+        }
+
         console.error('❌ SSR error:', err);
         res.status(500).send('Internal Server Error');
         next(err);
+        return;
       });
+
   });
 
   return server;
