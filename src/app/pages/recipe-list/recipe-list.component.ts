@@ -84,6 +84,15 @@ export class RecipeListComponent {
     });
 
     this.route.data.subscribe((data: any) => {
+      const wrapper = data?.category;
+      const category = wrapper?.data;
+
+      if (!category || !category.dishes || !category.dishes.dishesName) {
+        this.router.navigate(['/404']);
+        return;
+      }
+
+
       this.currentURL = data.category.url;
       this.dataLoad(data);
 
