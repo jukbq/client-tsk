@@ -907,10 +907,31 @@
 <priority>0.51</priority>
 </url>
 <url>
-<loc>https://tsk.in.ua/recipe-page/pshonyana-kasha-z-hrybamy-karamelizovanoyu-tsibuleyu
+<loc>https://tsk.in.ua/recipe-page/pshonyana-kasha-z-hrybamy-karamelizovanoyu-tsibuleyu</loc>
 <lastmod>2025-07-18T12:52:15+00:00</lastmod>
 <priority>0.51</priority>
 </url>
+<url>
+<loc>https://tsk.in.ua/categories/sniadanky</loc>
+<lastmod>2025-07-18T14:37:15+00:00</lastmod>
+<priority>0.51</priority>
+</url>
+<url>
+<loc>https://tsk.in.ua/recipes-list/sniadanky-z-yayets</loc>
+<lastmod>2025-07-18T14:45:15+00:00</lastmod>
+<priority>0.51</priority>
+</url>
+<url>
+<loc>https://tsk.in.ua/recipe-page/yayechnya-v-duhovtsi</loc>
+<lastmod>2025-07-18T16:26:15+00:00</lastmod>
+<priority>0.51</priority>
+</url>
+<url>
+<loc>https://tsk.in.ua/recipe-page/frittata-z-hrybamy-ta-zelenniu</loc>
+<lastmod>2025-07-18T17:32:15+00:00</lastmod>
+<priority>0.51</priority>
+</url>
+
 
 
 </urlset>
