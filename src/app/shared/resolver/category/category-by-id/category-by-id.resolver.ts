@@ -13,16 +13,10 @@ export const categoryByIdResolver: ResolveFn<boolean> = (
 
 
   return categoryService.getObjectById(categoryID).pipe(
-    map((data) => {
-      if (!data || !data.dishes || !data.dishes.id) {
-        // 👇 Це викличе помилку, і Angular не завантажить компонент
-        throw new Error('NotFound');
-      }
-      return {
+    map((data) => (
+      {
         data,
         url: `https://tsk.in.ua${currentURL}`
-      };
-    }),
-    catchError(() => throwError(() => new Error('NotFound')))
+      }))
   );
 };
