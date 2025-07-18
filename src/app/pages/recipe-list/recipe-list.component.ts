@@ -83,21 +83,24 @@ export class RecipeListComponent {
       this.loadRecipes();
     });
 
-    this.route.data.subscribe((data: any) => {
-      const wrapper = data?.category;
-      const category = wrapper?.data;
+    this.route.data.subscribe({
+      next: (data: any) => {
+        const wrapper = data?.category;
+        const category = wrapper?.data;
 
-      if (!category || !category.dishes || !category.dishes.dishesName) {
+        if (!category || !category.dishes || !category.dishes.dishesName) {
+          this.router.navigate(['/404']);
+          return;
+        }
+
+        this.currentURL = wrapper.url;
+        this.dataLoad(data);
+      },
+      error: () => {
         this.router.navigate(['/404']);
-        return;
       }
-
-
-      this.currentURL = data.category.url;
-      this.dataLoad(data);
-
-
     });
+
 
   }
 

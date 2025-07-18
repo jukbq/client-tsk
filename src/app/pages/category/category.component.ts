@@ -53,7 +53,6 @@ export class CategoryComponent {
     this.route.data.subscribe((data: any) => {
       const wrapper = data?.dishes;
       const categryList = data?.categryList;
-
       const dishes = wrapper?.data;
 
       if (!dishes || !categryList || (Array.isArray(categryList) && categryList.length === 0)) {

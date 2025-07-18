@@ -1,5 +1,5 @@
 import { ActivatedRouteSnapshot, ResolveFn, RouterStateSnapshot } from '@angular/router';
-import { map, Observable } from 'rxjs';
+import { catchError, map, Observable, throwError } from 'rxjs';
 import { CategoriesService } from '../../../services/categories/categories.service';
 import { inject } from '@angular/core';
 
@@ -14,10 +14,15 @@ export const categoryByIdResolver: ResolveFn<boolean> = (
 
   return categoryService.getObjectById(categoryID).pipe(
     map((data) => {
+      if (!data || !data.dishes || !data.dishes.id) {
+        // 👇 Це викличе помилку, і Angular не завантажить компонент
+        throw new Error('NotFound');
+      }
       return {
         data,
         url: `https://tsk.in.ua${currentURL}`
       };
     }),
+    catchError(() => throwError(() => new Error('NotFound')))
   );
 };

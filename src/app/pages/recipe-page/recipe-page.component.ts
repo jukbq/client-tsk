@@ -128,17 +128,22 @@ export class RecipePageComponent {
   ngOnInit() {
     this.viewportScroller.scrollToPosition([0, 0]);
     this.route.data.subscribe((data: any) => {
+      const wrapper = data?.recipe;
+      const info = wrapper?.info;
+      const recipeSSR = wrapper?.recipeSSR;
+      const schema = wrapper?.recipeSchema;
 
-      if (data.recipe) {
-        const recipeSchema = data.recipe.recipeSchema;
-        this.seoServices.setSchema(recipeSchema);
-        this.activeBlock = 'recipe-about';
-        this.processRecipeData(data.recipe);
-
-
-      } else {
+      if (!info || !recipeSSR || !schema) {
         this.router.navigate(['/404']);
+        return;
       }
+
+      const recipeSchema = data.recipe.recipeSchema;
+      this.seoServices.setSchema(recipeSchema);
+      this.activeBlock = 'recipe-about';
+      this.processRecipeData(data.recipe);
+
+
 
 
     });
