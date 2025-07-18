@@ -57,7 +57,7 @@ export class CategoryComponent {
 
       if (!dishes || !categryList || (Array.isArray(categryList) && categryList.length === 0)) {
         this.router.navigate(['/404']);
-        return;
+        ;
       }
 
       this.currentURL = wrapper.url;
