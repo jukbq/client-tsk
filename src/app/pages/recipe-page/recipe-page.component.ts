@@ -230,9 +230,8 @@ export class RecipePageComponent {
       this.categoryName = recipe.recipeSSR.categoryName
 
       const seoName = recipe.recipeSSR.seoName
-      const seoDescription = recipe.seoDescription;
-      const keywords = recipe.recipeSSRkeywords;
-
+      const seoDescription = recipe.recipeSSR.seoDescription;
+      const keywords = recipe.recipeSSR.keywords;
       this.seasons = recipe.recipeSSR.bestSeason || [];
 
       this.info = recipe.info
