@@ -3,7 +3,7 @@ import { ActivatedRouteSnapshot, ResolveFn, RouterStateSnapshot } from '@angular
 import { catchError, map, Observable, of } from 'rxjs';
 import { RecipeService } from '../../../services/recipe/recipe.service';
 import { SeoService } from '../../../services/seo/seo.service';
-import { url } from 'node:inspector';
+
 
 
 export const recipeResolver: ResolveFn<boolean> = (
@@ -55,7 +55,7 @@ export const recipeResolver: ResolveFn<boolean> = (
           "url": `https://tsk.in.ua${currentURL}`,
           "potentialAction": {
             "@type": "SearchAction",
-            "target": "recipe-fihttps://tsk.in.ua/recipe-filter?q={search_term_string}lte",
+            "target": "recipe-fihttps://tsk.in.ua/search?q={search_term_string}lte",
             "query-input": "required name=search_term_string"
           },
           ...(recipe.videoUrl?.trim() ? { video: recipe.videoUrl } : {})

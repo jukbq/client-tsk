@@ -116,7 +116,7 @@ export class HomeComponent {
       },
       potentialAction: {
         '@type': 'SearchAction',
-        target: 'https://tsk.in.ua/recipe-filter?q={search_term_string}',
+        target: 'https://tsk.in.ua/search?q={search_term_string}',
 
         'query-input': 'required name=search_term_string',
       },
