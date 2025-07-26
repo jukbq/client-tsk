@@ -128,6 +128,14 @@ export class RecipePageComponent {
   ngOnInit() {
     this.viewportScroller.scrollToPosition([0, 0]);
     this.route.data.subscribe((data: any) => {
+
+      if (data === null) {
+        const meta = document.createElement('meta');
+        meta.name = 'robots';
+        meta.content = 'noindex';
+        document.head.appendChild(meta);
+      }
+
       const wrapper = data?.recipe;
       const info = wrapper?.info;
       const recipeSSR = wrapper?.recipeSSR;
