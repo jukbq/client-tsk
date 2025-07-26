@@ -76,9 +76,21 @@ export const filterResolver: ResolveFn<any> = (
         filterService.getRecipesByTagFilter({ tagObject: 'region', id: slug })
       ])).pipe(
         switchMap(([descriptionRegion, recipes]) => {
-          if (!descriptionRegion || !recipes?.length) return throwError(() => new Error('Region not found'));
+          if (!descriptionRegion || !recipes?.length) {
+            // кидаємо помилку, яка далі перехоплюється
+            throw new Error('Region not found');
+          }
           return of({ recipes, currentURL, descriptionRegion });
+        }),
+        catchError(err => {
+          if (err.message === 'Region not found') {
+            router.navigateByUrl('/404'); // редірект на 404
+            return EMPTY; // або of(null) якщо в тебе тип не дозволяє пусте
+          }
+          throw err;
         })
+
+
       );
     }
 
@@ -88,9 +100,20 @@ export const filterResolver: ResolveFn<any> = (
         filterService.getRecipesByTagFilter({ tagObject: 'holiday', id: slug })
       ])).pipe(
         switchMap(([descriptionHoliday, recipes]) => {
-          if (!descriptionHoliday || !recipes?.length) return throwError(() => new Error('Holiday not found'));
+          if (!descriptionHoliday || !recipes?.length) {
+            // кидаємо помилку, яка далі перехоплюється
+            throw new Error('Region not found');
+          }
           return of({ recipes, currentURL, descriptionHoliday });
+        }),
+        catchError(err => {
+          if (err.message === 'Region not found') {
+            router.navigateByUrl('/404'); // редірект на 404
+            return EMPTY; // або of(null) якщо в тебе тип не дозволяє пусте
+          }
+          throw err;
         })
+
       );
     }
 
@@ -99,9 +122,20 @@ export const filterResolver: ResolveFn<any> = (
         filterService.getrecipeTypeTagFilter(slug),
         filterService.getRecipesByTagFilter({ tagObject: 'recipeType', id: slug })
       ])).pipe(
+
         switchMap(([descriptionRecipeType, recipes]) => {
-          if (!descriptionRecipeType || !recipes?.length) return throwError(() => new Error('Type not found'));
+          if (!descriptionRecipeType || !recipes?.length) {
+            // кидаємо помилку, яка далі перехоплюється
+            throw new Error('Region not found');
+          }
           return of({ recipes, currentURL, descriptionRecipeType });
+        }),
+        catchError(err => {
+          if (err.message === 'Region not found') {
+            router.navigateByUrl('/404'); // редірект на 404
+            return EMPTY; // або of(null) якщо в тебе тип не дозволяє пусте
+          }
+          throw err;
         })
       );
     }
