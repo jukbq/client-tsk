@@ -117,13 +117,7 @@ export class FilterServiceService {
 
     if (querySnapshot.empty) {
       // Якщо немає документів — повертаємо пустий об'єкт з дефолтами
-      return {
-        title: '',
-        description: '',
-        metaTitle: '',
-        metaDescription: '',
-        image: '',
-      };
+      return null;
     }
 
 

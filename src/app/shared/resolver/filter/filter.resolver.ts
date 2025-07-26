@@ -1,5 +1,5 @@
-import { ActivatedRouteSnapshot, ResolveFn, RouterStateSnapshot } from '@angular/router';
-import { from, map, Observable, of, throwError, switchMap } from 'rxjs';
+import { ActivatedRouteSnapshot, ResolveFn, Router, RouterStateSnapshot } from '@angular/router';
+import { from, map, Observable, of, throwError, switchMap, catchError, EMPTY } from 'rxjs';
 import { FilterServiceService } from '../../services/filerService/filter-service.service';
 import { inject } from '@angular/core';
 import { getSeasonSeoDescription } from '../../utils/getSeasonSeoDescription';
@@ -7,12 +7,15 @@ import { getDifficultySeoDescription } from '../../utils/getDifficultySeoDescrip
 
 export const filterResolver: ResolveFn<any> = (
   route: ActivatedRouteSnapshot,
-  state: RouterStateSnapshot
+  state: RouterStateSnapshot,
 ): Observable<any> => {
   const filterService = inject(FilterServiceService);
+  const router = inject(Router);
   const filterType = route.paramMap.get('filterType');
   const slug = route.paramMap.get('slug');
   const currentURL = state.url;
+
+
 
 
   if (!filterType || !slug) {
@@ -51,8 +54,18 @@ export const filterResolver: ResolveFn<any> = (
         filterService.getRecipesByTagFilter({ tagObject: 'cuisine', id: slug })
       ])).pipe(
         switchMap(([descriptionCountry, recipes]) => {
-          if (!descriptionCountry || !recipes?.length) return throwError(() => new Error('Cuisine not found'));
+          if (!descriptionCountry || !recipes?.length) {
+            // кидаємо помилку, яка далі перехоплюється
+            throw new Error('Cuisine not found');
+          }
           return of({ recipes, currentURL, descriptionCountry });
+        }),
+        catchError(err => {
+          if (err.message === 'Cuisine not found') {
+            router.navigateByUrl('/404'); // редірект на 404
+            return EMPTY; // або of(null) якщо в тебе тип не дозволяє пусте
+          }
+          throw err;
         })
       );
     }
