@@ -17,7 +17,14 @@ export const recipeResolver: ResolveFn<boolean> = (
 
   return recipeService.getRecipeByID(recipeID).pipe(
 
+
     map(recipe => {
+
+      if (!recipe || recipe.id !== recipeID) {
+        throw new Error('NOT_FOUND');
+      }
+
+
       if (recipe && recipe.id === recipeID) {
         const currentURL = state.url;
 
@@ -238,6 +245,8 @@ export const recipeResolver: ResolveFn<boolean> = (
       } else {
         return null;
       }
+
+
     }),
 
     catchError((error) => {
