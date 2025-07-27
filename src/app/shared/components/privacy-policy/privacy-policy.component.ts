@@ -1,5 +1,6 @@
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { Component, Inject, PLATFORM_ID } from '@angular/core';
+import { SeoService } from '../../services/seo/seo.service';
 
 @Component({
   selector: 'app-privacy-policy',
@@ -11,12 +12,20 @@ import { Component, Inject, PLATFORM_ID } from '@angular/core';
 export class PrivacyPolicyComponent {
 
   cookieAccepted = false;
+  currentURL = 'https://tsk.in.ua/privacyy';
 
-  constructor(@Inject(PLATFORM_ID) private platformId: Object) { }
+  constructor(
+    @Inject(PLATFORM_ID) private platformId: Object,
+    private seoServices: SeoService
+  ) { }
 
   ngOnInit(): void {
+
+
+
     if (isPlatformBrowser(this.platformId)) {
       this.cookieAccepted = localStorage.getItem('cookieConsent') === 'true';
+      this.seoServices.setCanonicalUrl(this.currentURL)
     }
   }
 
