@@ -10,6 +10,7 @@ import { recipeResolver } from './shared/resolver/recipe/recipe/recipe.resolver'
 import { DishFilterComponent } from './shared/components/dish-filter/dish-filter.component';
 import { filterResolver } from './shared/resolver/filter/filter.resolver';
 import { NgModule } from '@angular/core';
+import { AboutUsComponent } from './shared/components/about-us/about-us.component';
 
 export const routes: Routes = [
     {
@@ -87,6 +88,9 @@ export const routes: Routes = [
 
     {
         path: 'privacyy', component: PrivacyPolicyComponent
+    },
+    {
+        path: 'about-us', component: AboutUsComponent
     },
 
     {

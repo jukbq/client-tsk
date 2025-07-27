@@ -1,0 +1,486 @@
+@charset "UTF-8";
+section {
+  width: 100vw;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+section .background_image {
+  width: 100vw;
+  min-height: 100vh;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: flex-end;
+  box-shadow: 0px 3px 7px 0px rgba(0, 0, 0, 0.49);
+}
+section .background_image .bg_image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-attachment: fixed;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  -o-object-fit: cover;
+     object-fit: cover;
+  transform: translateY(0);
+}
+section .home_titel {
+  width: 70%;
+  height: 90vh;
+  position: absolute;
+  display: flex;
+  align-items: flex-end;
+}
+section .home_titel h1 {
+  font-family: "Cormorant Garamond", serif;
+  transition: var(--transition);
+  font-weight: bold;
+  color: var(--clr-w);
+  text-align: left;
+  -webkit-text-stroke: 1px black;
+  opacity: 0;
+  z-index: 10;
+  animation: fadeInTitle 0.7s ease forwards;
+}
+section .breadcrumb_line {
+  width: 100%;
+  height: 10vh;
+  display: flex;
+  justify-content: center;
+}
+section .breadcrumb_line .bread_crumbs {
+  width: 70%;
+  height: auto;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+section .breadcrumb_line .bread_crumbs .breadcrumb .breadcrumb-item {
+  width: auto;
+  height: 2em;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-left: 20px;
+  margin-right: 5px;
+  transition: var(--transition);
+  cursor: pointer;
+}
+section .breadcrumb_line .bread_crumbs .breadcrumb .breadcrumb-item.active {
+  text-shadow: -4px 10px 7px #000000;
+}
+section .breadcrumb_line .bread_crumbs .breadcrumb .breadcrumb-item:hover {
+  text-shadow: -4px 10px 7px #000000;
+}
+section .breadcrumb_line .bread_crumbs .breadcrumb .breadcrumb-item a {
+  margin-bottom: 0;
+  color: var(--clr-g);
+  font-weight: 800;
+  font-style: inherit;
+  text-decoration: none;
+}
+section .list_block {
+  width: 70vw;
+  height: auto;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 10px 10px;
+  z-index: 1;
+}
+section .list_block .deskription_block {
+  width: 100%;
+  min-height: 500px;
+  display: flex;
+}
+section .list_block .deskription_block .content {
+  width: 100%;
+  position: relative;
+  display: flex;
+  align-items: center;
+  padding: 5px 10px;
+  text-align: justify;
+  line-height: 1.6;
+  opacity: 0;
+  margin-top: 20px;
+  transition: opacity 1s ease-in-out;
+}
+section .list_block .deskription_block .content.visible {
+  opacity: 1;
+  margin-top: 0px;
+}
+section .list_block .deskription_block .content .deskription {
+  margin-bottom: 10px;
+  line-height: 1.6;
+  background: rgba(255, 255, 255, 0.8);
+  padding: 10px;
+  border-radius: 5px;
+  z-index: 2;
+}
+section .list_block .deskription_block .content .cat_img {
+  width: 40%;
+  height: 100%;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 5px;
+  z-index: 1;
+}
+section .list_block .deskription_block .content .cat_img img {
+  width: auto;
+  height: 600px;
+  margin-top: -60px;
+  -o-object-fit: contain;
+     object-fit: contain;
+}
+section .list_block .filter_button_block {
+  width: 100%;
+  display: flex;
+  justify-content: left;
+}
+section .list_block .filter_button_block .filtr_button {
+  width: 2vw;
+  height: 2vw;
+  border: none;
+  background-image: url(../../../assets/icon/filter.webp);
+  background-size: cover;
+}
+section .list_block .offcanvas {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+section .list_block .offcanvas .offcanvas-header {
+  height: 5%;
+  position: static;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 1rem;
+}
+section .list_block .offcanvas .filyer_lists {
+  width: 100%;
+  height: 90%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow-y: auto;
+  padding: 0 0.5rem;
+}
+section .list_block .offcanvas .filyer_lists .accordion-item {
+  width: 100%;
+  margin-bottom: 1rem;
+}
+section .list_block .offcanvas .filyer_lists .accordion-item .accordion-header .accordion-button {
+  width: 90%;
+  font-size: 2pc;
+  border: none;
+  padding: 0.5rem 1rem;
+  display: flex;
+  justify-content: space-between;
+  background-color: transparent;
+  color: inherit;
+  box-shadow: none;
+}
+section .list_block .offcanvas .filyer_lists .accordion-item .accordion-header .accordion-button:not(.collapsed) {
+  background-color: var(--clr-2);
+  color: #fff;
+}
+section .list_block .offcanvas .filyer_lists .accordion-item .accordion-header .accordion-button:focus {
+  box-shadow: 0 0 0 0.25rem var(--clr-2);
+}
+section .list_block .offcanvas .filyer_lists .accordion-item .accordion-collapse {
+  width: 90%;
+}
+section .list_block .offcanvas .filyer_lists .accordion-item .accordion-collapse .accordion-body {
+  padding: 0.5rem 1rem;
+}
+section .list_block .offcanvas .filyer_lists .accordion-item .accordion-collapse .accordion-body ul {
+  width: 100%;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+section .list_block .offcanvas .filyer_lists .accordion-item .accordion-collapse .accordion-body ul li {
+  width: 100%;
+  cursor: pointer;
+  font-size: 1.5pc;
+  padding-left: 5px;
+  display: flex;
+  align-items: center;
+  transition: background-color 0.3s ease-in-out;
+}
+section .list_block .offcanvas .filyer_lists .accordion-item .accordion-collapse .accordion-body ul li:hover {
+  background-color: var(--clr-2);
+  color: #fff;
+}
+section .list_block .offcanvas .filyer_lists .accordion-item .accordion-collapse .accordion-body ul li .form-check {
+  margin-bottom: 0.5rem;
+}
+section .list_block .offcanvas .filyer_lists .accordion-item .accordion-collapse .accordion-body ul li .form-check .form-check-input {
+  cursor: pointer;
+}
+section .list_block .offcanvas .filyer_lists .accordion-item .accordion-collapse .accordion-body ul li .form-check .form-check-label {
+  cursor: pointer;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+          user-select: none;
+}
+section .list_block .offcanvas .filyer_lists .accordion-item .accordion-collapse .accordion-body button.btn-sm.btn-secondary {
+  width: 90%;
+  margin-bottom: 1rem;
+  align-self: center;
+}
+section .list_block .offcanvas .btn-primary {
+  width: 100%;
+  height: 5%;
+  position: static;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--clr-2);
+  color: #fff;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background-color 0.3s ease-in-out;
+}
+section .list_block .offcanvas .btn-primary:hover {
+  background-color: var(--clr-2);
+}
+section .list_block .recipe_filtre {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+section .list_block .recipe_filtre .fiiltre_select {
+  width: 30%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  padding: 0 2vw;
+}
+section .list_block .dishes_list_block {
+  width: 100%;
+  height: auto;
+  list-style: none;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  padding: 0 20px;
+  margin-top: 20px;
+}
+section .list_block .dishes_list_block .dishes_list {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-content: flex-start;
+  justify-content: space-between;
+  padding: 0;
+  overflow: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+section .list_block .dishes_list_block .dishes_list::-webkit-scrollbar {
+  display: none;
+}
+section .list_block .dishes_list_block .dishes_list .dishes_card {
+  width: 45%;
+  height: 380px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-bottom: 20px;
+  transition: var(--transition);
+  border-bottom: 0.5px solid var(--clr-g);
+  margin-top: 20px;
+  opacity: 0;
+}
+section .list_block .dishes_list_block .dishes_list .dishes_card.show {
+  margin-top: 0px;
+  opacity: 1;
+}
+section .list_block .dishes_list_block .dishes_list .dishes_card:last-child {
+  justify-content: flex-start;
+}
+section .list_block .dishes_list_block .dishes_list .dishes_card a {
+  width: 100%;
+  height: 85%;
+}
+section .list_block .dishes_list_block .dishes_list .dishes_card a .img_black {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+  transition: var(--transition);
+  cursor: pointer;
+  box-shadow: 0px 0px 8px 0px #000000;
+}
+section .list_block .dishes_list_block .dishes_list .dishes_card a .img_black img {
+  width: 100%;
+  height: 100%;
+  -o-object-fit: cover;
+     object-fit: cover;
+  transition: var(--transition);
+}
+section .list_block .dishes_list_block .dishes_list .dishes_card .text_block {
+  width: 100%;
+  height: 20%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+section .list_block .dishes_list_block .dishes_list .dishes_card .text_block .recipe_name {
+  display: -webkit-box;
+  -webkit-box-orient: block-axis;
+}
+section .list_block .dishes_list_block .dishes_list .dishes_card .text_block .recipe_name a {
+  text-decoration: none;
+  color: #000000;
+  text-align: center;
+  cursor: pointer;
+}
+section .list_block .dishes_list_block .dishes_list .dishes_card:hover .img_black {
+  transform: scale(0.98);
+}
+section .list_block .dishes_list_block .dishes_list .dishes_card:hover .img_black img {
+  transform: scale(1.3) rotate(10deg);
+}
+section .list_block .dishes_list_block .dishes_list .show_more {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+section .list_block .dishes_list_block .dishes_list .show_more .sm_button {
+  background-color: var(--clr-2);
+  padding: 10px;
+  border-radius: 5px;
+  color: var(--clr-w);
+}
+
+@keyframes fadeInTitle {
+  from {
+    opacity: 0;
+    margin-left: 30px;
+  }
+  to {
+    opacity: 1;
+    margin-left: -60px;
+  }
+}
+/* Для планшетів */
+@media (max-width: 992px) {
+  section .breadcrumb_line .bread_crumbs {
+    justify-content: center;
+    height: 100%;
+  }
+  section .breadcrumb_line .bread_crumbs .btn {
+    width: 50px;
+    height: 50px;
+    background: none;
+    border: none;
+    background-image: url("../../../assets/icon/logo.webp");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
+  section .breadcrumb_line .bread_crumbs .breadcrumb {
+    transition: var(--transition);
+  }
+  section .breadcrumb_line .bread_crumbs .breadcrumb.collapse {
+    display: none;
+  }
+  section .breadcrumb_line .bread_crumbs .breadcrumb.show {
+    display: flex;
+  }
+  section .breadcrumb_line .bread_crumbs .breadcrumb .breadcrumb-item.active {
+    display: inline-block;
+  }
+  section .list_block {
+    width: 100vw;
+  }
+  section .list_block .filter_button_block .filtr_button {
+    width: 5vw;
+    height: 5vw;
+  }
+  section .list_block .deskription_block .content .cat_img {
+    display: none;
+  }
+}
+/* Для смартфонів */
+@media (max-width: 576px) {
+  section .background_image {
+    width: 100vw;
+    min-height: 50vh;
+  }
+  section .home_titel {
+    width: 100%;
+    height: 50vh;
+  }
+  section .home_titel h1 {
+    animation: none;
+    opacity: 1;
+    margin-left: 2vw;
+  }
+  section .breadcrumb_line .bread_crumbs {
+    justify-content: center;
+    height: 100%;
+  }
+  section .breadcrumb_line .bread_crumbs .btn {
+    width: 50px;
+    height: 50px;
+    background: none;
+    border: none;
+    background-image: url("../../../assets/icon/logo.webp");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
+  section .breadcrumb_line .bread_crumbs .breadcrumb {
+    transition: var(--transition);
+  }
+  section .breadcrumb_line .bread_crumbs .breadcrumb.collapse {
+    display: none;
+  }
+  section .breadcrumb_line .bread_crumbs .breadcrumb.show {
+    display: flex;
+  }
+  section .breadcrumb_line .bread_crumbs .breadcrumb .breadcrumb-item.active {
+    display: inline-block;
+  }
+  section .list_block {
+    width: 100vw;
+  }
+  section .list_block .deskription_block .content {
+    opacity: 1;
+  }
+  section .list_block .deskription_block .content .cat_img {
+    display: none;
+  }
+  section .list_block .dishes_list_block .dishes_list {
+    flex-direction: column;
+    justify-content: center;
+    align-content: center;
+  }
+  section .list_block .dishes_list_block .dishes_list .dishes_card {
+    width: 95%;
+  }
+}
+section .background_image .bg_image {
+  background-image: url(../../../assets/image/recepty-synoho-kota.webp);
+}/*# sourceMappingURL=dishes.component.css.map */

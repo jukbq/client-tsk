@@ -213,6 +213,7 @@ export class RecipePageComponent {
     this.imageModal = new bootstrap.Modal(modalElement);
   }
 
+
   openModal(imageSrc: string) {
     const modalImage = document.getElementById('modalImage') as HTMLImageElement;
     modalImage.src = imageSrc;
