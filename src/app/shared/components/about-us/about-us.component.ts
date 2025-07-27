@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { FooyerComponent } from "../fooyer/fooyer.component";
-import { CommonModule } from '@angular/common';
+import { CommonModule, ViewportScroller } from '@angular/common';
 
 @Component({
   selector: 'app-about-us',
@@ -11,7 +11,15 @@ import { CommonModule } from '@angular/common';
 })
 export class AboutUsComponent {
 
+  constructor(
+    private viewportScroller: ViewportScroller,
 
 
+  ) { }
+
+
+  ngOnInit() {
+    this.viewportScroller.scrollToPosition([0, 0]);
+  }
 
 }

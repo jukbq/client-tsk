@@ -107,7 +107,6 @@ export class RecipePageComponent {
 
 
 
-
   constructor(
     @Inject(DOCUMENT) private document: Document,
     @Inject(PLATFORM_ID) private platformId: Object,

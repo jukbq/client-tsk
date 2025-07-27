@@ -557,6 +557,11 @@ section .paragraph {
   flex-direction: column;
   margin-top: 20px;
 }
+@media (max-width: 980px) {
+  section .paragraph {
+    width: 95%;
+  }
+}
 section .paragraph h2 {
   text-align: center;
   margin: 20px 0;
@@ -570,6 +575,11 @@ section .paragraph p {
 section .paragraph .full_image {
   width: 80%;
   margin: 20px auto;
+}
+@media (max-width: 980px) {
+  section .paragraph .full_image {
+    width: 95%;
+  }
 }
 section .paragraph .full_image img {
   width: 100%;
@@ -590,6 +600,11 @@ section .paragraph .content .float-image {
   height: auto;
   margin: 0 20px 20px 0;
   border-radius: 12px;
+}
+@media (max-width: 980px) {
+  section .paragraph .content .float-image {
+    width: 40%;
+  }
 }
 section .paragraph .content .two {
   float: left;
