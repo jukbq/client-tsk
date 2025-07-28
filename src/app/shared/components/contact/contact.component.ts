@@ -1,26 +1,24 @@
+import { isPlatformBrowser, ViewportScroller } from '@angular/common';
 import { Component, Inject, PLATFORM_ID } from '@angular/core';
-import { FooyerComponent } from "../fooyer/fooyer.component";
-import { CommonModule, isPlatformBrowser, ViewportScroller } from '@angular/common';
 import { SeoService } from '../../services/seo/seo.service';
+import { FooyerComponent } from "../fooyer/fooyer.component";
 
 @Component({
-  selector: 'app-about-us',
+  selector: 'app-contact',
   standalone: true,
   imports: [FooyerComponent],
-  templateUrl: './about-us.component.html',
-  styleUrl: './about-us.component.scss'
+  templateUrl: './contact.component.html',
+  styleUrl: './contact.component.scss'
 })
-export class AboutUsComponent {
+export class ContactComponent {
   isBrowser: boolean = false;
-  currentURL = 'https://tsk.in.ua/about-us';
-
+  currentURL = 'https://tsk.in.ua/kontakty';
 
   constructor(
     @Inject(PLATFORM_ID) private platformId: Object,
     private viewportScroller: ViewportScroller,
     private seoServices: SeoService
   ) { this.isBrowser = isPlatformBrowser(this.platformId); }
-
 
   ngOnInit() {
     if (this.isBrowser) {

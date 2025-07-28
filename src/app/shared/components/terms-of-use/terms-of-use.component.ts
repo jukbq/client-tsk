@@ -1,19 +1,19 @@
 import { Component, Inject, PLATFORM_ID } from '@angular/core';
 import { FooyerComponent } from "../fooyer/fooyer.component";
-import { CommonModule, isPlatformBrowser, ViewportScroller } from '@angular/common';
 import { SeoService } from '../../services/seo/seo.service';
+import { isPlatformBrowser, ViewportScroller } from '@angular/common';
+import { SsrLinkDirective } from '../../directives/ssr-link.directive';
 
 @Component({
-  selector: 'app-about-us',
+  selector: 'app-terms-of-use',
   standalone: true,
-  imports: [FooyerComponent],
-  templateUrl: './about-us.component.html',
-  styleUrl: './about-us.component.scss'
+  imports: [SsrLinkDirective, FooyerComponent],
+  templateUrl: './terms-of-use.component.html',
+  styleUrl: './terms-of-use.component.scss'
 })
-export class AboutUsComponent {
+export class TermsOfUseComponent {
+  currentURL = 'https://tsk.in.ua/umovy-korystuvannya';
   isBrowser: boolean = false;
-  currentURL = 'https://tsk.in.ua/about-us';
-
 
   constructor(
     @Inject(PLATFORM_ID) private platformId: Object,
@@ -21,12 +21,10 @@ export class AboutUsComponent {
     private seoServices: SeoService
   ) { this.isBrowser = isPlatformBrowser(this.platformId); }
 
-
-  ngOnInit() {
+  ngOnInit(): void {
     if (this.isBrowser) {
       this.viewportScroller.scrollToPosition([0, 0]);
       this.seoServices.setCanonicalUrl(this.currentURL)
     }
   }
-
 }

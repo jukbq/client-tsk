@@ -11,6 +11,8 @@ import { DishFilterComponent } from './shared/components/dish-filter/dish-filter
 import { filterResolver } from './shared/resolver/filter/filter.resolver';
 import { NgModule } from '@angular/core';
 import { AboutUsComponent } from './shared/components/about-us/about-us.component';
+import { TermsOfUseComponent } from './shared/components/terms-of-use/terms-of-use.component';
+import { ContactComponent } from './shared/components/contact/contact.component';
 
 export const routes: Routes = [
     {
@@ -91,6 +93,12 @@ export const routes: Routes = [
     },
     {
         path: 'about-us', component: AboutUsComponent
+    },
+    {
+        path: 'umovy-korystuvannya', component: TermsOfUseComponent
+    },
+    {
+        path: 'kontakty', component: ContactComponent
     },
 
     {
