@@ -22,10 +22,10 @@ export class PrivacyPolicyComponent {
   ) { this.isBrowser = isPlatformBrowser(this.platformId); }
 
   ngOnInit(): void {
+    this.seoServices.setCanonicalUrl(this.currentURL)
     if (this.isBrowser) {
       this.viewportScroller.scrollToPosition([0, 0]);
       this.cookieAccepted = localStorage.getItem('cookieConsent') === 'true';
-      this.seoServices.setCanonicalUrl(this.currentURL)
     }
   }
 
