@@ -1,5 +1,4 @@
 import { Component, ElementRef, HostListener, Inject, PLATFORM_ID, Renderer2, ViewChild } from '@angular/core';
-import { FooyerComponent } from '../../shared/components/fooyer/fooyer.component';
 import { CommonModule, DOCUMENT, isPlatformBrowser, ViewportScroller } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SeoService } from '../../shared/services/seo/seo.service';
@@ -9,7 +8,7 @@ import { SsrLinkDirective } from '../../shared/directives/ssr-link.directive';
 @Component({
   selector: 'app-dishes',
   standalone: true,
-  imports: [CommonModule, SsrLinkDirective, FooyerComponent, SsrLinkDirective],
+  imports: [CommonModule, SsrLinkDirective, SsrLinkDirective],
   templateUrl: './dishes.component.html',
   styleUrl: './dishes.component.scss'
 })

@@ -16,6 +16,7 @@ header {
   z-index: 1100;
   top: 0;
   left: 0;
+  will-change: transform;
 
   &::before {
     content: "";

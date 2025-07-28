@@ -2,28 +2,29 @@
 
     <div class="block_1">
         <ul>
-            @for (item of dishesList; track $index) {
-            <li>
-                <a class="dropdown-item" [appSsrLink]="['categories', item.id]">
-                    {{ item.dishesName }}</a>
-            </li>
-            }
-            <li>
-                <a class="dropdown-item" [appSsrLink]="['privacyy']">
-                    Політика конфіденційності</a>
-            </li>
             <li>
                 <a class="dropdown-item" [appSsrLink]="['about-us']">
                     Про сайт</a>
+            </li>
+            <li>
+                <a class="dropdown-item" [appSsrLink]="['kontakty']">
+                    Контакти</a>
             </li>
             <li>
                 <a class="dropdown-item" [appSsrLink]="['umovy-korystuvannya']">
                     Умови користування</a>
             </li>
             <li>
-                <a class="dropdown-item" [appSsrLink]="['kontakty']">
-                    Контакти</a>
+                <a class="dropdown-item" [appSsrLink]="['privacyy']">
+                    Політика конфіденційності</a>
             </li>
+
+            <!--        @for (item of dishesList; track $index) {
+            <li>
+                <a class="dropdown-item" [appSsrLink]="['categories', item.id]">
+                    {{ item.dishesName }}</a>
+            </li>
+            } -->
         </ul>
     </div>
 

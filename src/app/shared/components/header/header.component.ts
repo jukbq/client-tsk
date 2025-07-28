@@ -1,9 +1,10 @@
 import { CommonModule, isPlatformBrowser } from '@angular/common';
-import { Component, Inject, PLATFORM_ID } from '@angular/core';
-import { Router, RouterLink } from '@angular/router';
+import { Component, HostListener, Inject, PLATFORM_ID } from '@angular/core';
+import { NavigationEnd, Router, RouterLink } from '@angular/router';
 import { DishesService } from '../../services/dishes/dishes.service';
 import { CategoriesService } from '../../services/categories/categories.service';
 import { SsrLinkDirective } from '../../directives/ssr-link.directive';
+import { filter } from 'rxjs';
 
 
 declare var bootstrap: any;
@@ -31,13 +32,42 @@ export class HeaderComponent {
   subSubDishes: any[] = [];
   activeMenu = ''
 
+  isBrowser: boolean = false;
+  parallaxEnabled = true;
 
   constructor(
     @Inject(PLATFORM_ID) private platformId: Object,
     private dishesService: DishesService,
     private categoryService: CategoriesService,
     private router: Router
-  ) { }
+  ) {
+    this.isBrowser = isPlatformBrowser(this.platformId);
+
+    if (this.isBrowser) {
+      this.router.events.pipe(
+        filter(event => event instanceof NavigationEnd)
+      ).subscribe((event: NavigationEnd) => {
+        // Якщо URL починається з /recipe-page — вимикаємо паралакс
+        this.parallaxEnabled = !(
+          event.urlAfterRedirects.startsWith('/recipe-page') ||
+          event.urlAfterRedirects.startsWith('/search') ||
+          event.urlAfterRedirects.startsWith('/recipe-filte') ||
+          event.urlAfterRedirects.startsWith('/about-us') ||
+          event.urlAfterRedirects.startsWith('/kontakty') ||
+          event.urlAfterRedirects.startsWith('/umovy-korystuvannya') ||
+          event.urlAfterRedirects.startsWith('/privacyy')
+        );
+
+        // Опціонально: скидуємо паралакс на 0, якщо вимкнули
+        if (!this.parallaxEnabled) {
+          const header = document.querySelector('header') as HTMLElement;
+          if (header) {
+            header.style.transform = 'translate3d(0, 0, 0)';
+          }
+        }
+      });
+    }
+  }
 
   ngOnInit(): void {
     this.getDishes()
@@ -95,15 +125,28 @@ export class HeaderComponent {
   }
 
   closeOffcanvas() {
-    if (isPlatformBrowser(this.platformId)) {
-      const offcanvasElement = document.getElementById('offcanvasNavbar');
-      if (offcanvasElement) {
-        const offcanvasInstance = bootstrap.Offcanvas.getInstance(offcanvasElement);
-        if (offcanvasInstance) {
-          offcanvasInstance.hide();
-        }
+    if (!this.isBrowser) return;
+    const offcanvasElement = document.getElementById('offcanvasNavbar');
+    if (offcanvasElement) {
+      const offcanvasInstance = bootstrap.Offcanvas.getInstance(offcanvasElement);
+      if (offcanvasInstance) {
+        offcanvasInstance.hide();
       }
     }
+
+  }
+
+
+
+  // Відстежування події прокрутки вікна
+  @HostListener('window:scroll', ['$event'])
+  onScroll(event: any) {
+    if (!this.isBrowser || !this.parallaxEnabled) return;
+    const scrollPosition = window.scrollY;
+    //паралакс фонового зображення
+    const header = document.querySelector('header') as HTMLElement;
+    const parallaxValue = Math.max(0, Math.round(scrollPosition * 0.8));
+    header.style.transform = `translate3d(0, ${parallaxValue}px, 0)`;
   }
 
 

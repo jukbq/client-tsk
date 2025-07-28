@@ -7,14 +7,13 @@ import { Meta, Title } from '@angular/platform-browser';
 import { DishesService } from '../../shared/services/dishes/dishes.service';
 import { RecipeService } from '../../shared/services/recipe/recipe.service';
 import { CategoriesService } from '../../shared/services/categories/categories.service';
-import { FooyerComponent } from "../../shared/components/fooyer/fooyer.component";
 import { SsrLinkDirective } from '../../shared/directives/ssr-link.directive';
 
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule, NgbCarouselModule, FooyerComponent, SsrLinkDirective],
+  imports: [CommonModule, NgbCarouselModule, SsrLinkDirective],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss'
 })
