@@ -36,5 +36,9 @@ section {
     .mb-3 #message {
       height: 20vh;
     }
+
+    @media (max-width: 980px) {
+      width: 95%;
+    }
   }
 }

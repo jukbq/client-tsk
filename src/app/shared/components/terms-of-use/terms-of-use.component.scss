@@ -21,5 +21,9 @@ section {
     h2 {
       margin: 20px 0;
     }
+
+    @media (max-width: 980px) {
+      width: 95%;
+    }
   }
 }
