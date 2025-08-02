@@ -5,47 +5,87 @@
         <p>Таверна "Синій кіт"</p>
       </a>
       <div class="rigth">
-        <a class="header_icon facebook" href="https://www.facebook.com/groups/2412991875747035" target="_blank"
-          rel="noopener noreferrer"></a>
-        <a class="header_icon telegram" href="https://t.me/+CczEzPwB2RJhM2My" target="_blank"
-          rel="noopener noreferrer"></a>
+        <a
+          class="header_icon facebook"
+          href="https://www.facebook.com/groups/2412991875747035"
+          target="_blank"
+          rel="noopener noreferrer"
+        ></a>
+        <a
+          class="header_icon telegram"
+          href="https://t.me/+CczEzPwB2RJhM2My"
+          target="_blank"
+          rel="noopener noreferrer"
+        ></a>
 
-        <a class="header_icon serch" [appSsrLink]="['search' ]"></a>
+        <a class="header_icon serch" [appSsrLink]="['search']"></a>
 
-
-
-        <button class="navbar-toggler text-primary" type="button" data-bs-toggle="offcanvas"
-          data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
+        <button
+          class="navbar-toggler text-primary"
+          type="button"
+          data-bs-toggle="offcanvas"
+          data-bs-target="#offcanvasNavbar"
+          aria-controls="offcanvasNavbar"
+          aria-label="Toggle navigation"
+        >
           <span class="navbar-toggler-icon"></span>
         </button>
       </div>
 
-      <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
+      <div
+        class="offcanvas offcanvas-end"
+        tabindex="-1"
+        id="offcanvasNavbar"
+        aria-labelledby="offcanvasNavbarLabel"
+      >
         <div class="offcanvas-header">
-          <a class="offcanvas-title" (click)="closeOffcanvas()" [appSsrLink]="'/'" id="offcanvasNavbarLabel">
+          <a
+            class="offcanvas-title"
+            (click)="closeOffcanvas()"
+            [appSsrLink]="'/'"
+            id="offcanvasNavbarLabel"
+          >
             Таверна "Синій кіт"
           </a>
-          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas"
-            aria-label="Close"></button>
+          <button
+            type="button"
+            class="btn-close btn-close-white"
+            data-bs-dismiss="offcanvas"
+            aria-label="Close"
+          ></button>
         </div>
 
         <div class="icom_block">
-          <a (click)="closeOffcanvas()" class="header_icon facebook"
-            href="https://www.facebook.com/groups/2412991875747035" target="_blank" rel="noopener noreferrer"></a>
-          <a class="header_icon telegram" href="https://t.me/+CczEzPwB2RJhM2My" target="_blank"
-            rel="noopener noreferrer"></a>
+          <a
+            (click)="closeOffcanvas()"
+            class="header_icon facebook"
+            href="https://www.facebook.com/groups/2412991875747035"
+            target="_blank"
+            rel="noopener noreferrer"
+          ></a>
+          <a
+            class="header_icon telegram"
+            href="https://t.me/+CczEzPwB2RJhM2My"
+            target="_blank"
+            rel="noopener noreferrer"
+          ></a>
 
-          <a (click)="closeOffcanvas()" class="header_icon serch" [appSsrLink]="['search']"></a>
-
-
-
+          <a
+            (click)="closeOffcanvas()"
+            class="header_icon serch"
+            [appSsrLink]="['search']"
+          ></a>
         </div>
 
         <ul class="header_menu">
           <ng-container>
             <li class="head_li" [ngClass]="{ active: activeMenu === 'dishes' }">
               <div class="btn_menu">
-                <a (click)="closeOffcanvas()" class="nav-link" [appSsrLink]="'/dishes'">
+                <a
+                  (click)="closeOffcanvas()"
+                  class="nav-link"
+                  [appSsrLink]="'/dishes'"
+                >
                   Рецепти Синього Кота
                 </a>
                 <div class="batton" (click)="onSelectItem('dishes')"></div>
@@ -53,22 +93,41 @@
 
               <ng-container *ngIf="activeMenu">
                 <ul class="sub_menu">
-                  <li class="sub_li" *ngFor="let subItem of dishesList; let j = index"
-                    [ngClass]="{ active: j === activeSubItem }">
+                  <li
+                    class="sub_li"
+                    *ngFor="let subItem of dishesList; let j = index"
+                    [ngClass]="{ active: j === activeSubItem }"
+                  >
                     <div class="submenu_text">
-                      <a (click)="closeOffcanvas()" [appSsrLink]="['categories', subItem.id]"
-                        (click)="onSelectSubItem(j)" class="nav-link">
+                      <a
+                        (click)="closeOffcanvas()"
+                        [appSsrLink]="['categories', subItem.id]"
+                        (click)="onSelectSubItem(j)"
+                        class="nav-link"
+                      >
                         {{ subItem.dishesName }}
                       </a>
-                      <div class="batton" (click)="loadSubDishes(subItem.id, j)"></div>
+                      <div
+                        class="batton"
+                        (click)="loadSubDishes(subItem.id, j)"
+                      ></div>
                     </div>
 
                     <!-- subSubMenu -->
                     <ng-container *ngIf="subDishes && subDishes.length > 0">
-                      <ul [ngClass]="{ active: j === activeSubItem }" class="sub_sub_menu">
-                        <li class="sub_sub_li" *ngFor="let subSubItem of subDishes; let k = index">
-                          <a class="submenu_text" (click)="closeOffcanvas()"
-                            [appSsrLink]="['recipes-list', subSubItem.id]">
+                      <ul
+                        [ngClass]="{ active: j === activeSubItem }"
+                        class="sub_sub_menu"
+                      >
+                        <li
+                          class="sub_sub_li"
+                          *ngFor="let subSubItem of subDishes; let k = index"
+                        >
+                          <a
+                            class="submenu_text"
+                            (click)="closeOffcanvas()"
+                            [appSsrLink]="['recipes-list', subSubItem.id]"
+                          >
                             <p class="nav-link">
                               {{ subSubItem.categoryName }}
                             </p>
@@ -79,6 +138,24 @@
                   </li>
                 </ul>
               </ng-container>
+            </li>
+          </ng-container>
+
+          <ng-container>
+            <li
+              class="head_li"
+              [ngClass]="{ active: activeMenu === 'articlses' }"
+            >
+              <div class="btn_menu">
+                <a
+                  (click)="closeOffcanvas()"
+                  class="nav-link"
+                  [appSsrLink]="'/articlses'"
+                >
+                  БАйки Синього Кота
+                </a>
+                <div class="batton" (click)="onSelectItem('articlses')"></div>
+              </div>
             </li>
           </ng-container>
         </ul>

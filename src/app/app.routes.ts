@@ -13,6 +13,7 @@ import { NgModule } from '@angular/core';
 import { AboutUsComponent } from './shared/components/about-us/about-us.component';
 import { TermsOfUseComponent } from './shared/components/terms-of-use/terms-of-use.component';
 import { ContactComponent } from './shared/components/contact/contact.component';
+import { aboutProductsResolver } from './shared/resolver/articles/about-products/about-products.resolver';
 
 export const routes: Routes = [
     {
@@ -34,6 +35,11 @@ export const routes: Routes = [
         resolve: {
             dishes: dishesAlResolver,
         },
+    },
+    {
+        path: 'articlses',
+        loadComponent: () =>
+            import('./articles/articles-home/articles-home.component').then((m) => m.ArticlesHomeComponent),
     },
 
     {
@@ -71,6 +77,7 @@ export const routes: Routes = [
         },
 
     },
+
 
     {
         path: 'recipe-filte/:filterType/:slug',

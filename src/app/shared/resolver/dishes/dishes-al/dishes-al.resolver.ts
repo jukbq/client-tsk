@@ -10,7 +10,6 @@ export const dishesAlResolver: ResolveFn<{ data: any; url: string }> = (
   const dishesService = inject(DishesService);
   const currentURL = state.url;
 
-
   return dishesService.getAllLight().pipe(
     map((data) => ({
       data,
