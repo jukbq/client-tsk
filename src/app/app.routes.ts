@@ -13,7 +13,11 @@ import { NgModule } from '@angular/core';
 import { AboutUsComponent } from './shared/components/about-us/about-us.component';
 import { TermsOfUseComponent } from './shared/components/terms-of-use/terms-of-use.component';
 import { ContactComponent } from './shared/components/contact/contact.component';
-import { aboutProductsResolver } from './shared/resolver/articles/about-products/about-products.resolver';
+import { articleTypeResolver } from './shared/resolver/articles/article-type/article-type.resolver';
+import { articleTypeByIdResolver } from './shared/resolver/articles/article-type-by-id/article-type-by-id.resolver';
+import { articleCategoryByTypeIdResolver } from './shared/resolver/articles/article-categoty-by-type-id/article-category-by-type-id.resolver';
+import { articlesByCategoryidResolver } from './shared/resolver/articles/article-by-cayegoryid/articles-by-categoryid.resolver';
+import { articlePageResolver } from './shared/resolver/articles/article-page/article-page.resolver';
 
 export const routes: Routes = [
     {
@@ -40,7 +44,12 @@ export const routes: Routes = [
         path: 'articlses',
         loadComponent: () =>
             import('./articles/articles-home/articles-home.component').then((m) => m.ArticlesHomeComponent),
+        resolve: {
+            articleTypes: articleTypeResolver,
+        },
     },
+
+
 
     {
         path: 'categories/:dishesid',
@@ -54,6 +63,17 @@ export const routes: Routes = [
         },
     },
     {
+        path: 'article-categories/:articleTypeId',
+        loadComponent: () =>
+            import('./articles/article-categories/article-categories.component').then(
+                (m) => m.ArticleCategoriesComponent
+            ),
+        resolve: {
+            articleTypes: articleTypeByIdResolver,
+            aticleCategryList: articleCategoryByTypeIdResolver
+        },
+    },
+    {
         path: 'recipes-list/:categoryid',
         loadComponent: () =>
             import('./pages/recipe-list/recipe-list.component').then(
@@ -61,6 +81,17 @@ export const routes: Routes = [
             ),
         resolve: {
             category: categoryByIdResolver,
+        },
+    },
+    {
+        path: 'article-list/:artucleCategoryid',
+        loadComponent: () =>
+            import('./articles/atricle-list/atricle-list.component').then(
+                (m) => m.AtricleListComponent
+            ),
+        resolve: {
+            category: categoryByIdResolver,
+            articles: articlesByCategoryidResolver,
         },
     },
 
@@ -78,7 +109,19 @@ export const routes: Routes = [
 
     },
 
+    {
+        path: 'article-page/:articleId',
+        loadComponent: () =>
+            import('./articles/article-page/article-page.component').then(
+                (m) => m.ArticlePageComponent
+            ),
 
+        resolve: {
+            article: articlePageResolver,
+
+        },
+
+    },
     {
         path: 'recipe-filte/:filterType/:slug',
         component: DishFilterComponent,

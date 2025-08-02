@@ -25,7 +25,7 @@ interface RecipeLight {
 @Component({
   selector: 'app-recipe-list',
   standalone: true,
-  imports: [CommonModule, SsrLinkDirective, FooyerComponent],
+  imports: [CommonModule, SsrLinkDirective],
   templateUrl: './recipe-list.component.html',
   styleUrl: './recipe-list.component.scss'
 })
@@ -56,6 +56,7 @@ export class RecipeListComponent {
 
   wasTextVisible = false;
   private ldJsonScript?: HTMLScriptElement;
+
 
 
   constructor(

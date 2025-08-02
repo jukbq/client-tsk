@@ -20,12 +20,14 @@ export class ArticlesHomeComponent {
   isBrowser: boolean = false;
   currentURL = ''
   schema: any;
+  articleTypes: any[] = [];
 
   private ldJsonScript?: HTMLScriptElement;
 
   constructor(
     @Inject(DOCUMENT) private document: Document,
     @Inject(PLATFORM_ID) private platformId: any,
+    private route: ActivatedRoute,
     private seoServices: SeoService,
     private meta: Meta,
     private titleService: Title,
@@ -36,7 +38,14 @@ export class ArticlesHomeComponent {
 
   ngOnInit(): void {
     this.currentURL = 'https://tsk.in.ua/articlses'
-    this.loadArticlesList();
+
+    this.route.data.subscribe((data: any) => {
+      this.currentURL = data.articleTypes.url
+      this.loadArticlesList();
+      this.articleTypes = data.articleTypes.data;
+
+
+    });
 
     if (this.isBrowser) {
       this.viewportScroller.scrollToPosition([0, 0]);

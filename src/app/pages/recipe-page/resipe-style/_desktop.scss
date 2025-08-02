@@ -12,7 +12,7 @@ section {
     justify-content: center;
     z-index: 1000;
     overflow: hidden;
-    padding: var(--header-height) 0 0 0;
+    padding: var(--header-he) 0 0 0;
     background-color: var(--clr-2);
     top: 0;
     left: 0;
@@ -28,7 +28,7 @@ section {
       margin: 0;
       padding: 0;
       scrollbar-width: none;
-      -ms-overflow-style: none;
+      -ms-overflightow-style: none;
       background-color: var(--clr-2);
 
       &::-webkit-scrollbar {

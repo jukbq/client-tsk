@@ -1,21 +1,21 @@
 import { inject } from '@angular/core';
 import { ActivatedRouteSnapshot, ResolveFn, RouterStateSnapshot } from '@angular/router';
 import { map, Observable } from 'rxjs';
-import { DishesService } from '../../../services/dishes/dishes.service';
+import { ArticleTypeService } from '../../../services/article/article-type/article-type.service';
 
-export const dishesAlResolver: ResolveFn<{ data: any; url: string }> = (
+export const articleTypeByIdResolver: ResolveFn<{ data: any; url: string }> = (
   route: ActivatedRouteSnapshot,
   state: RouterStateSnapshot
 ): Observable<{ data: any; url: string }> => {
 
-  const dishesService = inject(DishesService);
+  const articleTypeId = route.params['articleTypeId'];
+  const typeService = inject(ArticleTypeService);
   const currentURL = state.url;
 
-  return dishesService.getAllLight().pipe(
+  return typeService.getArticleTypesByName(articleTypeId).pipe(
     map((data) => ({
       data,
       url: `https://tsk.in.ua${currentURL}`
     }))
   );
 };
-

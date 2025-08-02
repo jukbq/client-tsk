@@ -1,11 +1,11 @@
 import { TestBed } from '@angular/core/testing';
 import { ResolveFn } from '@angular/router';
 
-import { aboutProductsResolver } from './about-products.resolver';
+import { articleCategoryByTypeIdResolver } from './article-category-by-type-id.resolver';
 
-describe('aboutProductsResolver', () => {
+describe('articleCategoryByTypeIdResolver', () => {
   const executeResolver: ResolveFn<boolean> = (...resolverParameters) => 
-      TestBed.runInInjectionContext(() => aboutProductsResolver(...resolverParameters));
+      TestBed.runInInjectionContext(() => articleCategoryByTypeIdResolver(...resolverParameters));
 
   beforeEach(() => {
     TestBed.configureTestingModule({});

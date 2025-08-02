@@ -1,29 +1,26 @@
 import { CommonModule, DOCUMENT, isPlatformBrowser, ViewportScroller } from '@angular/common';
 import { Component, ElementRef, HostListener, Inject, PLATFORM_ID, Renderer2, ViewChild } from '@angular/core';
-import { ActivatedRoute, Router, RouterLink } from '@angular/router';
-import { FooyerComponent } from '../../shared/components/fooyer/fooyer.component';
+import { SsrLinkDirective } from '../../shared/directives/ssr-link.directive';
+import { ActivatedRoute, Router } from '@angular/router';
 import { SeoService } from '../../shared/services/seo/seo.service';
 import { Meta, Title } from '@angular/platform-browser';
-import { CategoriesDishesResponse } from '../../shared/interfaces/categories -dishes';
-import { SsrLinkDirective } from '../../shared/directives/ssr-link.directive';
-import { DishesResponse } from '../../shared/interfaces/dishes';
 
 @Component({
-  selector: 'app-category',
+  selector: 'app-article-categories',
   standalone: true,
   imports: [CommonModule, SsrLinkDirective],
-  templateUrl: './category.component.html',
-  styleUrl: './category.component.scss'
+  templateUrl: './article-categories.component.html',
+  styleUrl: './article-categories.component.scss'
 })
-export class CategoryComponent {
+export class ArticleCategoriesComponent {
   @ViewChild('textBlocks') textBlocksRef!: ElementRef<HTMLDivElement>;
   image = '';
   additionalImage = '';
   fontSize: string = '';
-  dishesName: string = '';
-  dishDescription = '';
-  dishesID: any = '';
-  categryList: CategoriesDishesResponse[] = [];
+  articleTypeName: string = '';
+  articleTypeDescription = '';
+  typeID: any = '';
+  aticleCategryList: any = [];
   isCollapsed: boolean = false;
   currentURL = '';
   schema: any;
@@ -31,6 +28,7 @@ export class CategoryComponent {
   isBrowser: boolean = false;
 
   private ldJsonScript?: HTMLScriptElement;
+
 
   constructor(
     @Inject(DOCUMENT) private document: Document,
@@ -44,40 +42,41 @@ export class CategoryComponent {
     private router: Router
   ) { this.isBrowser = isPlatformBrowser(this.platformId); }
 
-
-
   ngOnInit() {
-    if (this.isBrowser) {
-      this.viewportScroller.scrollToPosition([0, 0]);
-    }
-    this.route.data.subscribe((data: any) => {
-      const wrapper = data?.dishes;
-      const categryList = data?.categryList;
-      const dishes = wrapper?.data;
 
-      if (!dishes || !categryList || (Array.isArray(categryList) && categryList.length === 0)) {
+    this.route.data.subscribe((data: any) => {
+      const wrapper = data?.articleTypes;
+      const aticleCategryList = data?.aticleCategryList;
+      const type = wrapper?.data;
+
+      if (!type || !aticleCategryList || (Array.isArray(aticleCategryList) && aticleCategryList.length === 0)) {
         this.router.navigate(['/404']);
         ;
       }
 
-      this.currentURL = wrapper.url;
-      this.categryList = categryList;
 
-      this.setupSeo(dishes);
+      if (this.isBrowser) {
+        this.viewportScroller.scrollToPosition([0, 0]);
+      }
+
+      this.currentURL = wrapper.url;
+      this.aticleCategryList = aticleCategryList.data;
+
+      this.setupSeo(type);
     });
   }
 
 
-  setupSeo(dishes: DishesResponse) {
+  setupSeo(type: any) {
     function stripHtml(html: string | undefined | null): string {
       return html ? html.replace(/<\/?[^>]+(>|$)/g, '') : '';
     }
 
-    if (dishes) {
-      const seoName = dishes.seoName;
-      const seoDescription = dishes.seoDescription;
-      const keywords = dishes.keywords;
-      this.dishesID = dishes.id;
+    if (type) {
+      const seoName = type.seoName;
+      const seoDescription = type.seoDescription;
+      const keywords = type.keywords;
+      this.typeID = type.id;
 
       this.seoServices.setCanonicalUrl(this.currentURL)
 
@@ -101,18 +100,18 @@ export class CategoryComponent {
       this.meta.updateTag({ property: 'og:image', content: this.image });
 
 
-      this.dishesName = dishes.dishesName
-      this.dishDescription = dishes.dishDescription
-      this.image = dishes.image
-      this.additionalImage = dishes.additionalImage
+      this.articleTypeName = type.articleTypeName
+      this.articleTypeDescription = type.articleTypeDescription
+      this.image = type.image
+      this.additionalImage = type.additionalImage
 
 
       this.schema = {
         '@context': 'https://schema.org',
         '@type': 'WebSite',
-        name: this.dishesName,
+        name: this.articleTypeName,
         url: this.currentURL,
-        description: stripHtml(dishes.dishDescription),
+        description: stripHtml(type.articleTypeDescription),
         image: this.image,
         publisher: {
           '@type': 'Person',
@@ -132,7 +131,7 @@ export class CategoryComponent {
 
 
     if (this.isBrowser) {
-      this.updateFontSize(this.dishesName);
+      this.updateFontSize(this.articleTypeName);
     }
   }
 
@@ -149,11 +148,10 @@ export class CategoryComponent {
   }
 
 
-
-  updateFontSize(dishesName: string) {
+  updateFontSize(articleTypeName: string) {
     // Задаємо розмір шрифта в залежності від кількості символів та ширини екрану
     const screenWidth = window.innerWidth;
-    const textLength = dishesName.length;
+    const textLength = articleTypeName.length;
 
     if (screenWidth < 576) {
       // Для мобільних пристроїв
@@ -168,7 +166,7 @@ export class CategoryComponent {
       // Для десктопів
       this.fontSize = textLength <= 10 ? '18vh' : textLength <= 20 ? '15vh' : '12vh';
     }
-    this.dishesName = dishesName
+    this.articleTypeName = articleTypeName
 
   }
 
@@ -206,11 +204,10 @@ export class CategoryComponent {
     });
   }
 
+
   // В компоненті вашого Angular
   toggleCollapse(): void {
     this.isCollapsed = !this.isCollapsed;
   }
-
-
 
 }

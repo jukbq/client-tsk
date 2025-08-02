@@ -1,0 +1,79 @@
+<section>
+  <div class="article_bloxk">
+    <div class="ads"></div>
+
+    <div class="article_bosy">
+      <h1>{{ articleName }}</h1>
+
+      <div class="image_block">
+        <img
+          class="recipe_image"
+          src="{{ image }}"
+          alt="головне зображення статті {{ image }}"
+          fetchpriority="high"
+          loading="eager"
+          decoding="auto"
+          (click)="openModal(image)"
+          style="cursor: pointer"
+        />
+      </div>
+
+      <!--ХЛІБНІ КРИХТИ-->
+      <nav id="recipe-about" aria-label="breadcrumb" class="bread_crumbs">
+        <!-- Кнопка для мобільних пристроїв -->
+
+        <!-- Хлібні крихти для десктопу і приховані на мобільних пристроях -->
+        <div class="breadcrumb-wrapper">
+          <ol class="breadcrumb d-md-flex" id="breadcrumbMenu">
+            <li class="breadcrumb-item">
+              <a [appSsrLink]="'/'">Головна</a>
+            </li>
+            <li class="breadcrumb-item">
+              <a [appSsrLink]="'/articlses'">Рецепти Синього Кота</a>
+            </li>
+            <li class="breadcrumb-item">
+              <a [appSsrLink]="['article-categories', articleTypeID]">{{
+                articleTypeName
+              }}</a>
+            </li>
+            <li class="breadcrumb-item">
+              <a [appSsrLink]="['article-list', aticleCategoryID]">{{
+                aticleCategoryName
+              }}</a>
+            </li>
+            <li class="breadcrumb-item active" aria-current="page">
+              {{ articleName }}
+            </li>
+          </ol>
+        </div>
+      </nav>
+
+      <div class="erticle_content">
+        <ul>
+          @for (item of articleContent; track $index) {
+          <li>
+            <h2>{{ item.paragraphName }}</h2>
+
+            <div class="paragraph_text" [innerHTML]="item.description"></div>
+
+            <div *ngIf="item.paragraphImage" class="image_block">
+              <img
+                class="recipe_image"
+                src="{{ item.paragraphImage }}"
+                alt="Зображення параграфа {{ item.paragraphName }}"
+                fetchpriority="high"
+                loading="eager"
+                decoding="auto"
+                (click)="openModal(image)"
+                style="cursor: pointer"
+              />
+            </div>
+          </li>
+          }
+        </ul>
+      </div>
+    </div>
+
+    <div class="ads"></div>
+  </div>
+</section>

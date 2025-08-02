@@ -78,28 +78,28 @@
     </div>
 
     <div class="dishes_list_block">
-      <!--   <ul class="dishes_list">
-        @for (dishesList of dishes; track dishesList) {
+      <ul class="dishes_list">
+        @for (types of articleTypes; track types) {
         <li class="dishes_card">
-          <a [appSsrLink]="['categories', dishesList.id]">
+          <a [appSsrLink]="['article-categories', types.id]">
             <div class="img_black">
               <img
-                [src]="dishesList.image"
-                alt="{{ dishesList.dishesName }}"
+                [src]="types.image"
+                alt="{{ types.articleTypeName }}"
                 loading="lazy"
               />
             </div>
           </a>
           <div class="text_block">
             <div class="recipe_name">
-              <a [appSsrLink]="['categories', dishesList.id]">
-                {{ dishesList.dishesName }}
+              <a [appSsrLink]="['article-categories', types.id]">
+                {{ types.articleTypeName }}
               </a>
             </div>
           </div>
         </li>
         }
-      </ul> -->
+      </ul>
     </div>
   </div>
 </section>

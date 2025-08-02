@@ -5,6 +5,8 @@ import { DishesService } from '../../services/dishes/dishes.service';
 import { CategoriesService } from '../../services/categories/categories.service';
 import { SsrLinkDirective } from '../../directives/ssr-link.directive';
 import { filter } from 'rxjs';
+import { ArticleTypeService } from '../../services/article/article-type/article-type.service';
+import { ArticleCategoriesService } from '../../services/article/article-categories/article-categories.service';
 
 
 declare var bootstrap: any;
@@ -17,28 +19,41 @@ declare var bootstrap: any;
   styleUrl: './header.component.scss'
 })
 export class HeaderComponent {
+
   dishesList: any[] = [];
   selectedDishesId: string | null = null;
   subDishes: any[] = [];
+  subarticleType: any[] = [];
   isDropdownOpen = false;
   activeDropdownId: string | null = null;
+
+
+  // Для меню "Байки"
+  articleTypeList: any[] = [];
+  articleTypeId: string | null = null;
+  subArticleCategories: any[] = [];
 
   //menu
 
   activeItem: number | undefined;
-  activeSubItem: number | undefined;
   close: boolean = true;
   activeSubSubItem: number | undefined;
   subSubDishes: any[] = [];
-  activeMenu = ''
 
-  isBrowser: boolean = false;
+
+  // Для контролю активних пунктів
+  activeMenu = '';
+  activeSubItem: number | undefined;
+
+  isBrowser = false;
   parallaxEnabled = true;
 
   constructor(
     @Inject(PLATFORM_ID) private platformId: Object,
     private dishesService: DishesService,
     private categoryService: CategoriesService,
+    private typeService: ArticleTypeService,
+    private articleCategoryService: ArticleCategoriesService,
     private router: Router
   ) {
     this.isBrowser = isPlatformBrowser(this.platformId);
@@ -71,6 +86,7 @@ export class HeaderComponent {
 
   ngOnInit(): void {
     this.getDishes()
+    this.getArticleType()
   }
 
 
@@ -79,18 +95,20 @@ export class HeaderComponent {
       this.dishesList = data;
     });
   }
+  getArticleType() {
+    this.typeService.getAll().subscribe((data: any) => {
+      this.articleTypeList = data;
+    });
+  }
 
   onSelectItem(menuName: string): void {
-    if (menuName !== this.activeMenu) {
-      this.activeMenu = menuName;
-    } else {
-      this.activeMenu = '';
-    }
+    this.activeMenu = this.activeMenu === menuName ? '' : menuName;
+    this.activeSubItem = undefined;
+    this.subArticleCategories = [];
   }
 
   onSelectSubItem(j: number): void {
     this.activeSubItem = j;
-    this.close = false;
   }
 
   loadSubDishes(dishId: string, j: number): void {
@@ -106,6 +124,24 @@ export class HeaderComponent {
       this.selectedDishesId = '';
       this.activeSubItem = undefined;
 
+    }
+  }
+
+  loadArticleCategories(typeId: string, index: number) {
+    if (this.articleTypeId !== typeId) {
+      this.articleTypeId = typeId;
+      this.activeSubItem = index;
+      this.subArticleCategories = [];
+
+      this.articleCategoryService.getArticleCategoryByTypeID(typeId).subscribe((data: any[]) => {
+        this.subArticleCategories = data;
+
+
+      });
+    } else {
+      this.articleTypeId = null;
+      this.activeSubItem = undefined;
+      this.subArticleCategories = [];
     }
   }
 

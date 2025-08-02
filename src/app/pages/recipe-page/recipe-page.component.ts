@@ -12,7 +12,7 @@ declare var bootstrap: any;
 @Component({
   selector: 'app-recipe-page',
   standalone: true,
-  imports: [CommonModule, SsrLinkDirective, FooyerComponent],
+  imports: [CommonModule, SsrLinkDirective],
   templateUrl: './recipe-page.component.html',
   styleUrl: './recipe-page.component.scss'
 })
