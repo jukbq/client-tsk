@@ -183,7 +183,10 @@
                     <ng-container
                       *ngIf="subArticleCategories && j === activeSubItem"
                     >
-                      <ul class="sub_sub_menu">
+                      <ul
+                        [ngClass]="{ active: j === activeSubItem }"
+                        class="sub_sub_menu"
+                      >
                         <li
                           class="sub_sub_li"
                           *ngFor="let cat of subArticleCategories"

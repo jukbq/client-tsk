@@ -67,6 +67,10 @@ export class ArticlePageComponent {
 
     });
 
+    if (this.isBrowser) {
+      this.viewportScroller.scrollToPosition([0, 0]);
+    }
+
 
 
   }
