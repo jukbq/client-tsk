@@ -97,9 +97,7 @@ export class RecipeListComponent {
         this.currentURL = wrapper.url;
         this.dataLoad(data);
       },
-      error: () => {
-        this.router.navigate(['/404']);
-      }
+
     });
 
 

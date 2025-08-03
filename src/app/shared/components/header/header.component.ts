@@ -112,6 +112,7 @@ export class HeaderComponent {
   }
 
   loadSubDishes(dishId: string, j: number): void {
+
     if (this.selectedDishesId !== dishId) {
       this.activeSubItem = j;
       this.subDishes = [];
@@ -119,7 +120,10 @@ export class HeaderComponent {
       this.categoryService.getLightById(dishId)
         .subscribe((data: any[]) => {
           this.subDishes = data;
+          console.log(this.subDishes);
         });
+
+
     } else {
       this.selectedDishesId = '';
       this.activeSubItem = undefined;

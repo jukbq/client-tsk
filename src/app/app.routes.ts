@@ -18,6 +18,7 @@ import { articleTypeByIdResolver } from './shared/resolver/articles/article-type
 import { articleCategoryByTypeIdResolver } from './shared/resolver/articles/article-categoty-by-type-id/article-category-by-type-id.resolver';
 import { articlesByCategoryidResolver } from './shared/resolver/articles/article-by-cayegoryid/articles-by-categoryid.resolver';
 import { articlePageResolver } from './shared/resolver/articles/article-page/article-page.resolver';
+import { articleCategoryByIdResolver } from './shared/resolver/articles/article-categoty-by--id/article-category-by-id.resolver';
 
 export const routes: Routes = [
     {
@@ -90,7 +91,7 @@ export const routes: Routes = [
                 (m) => m.AtricleListComponent
             ),
         resolve: {
-            category: categoryByIdResolver,
+            category: articleCategoryByIdResolver,
             articles: articlesByCategoryidResolver,
         },
     },

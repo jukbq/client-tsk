@@ -1,19 +1,21 @@
 import { ActivatedRouteSnapshot, ResolveFn, RouterStateSnapshot } from '@angular/router';
 import { map, Observable } from 'rxjs';
 import { inject } from '@angular/core';
-import { ArticleCategoriesService } from '../../../services/article/article-categories/article-categories.service';
+import { CategoriesService } from '../../../services/categories/categories.service';
 
 export const categoryByIdResolver: ResolveFn<boolean> = (
   route: ActivatedRouteSnapshot,
   state: RouterStateSnapshot
 ): Observable<any> => {
-  const artucleCategoryid = route.params['artucleCategoryid'];
+  const categoryid = route.params['categoryid'];
+  console.log(categoryid);
+
   const currentURL = state.url;
-  const articleCategoriesService = inject(ArticleCategoriesService);
+  const categoryService = inject(CategoriesService);
 
 
 
-  return articleCategoriesService.getObjectById(artucleCategoryid).pipe(
+  return categoryService.getObjectById(categoryid).pipe(
     map((data) => (
       {
         data,
