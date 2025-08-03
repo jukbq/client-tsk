@@ -30,6 +30,9 @@ export class ArticlePageComponent {
 
   articleContent: any = [];
 
+  activeItem = 0;
+  menuOffset!: number
+
   private ldJsonScript?: HTMLScriptElement;
 
   constructor(
@@ -69,7 +72,10 @@ export class ArticlePageComponent {
 
     if (this.isBrowser) {
       this.viewportScroller.scrollToPosition([0, 0]);
+      const menuElement = this.document.querySelector('.recipe_menu') as HTMLElement;
+      this.menuOffset = menuElement ? menuElement.offsetHeight + 20 : 100; // 20 — запас
     }
+
 
 
 
@@ -156,4 +162,23 @@ export class ArticlePageComponent {
     modalImage.src = imageSrc;
     this.imageModal.show();
   }
+
+
+  scroll(id: string, index: number) {
+    this.activeItem = index;
+
+    const el = document.getElementById(id);
+    const offset = this.menuOffset || document.querySelector('header')?.clientHeight || 100;
+
+    if (el) {
+      const y = el.getBoundingClientRect().top + window.pageYOffset - offset;
+      window.scrollTo({ top: y, behavior: 'smooth' });
+    }
+  }
+
+
+
+
+
+
 }

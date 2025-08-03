@@ -48,11 +48,24 @@
         </div>
       </nav>
 
+      <div class="menu_block">
+        <ul class="recipe_menu">
+          @for (item of articleContent; let i = $index; track $index) { @if
+          (item.paragraphName?.trim()) {
+          <li [ngClass]="{ active: i === activeItem }" class="item_menu">
+            <a href="javascript:void(0)" (click)="scroll('paragraph' + i, i)">
+              {{ item.paragraphName }}
+            </a>
+          </li>
+          } }
+        </ul>
+      </div>
+
       <div class="erticle_content">
         <ul>
-          @for (item of articleContent; track $index) {
+          @for (item of articleContent; let i = $index; track $index) {
           <li>
-            <h2>{{ item.paragraphName }}</h2>
+            <h2 [id]="'paragraph' + i">{{ item.paragraphName }}</h2>
 
             <div class="paragraph_text" [innerHTML]="item.description"></div>
 

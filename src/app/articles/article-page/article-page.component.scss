@@ -113,6 +113,30 @@ section {
         }
       }
 
+      .menu_block {
+        width: 100%;
+        .recipe_menu {
+          list-style: none;
+          display: flex;
+          flex-direction: column;
+          li {
+            width: 100%;
+            text-align: left;
+            margin-bottom: 0.5vh;
+            a {
+              text-decoration: none;
+              color: var(--clr-4);
+              transition: all 0.5s;
+            }
+            &:hover {
+              a {
+                color: var(--clr-2);
+              }
+            }
+          }
+        }
+      }
+
       .erticle_content {
         width: 100%;
 
