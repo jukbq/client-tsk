@@ -93,11 +93,17 @@ export class HeaderComponent {
   getDishes() {
     this.dishesService.getAllLight().subscribe((data: any) => {
       this.dishesList = data;
+      this.dishesList.sort((a, b) =>
+        a.dishesName.localeCompare(b.dishesName)
+      );
     });
   }
   getArticleType() {
     this.typeService.getAll().subscribe((data: any) => {
       this.articleTypeList = data;
+      this.articleTypeList.sort((a, b) =>
+        a.activeSubItem.localeCompare(b.activeSubItem)
+      );
     });
   }
 
@@ -120,7 +126,9 @@ export class HeaderComponent {
       this.categoryService.getLightById(dishId)
         .subscribe((data: any[]) => {
           this.subDishes = data;
-          console.log(this.subDishes);
+          this.subDishes.sort((a, b) =>
+            a.categoryName.localeCompare(b.categoryName)
+          );
         });
 
 
@@ -139,8 +147,9 @@ export class HeaderComponent {
 
       this.articleCategoryService.getArticleCategoryByTypeID(typeId).subscribe((data: any[]) => {
         this.subArticleCategories = data;
-
-
+        this.subArticleCategories.sort((a, b) =>
+          a.aticleCategoryName.localeCompare(b.aticleCategoryName)
+        );
       });
     } else {
       this.articleTypeId = null;

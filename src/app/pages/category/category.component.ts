@@ -62,6 +62,9 @@ export class CategoryComponent {
 
       this.currentURL = wrapper.url;
       this.categryList = categryList;
+      this.categryList.sort((a, b) =>
+        a.categoryName.localeCompare(b.categoryName)
+      );
 
       this.setupSeo(dishes);
     });

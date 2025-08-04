@@ -109,7 +109,11 @@ export class RecipeListComponent {
 
     if (savedRecipes.length) {
       this.recipes = savedRecipes;
+
       this.recipesFilter = this.recipes
+      this.recipesFilter.sort((a, b) =>
+        a.recipeTitle.localeCompare(b.recipeTitle)
+      );
       this.getFiltr()
       this.route.data.subscribe((data: any) => {
         this.checkPlatform(data);
@@ -120,6 +124,9 @@ export class RecipeListComponent {
       this.recipeService.getRecipeLightById(this.categoryId).subscribe((data: any) => {
         this.recipes = data
         this.recipesFilter = this.recipes
+        this.recipesFilter.sort((a, b) =>
+          a.recipeTitle.localeCompare(b.recipeTitle)
+        );
         this.getFiltr()
         this.recipeStateService.setRecipes(this.recipes);
       });
@@ -349,6 +356,9 @@ export class RecipeListComponent {
 
     } else {
       this.recipesFilter = this.recipes
+      this.recipesFilter.sort((a, b) =>
+        a.recipeTitle.localeCompare(b.recipeTitle)
+      );
       window.scrollBy(0, 1);
     }
 
@@ -363,6 +373,9 @@ export class RecipeListComponent {
       );
     } else {
       this.recipesFilter = this.countriesRecipe
+      this.recipesFilter.sort((a, b) =>
+        a.recipeTitle.localeCompare(b.recipeTitle)
+      );
     }
     window.scrollBy(0, 1);
   }
@@ -371,6 +384,9 @@ export class RecipeListComponent {
   resetProducts() {
     this.selectedProducts = [];
     this.recipesFilter = this.countriesRecipe.length ? this.countriesRecipe : this.recipes;
+    this.recipesFilter.sort((a, b) =>
+      a.recipeTitle.localeCompare(b.recipeTitle)
+    );
   }
 
 
@@ -385,10 +401,16 @@ export class RecipeListComponent {
     if (this.selectedProducts.length === 0) {
       // Якщо нічого не вибрано — показуємо всі рецепти
       this.recipesFilter = this.countriesRecipe.length ? this.countriesRecipe : this.recipes;
+      this.recipesFilter.sort((a, b) =>
+        a.recipeTitle.localeCompare(b.recipeTitle)
+      );
     } else {
       // Фільтруємо тільки за обраними інгредієнтами
       this.recipesFilter = (this.countriesRecipe.length ? this.countriesRecipe : this.recipes).filter(recipe =>
         recipe.ingredients?.some((i: { id: string; }) => this.selectedProducts.includes(i.id))
+      );
+      this.recipesFilter.sort((a, b) =>
+        a.recipeTitle.localeCompare(b.recipeTitle)
       );
     }
 
@@ -398,8 +420,8 @@ export class RecipeListComponent {
 
   ngAfterViewInit(): void {
     if (this.isBrowser) {
-      // викликає початкову перевірку
-      this.onScroll(null);
+      setTimeout(() => this.onScroll(null));
     }
   }
+
 }

@@ -115,6 +115,9 @@ export class DishesComponent {
 
   checkPlatform(data: Array<any>) {
     this.dishes = data;
+    this.dishes.sort((a, b) =>
+      a.dishesName.localeCompare(b.dishesName)
+    );
     if (this.isBrowser) {
       this.updateFontSize();
     }
