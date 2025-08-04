@@ -62,8 +62,9 @@ export class HeaderComponent {
       this.router.events.pipe(
         filter(event => event instanceof NavigationEnd)
       ).subscribe((event: NavigationEnd) => {
-        // Якщо URL починається з /recipe-page — вимикаємо паралакс
-        this.parallaxEnabled = !(
+        const header = document.querySelector('header') as HTMLElement;
+
+        const isParallaxRoute = !(
           event.urlAfterRedirects.startsWith('/recipe-page') ||
           event.urlAfterRedirects.startsWith('/search') ||
           event.urlAfterRedirects.startsWith('/recipe-filte') ||
@@ -73,15 +74,21 @@ export class HeaderComponent {
           event.urlAfterRedirects.startsWith('/privacyy')
         );
 
-        // Опціонально: скидуємо паралакс на 0, якщо вимкнули
-        if (!this.parallaxEnabled) {
-          const header = document.querySelector('header') as HTMLElement;
-          if (header) {
+        this.parallaxEnabled = isParallaxRoute;
+
+        if (header) {
+          if (this.parallaxEnabled) {
+            // Увімкнено паралакс — повертаємо позицію до нормальної
+            header.style.position = ''; // або 'relative', якщо треба
+            header.style.transform = 'translate3d(0, 0, 0)';
+          } else {
+            // Вимкнено паралакс — скидаємо рух, але не чіпаємо position
             header.style.transform = 'translate3d(0, 0, 0)';
           }
         }
       });
     }
+
   }
 
   ngOnInit(): void {
