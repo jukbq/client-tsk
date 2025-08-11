@@ -100,17 +100,14 @@ header {
       }
 
       .burger_button {
+        all: unset;
         width: 40px;
         height: 30px;
         display: flex;
         flex-direction: column;
         justify-content: space-between;
-        background: none;
-        border: none;
-        padding: 0;
         cursor: pointer;
         z-index: 2000;
-        transition: transform 0.3s ease-in-out;
 
         span {
           display: block;
@@ -123,6 +120,7 @@ header {
 
         &.open {
           margin-left: 10px;
+
           span:nth-child(1) {
             transform: rotate(45deg) translateY(18px);
           }

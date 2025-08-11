@@ -128,45 +128,24 @@ export class DishesComponent {
   onScroll(event: any) {
     if (!this.isBrowser) return;
 
-    const scrollPosition = window.scrollY;
-
-    // Паралакс фону
-    const bgImage = document.querySelector('.bg_image') as HTMLElement;
-    if (bgImage) {
-      const parallaxValue = Math.round(scrollPosition * 0.8);
-      bgImage.style.transform = `translate3d(0, ${parallaxValue}px, 0)`;
-    }
-
     // Анімація опису
-    if (this.textBlocksRef) {
-      const elementPosition = this.textBlocksRef.nativeElement.getBoundingClientRect().top + window.scrollY;
-      const elementHeight = this.textBlocksRef.nativeElement.offsetHeight;
-
-      if (scrollPosition + window.innerHeight > elementPosition + elementHeight / 2) {
+    const textEl = this.textBlocksRef?.nativeElement;
+    if (textEl) {
+      const rect = textEl.getBoundingClientRect();
+      const triggerPoint = window.innerHeight - textEl.offsetHeight / 6;
+      if (rect.top < triggerPoint) {
         this.isVisible = true;
       }
     }
 
     // Анімація карток
-    const contents = document.querySelectorAll<HTMLElement>('.content');
-    const recipeCards = document.querySelectorAll<HTMLElement>('.dishes_card');
-
-
-    recipeCards.forEach(card => {
-      const elementTop = card.getBoundingClientRect().top + window.scrollY;
-      const elementHeight = card.offsetHeight;
-
-      if (scrollPosition + window.innerHeight > elementTop + elementHeight / 2) {
-        card.classList.add('show');
-      }
-    });
-
-    contents.forEach(content => {
-      const elementTop = content.getBoundingClientRect().top + window.scrollY;
-      const elementHeight = content.offsetHeight;
-
-      if (scrollPosition + window.innerHeight > elementTop + elementHeight / 2) {
-        content.classList.add('show');
+    const dishesBlocks = document.querySelectorAll('.dishes_block');
+    dishesBlocks.forEach((card) => {
+      const htmlCard = card as HTMLElement;
+      const rect = htmlCard.getBoundingClientRect();
+      const triggerPoint = window.innerHeight - htmlCard.offsetHeight / 2;
+      if (rect.top < triggerPoint) {
+        htmlCard.classList.add('show');
       }
     });
   }
