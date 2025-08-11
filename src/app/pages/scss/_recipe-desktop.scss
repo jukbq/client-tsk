@@ -228,14 +228,6 @@ section {
           overflow: hidden;
           cursor: pointer;
           background: rgba(20, 20, 20, 0.75);
-          opacity: 0;
-          transform: translateY(40px);
-          transition: opacity 0.7s ease, transform 0.7s ease;
-
-          &.show {
-            opacity: 1;
-            transform: none;
-          }
 
           &:hover {
             transform: translateY(-8px);
