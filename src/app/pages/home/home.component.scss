@@ -248,12 +248,12 @@ section {
         flex-direction: column;
         justify-content: space-around;
         margin-bottom: 3rem;
-        opacity: 0;
+        opacity: 1;
         transition: var(--transition);
 
-        &.show {
+        /*      &.show {
           opacity: 1;
-        }
+        } */
 
         .block_title {
           width: fit-content;

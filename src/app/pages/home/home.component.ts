@@ -160,41 +160,41 @@ export class HomeComponent {
   }
 
   // Відстежування події прокрутки вікна
-  @HostListener('window:scroll', ['$event'])
-  onScroll(event: any) {
-    if (!this.isBrowser) return;
-    const scrollPosition = window.scrollY;
-
-    //анімація опису
-    const elementPosition =
-      this.textBlocksRef?.nativeElement.getBoundingClientRect().top +
-      window.scrollY;
-    const elementHeight = this.textBlocksRef?.nativeElement.offsetHeight;
-    if (
-      scrollPosition + window.innerHeight >
-      elementPosition + elementHeight / 6
-    ) {
-      this.isVisible = true;
-    }
-
-    //анімація карток
-    const dishesBlock = document.querySelectorAll('.dishes_block');
-    dishesBlock.forEach((card: Element) => {
-      const htmlCard = card as HTMLElement;
+  /*   @HostListener('window:scroll', ['$event'])
+    onScroll(event: any) {
+      if (!this.isBrowser) return;
+      const scrollPosition = window.scrollY;
+  
+      //анімація опису
       const elementPosition =
-        htmlCard.getBoundingClientRect().top + window.scrollY;
-
-      const elementHeight = htmlCard.offsetHeight; // Висота елемента
-      // Перевірка, чи елемент потрапляє в видиму область (екран)
+        this.textBlocksRef?.nativeElement.getBoundingClientRect().top +
+        window.scrollY;
+      const elementHeight = this.textBlocksRef?.nativeElement.offsetHeight;
       if (
         scrollPosition + window.innerHeight >
-        elementPosition + elementHeight / 2
+        elementPosition + elementHeight / 6
       ) {
-        // Додаємо клас для активації анімації чи зміни стилю
-        htmlCard.classList.add('show');
+        this.isVisible = true;
       }
-    });
-  }
+  
+      //анімація карток
+      const dishesBlock = document.querySelectorAll('.dishes_block');
+      dishesBlock.forEach((card: Element) => {
+        const htmlCard = card as HTMLElement;
+        const elementPosition =
+          htmlCard.getBoundingClientRect().top + window.scrollY;
+  
+        const elementHeight = htmlCard.offsetHeight; // Висота елемента
+        // Перевірка, чи елемент потрапляє в видиму область (екран)
+        if (
+          scrollPosition + window.innerHeight >
+          elementPosition + elementHeight / 2
+        ) {
+          // Додаємо клас для активації анімації чи зміни стилю
+          htmlCard.classList.add('show');
+        }
+      });
+    } */
 
 
 
