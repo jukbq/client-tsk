@@ -107,7 +107,8 @@ header {
         flex-direction: column;
         justify-content: space-between;
         cursor: pointer;
-        z-index: 2000;
+        z-index: 9999;
+        background: transparent;
 
         span {
           display: block;
@@ -119,8 +120,6 @@ header {
         }
 
         &.open {
-          margin-left: 10px;
-
           span:nth-child(1) {
             transform: rotate(45deg) translateY(18px);
           }
