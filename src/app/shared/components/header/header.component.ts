@@ -184,6 +184,8 @@ export class HeaderComponent {
     this.isMenuOpen = !this.isMenuOpen;
 
     if (this.isBrowser) {
+      console.log(this.isMenuOpen);
+
       if (this.isMenuOpen) {
         document.body.classList.add('no-scroll');
       } else {

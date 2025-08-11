@@ -21,8 +21,9 @@
 
       <a class="header_icon serch" [appSsrLink]="['search']"></a>
 
-      <div
+      <button
         class="burger_button"
+        type="button"
         [class.open]="isMenuOpen"
         (click)="toggleMenu()"
         aria-label="Перемикач меню"
@@ -30,7 +31,7 @@
         <span></span>
         <span></span>
         <span></span>
-      </div>
+      </button>
     </div>
   </div>
   <div class="navigation_menu" *ngIf="isMenuOpen" (click)="closeMenu()">
