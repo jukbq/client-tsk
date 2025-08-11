@@ -8,24 +8,13 @@
     />
   </div>
 
-  <div class="home_titel">
-    <h1 [ngStyle]="{ 'font-size': fontSize }">{{ aticleCategoryName }}</h1>
-  </div>
+  <div class="home_title">
+    <h1 [ngStyle]="{ 'font-size': fontSize }">
+      {{ aticleCategoryName }}
+    </h1>
 
-  <div class="breadcrumb_line">
-    <nav aria-label="breadcrumb" class="bread_crumbs">
-      <!-- Кнопка для мобільних пристроїв -->
-      <button
-        class="btn btn-outline-secondary d-md-none"
-        type="button"
-        data-bs-toggle="collapse"
-        data-bs-target="#breadcrumbMenu"
-        aria-expanded="false"
-        aria-controls="breadcrumbMenu"
-      ></button>
-
-      <!-- Хлібні крихти для десктопу і приховані на мобільних пристроях -->
-      <ol class="breadcrumb collapse d-md-flex" id="breadcrumbMenu">
+    <nav aria-label="breadcrumb" class="breadcrumb_line">
+      <ol class="breadcrumb" id="breadcrumbMenu">
         <li class="breadcrumb-item">
           <a [appSsrLink]="'/'">Головна</a>
         </li>
@@ -33,28 +22,29 @@
           <a [appSsrLink]="'/dishes'">Рецепти Синього Кота</a>
         </li>
         <li class="breadcrumb-item">
-          <a [appSsrLink]="['categories', articleTypeID]">{{
-            articleTypeName
-          }}</a>
+          <a [appSsrLink]="['categories', articleTypeID]">
+            {{ articleTypeName }}
+          </a>
         </li>
-        <li class="breadcrumb-item">
-          <a>{{ aticleCategoryName }}</a>
+        <li class="breadcrumb-item active" aria-current="page">
+          {{ aticleCategoryName }}
         </li>
       </ol>
     </nav>
   </div>
 
   <div class="list_block">
-    <div class="deskription_block">
-      <div #textBlocks class="content" [class.visible]="isVisible">
-        <div class="deskription" [innerHTML]="aticleCategoryDescription"></div>
-        <div class="cat_img">
-          <img
-            src="{{ additionalImage }}"
-            alt="{{ aticleCategoryName }}"
-            srcset=""
-            loading="lazy"
-          />
+    <div class="description_block">
+      <div #textBlocks class="content" [class.show]="isVisible">
+        <div class="description">
+          <div class="cat_img">
+            <img
+              [src]="additionalImage"
+              alt="{{ aticleCategoryName }}"
+              loading="lazy"
+            />
+          </div>
+          <div [innerHTML]="aticleCategoryDescription"></div>
         </div>
       </div>
     </div>

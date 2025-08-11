@@ -3,20 +3,10 @@
     <img class="bg_image" [src]="image" alt="{{ dishesName }}" loading="lazy" />
   </div>
 
-  <div class="home_titel">
-    <h1 style="font-size: 0px" [ngStyle]="{ 'font-size': fontSize }">
-      {{ dishesName }}
-    </h1>
-  </div>
-
-  <div class="breadcrumb_line">
-    <nav aria-label="breadcrumb" class="bread_crumbs">
-      <!-- Кнопка для мобільних пристроїв -->
-      <button class="btn btn-outline-secondary d-md-none" type="button" data-bs-toggle="collapse"
-        data-bs-target="#breadcrumbMenu" aria-expanded="false" aria-controls="breadcrumbMenu"></button>
-
-      <!-- Хлібні крихти для десктопу і приховані на мобільних пристроях -->
-      <ol class="breadcrumb collapse d-md-flex" id="breadcrumbMenu">
+  <div class="home_title">
+    <h1>{{ dishesName }}</h1>
+    <nav aria-label="breadcrumb" class="breadcrumb_line">
+      <ol class="breadcrumb" id="breadcrumbMenu">
         <li class="breadcrumb-item">
           <a [appSsrLink]="'/'">Головна</a>
         </li>
@@ -25,31 +15,42 @@
           <a [appSsrLink]="'/dishes'">Рецепти Синього Кота</a>
         </li>
 
-        <li class="breadcrumb-item">
-          <a>{{ dishesName }}</a>
+        <li class="breadcrumb-item active" aria-current="page">
+          {{ dishesName }}
         </li>
       </ol>
-
     </nav>
   </div>
 
   <div class="list_block">
-    <div class="deskription_block">
-      <div #textBlocks class="content" [class.visible]="isVisible">
-        <div class="deskription" [innerHTML]="dishDescription"></div>
-        <div class="cat_img">
-          <img src="{{ additionalImage }}" alt="Еіт еухар]" srcset="" loading="lazy" />
+    <div class="description_block">
+      <div #textBlocks class="content">
+        <div class="description">
+          <div class="cat_img">
+            <img
+              [src]="additionalImage"
+              alt="{{ dishesName }}"
+              loading="lazy"
+            />
+          </div>
+          <div [innerHTML]="dishDescription"></div>
         </div>
       </div>
     </div>
 
     <div class="dishes_list_block">
       <ul class="dishes_list">
-        @for (category of categryList; track category) {
-        <li class="dishes_card">
+        <li
+          class="dishes_card"
+          *ngFor="let category of categryList; trackBy: trackByCategory"
+        >
           <a [appSsrLink]="['recipes-list', category.id]">
             <div class="img_black">
-              <img [src]="category.image" alt="{{ category.categoryName }}" loading="lazy" />
+              <img
+                [src]="category.image"
+                [alt]="category.categoryName"
+                loading="lazy"
+              />
             </div>
           </a>
           <div class="text_block">
@@ -60,7 +61,6 @@
             </div>
           </div>
         </li>
-        }
       </ul>
     </div>
   </div>

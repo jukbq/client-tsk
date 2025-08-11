@@ -4,30 +4,29 @@
 
 :root {
   --header-height: 8vh;
+  --menu-height: 4vh;
+}
 
-  @media (max-width: 1028px) {
-    --header-height: 50px;
-  }
+.no-scroll {
+  overflow: hidden;
+  height: 100vh;
 }
 
 body {
   padding: 0px;
   margin: 0px;
   overflow-x: hidden;
-
-  .custom-font {
-    margin: 0;
-    font-family: "Mont Blanc", sans-serif;
-  }
+  background-color: #000000cc;
 }
 
 :root {
-  --clr-1: #022e66;
-  --clr-2: #6b99c3;
-  --clr-3: #d1ab7d;
-  --clr-4: #96785b;
-  --clr-5: #c2c3c5;
-  --clr-g: #636662;
+  --clr-1: #c4b299ff;
+  --clr-2: #f3e9d2ff;
+  --clr-3: #000000cc;
+  --clr-4: #3b2f1bff;
+  --clr-5: #a67c17ff;
+  --clr-6: #d9c7a1ff;
+  --clr-g: #777777aa;
   --clr-w: #fff;
   --clr-b: #1c1919;
   --transition: all 0.8s linear;

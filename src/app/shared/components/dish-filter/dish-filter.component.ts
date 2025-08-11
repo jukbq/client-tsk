@@ -10,6 +10,7 @@ import { SeoService } from '../../services/seo/seo.service';
 import { ShortRecipesResponse } from '../../interfaces/short-recipes';
 import { Meta, Title } from '@angular/platform-browser';
 import { SsrLinkDirective } from '../../directives/ssr-link.directive';
+import { fromEvent, Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-dish-filter',
@@ -23,7 +24,8 @@ export class DishFilterComponent {
 
   recipes: ShortRecipesResponse[] = [];
   searchResults: ShortRecipesResponse[] = [];
-  displayCount = 6;
+  displayCount = 8;
+  resizeSubscription?: Subscription;
 
   query = '';
   currentURL = '';
@@ -49,6 +51,12 @@ export class DishFilterComponent {
   ngOnInit(): void {
     if (this.isBrowser) {
       this.viewportScroller.scrollToPosition([0, 0]);
+
+      // Підписка на ресайз вікна
+      this.resizeSubscription = fromEvent(window, 'resize').subscribe(() => {
+        this.updateDisplayCount();
+      });
+      this.updateDisplayCount();
     }
 
     this.route.data.subscribe((data: any) => {
@@ -74,6 +82,29 @@ export class DishFilterComponent {
       }
     }
   }
+
+
+  updateDisplayCount(): void {
+    const width = window.innerWidth;
+    let newCount = 8;
+
+    if (width <= 480) {
+      newCount = 4;
+    } else if (width <= 780) {
+      newCount = 6;
+    }
+
+    if (newCount !== this.displayCount) {
+      this.displayCount = newCount;
+      this.searchResults = this.recipes.slice(0, this.displayCount);
+    }
+  }
+
+  // Не забуваємо відписатись при знищенні компонента
+  ngOnDestroy(): void {
+    this.resizeSubscription?.unsubscribe();
+  }
+
 
   onSearch(): void {
     if (this.query.trim().length >= 3) {

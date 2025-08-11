@@ -1,0 +1,62 @@
+<div class="seasobs" [ngClass]="'count-' + seasons.length">
+  @for (item of seasons; track $index) {
+
+  <a
+    [ngClass]="'season_item ' + item.list"
+    [appSsrLink]="['recipe-filte', 'season', item.list]"
+  >
+    <img
+      [src]="item.image"
+      [alt]="item.name"
+      width="50"
+      height="50"
+      loading="lazy"
+    />
+    <p>{{ item.name }}</p>
+  </a>
+  }
+</div>
+
+<div class="info">
+  <div class="info_block_item">
+    @for (item of info; track $index) {
+    <ng-container *ngIf="item.name !== null && !isBlockedFilter(item.infoLink)">
+      <a
+        class="info_item"
+        [appSsrLink]="['recipe-filte', item.infoLink, item.slug]"
+      >
+        <div class="image">
+          <img
+            [src]="item.image"
+            [alt]="item.name"
+            width="70"
+            height="70"
+            loading="lazy"
+          />
+        </div>
+        <div class="name">
+          <p class="infoLink">{{ item.name }}</p>
+        </div>
+      </a>
+    </ng-container>
+
+    <!-- 🛑 Заборонені фільтри — без посилання -->
+    <ng-container *ngIf="item.name !== null && isBlockedFilter(item.infoLink)">
+      <div class="info_item info_item--disabled">
+        <div class="image">
+          <img
+            [src]="item.image"
+            [alt]="item.name"
+            width="70"
+            height="70"
+            loading="lazy"
+          />
+        </div>
+        <div class="name">
+          <p>{{ item.name }}</p>
+        </div>
+      </div>
+    </ng-container>
+    }
+  </div>
+</div>

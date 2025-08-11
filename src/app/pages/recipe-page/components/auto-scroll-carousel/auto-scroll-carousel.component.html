@@ -1,0 +1,62 @@
+<!--  Соціальні мережі  -->
+<div class="social_holder">
+  <a
+    class="share_btn_item fb"
+    [href]="fbShareUrl"
+    target="_blank"
+    title="Поділитися у Facebook"
+  ></a>
+  <a
+    class="share_btn_item pi"
+    [href]="piShareUrl"
+    target="_blank"
+    title="Поділитися у Pinterest"
+  ></a>
+  <a
+    class="share_btn_item wa"
+    [href]="waShareUrl"
+    target="_blank"
+    title="Поділитися у Whatsapp"
+  ></a>
+  <a
+    class="share_btn_item tg"
+    [href]="tgShareUrl"
+    target="_blank"
+    title="Поділитися у Telegram"
+  ></a>
+  <a
+    class="share_btn_item vb"
+    [href]="vbShareUrl"
+    target="_blank"
+    title="Поділитися у Viber"
+  ></a>
+</div>
+
+<div
+  class="carousel-wrapper"
+  (mouseenter)="onMouseEnter()"
+  (mouseleave)="onMouseLeave()"
+>
+  <button class="scroll-btn left" (click)="scrollLeft()">&lt;</button>
+
+  <div
+    class="auto-scroll-container"
+    #scrollContainer
+    (mousedown)="onDragStart($event)"
+    (mouseup)="onDragEnd()"
+    (mouseleave)="onDragEnd()"
+    (mousemove)="onDragMove($event)"
+    (touchstart)="onTouchStart($event)"
+    (touchend)="onTouchEnd()"
+    (touchmove)="onTouchMove($event)"
+  >
+    <div *ngFor="let recipe of recipes" class="recipe-card">
+      <a [appSsrLink]="['/recipe-page', recipe.id]">
+        <img [src]="recipe.mainImage" [alt]="recipe.recipeTitle" />
+        <h3>{{ recipe.recipeTitle }}</h3>
+      </a>
+    </div>
+  </div>
+
+  <button class="scroll-btn right" (click)="scrollRight()">&gt;</button>
+</div>

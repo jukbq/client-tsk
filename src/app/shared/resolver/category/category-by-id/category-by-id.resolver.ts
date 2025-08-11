@@ -8,7 +8,7 @@ export const categoryByIdResolver: ResolveFn<boolean> = (
   state: RouterStateSnapshot
 ): Observable<any> => {
   const categoryid = route.params['categoryid'];
-  console.log(categoryid);
+
 
   const currentURL = state.url;
   const categoryService = inject(CategoriesService);

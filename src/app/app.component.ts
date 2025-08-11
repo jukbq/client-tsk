@@ -16,6 +16,7 @@ export class AppComponent {
 
 
 
+
   isScrollVisible: boolean = false;
 
   // Відстежування події прокрутки вікна

@@ -118,9 +118,7 @@ export class DishesComponent {
     this.dishes.sort((a, b) =>
       a.dishesName.localeCompare(b.dishesName)
     );
-    if (this.isBrowser) {
-      this.updateFontSize();
-    }
+
   }
 
 
@@ -129,63 +127,52 @@ export class DishesComponent {
   @HostListener('window:scroll', ['$event'])
   onScroll(event: any) {
     if (!this.isBrowser) return;
-    const scrollPosition = window.scrollY;
-    //паралакс фонового зображення
-    const bgImage = document.querySelector('.bg_image') as HTMLElement;
-    const parallaxValue = Math.round(scrollPosition * 0.8);
-    bgImage.style.transform = `translate3d(0, ${parallaxValue}px, 0)`;
 
-    //анімація опису
-    const elementPosition =
-      this.textBlocksRef?.nativeElement.getBoundingClientRect().top +
-      window.scrollY;
-    const elementHeight = this.textBlocksRef?.nativeElement.offsetHeight;
-    if (
-      scrollPosition + window.innerHeight >
-      elementPosition + elementHeight / 2
-    ) {
-      this.isVisible = true;
+    const scrollPosition = window.scrollY;
+
+    // Паралакс фону
+    const bgImage = document.querySelector('.bg_image') as HTMLElement;
+    if (bgImage) {
+      const parallaxValue = Math.round(scrollPosition * 0.8);
+      bgImage.style.transform = `translate3d(0, ${parallaxValue}px, 0)`;
     }
 
+    // Анімація опису
+    if (this.textBlocksRef) {
+      const elementPosition = this.textBlocksRef.nativeElement.getBoundingClientRect().top + window.scrollY;
+      const elementHeight = this.textBlocksRef.nativeElement.offsetHeight;
+
+      if (scrollPosition + window.innerHeight > elementPosition + elementHeight / 2) {
+        this.isVisible = true;
+      }
+    }
+
+    // Анімація карток
+    const contents = document.querySelectorAll<HTMLElement>('.content');
+    const recipeCards = document.querySelectorAll<HTMLElement>('.dishes_card');
 
 
-    //анімація карток
-    const recipeCards = document.querySelectorAll('.dishes_card');
-    recipeCards.forEach((card: Element) => {
-      const htmlCard = card as HTMLElement;
-      const elementPosition =
-        htmlCard.getBoundingClientRect().top + window.scrollY;
-      const elementHeight = htmlCard.offsetHeight; // Висота елемента
-      // Перевірка, чи елемент потрапляє в видиму область (екран)
-      if (
-        scrollPosition + window.innerHeight >
-        elementPosition + elementHeight / 2
-      ) {
-        htmlCard.classList.add('show');
+    recipeCards.forEach(card => {
+      const elementTop = card.getBoundingClientRect().top + window.scrollY;
+      const elementHeight = card.offsetHeight;
+
+      if (scrollPosition + window.innerHeight > elementTop + elementHeight / 2) {
+        card.classList.add('show');
+      }
+    });
+
+    contents.forEach(content => {
+      const elementTop = content.getBoundingClientRect().top + window.scrollY;
+      const elementHeight = content.offsetHeight;
+
+      if (scrollPosition + window.innerHeight > elementTop + elementHeight / 2) {
+        content.classList.add('show');
       }
     });
   }
 
 
-  updateFontSize() {
-    // Задаємо розмір шрифта в залежності від кількості символів та ширини екрану
-    const screenWidth = window.innerWidth;
-    const textLength = this.dishesName.length;
 
-    if (screenWidth < 576) {
-      // Для мобільних пристроїв
-      this.fontSize = '5vh';
-    } else if (screenWidth < 789) {
-      // Для маленьких планшетів
-      this.fontSize = textLength <= 10 ? '11vh' : textLength <= 20 ? '10vh' : '8vh';
-    } else if (screenWidth < 992) {
-      // Для планшетів
-      this.fontSize = textLength <= 10 ? '15vh' : textLength <= 20 ? '12vh' : '10vh';
-    } else {
-      // Для десктопів
-      this.fontSize = textLength <= 10 ? '18vh' : textLength <= 20 ? '15vh' : '12vh';
-    }
 
-  }
 
 }

@@ -99,6 +99,7 @@ export const recipeResolver: ResolveFn<boolean> = (
 
 
         const recipeSSR = {
+          recipeID: recipeID,
           recipeTitle: recipe.recipeTitle,
           mainImage: recipe.mainImage,
           recipeSubtitles: recipe.recipeSubtitles,
@@ -115,6 +116,8 @@ export const recipeResolver: ResolveFn<boolean> = (
 
           ingredients: recipeService.formatIngredients(recipe.ingredients),
           accompanyingRecipes: recipeService.findRecipesWithIds(recipe.ingredients),
+
+
           instructions: recipe.instructions,
 
           bestSeason: processedSeasons,

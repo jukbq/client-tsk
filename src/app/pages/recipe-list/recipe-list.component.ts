@@ -303,36 +303,45 @@ export class RecipeListComponent {
   @HostListener('window:scroll', ['$event'])
   onScroll(event: any) {
     if (!this.isBrowser) return;
+
     const scrollPosition = window.scrollY;
 
-    // Паралакс фонового зображення
+    // Паралакс фону
     const bgImage = document.querySelector('.bg_image') as HTMLElement;
-    const parallaxValue = Math.round(scrollPosition * 0.8);
     if (bgImage) {
+      const parallaxValue = Math.round(scrollPosition * 0.8);
       bgImage.style.transform = `translate3d(0, ${parallaxValue}px, 0)`;
     }
 
-    // Анімація опису (лише раз)
-    if (this.textBlocksRef && !this.wasTextVisible) {
-      const element = this.textBlocksRef.nativeElement;
-      const elementTop = element.getBoundingClientRect().top + window.scrollY;
-      const elementHeight = element.offsetHeight;
+    // Анімація опису
+    if (this.textBlocksRef) {
+      const elementPosition = this.textBlocksRef.nativeElement.getBoundingClientRect().top + window.scrollY;
+      const elementHeight = this.textBlocksRef.nativeElement.offsetHeight;
 
-      if (scrollPosition + window.innerHeight > elementTop + elementHeight / 2) {
+      if (scrollPosition + window.innerHeight > elementPosition + elementHeight / 2) {
         this.isVisible = true;
-        this.wasTextVisible = true;
       }
     }
 
-    // Анімація карток (лише раз)
-    const recipeCards = document.querySelectorAll('.dishes_card:not(.show)');
-    recipeCards.forEach((card: Element) => {
-      const htmlCard = card as HTMLElement;
-      const elementTop = htmlCard.getBoundingClientRect().top + window.scrollY;
-      const elementHeight = htmlCard.offsetHeight;
+    // Анімація карток
+    const recipeCards = document.querySelectorAll<HTMLElement>('.dishes_card');
+    const contents = document.querySelectorAll<HTMLElement>('.content');
+
+    recipeCards.forEach(card => {
+      const elementTop = card.getBoundingClientRect().top + window.scrollY;
+      const elementHeight = card.offsetHeight;
 
       if (scrollPosition + window.innerHeight > elementTop + elementHeight / 2) {
-        htmlCard.classList.add('show');
+        card.classList.add('show');
+      }
+    });
+
+    contents.forEach(content => {
+      const elementTop = content.getBoundingClientRect().top + window.scrollY;
+      const elementHeight = content.offsetHeight;
+
+      if (scrollPosition + window.innerHeight > elementTop + elementHeight / 2) {
+        content.classList.add('show');
       }
     });
   }

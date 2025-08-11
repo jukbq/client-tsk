@@ -40,14 +40,15 @@ export class DishesService {
   /**
    * Повертає всі записи, але тільки частину даних (оптимізований варіант для списків)
    */
-  getAllLight(): Observable<Pick<DishesResponse, 'id' | 'dishesName' | 'image'>[]> {
+  getAllLight(): Observable<Pick<DishesResponse, 'id' | 'dishesName' | 'image'>[] | 'seoName'> {
     const q: Query<DishesResponse> = query(this.collectionRef);
     return collectionData(q, { idField: 'id' }).pipe(
       map((dishes: DishesResponse[]) =>
         dishes.map(dish => ({
           id: dish.id,
           dishesName: dish.dishesName,
-          image: dish.image
+          image: dish.image,
+          seoName: dish.seoName
         }))
       )
     );

@@ -26,6 +26,7 @@ section {
       border-left: 0.3px solid var(--clr-g);
       border-right: 0.3px solid var(--clr-g);
       padding: 2vh 0 0 0;
+      background: var(--clr-1);
 
       @media (max-width: 980px) {
         width: 100%;

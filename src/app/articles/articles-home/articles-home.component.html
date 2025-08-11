@@ -1,38 +1,35 @@
 <section>
   <div class="background_image">
-    <div class="bg_image" alt="Фонове зображення"></div>
+    <div class="bg_image" aria-label="Фонове зображення"></div>
   </div>
 
-  <div class="home_titel">
-    <h1 [ngStyle]="{ 'font-size': fontSize }">Байки Синього Кота</h1>
-  </div>
+  <div class="home_title">
+    <h1>Байки Синього Кота</h1>
 
-  <div class="breadcrumb_line">
-    <nav aria-label="breadcrumb" class="bread_crumbs">
-      <!-- Кнопка для мобільних пристроїв -->
-      <button
-        class="btn btn-outline-secondary d-md-none"
-        type="button"
-        data-bs-toggle="collapse"
-        data-bs-target="#breadcrumbMenu"
-        aria-expanded="false"
-        aria-controls="breadcrumbMenu"
-      ></button>
-
-      <!-- Хлібні крихти для десктопу і приховані на мобільних пристроях -->
+    <nav aria-label="breadcrumb" class="breadcrumb_line">
       <ol class="breadcrumb collapse d-md-flex" id="breadcrumbMenu">
         <li class="breadcrumb-item">
           <a [appSsrLink]="'/'">Головна</a>
         </li>
-        <li class="breadcrumb-item"><a>Байки Синього Кота</a></li>
+        <li class="breadcrumb-item active" aria-current="page">
+          Байки Синього Кота
+        </li>
       </ol>
     </nav>
   </div>
 
   <div class="list_block">
-    <div class="deskription_block">
-      <div #textBlocks class="content" [class.visible]="isVisible">
-        <div class="deskription">
+    <div class="description_block">
+      <div #textBlocks class="content">
+        <div class="description">
+          <div class="cat_img">
+            <img
+              src="../../../assets/image/baiky-synoho-kota-kit.webp"
+              alt="Кіт"
+              loading="lazy"
+            />
+          </div>
+
           <p><strong>Довгих днів, та приємних ночей, подорожній!</strong></p>
           <p>
             Прошу сідай отам, де менше крихт, і посунь пивний кухоль – я тобі
@@ -64,15 +61,6 @@
               справді легендарне!</strong
             >
           </p>
-        </div>
-
-        <div class="cat_img">
-          <img
-            src="../../../assets/image/baiky-synoho-kota-kit.webp"
-            alt="Кіт"
-            srcset=""
-            loading="lazy"
-          />
         </div>
       </div>
     </div>

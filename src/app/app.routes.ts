@@ -163,7 +163,13 @@ export const routes: Routes = [
 
 
 @NgModule({
-    imports: [RouterModule.forRoot(routes, { onSameUrlNavigation: 'reload' })],
+    imports: [
+        RouterModule.forRoot(routes, {
+            onSameUrlNavigation: 'reload',
+            scrollPositionRestoration: 'enabled',  // автоматично скролить наверх при навігації
+            anchorScrolling: 'enabled',             // підтримка якірних посилань
+        })
+    ],
     exports: [RouterModule]
 })
 

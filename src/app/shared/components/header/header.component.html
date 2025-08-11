@@ -1,69 +1,55 @@
 <header>
-  <nav class="navbar bg-body-tertiary fixed-top">
-    <div class="container-fluid">
-      <a class="navbar-brand" [appSsrLink]="'/'">
-        <p>Таверна "Синій кіт"</p>
-      </a>
-      <div class="rigth">
-        <a
-          class="header_icon facebook"
-          href="https://www.facebook.com/groups/2412991875747035"
-          target="_blank"
-          rel="noopener noreferrer"
-        ></a>
-        <a
-          class="header_icon telegram"
-          href="https://t.me/+CczEzPwB2RJhM2My"
-          target="_blank"
-          rel="noopener noreferrer"
-        ></a>
+  <div class="navbar">
+    <a class="navbar_brand" [appSsrLink]="'/'">
+      <div class="image"></div>
+      <p>Таверна "Синій кіт"</p>
+    </a>
 
-        <a class="header_icon serch" [appSsrLink]="['search']"></a>
+    <div class="navbar_navigate">
+      <a
+        class="header_icon facebook"
+        href="https://www.facebook.com/groups/2412991875747035"
+        target="_blank"
+        rel="noopener noreferrer"
+      ></a>
+      <a
+        class="header_icon telegram"
+        href="https://t.me/+CczEzPwB2RJhM2My"
+        target="_blank"
+        rel="noopener noreferrer"
+      ></a>
 
-        <button
-          class="navbar-toggler text-primary"
-          type="button"
-          data-bs-toggle="offcanvas"
-          data-bs-target="#offcanvasNavbar"
-          aria-controls="offcanvasNavbar"
-          aria-label="Toggle navigation"
-        >
-          <span class="navbar-toggler-icon"></span>
-        </button>
-      </div>
+      <a class="header_icon serch" [appSsrLink]="['search']"></a>
 
       <div
-        class="offcanvas offcanvas-end"
-        tabindex="-1"
-        id="offcanvasNavbar"
-        aria-labelledby="offcanvasNavbarLabel"
+        class="burger_button"
+        [class.open]="isMenuOpen"
+        (click)="toggleMenu()"
+        aria-label="Перемикач меню"
       >
-        <div class="offcanvas-header">
-          <a
-            class="offcanvas-title"
-            (click)="closeOffcanvas()"
-            [appSsrLink]="'/'"
-            id="offcanvasNavbarLabel"
-          >
-            Таверна "Синій кіт"
-          </a>
-          <button
-            type="button"
-            class="btn-close btn-close-white"
-            data-bs-dismiss="offcanvas"
-            aria-label="Close"
-          ></button>
-        </div>
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+    </div>
+  </div>
+  <div class="navigation_menu" *ngIf="isMenuOpen" (click)="closeMenu()">
+    <div class="navigation_menu_inner" (click)="$event.stopPropagation()">
+      <div class="navigation_menu_header">
+        <a class="title" (click)="closeMenu()" [appSsrLink]="'/'">
+          Таверна "Синій кіт"
+        </a>
 
         <div class="icom_block">
           <a
-            (click)="closeOffcanvas()"
+            (click)="closeMenu()"
             class="header_icon facebook"
             href="https://www.facebook.com/groups/2412991875747035"
             target="_blank"
             rel="noopener noreferrer"
           ></a>
           <a
+            (click)="closeMenu()"
             class="header_icon telegram"
             href="https://t.me/+CczEzPwB2RJhM2My"
             target="_blank"
@@ -71,143 +57,197 @@
           ></a>
 
           <a
-            (click)="closeOffcanvas()"
+            (click)="closeMenu()"
             class="header_icon serch"
             [appSsrLink]="['search']"
           ></a>
         </div>
-
-        <ul class="header_menu">
-          <ng-container>
-            <li class="head_li" [ngClass]="{ active: activeMenu === 'dishes' }">
-              <div class="btn_menu">
-                <a
-                  (click)="closeOffcanvas()"
-                  class="nav-link"
-                  [appSsrLink]="'/dishes'"
-                >
-                  Рецепти Синього Кота
-                </a>
-                <div class="batton" (click)="onSelectItem('dishes')"></div>
-              </div>
-
-              <ng-container *ngIf="activeMenu">
-                <ul class="sub_menu">
-                  <li
-                    class="sub_li"
-                    *ngFor="let subItem of dishesList; let j = index"
-                    [ngClass]="{ active: j === activeSubItem }"
-                  >
-                    <div class="submenu_text">
-                      <a
-                        (click)="closeOffcanvas()"
-                        [appSsrLink]="['categories', subItem.id]"
-                        (click)="onSelectSubItem(j)"
-                        class="nav-link"
-                      >
-                        {{ subItem.dishesName }}
-                      </a>
-                      <div
-                        class="batton"
-                        (click)="loadSubDishes(subItem.id, j)"
-                      ></div>
-                    </div>
-
-                    <!-- subSubMenu -->
-                    <ng-container *ngIf="subDishes && subDishes.length > 0">
-                      <ul
-                        [ngClass]="{ active: j === activeSubItem }"
-                        class="sub_sub_menu"
-                      >
-                        <li
-                          class="sub_sub_li"
-                          *ngFor="let subSubItem of subDishes; let k = index"
-                        >
-                          <a
-                            class="submenu_text"
-                            (click)="closeOffcanvas()"
-                            [appSsrLink]="['recipes-list', subSubItem.id]"
-                          >
-                            <p class="nav-link">
-                              {{ subSubItem.categoryName }}
-                            </p>
-                          </a>
-                        </li>
-                      </ul>
-                    </ng-container>
-                  </li>
-                </ul>
-              </ng-container>
-            </li>
-          </ng-container>
-
-          <ng-container>
-            <!-- БАЙКИ СИНЬОГО КОТА -->
-            <li
-              class="head_li"
-              [ngClass]="{ active: activeMenu === 'articles' }"
-            >
-              <div class="btn_menu">
-                <a
-                  (click)="closeOffcanvas()"
-                  class="nav-link"
-                  [appSsrLink]="'/articlses'"
-                >
-                  Байки Синього Кота
-                </a>
-                <div class="batton" (click)="onSelectItem('articles')"></div>
-              </div>
-
-              <ng-container *ngIf="activeMenu === 'articles'">
-                <ul class="sub_menu">
-                  <li
-                    class="sub_li"
-                    *ngFor="let type of articleTypeList; let j = index"
-                    [ngClass]="{ active: j === activeSubItem }"
-                  >
-                    <div class="submenu_text">
-                      <a
-                        (click)="onSelectSubItem(j); closeOffcanvas()"
-                        [appSsrLink]="['article-categories', type.id]"
-                        class="nav-link"
-                      >
-                        {{ type.articleTypeName }}
-                      </a>
-                      <div
-                        class="batton"
-                        (click)="loadArticleCategories(type.id, j)"
-                      ></div>
-                    </div>
-
-                    <!-- ПІДКАТЕГОРІЇ -->
-                    <ng-container
-                      *ngIf="subArticleCategories && j === activeSubItem"
-                    >
-                      <ul
-                        [ngClass]="{ active: j === activeSubItem }"
-                        class="sub_sub_menu"
-                      >
-                        <li
-                          class="sub_sub_li"
-                          *ngFor="let cat of subArticleCategories"
-                        >
-                          <a
-                            class="submenu_text"
-                            (click)="closeOffcanvas()"
-                            [appSsrLink]="['article-list', cat.id]"
-                          >
-                            <p class="nav-link">{{ cat.aticleCategoryName }}</p>
-                          </a>
-                        </li>
-                      </ul>
-                    </ng-container>
-                  </li>
-                </ul>
-              </ng-container>
-            </li>
-          </ng-container>
-        </ul>
       </div>
+
+      <ul class="header_menu">
+        <ng-container>
+          <li class="head_li" [ngClass]="{ active: activeMenu === 'dishes' }">
+            <div class="btn_menu">
+              <a
+                (click)="closeMenu()"
+                class="nav-link"
+                [appSsrLink]="'/dishes'"
+              >
+                Рецепти Синього Кота
+              </a>
+              <div class="batton" (click)="onSelectItem('dishes')"></div>
+            </div>
+
+            <ng-container *ngIf="activeMenu">
+              <ul class="sub_menu">
+                <li
+                  class="sub_li"
+                  *ngFor="let subItem of dishesList; let j = index"
+                  [ngClass]="{ active: j === activeSubItem }"
+                >
+                  <div class="submenu_text">
+                    <a
+                      (click)="closeMenu()"
+                      [appSsrLink]="['categories', subItem.id]"
+                      (click)="onSelectSubItem(j)"
+                      class="nav-link"
+                    >
+                      {{ subItem.dishesName }}
+                    </a>
+                    <div
+                      class="batton"
+                      (click)="loadSubDishes(subItem.id, j)"
+                    ></div>
+                  </div>
+
+                  <!-- subSubMenu -->
+                  <ng-container *ngIf="subDishes && subDishes.length > 0">
+                    <ul
+                      [ngClass]="{ active: j === activeSubItem }"
+                      class="sub_sub_menu"
+                    >
+                      <li
+                        class="sub_sub_li"
+                        *ngFor="let subSubItem of subDishes; let k = index"
+                      >
+                        <a
+                          class="submenu_text"
+                          (click)="closeMenu()"
+                          [appSsrLink]="['recipes-list', subSubItem.id]"
+                        >
+                          <p class="nav-link">
+                            {{ subSubItem.categoryName }}
+                          </p>
+                        </a>
+                      </li>
+                    </ul>
+                  </ng-container>
+                </li>
+              </ul>
+            </ng-container>
+          </li>
+        </ng-container>
+
+        <ng-container>
+          <!-- БАЙКИ СИНЬОГО КОТА -->
+          <li class="head_li" [ngClass]="{ active: activeMenu === 'articles' }">
+            <div class="btn_menu">
+              <a
+                (click)="closeMenu()"
+                class="nav-link"
+                [appSsrLink]="'/articlses'"
+              >
+                Байки Синього Кота
+              </a>
+              <div class="batton" (click)="onSelectItem('articles')"></div>
+            </div>
+
+            <ng-container *ngIf="activeMenu === 'articles'">
+              <ul class="sub_menu">
+                <li
+                  class="sub_li"
+                  *ngFor="let type of articleTypeList; let j = index"
+                  [ngClass]="{ active: j === activeSubItem }"
+                >
+                  <div class="submenu_text">
+                    <a
+                      (click)="onSelectSubItem(j); closeMenu()"
+                      [appSsrLink]="['article-categories', type.id]"
+                      class="nav-link"
+                    >
+                      {{ type.articleTypeName }}
+                    </a>
+                    <div
+                      class="batton"
+                      (click)="loadArticleCategories(type.id, j)"
+                    ></div>
+                  </div>
+
+                  <!-- ПІДКАТЕГОРІЇ -->
+                  <ng-container
+                    *ngIf="subArticleCategories && j === activeSubItem"
+                  >
+                    <ul
+                      [ngClass]="{ active: j === activeSubItem }"
+                      class="sub_sub_menu"
+                    >
+                      <li
+                        class="sub_sub_li"
+                        *ngFor="let cat of subArticleCategories"
+                      >
+                        <a
+                          class="submenu_text"
+                          (click)="closeMenu()"
+                          [appSsrLink]="['article-list', cat.id]"
+                        >
+                          <p class="nav-link">{{ cat.aticleCategoryName }}</p>
+                        </a>
+                      </li>
+                    </ul>
+                  </ng-container>
+                </li>
+              </ul>
+            </ng-container>
+          </li>
+        </ng-container>
+      </ul>
+
+      <!--  <ul class="header_menu">
+        <li class="head_li" [ngClass]="{ active: activeMenu === 'dishes' }">
+          <div class="btn_menu">
+            <a (click)="closeMenu()" class="nav-link" [appSsrLink]="'/dishes'">
+              Рецепти Синього Кота
+            </a>
+            <div class="batton" (click)="onSelectItem('dishes')"></div>
+          </div>
+
+          <ul class="sub_menu" *ngIf="activeMenu">
+            <li
+              class="sub_li"
+              *ngFor="let subItem of dishesList; let j = index"
+              [ngClass]="{ active: j === activeSubItem }"
+            >
+              <div class="submenu_text">
+                <a
+                  (click)="closeMenu()"
+                  [appSsrLink]="['categories', subItem.id]"
+                  (click)="onSelectSubItem(j)"
+                  class="nav-link"
+                >
+                  {{ subItem.dishesName }}
+                </a>
+                <div
+                  class="batton"
+                  (click)="loadSubDishes(subItem.id, j)"
+                ></div>
+              </div>
+
+         
+              <ng-container *ngIf="subDishes && subDishes.length > 0">
+                <ul
+                  [ngClass]="{ active: j === activeSubItem }"
+                  class="sub_sub_menu"
+                >
+                  <li
+                    class="sub_sub_li"
+                    *ngFor="let subSubItem of subDishes; let k = index"
+                  >
+                    <a
+                      class="submenu_text"
+                      (click)="closeMenu()"
+                      [appSsrLink]="['recipes-list', subSubItem.id]"
+                    >
+                      <p class="nav-link">
+                        {{ subSubItem.categoryName }}
+                      </p>
+                    </a>
+                  </li>
+                </ul>
+              </ng-container>
+            </li>
+          </ul>
+        </li>
+      </ul> -->
     </div>
-  </nav>
+  </div>
 </header>

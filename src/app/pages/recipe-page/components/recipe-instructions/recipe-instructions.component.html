@@ -1,0 +1,52 @@
+<!-- ІНСТРУКЦІЯ -->
+<div id="instruction" class="recipe_preparation">
+  <div class="instructions">
+    <div class="group_block">
+      <ng-container *ngFor="let steps of instructions; let i = index">
+        <div *ngIf="steps.groupName" class="group_name mb-3">
+          <h4>{{ steps.groupName }}</h4>
+        </div>
+
+        <ng-container *ngFor="let group of steps.group; let j = index">
+          <div id="Step{{ j + 1 }}" class="ing_line">
+            <h4>Крок {{ j + 1 }}: {{ group.stepName || "" }}</h4>
+
+            <div
+              *ngIf="group.stepImage"
+              class="step_img"
+              style="cursor: pointer"
+            >
+              <img
+                [src]="group.stepImage"
+                [alt]="group.stepName"
+                class="img-fluid"
+                loading="lazy"
+              />
+            </div>
+
+            <div class="text" [innerHTML]="group.description"></div>
+
+            <!-- Кастомний акордеон -->
+            <div *ngIf="group.fullDescription" class="accordion">
+              <button
+                class="accordion-toggle"
+                (click)="toggleAccordion(i, j)"
+                [class.open]="isAccordionOpen(i, j)"
+              >
+                {{ isAccordionOpen(i, j) ? "Сховати" : "Детальніше" }}
+                <span class="arrow"></span>
+              </button>
+
+              <div
+                class="accordion-content"
+                [class.open]="isAccordionOpen(i, j)"
+              >
+                <div [innerHTML]="group.fullDescription"></div>
+              </div>
+            </div>
+          </div>
+        </ng-container>
+      </ng-container>
+    </div>
+  </div>
+</div>

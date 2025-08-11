@@ -1,5 +1,5 @@
 import { CommonModule, isPlatformBrowser } from '@angular/common';
-import { Component, HostListener, Inject, PLATFORM_ID } from '@angular/core';
+import { Component, HostListener, Inject, PLATFORM_ID, ViewChild } from '@angular/core';
 import { NavigationEnd, Router, RouterLink } from '@angular/router';
 import { DishesService } from '../../services/dishes/dishes.service';
 import { CategoriesService } from '../../services/categories/categories.service';
@@ -8,53 +8,56 @@ import { filter } from 'rxjs';
 import { ArticleTypeService } from '../../services/article/article-type/article-type.service';
 import { ArticleCategoriesService } from '../../services/article/article-categories/article-categories.service';
 
-
 declare var bootstrap: any;
 
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [CommonModule, SsrLinkDirective],
+  imports: [
+    CommonModule,
+    SsrLinkDirective
+  ],
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss'
 })
 export class HeaderComponent {
-
   dishesList: any[] = [];
-  selectedDishesId: string | null = null;
   subDishes: any[] = [];
+  selectedDishesId: string | null = null;
+
+  articleTypeList: any[] = [];
+  subArticleCategories: any[] = [];
+  articleTypeId: string | null = null;
+
+  activeMenu: string = '';
+  activeSubItem: number | undefined;
+
+  isBrowser = false;
+  parallaxEnabled = true;
+
+
+  /***********************************************/
   subarticleType: any[] = [];
   isDropdownOpen = false;
   activeDropdownId: string | null = null;
-
-
-  // Для меню "Байки"
-  articleTypeList: any[] = [];
-  articleTypeId: string | null = null;
-  subArticleCategories: any[] = [];
-
-  //menu
 
   activeItem: number | undefined;
   close: boolean = true;
   activeSubSubItem: number | undefined;
   subSubDishes: any[] = [];
 
+  isMenuOpen = false;
 
-  // Для контролю активних пунктів
-  activeMenu = '';
-  activeSubItem: number | undefined;
 
-  isBrowser = false;
-  parallaxEnabled = true;
+
 
   constructor(
     @Inject(PLATFORM_ID) private platformId: Object,
+    private router: Router,
     private dishesService: DishesService,
     private categoryService: CategoriesService,
     private typeService: ArticleTypeService,
     private articleCategoryService: ArticleCategoriesService,
-    private router: Router
   ) {
     this.isBrowser = isPlatformBrowser(this.platformId);
 
@@ -109,7 +112,7 @@ export class HeaderComponent {
     this.typeService.getAll().subscribe((data: any) => {
       this.articleTypeList = data;
       this.articleTypeList.sort((a, b) =>
-        a.activeSubItem.localeCompare(b.activeSubItem)
+        a.articleTypeName.localeCompare(b.articleTypeName)
       );
     });
   }
@@ -125,7 +128,6 @@ export class HeaderComponent {
   }
 
   loadSubDishes(dishId: string, j: number): void {
-
     if (this.selectedDishesId !== dishId) {
       this.activeSubItem = j;
       this.subDishes = [];
@@ -165,34 +167,6 @@ export class HeaderComponent {
     }
   }
 
-  closeMenu() {
-    this.isDropdownOpen = false;
-    this.subDishes = [];
-    this.selectedDishesId = '';
-  }
-
-  mobileMenu(item: string) {
-    if (item === 'isDropdownOpen') {
-      this.isDropdownOpen = !this.isDropdownOpen;
-    } else {
-      this.activeDropdownId = this.activeDropdownId === item ? '' : item;
-      /*    this.loadSubDishes(item); */
-    }
-  }
-
-  closeOffcanvas() {
-    if (!this.isBrowser) return;
-    const offcanvasElement = document.getElementById('offcanvasNavbar');
-    if (offcanvasElement) {
-      const offcanvasInstance = bootstrap.Offcanvas.getInstance(offcanvasElement);
-      if (offcanvasInstance) {
-        offcanvasInstance.hide();
-      }
-    }
-
-  }
-
-
 
   // Відстежування події прокрутки вікна
   @HostListener('window:scroll', ['$event'])
@@ -204,6 +178,43 @@ export class HeaderComponent {
     const parallaxValue = Math.max(0, Math.round(scrollPosition * 0.8));
     header.style.transform = `translate3d(0, ${parallaxValue}px, 0)`;
   }
+
+
+  toggleMenu(): void {
+    this.isMenuOpen = !this.isMenuOpen;
+
+    if (this.isBrowser) {
+      if (this.isMenuOpen) {
+        document.body.classList.add('no-scroll');
+      } else {
+        document.body.classList.remove('no-scroll');
+      }
+    }
+  }
+
+  closeMenu() {
+    this.isMenuOpen = false;
+    this.subDishes = [];
+    this.selectedDishesId = '';
+    if (this.isBrowser) {
+      document.body.classList.remove('no-scroll');
+    }
+  }
+
+  mobileMenu(item: string) {
+    if (item === 'isDropdownOpen') {
+      this.isDropdownOpen = !this.isDropdownOpen;
+    } else {
+      this.activeDropdownId = this.activeDropdownId === item ? '' : item;
+      /*    this.loadSubDishes(item); */
+    }
+  }
+
+
+
+
+
+
 
 
 

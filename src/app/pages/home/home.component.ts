@@ -1,26 +1,30 @@
 import { CommonModule, DOCUMENT, isPlatformBrowser, PlatformLocation, ViewportScroller } from '@angular/common';
 import { Component, ElementRef, HostListener, Inject, PLATFORM_ID, Renderer2, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { NgbCarouselModule } from '@ng-bootstrap/ng-bootstrap';
 import { SeoService } from '../../shared/services/seo/seo.service';
 import { Meta, Title } from '@angular/platform-browser';
 import { DishesService } from '../../shared/services/dishes/dishes.service';
 import { RecipeService } from '../../shared/services/recipe/recipe.service';
 import { CategoriesService } from '../../shared/services/categories/categories.service';
 import { SsrLinkDirective } from '../../shared/directives/ssr-link.directive';
+import { log } from 'node:console';
 
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule, NgbCarouselModule, SsrLinkDirective],
+  imports: [CommonModule, SsrLinkDirective],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss'
 })
 export class HomeComponent {
   @ViewChild('textBlocks') textBlocksRef!: ElementRef<HTMLDivElement>;
-  isVisible = false;
   recipes: any = [];
+  selectedIndex = 0;
+  underIds = new Set<string>();
+
+  isVisible = false;
+
   currentURL = '';
   dishesList: any[] = [];
   recipeCounts: { [key: string]: number } = {};
@@ -122,6 +126,14 @@ export class HomeComponent {
     };
 
     this.setSchema(this.schema);
+  }
+
+  selectRecipe(i: number) {
+    this.selectedIndex = i;
+  }
+
+  isUnder(categoryId: string): boolean {
+    return this.underIds.has(categoryId);
   }
 
   setSchema(schema: any): void {

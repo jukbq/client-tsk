@@ -28,7 +28,7 @@ export class RecipeService {
 
   //отримання останніх рецептів
 
-  getRecentRecipes(limitCount: number = 10): Observable<ShortRecipesResponse[]> {
+  getRecentRecipes(limitCount: number = 6): Observable<ShortRecipesResponse[]> {
     const DATA_KEY = makeStateKey<ShortRecipesResponse[]>(`recentRecipes-${limitCount}`);
 
     if (this.transferState.hasKey(DATA_KEY)) {
@@ -74,10 +74,8 @@ export class RecipeService {
   }
 
 
-  getRandomRecipesByCategoryID(categoryID: string, count: number): Observable<ShortRecipesResponse[]> {
-    const queryRef = query(this.collection, where('categoriesDishes.id', '==', categoryID), limit(count));
-
-
+  getRandomRecipesByDishesID(dishesid: string, count: number): Observable<ShortRecipesResponse[]> {
+    const queryRef = query(this.collection, where('dishes.id', '==', dishesid), limit(count));
 
     return collectionData(queryRef, { idField: 'id' }).pipe(
       map((recipes: DocumentData[]) =>
@@ -133,15 +131,18 @@ export class RecipeService {
 
   // Приймаємо масив, який складається з об'єктів з групами інгредієнтів
   findRecipesWithIds(data: { group: any[]; name: string }[]): { recipeID: string; recipeName: string }[] {
+
     const recipes: { recipeID: string; recipeName: string }[] = [];
+
+
 
     data.forEach(item => {
       item.group.forEach(ingredient => {
         const prod = ingredient.selectedProduct;
-        if (prod && prod.recipeID && prod.recipeName) {
+        if (prod && prod.recipeID) {
           recipes.push({
             recipeID: prod.recipeID,
-            recipeName: prod.recipeName.trim(),
+            recipeName: prod.productsName.trim(),
           });
         }
       });
