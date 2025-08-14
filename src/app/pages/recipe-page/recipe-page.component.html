@@ -66,10 +66,12 @@
           class="recipe_image"
           [src]="mainImage"
           alt="Фотографія страви під назвою {{ recipeTitle }}"
+          width="1080"
+          height="608"
           fetchpriority="high"
           loading="eager"
           decoding="auto"
-          style="cursor: pointer"
+          style="cursor: pointer; object-fit: cover"
         />
       </div>
 

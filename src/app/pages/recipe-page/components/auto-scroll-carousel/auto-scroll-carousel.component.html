@@ -52,7 +52,12 @@
   >
     <div *ngFor="let recipe of recipes" class="recipe-card">
       <a [appSsrLink]="['/recipe-page', recipe.id]">
-        <img [src]="recipe.mainImage" [alt]="recipe.recipeTitle" />
+        <img
+          [src]="recipe.mainImage"
+          [alt]="recipe.recipeTitle"
+          loading="lazy"
+          decoding="async"
+        />
         <h3>{{ recipe.recipeTitle }}</h3>
       </a>
     </div>

@@ -34,7 +34,12 @@
         <div class="ingredient_information">
           <!--Зображення-->
           <div class="image">
-            <img [src]="group.image" alt="{{ group.text }}" loading="lazy" />
+            <img
+              [src]="group.image"
+              alt="{{ group.text }}"
+              loading="lazy"
+              decoding="async"
+            />
           </div>
 
           <!--Назва-->
@@ -78,6 +83,7 @@
             src="../../../assets/icon/social/viber.webp"
             alt="Зберегти у Viber"
             loading="lazy"
+            decoding="async"
           />
         </div>
       </div>
@@ -87,6 +93,7 @@
             src="../../../assets/icon/social/telegram.webp"
             alt="Зберегти у Telegram"
             loading="lazy"
+            decoding="async"
           />
         </div>
       </div>
