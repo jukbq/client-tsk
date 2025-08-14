@@ -21,6 +21,7 @@ export class HomeComponent {
   @ViewChild('textBlocks') textBlocksRef!: ElementRef<HTMLDivElement>;
   recipes: any = [];
   selectedIndex = 0;
+  isMobile = false;
   underIds = new Set<string>();
 
   isVisible = false;
@@ -58,6 +59,8 @@ export class HomeComponent {
   ngOnInit(): void {
     if (this.isBrowser) {
       this.viewportScroller.scrollToPosition([0, 0]);
+      this.checkScreen();
+      window.addEventListener('resize', () => this.checkScreen());
     }
     this.route.data.subscribe((data: any) => {
       const wrapper = data.dishes
@@ -71,6 +74,14 @@ export class HomeComponent {
 
     });
   }
+
+
+  checkScreen() {
+    this.isMobile = window.innerWidth <= 900; // брейкпоінт для мобілки
+  }
+
+
+
 
   loadData() {
     this.homeTite = 'Таверна "Синій Кіт" – перевірені рецепти та поради'
@@ -130,6 +141,10 @@ export class HomeComponent {
 
   selectRecipe(i: number) {
     this.selectedIndex = i;
+  }
+
+  openRecipe(id: string) {
+    this.router.navigate(['/recipe-page', id]);
   }
 
   isUnder(categoryId: string): boolean {

@@ -9,8 +9,8 @@
 
     <h2 class="block_title">Нові рецепти</h2>
     <div class="hero_select">
-      <!-- Великий блок з вибраним рецептом -->
-      <div class="hero-large" *ngIf="recipes?.length">
+      <!-- Великий блок тільки для десктопа -->
+      <div class="hero-large" *ngIf="recipes?.length && !isMobile">
         <img
           [src]="recipes[selectedIndex].mainImage"
           alt="{{ recipes[selectedIndex].recipeTitle }}"
@@ -31,11 +31,20 @@
         <div
           *ngFor="let item of recipes; let i = index"
           class="thumb"
-          [class.selected]="i === selectedIndex"
-          (click)="selectRecipe(i)"
+          [class.selected]="i === selectedIndex && !isMobile"
+          (click)="!isMobile ? selectRecipe(i) : null"
         >
           <img [src]="item.mainImage" alt="{{ item.recipeTitle }}" />
           <span class="eye-icon">👁️</span>
+
+          <!-- Кнопка / посилання тільки на мобілці -->
+          <a
+            *ngIf="isMobile"
+            class="button"
+            [appSsrLink]="['recipe-page', item.id]"
+          >
+            Відкрити
+          </a>
         </div>
       </div>
     </div>
