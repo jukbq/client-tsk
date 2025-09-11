@@ -17,7 +17,15 @@ declare var bootstrap: any;
 @Component({
   selector: 'app-recipe-page',
   standalone: true,
-  imports: [CommonModule, SsrLinkDirective, RecipeInfoComponent, RecipeDescriptionComponent, RecipeIngredientsComponent, RecipeInstructionsComponent, AutoScrollCarouselComponent],
+  imports: [
+    CommonModule,
+    SsrLinkDirective,
+    RecipeInfoComponent,
+    RecipeDescriptionComponent,
+    RecipeIngredientsComponent,
+    RecipeInstructionsComponent,
+    AutoScrollCarouselComponent,
+  ],
   templateUrl: './recipe-page.component.html',
   styleUrl: './recipe-page.component.scss'
 })
