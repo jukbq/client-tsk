@@ -49,16 +49,6 @@ export class DishFilterComponent {
   }
 
   ngOnInit(): void {
-    if (this.isBrowser) {
-      this.viewportScroller.scrollToPosition([0, 0]);
-
-      // Підписка на ресайз вікна
-      this.resizeSubscription = fromEvent(window, 'resize').subscribe(() => {
-        this.updateDisplayCount();
-      });
-      this.updateDisplayCount();
-    }
-
     this.route.data.subscribe((data: any) => {
       const resolvedData = data.recipes;
 
@@ -76,6 +66,14 @@ export class DishFilterComponent {
     });
 
     if (this.isBrowser) {
+      this.viewportScroller.scrollToPosition([0, 0]);
+
+      // Підписка на ресайз вікна
+      this.resizeSubscription = fromEvent(window, 'resize').subscribe(() => {
+        this.updateDisplayCount();
+      });
+      this.updateDisplayCount();
+
       const header = document.querySelector('header');
       if (header) {
         (header as HTMLElement).style.position = 'fixed';
