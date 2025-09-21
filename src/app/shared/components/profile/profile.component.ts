@@ -31,6 +31,9 @@ export class ProfileComponent {
         return getDoc(ref).then(snap => snap.exists() ? snap.data() : null);
       })
     );
+
+    console.log(this.user$);
+
   }
 
   async logout() {

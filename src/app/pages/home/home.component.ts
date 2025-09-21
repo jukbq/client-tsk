@@ -72,7 +72,6 @@ export class HomeComponent {
       this.auth.user$.subscribe(user => {
         if (user) {
           this.fav.getFavorites(user.uid).subscribe(ids => this.favoriteIds = ids);
-          console.log(this.favoriteIds);
 
         }
       });

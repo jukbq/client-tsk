@@ -21,7 +21,11 @@
 
       <a class="header_icon serch" [appSsrLink]="['search']"></a>
 
-      <a class="header_icon auth" [ngClass]="isLoggedIn ? 'active' : 'auth'">
+      <a
+        class="header_icon auth"
+        [ngClass]="isLoggedIn ? 'active' : 'auth'"
+        [appSsrLink]="isLoggedIn ? ['profile'] : ['auth']"
+      >
       </a>
 
       <button
