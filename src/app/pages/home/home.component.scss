@@ -87,7 +87,6 @@ section {
           width: 100%;
           padding: 1.5rem 0;
           background: linear-gradient(to top, rgba(0, 0, 0, 0.7), transparent);
-
           border-radius: 0 0 8px 8px;
 
           h3 {
@@ -95,7 +94,6 @@ section {
             color: #fff;
             text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7);
           }
-
           .button {
             display: inline-block;
             background-color: #ff5500;
@@ -116,6 +114,24 @@ section {
             .open {
               user-select: none;
             }
+          }
+        }
+
+        .fav-btn {
+          width: 8%;
+          height: 8%;
+          position: absolute;
+          top: 2%;
+          left: 2%;
+          /* background: none; */
+          transform: none;
+
+          img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            transform: none;
           }
         }
       }

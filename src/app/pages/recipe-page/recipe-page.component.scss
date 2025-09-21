@@ -247,12 +247,29 @@ section {
         justify-content: center;
         overflow: hidden;
         transition: var(--transition);
-        cursor: pointer;
+        /*   cursor: pointer; */
 
         img {
           width: 100%;
           height: 100%;
           object-fit: cover;
+        }
+
+        .fav-btn {
+          width: 8%;
+          height: auto; // замість 10%
+          aspect-ratio: 1 / 1; // щоб залишити квадрат
+          position: absolute;
+          bottom: 2%;
+          left: 2%;
+          cursor: pointer;
+
+          .fav-icon {
+            width: 100%;
+            height: 100%;
+            object-fit: contain; // замість cover
+            display: block;
+          }
         }
       }
 
@@ -273,6 +290,43 @@ section {
           background-color: var(--clr-6);
           padding: 10px;
           color: var(--clr-b);
+        }
+      }
+
+      .social_holder {
+        width: 100%;
+        height: auto;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+
+        .share_btn_item {
+          width: 20%;
+          height: 50px;
+          background-position: center;
+          background-size: auto 100%;
+          background-repeat: no-repeat;
+          border: 1px solid black;
+
+          &.fb {
+            background-image: url("../../../assets/icon/social/facebook.webp");
+          }
+
+          &.pi {
+            background-image: url("../../../assets/icon/social/pinterest.webp");
+          }
+
+          &.wa {
+            background-image: url("../../../assets/icon/social/whatsapp.webp");
+          }
+
+          &.tg {
+            background-image: url("../../../assets/icon/social/telegram.webp");
+          }
+
+          &.vb {
+            background-image: url("../../../assets/icon/social/viber.webp");
+          }
         }
       }
     }

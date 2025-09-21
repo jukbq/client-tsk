@@ -21,6 +21,9 @@
 
       <a class="header_icon serch" [appSsrLink]="['search']"></a>
 
+      <a class="header_icon auth" [ngClass]="isLoggedIn ? 'active' : 'auth'">
+      </a>
+
       <button
         class="burger_button"
         type="button"

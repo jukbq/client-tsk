@@ -19,6 +19,8 @@ import { articleCategoryByTypeIdResolver } from './shared/resolver/articles/arti
 import { articlesByCategoryidResolver } from './shared/resolver/articles/article-by-cayegoryid/articles-by-categoryid.resolver';
 import { articlePageResolver } from './shared/resolver/articles/article-page/article-page.resolver';
 import { articleCategoryByIdResolver } from './shared/resolver/articles/article-categoty-by--id/article-category-by-id.resolver';
+import { AuthComponent } from './shared/components/auth/auth.component';
+import { ProfileComponent } from './shared/components/profile/profile.component';
 
 export const routes: Routes = [
     {
@@ -150,6 +152,12 @@ export const routes: Routes = [
     },
     {
         path: 'kontakty', component: ContactComponent
+    },
+    {
+        path: 'auth', component: AuthComponent
+    },
+    {
+        path: 'profile', component: ProfileComponent
     },
 
     {

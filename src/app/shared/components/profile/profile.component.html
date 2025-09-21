@@ -1,0 +1,20 @@
+<!-- src/app/profile/profile.component.html -->
+<div class="profile-wrap">
+  <div class="card">
+    <ng-container *ngIf="user$ | async as user; else anon">
+      <img
+        *ngIf="user.photoURL"
+        [src]="user.photoURL"
+        class="avatar"
+        alt="avatar"
+      />
+      <h3>{{ user.displayName || user.email }}</h3>
+      <p class="small">{{ user.email }}</p>
+      <button class="btn logout" (click)="logout()">Вийти</button>
+    </ng-container>
+
+    <ng-template #anon>
+      <p>Ти не залогінений.</p>
+    </ng-template>
+  </div>
+</div>

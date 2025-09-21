@@ -26,12 +26,6 @@ export class AutoScrollCarouselComponent {
 
   isBrowser: boolean = false;
 
-  //Соцмережі
-  fbShareUrl: string | undefined;
-  piShareUrl: string | undefined;
-  waShareUrl: string | undefined;
-  tgShareUrl: string | undefined;
-  vbShareUrl: string | undefined;
 
   constructor(
     @Inject(PLATFORM_ID) private platformId: Object,
@@ -47,13 +41,7 @@ export class AutoScrollCarouselComponent {
         this.startAutoScroll();
       }, 500);
 
-      this.fbShareUrl =
-        `https://www.facebook.com/sharer.php?u=` + this.currentURL;
-      this.piShareUrl =
-        `https://pinterest.com/pin/create/button/?url=` + this.currentURL;
-      this.waShareUrl = `ttps://wa.me/?text=` + this.currentURL;
-      this.tgShareUrl = `https://t.me/share/url?url=` + this.currentURL;
-      this.vbShareUrl = `viber://forward?text=` + this.currentURL;
+
     }
   }
 

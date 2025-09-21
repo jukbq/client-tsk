@@ -222,6 +222,7 @@ section {
         justify-content: space-between;
 
         .dishes_card {
+          position: relative;
           width: calc(24% - 1rem);
           border-radius: 8px;
           box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
@@ -276,6 +277,23 @@ section {
                   color: #ff5500;
                 }
               }
+            }
+          }
+
+          .fav-btn {
+            width: 10%;
+            height: 10%;
+            position: absolute;
+            top: 3%;
+            left: 3%;
+            transform: none;
+
+            img {
+              width: 100%;
+              height: 100%;
+              object-fit: cover;
+              display: block;
+              transform: none;
             }
           }
         }

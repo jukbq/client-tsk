@@ -1,0 +1,37 @@
+/* src/app/profile/profile.component.scss */
+.profile-wrap {
+  display: flex;
+  justify-content: center;
+  margin-top: 40px;
+  .card {
+    width: 360px;
+    background: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+    .avatar {
+      width: 72px;
+      height: 72px;
+      border-radius: 12px;
+      object-fit: cover;
+      margin-bottom: 10px;
+    }
+    h3 {
+      margin: 0;
+    }
+    .small {
+      color: #666;
+      font-size: 13px;
+      margin-bottom: 12px;
+    }
+    .btn.logout {
+      padding: 10px 14px;
+      border-radius: 8px;
+      background: #ef4444;
+      color: #fff;
+      border: 0;
+      cursor: pointer;
+    }
+  }
+}

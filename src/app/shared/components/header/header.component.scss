@@ -73,24 +73,27 @@ header {
         width: 5vh;
         height: 5vh;
         margin-right: 20px;
-        border-radius: 10px;
         position: relative;
-        border: 2px solid var(--clr-w);
-        border-radius: 10px;
         background-size: contain;
         background-position: center;
         background-repeat: no-repeat;
         cursor: pointer;
 
         &.facebook {
-          background-image: url(../../../../assets/icon/facebook.png);
+          background-image: url("../../../../assets/icon/social/facebook.webp");
         }
         &.telegram {
-          background-image: url(../../../../assets/icon/social/telegram.webp);
+          background-image: url("../../../../assets/icon/social/telegram.webp");
         }
 
         &.serch {
-          background-image: url(../../../../assets/icon/search.webp);
+          background-image: url("../../../../assets/icon/social/search.webp");
+        }
+        &.auth {
+          background-image: url("../../../../assets/icon/social/guest.webp");
+        }
+        &.active {
+          background-image: url("../../../../assets/icon/social/logged-in.webp");
         }
       }
       @media (max-width: 780px) {
@@ -206,24 +209,21 @@ header {
               width: 5vh;
               height: 5vh;
               margin-right: 20px;
-              border-radius: 10px;
               position: relative;
-              border: 2px solid var(--clr-w);
-              border-radius: 10px;
               background-size: contain;
               background-position: center;
               background-repeat: no-repeat;
               cursor: pointer;
 
               &.facebook {
-                background-image: url(../../../../assets/icon/facebook.png);
+                background-image: url("../../../../assets/icon/social/facebook.webp");
               }
               &.telegram {
-                background-image: url(../../../../assets/icon/social/telegram.webp);
+                background-image: url("../../../../assets/icon/social/telegram.webp");
               }
 
               &.serch {
-                background-image: url(../../../../assets/icon/search.webp);
+                background-image: url("../../../../assets/icon/social//search.webp");
               }
             }
           }

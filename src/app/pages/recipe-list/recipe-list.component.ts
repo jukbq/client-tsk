@@ -10,6 +10,8 @@ import { Meta, Title } from '@angular/platform-browser';
 import { RecipeStateService } from '../../shared/services/recipe/recipe-state.service';
 import { RecipeService } from '../../shared/services/recipe/recipe.service';
 import { SsrLinkDirective } from '../../shared/directives/ssr-link.directive';
+import { FavoritesService } from '../../shared/services/favorites/favorites.service';
+import { AuthService } from '../../shared/services/auth/auth.service';
 
 
 interface RecipeLight {
@@ -54,6 +56,8 @@ export class RecipeListComponent {
   isVisible = false;
   isBrowser: boolean = false;
 
+  favoriteIds: string[] = [];
+
   wasTextVisible = false;
   private ldJsonScript?: HTMLScriptElement;
 
@@ -71,12 +75,30 @@ export class RecipeListComponent {
     private recipeStateService: RecipeStateService,
     private recipeService: RecipeService,
     private route: ActivatedRoute,
+    private fav: FavoritesService,
+    private auth: AuthService
   ) {
     this.isBrowser = isPlatformBrowser(this.platformId);
   }
 
 
   ngOnInit() {
+    if (this.isBrowser) {
+      this.viewportScroller.scrollToPosition([0, 0]);
+
+      this.auth.user$.subscribe(user => {
+        if (user) {
+          this.fav.getFavorites(user.uid).subscribe(ids => this.favoriteIds = ids);
+          console.log(this.favoriteIds);
+
+        }
+      });
+
+
+    }
+
+
+
     this.route.paramMap.subscribe((params: ParamMap) => {
       const categoryId = params.get('categoryid');
       this.categoryId = categoryId as string
@@ -433,4 +455,19 @@ export class RecipeListComponent {
     }
   }
 
+
+  isFavorite(recipeId: string) {
+    return this.favoriteIds.includes(recipeId);
+  }
+
+  toggleFavorite(recipeId: string) {
+    const user = this.auth.currentUser;
+    if (!user) return alert('Треба увійти в акаунт');
+
+    if (this.isFavorite(recipeId)) {
+      this.fav.removeFavorite(user.uid, recipeId);
+    } else {
+      this.fav.addFavorite(user.uid, recipeId);
+    }
+  }
 }

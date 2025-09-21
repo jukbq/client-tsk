@@ -8,6 +8,8 @@ import { RecipeService } from '../../shared/services/recipe/recipe.service';
 import { CategoriesService } from '../../shared/services/categories/categories.service';
 import { SsrLinkDirective } from '../../shared/directives/ssr-link.directive';
 import { log } from 'node:console';
+import { FavoritesService } from '../../shared/services/favorites/favorites.service';
+import { AuthService } from '../../shared/services/auth/auth.service';
 
 
 @Component({
@@ -23,6 +25,9 @@ export class HomeComponent {
   selectedIndex = 0;
   isMobile = false;
   underIds = new Set<string>();
+
+
+  favoriteIds: string[] = [];
 
   isVisible = false;
 
@@ -53,7 +58,9 @@ export class HomeComponent {
     private router: Router,
     private dishesService: DishesService,
     private categoryService: CategoriesService,
-    private recipeService: RecipeService
+    private recipeService: RecipeService,
+    private fav: FavoritesService,
+    private auth: AuthService
   ) { this.isBrowser = isPlatformBrowser(this.platformId); }
 
   ngOnInit(): void {
@@ -61,7 +68,18 @@ export class HomeComponent {
       this.viewportScroller.scrollToPosition([0, 0]);
       this.checkScreen();
       window.addEventListener('resize', () => this.checkScreen());
+
+      this.auth.user$.subscribe(user => {
+        if (user) {
+          this.fav.getFavorites(user.uid).subscribe(ids => this.favoriteIds = ids);
+          console.log(this.favoriteIds);
+
+        }
+      });
+
+      this.isMobile = window.innerWidth < 768;
     }
+
     this.route.data.subscribe((data: any) => {
       const wrapper = data.dishes
       const dishes = wrapper.data;
@@ -79,8 +97,6 @@ export class HomeComponent {
   checkScreen() {
     this.isMobile = window.innerWidth <= 900; // брейкпоінт для мобілки
   }
-
-
 
 
   loadData() {
@@ -141,6 +157,7 @@ export class HomeComponent {
 
   selectRecipe(i: number) {
     this.selectedIndex = i;
+
   }
 
   openRecipe(id: string) {
@@ -201,6 +218,21 @@ export class HomeComponent {
     });
   }
 
+
+  isFavorite(recipeId: string) {
+    return this.favoriteIds.includes(recipeId);
+  }
+
+  toggleFavorite(recipeId: string) {
+    const user = this.auth.currentUser;
+    if (!user) return alert('Треба увійти в акаунт');
+
+    if (this.isFavorite(recipeId)) {
+      this.fav.removeFavorite(user.uid, recipeId);
+    } else {
+      this.fav.addFavorite(user.uid, recipeId);
+    }
+  }
 
 
 

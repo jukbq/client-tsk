@@ -17,12 +17,27 @@
         />
         <div class="overlay">
           <h3>{{ recipes[selectedIndex].recipeTitle }}</h3>
+
           <a
             class="button"
             [appSsrLink]="['recipe-page', recipes[selectedIndex].id]"
           >
             <div class="open">Відкрити</div>
           </a>
+        </div>
+
+        <div
+          class="fav-btn"
+          (click)="toggleFavorite(recipes[selectedIndex].id)"
+        >
+          <img
+            [src]="
+              isFavorite(recipes[selectedIndex].id)
+                ? 'assets/icon/favorite/star-favorite-filled.webp'
+                : 'assets/icon/favorite/star-favorite-empty.webp'
+            "
+            alt="Обране"
+          />
         </div>
       </div>
 

@@ -4,9 +4,11 @@ import { NavigationEnd, Router, RouterLink } from '@angular/router';
 import { DishesService } from '../../services/dishes/dishes.service';
 import { CategoriesService } from '../../services/categories/categories.service';
 import { SsrLinkDirective } from '../../directives/ssr-link.directive';
-import { filter } from 'rxjs';
+import { filter, Observable } from 'rxjs';
 import { ArticleTypeService } from '../../services/article/article-type/article-type.service';
 import { ArticleCategoriesService } from '../../services/article/article-categories/article-categories.service';
+import { User } from 'firebase/auth';
+import { AuthService } from '../../services/auth/auth.service';
 
 declare var bootstrap: any;
 
@@ -48,7 +50,7 @@ export class HeaderComponent {
 
   isMenuOpen = false;
 
-
+  isLoggedIn = false;
 
 
   constructor(
@@ -58,6 +60,7 @@ export class HeaderComponent {
     private categoryService: CategoriesService,
     private typeService: ArticleTypeService,
     private articleCategoryService: ArticleCategoriesService,
+    private authService: AuthService
   ) {
     this.isBrowser = isPlatformBrowser(this.platformId);
 
@@ -97,6 +100,9 @@ export class HeaderComponent {
   ngOnInit(): void {
     this.getDishes()
     this.getArticleType()
+    this.authService.user$.subscribe(user => {
+      this.isLoggedIn = !!user;
+    });
   }
 
 

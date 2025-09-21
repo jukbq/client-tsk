@@ -66,6 +66,17 @@
               </a>
             </div>
           </div>
+
+          <div class="fav-btn" (click)="toggleFavorite(recipeList.id)">
+            <img
+              [src]="
+                isFavorite(recipeList.id)
+                  ? 'assets/icon/favorite/star-favorite-filled.webp'
+                  : 'assets/icon/favorite/star-favorite-empty.webp'
+              "
+              alt="Обране"
+            />
+          </div>
         </li>
         }
 

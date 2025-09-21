@@ -1,0 +1,29 @@
+<!-- src/app/auth/auth.component.html -->
+<div class="auth-container">
+  <div class="auth-card" *ngIf="!loading; else spinner">
+    <h2>Вхід на сайт</h2>
+
+    <p class="hint">Швидко і без паролів — через Google або Facebook</p>
+
+    <button class="btn google" (click)="loginWithGoogle()">
+      <span class="icon">G</span>
+      Увійти через Google
+    </button>
+
+    <button class="btn facebook" (click)="loginWithFacebook()">
+      <span class="icon">f</span>
+      Увійти через Facebook
+    </button>
+
+    <div class="error" *ngIf="error">{{ error }}</div>
+
+    <p class="small">
+      Якщо ти хотів зберегти рецепт — після входу він збережеться в твоєму
+      кабінеті.
+    </p>
+  </div>
+</div>
+
+<ng-template #spinner>
+  <div class="spinner">Завантаження...</div>
+</ng-template>

@@ -11,6 +11,8 @@ import { RecipeDescriptionComponent } from "./components/recipe-description/reci
 import { RecipeIngredientsComponent } from "./components/recipe-ingredients/recipe-ingredients.component";
 import { RecipeInstructionsComponent } from "./components/recipe-instructions/recipe-instructions.component";
 import { AutoScrollCarouselComponent } from "./components/auto-scroll-carousel/auto-scroll-carousel.component";
+import { FavoritesService } from '../../shared/services/favorites/favorites.service';
+import { AuthService } from '../../shared/services/auth/auth.service';
 declare var bootstrap: any;
 
 
@@ -58,8 +60,14 @@ export class RecipePageComponent {
   advice = '';
   completion = '';
 
+  favoriteIds: string[] = [];
 
-
+  //Соцмережі
+  fbShareUrl: string | undefined;
+  piShareUrl: string | undefined;
+  waShareUrl: string | undefined;
+  tgShareUrl: string | undefined;
+  vbShareUrl: string | undefined;
 
 
   recipeID = '';
@@ -74,6 +82,8 @@ export class RecipePageComponent {
     private titleService: Title,
     private viewportScroller: ViewportScroller,
     private route: ActivatedRoute,
+    private fav: FavoritesService,
+    private auth: AuthService
   ) { this.isBrowser = isPlatformBrowser(this.platformId); }
 
 
@@ -84,6 +94,21 @@ export class RecipePageComponent {
 
       if (this.isBrowser) {
         window.scrollTo(0, 0);
+
+        this.auth.user$.subscribe(user => {
+          if (user) {
+            this.fav.getFavorites(user.uid).subscribe(ids => this.favoriteIds = ids);
+          }
+        });
+
+        this.fbShareUrl =
+          `https://www.facebook.com/sharer.php?u=` + this.currentURL;
+        this.piShareUrl =
+          `https://pinterest.com/pin/create/button/?url=` + this.currentURL;
+        this.waShareUrl = `ttps://wa.me/?text=` + this.currentURL;
+        this.tgShareUrl = `https://t.me/share/url?url=` + this.currentURL;
+        this.vbShareUrl = `viber://forward?text=` + this.currentURL;
+
       }
 
 
@@ -233,6 +258,22 @@ export class RecipePageComponent {
     if (this.isBrowser) {
       this.viewportScroller.scrollToPosition([0, 0]);
       this.activeItem = 0;
+    }
+  }
+
+
+  isFavorite(recipeId: string) {
+    return this.favoriteIds.includes(recipeId);
+  }
+
+  toggleFavorite(recipeId: string) {
+    const user = this.auth.currentUser;
+    if (!user) return alert('Треба увійти в акаунт');
+
+    if (this.isFavorite(recipeId)) {
+      this.fav.removeFavorite(user.uid, recipeId);
+    } else {
+      this.fav.addFavorite(user.uid, recipeId);
     }
   }
 
