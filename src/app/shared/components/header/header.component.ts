@@ -112,6 +112,7 @@ export class HeaderComponent {
       this.dishesList.sort((a, b) =>
         a.dishesName.localeCompare(b.dishesName)
       );
+
     });
   }
   getArticleType() {
@@ -119,6 +120,7 @@ export class HeaderComponent {
       this.articleTypeList = data;
       this.articleTypeList.sort((a, b) =>
         a.articleTypeName.localeCompare(b.articleTypeName)
+
       );
     });
   }
@@ -190,8 +192,6 @@ export class HeaderComponent {
     this.isMenuOpen = !this.isMenuOpen;
 
     if (this.isBrowser) {
-      console.log(this.isMenuOpen);
-
       if (this.isMenuOpen) {
         document.body.classList.add('no-scroll');
       } else {

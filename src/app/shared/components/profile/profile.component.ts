@@ -21,7 +21,7 @@ export class ProfileComponent {
   constructor(private auth: AuthService, private firestore: Firestore) {
     // ініціалізація вже після того як Angular «вколов» сервіси
     this.user$ = this.auth.user$;
-    console.log(this.user$);
+
 
 
     this.userDoc$ = this.auth.user$.pipe(
