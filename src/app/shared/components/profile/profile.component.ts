@@ -32,7 +32,7 @@ export class ProfileComponent {
       })
     );
 
-    console.log(this.user$);
+
 
   }
 
