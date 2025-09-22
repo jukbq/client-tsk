@@ -70,6 +70,14 @@
               class="header_icon serch"
               [appSsrLink]="['search']"
             ></a>
+
+            <a
+              (click)="closeMenu()"
+              class="header_icon auth"
+              [ngClass]="isLoggedIn ? 'active' : 'auth'"
+              [appSsrLink]="isLoggedIn ? ['profile'] : ['auth']"
+            >
+            </a>
           </div>
         </div>
 

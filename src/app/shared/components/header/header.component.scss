@@ -214,7 +214,6 @@ header {
               background-position: center;
               background-repeat: no-repeat;
               cursor: pointer;
-
               &.facebook {
                 background-image: url("../../../../assets/icon/social/facebook.webp");
               }
@@ -223,7 +222,13 @@ header {
               }
 
               &.serch {
-                background-image: url("../../../../assets/icon/social//search.webp");
+                background-image: url("../../../../assets/icon/social/search.webp");
+              }
+              &.auth {
+                background-image: url("../../../../assets/icon/social/guest.webp");
+              }
+              &.active {
+                background-image: url("../../../../assets/icon/social/logged-in.webp");
               }
             }
           }
