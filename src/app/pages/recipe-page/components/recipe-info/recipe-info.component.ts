@@ -7,25 +7,26 @@ import { SsrLinkDirective } from '../../../../shared/directives/ssr-link.directi
   standalone: true,
   imports: [CommonModule, SsrLinkDirective],
   templateUrl: './recipe-info.component.html',
-  styleUrl: './recipe-info.component.scss'
+  styleUrl: './recipe-info.component.scss',
 })
 export class RecipeInfoComponent {
-  @Input() seasons: any = [];
-  @Input() info: any = [];
+  @Input() seasons: any[] = [];
+  @Input() info: any[] = [];
+
+  isOpen = false;
 
   blockedFilters = ['totalTime', 'numberCalories', 'someOtherShit'];
   isBrowser: boolean = false;
 
-
-  constructor(
-
-    @Inject(PLATFORM_ID) private platformId: Object,
-
-  ) { this.isBrowser = isPlatformBrowser(this.platformId); }
-
+  constructor(@Inject(PLATFORM_ID) private platformId: Object) {
+    this.isBrowser = isPlatformBrowser(this.platformId);
+  }
 
   isBlockedFilter(item: string): boolean {
     return this.blockedFilters.includes(item);
   }
 
+  toggleAll() {
+    this.isOpen = !this.isOpen;
+  }
 }

@@ -55,10 +55,11 @@
           margin: 0;
           .accordion-toggle {
             width: 100%;
-            background-color: var(--clr-6);
+            background-color: var(--clr-1);
             padding: 10px 15px;
             cursor: pointer;
-            font-size: 1rem;
+            font-size: 1.3rem;
+            font-weight: 600;
             text-align: left;
             position: relative;
             transition: background 0.3s ease, box-shadow 0.3s ease;

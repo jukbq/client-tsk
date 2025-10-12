@@ -40,56 +40,89 @@
   }
 
   .All-year {
-    background: linear-gradient(
-      90deg,
-      rgba(91, 124, 153, 1) 0%,
-      rgba(107, 175, 94, 1) 32%,
-      rgba(242, 160, 61, 1) 69%,
-      rgba(192, 108, 62, 1) 100%
-    );
+    background: linear-gradient(90deg,
+        rgba(91, 124, 153, 1) 0%,
+        rgba(107, 175, 94, 1) 32%,
+        rgba(242, 160, 61, 1) 69%,
+        rgba(192, 108, 62, 1) 100%);
   }
+
   .winter {
-    background: linear-gradient(
-      90deg,
-      rgba(91, 124, 153, 1) 0%,
-      rgba(107, 175, 94, 1) 100%
-    );
+    background: linear-gradient(90deg,
+        rgba(91, 124, 153, 1) 0%,
+        rgba(107, 175, 94, 1) 100%);
   }
+
   .spring {
-    background: linear-gradient(
-      90deg,
-      rgba(107, 175, 94, 1) 0%,
-      rgba(242, 160, 61, 1) 100%
-    );
+    background: linear-gradient(90deg,
+        rgba(107, 175, 94, 1) 0%,
+        rgba(242, 160, 61, 1) 100%);
   }
+
   .summer {
-    background: linear-gradient(
-      90deg,
-      rgba(242, 160, 61, 1) 0%,
-      rgba(192, 108, 62, 1) 100%
-    );
+    background: linear-gradient(90deg,
+        rgba(242, 160, 61, 1) 0%,
+        rgba(192, 108, 62, 1) 100%);
   }
+
   .Autumn {
-    background: linear-gradient(
-      90deg,
-      rgba(192, 108, 62, 1) 0%,
-      rgba(91, 124, 153, 1) 100%
-    );
+    background: linear-gradient(90deg,
+        rgba(192, 108, 62, 1) 0%,
+        rgba(91, 124, 153, 1) 100%);
   }
 }
 
 .info {
   width: 100%;
-  min-height: 100px;
-  margin-top: 15px;
+  /*   min-height: 100px; */
+  /*   margin-top: 15px; */
+
+
+  .info_toggle {
+    width: 100%;
+    /*   height: 4vh; */
+    display: inline-flex;
+    align-items: center;
+    justify-content: space-between;
+    /*  gap: .5rem; */
+    background: var(--clr-1);
+    border: 1px solid rgba(0, 0, 0, .08);
+    padding: 10px 15px;
+    /*   border-radius: .4rem; */
+    cursor: pointer;
+    font-weight: 600;
+    user-select: none;
+    transition: transform .15s ease;
+    font-size: 1.3rem;
+
+    .chev {
+      font-size: 0.9rem;
+      opacity: .8;
+    }
+
+  }
 
   .info_block_item {
     width: 100%;
-    min-height: 100px;
     display: flex;
     justify-content: center;
     gap: 10px;
     flex-wrap: wrap;
+
+    /* Базово — закритий стан (щоб не було "стрибка" при render) */
+    max-height: 0;
+    opacity: 0;
+    overflow: hidden;
+    padding-top: 0;
+    transition: max-height .36s cubic-bezier(.2, .9, .2, 1), opacity .25s ease, padding-top .25s ease;
+
+    /* Коли відкрито — даємо великий запас висоти */
+    &.open {
+      max-height: 2000px;
+      /* достатній запас, не ідеально, але простий і без DOM вимірів */
+      opacity: 1;
+      padding-top: 12px;
+    }
   }
 
   .info_item {
@@ -160,6 +193,7 @@
         max-width: 90%;
         color: var(--clr-3);
       }
+
       .infoLink {
         text-decoration: underline;
       }
@@ -181,6 +215,7 @@
 
       .image {
         margin-top: 20px; // було 35px
+
         img {
           width: 65%; // трошки менше, щоб підпис ближче
           height: auto;
@@ -189,6 +224,7 @@
 
       .name {
         padding-bottom: 15px; // було 25px
+
         p {
           font-size: 0.85rem; // трохи дрібніше, щоб влізало
         }
