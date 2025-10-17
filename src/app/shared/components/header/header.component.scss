@@ -85,7 +85,7 @@ header {
         background-position: center;
         background-repeat: no-repeat;
         cursor: pointer;
-      /*   pointer-events: none; */
+        /*   pointer-events: none; */
         // початкове м'яке світло
         filter: drop-shadow(0 0 6px #1877f2) drop-shadow(0 0 14px #1877f2);
         opacity: 1;
@@ -236,7 +236,8 @@ header {
               background-position: center;
               background-repeat: no-repeat;
               cursor: pointer;
-              pointer-events: none;
+              z-index: 10;
+              pointer-events: auto;
               // початкове м'яке світло
               filter: drop-shadow(0 0 6px #1877f2) drop-shadow(0 0 14px #1877f2);
               opacity: 1;

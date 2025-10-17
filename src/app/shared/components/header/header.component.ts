@@ -201,7 +201,7 @@ export class HeaderComponent {
   }
 
   closeMenu() {
-    this.isMenuOpen = false;
+      this.isMenuOpen = false;
     this.subDishes = [];
     this.selectedDishesId = '';
     if (this.isBrowser) {
