@@ -38,20 +38,6 @@ export class AuthComponent {
   }
 
 
-  // клік по Facebook
-  async loginWithFacebook() {
-    this.error = null;
-    this.loading = true;
-    try {
-      await this.auth.loginWithFacebook();
-      await this.afterLoginRedirect();
-    } catch (err: any) {
-      console.error('Facebook login error', err);
-      this.error = err?.message || 'Помилка входу через Facebook';
-    } finally {
-      this.loading = false;
-    }
-  }
 
   // редирект після успішного логіну
   private async afterLoginRedirect() {

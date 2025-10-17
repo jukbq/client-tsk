@@ -74,26 +74,48 @@
 
 .info {
   width: 100%;
-  /*   min-height: 100px; */
-  /*   margin-top: 15px; */
+
 
 
   .info_toggle {
     width: 100%;
-    /*   height: 4vh; */
     display: inline-flex;
     align-items: center;
     justify-content: space-between;
-    /*  gap: .5rem; */
-    background: var(--clr-1);
+
     border: 1px solid rgba(0, 0, 0, .08);
     padding: 10px 15px;
-    /*   border-radius: .4rem; */
     cursor: pointer;
     font-weight: 600;
     user-select: none;
     transition: transform .15s ease;
     font-size: 1.3rem;
+    animation: colorShift 10s ease infinite;
+    background: linear-gradient(270deg, #a67c17ff, #c4b299ff, #f3e9d2ff, #d9c7a1ff);
+    background-size: 800% 800%;
+
+    @keyframes colorShift {
+      0% {
+        background-position: 0% 50%;
+      }
+
+      25% {
+        background-position: 50% 50%;
+      }
+
+      50% {
+        background-position: 100% 50%;
+      }
+
+      75% {
+        background-position: 50% 50%;
+      }
+
+      100% {
+        background-position: 0% 50%;
+      }
+    }
+
 
     .chev {
       font-size: 0.9rem;

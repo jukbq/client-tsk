@@ -1,4 +1,4 @@
-@use "../../styles/base-styles" as *;
+@use "../../styles/base-styles"as *;
 
 header {
   width: 100vw;
@@ -42,6 +42,7 @@ header {
       align-items: center;
       text-decoration: none;
       cursor: pointer;
+
       .image {
         width: clamp(40px, 7vw, 70px);
         height: clamp(40px, 7vh, 70px);
@@ -55,8 +56,14 @@ header {
       }
 
       p {
-        color: var(--clr-w);
+        color: #a5bedf;
         margin: 0;
+        text-shadow:
+          0 0 5px #74a2de,
+          0 0 10px #77a7e6,
+          0 0 20px #7699c8,
+          0 0 40px #71a9f2;
+
 
         @media (max-width: 480px) {
           display: none;
@@ -78,24 +85,38 @@ header {
         background-position: center;
         background-repeat: no-repeat;
         cursor: pointer;
+      /*   pointer-events: none; */
+        // початкове м'яке світло
+        filter: drop-shadow(0 0 6px #1877f2) drop-shadow(0 0 14px #1877f2);
+        opacity: 1;
+        will-change: opacity, filter;
+        animation: slowPulse 6s ease-in-out infinite,
+          flickerPattern 6s steps(1, end) infinite;
 
         &.facebook {
           background-image: url("../../../../assets/icon/social/facebook.webp");
+          animation-delay: 0s, 0s;
         }
+
         &.telegram {
           background-image: url("../../../../assets/icon/social/telegram.webp");
+          animation-delay: 2s, 1s;
         }
 
         &.serch {
           background-image: url("../../../../assets/icon/social/search.webp");
+          animation-delay: 4s, 3s;
         }
+
         &.auth {
           background-image: url("../../../../assets/icon/social/guest.webp");
         }
+
         &.active {
-          background-image: url("../../../../assets/icon/social/logged-in.webp");
+          background-image: url("../../../../assets/icon/social/logged.webp");
         }
       }
+
       @media (max-width: 780px) {
         .header_icon {
           display: none;
@@ -116,7 +137,7 @@ header {
         span {
           display: block;
           height: 4px;
-          background-color: white;
+          border: solid #1877f2 2px;
           border-radius: 2px;
           transition: all 0.3s ease-in-out;
           transform-origin: center;
@@ -167,6 +188,7 @@ header {
         width: 100%;
         height: 100%;
       }
+
       .menu {
         width: 100%;
         height: 100%;
@@ -214,24 +236,44 @@ header {
               background-position: center;
               background-repeat: no-repeat;
               cursor: pointer;
+              pointer-events: none;
+              // початкове м'яке світло
+              filter: drop-shadow(0 0 6px #1877f2) drop-shadow(0 0 14px #1877f2);
+              opacity: 1;
+              will-change: opacity, filter;
+              animation: slowPulse 6s ease-in-out infinite,
+                flickerPattern 6s steps(1, end) infinite;
+
+
+
               &.facebook {
                 background-image: url("../../../../assets/icon/social/facebook.webp");
+                animation-delay: 0s, 0s;
               }
+
               &.telegram {
                 background-image: url("../../../../assets/icon/social/telegram.webp");
+                animation-delay: 2s, 1s;
               }
 
               &.serch {
                 background-image: url("../../../../assets/icon/social/search.webp");
+                animation-delay: 4s, 3s;
               }
+
               &.auth {
                 background-image: url("../../../../assets/icon/social/guest.webp");
               }
+
               &.active {
-                background-image: url("../../../../assets/icon/social/logged-in.webp");
+                background-image: url("../../../../assets/icon/social/logged.webp");
               }
+
+
+
             }
           }
+
           @media (min-width: 780px) {
             .header_icon {
               display: none;
@@ -334,6 +376,7 @@ header {
                       color: var(--clr-b);
                     }
                   }
+
                   .batton {
                     width: 10%;
                     height: 100%;
@@ -352,6 +395,7 @@ header {
                   &:hover {
                     background-color: transparent;
                   }
+
                   .submenu_text {
                     width: 100%;
                     height: 50px;
@@ -392,6 +436,7 @@ header {
 
                     &:hover {
                       background-color: var(--clr-2);
+
                       .submenu_text p {
                         color: var(--clr-b);
                       }
@@ -414,9 +459,11 @@ header {
             &.active {
               .btn_menu {
                 background-color: var(--clr-2);
+
                 a {
                   color: var(--clr-b);
                 }
+
                 .batton {
                   transform: rotate(45deg);
                 }
@@ -437,9 +484,125 @@ header {
       opacity: 0;
       transform: translateY(-10px);
     }
+
     to {
       opacity: 1;
       transform: translateY(0);
     }
+  }
+}
+
+
+
+
+
+
+/* повільний плавний пульс — базове "фонне" світло */
+@keyframes slowPulse {
+  0% {
+    filter: drop-shadow(0 0 4px #1877f2) drop-shadow(0 0 10px #1877f2);
+    opacity: 0.92;
+  }
+
+  50% {
+    filter: drop-shadow(0 0 10px #1877f2) drop-shadow(0 0 26px #1877f2);
+    opacity: 1;
+  }
+
+  100% {
+    filter: drop-shadow(0 0 4px #1877f2) drop-shadow(0 0 10px #1877f2);
+    opacity: 0.92;
+  }
+}
+
+/* складний шаблон фліків — тут задається "сценарій" блимань в межах одного циклу */
+@keyframes flickerPattern {
+
+  /* 0–10% — спокій */
+  0% {
+    opacity: 1;
+    filter: drop-shadow(0 0 6px #1877f2) drop-shadow(0 0 14px #1877f2);
+  }
+
+  6% {
+    opacity: 0.5;
+    filter: drop-shadow(0 0 2px #1877f2);
+  }
+
+  /* короткий пригас */
+  10% {
+    opacity: 1;
+    filter: drop-shadow(0 0 12px #1877f2) drop-shadow(0 0 28px #1877f2);
+  }
+
+  /* яскравий спалах */
+
+  /* 20–30% — пара быстрых блимків */
+  20% {
+    opacity: 0.9;
+    filter: drop-shadow(0 0 8px #1877f2);
+  }
+
+  23% {
+    opacity: 0.35;
+    filter: drop-shadow(0 0 2px #1877f2);
+  }
+
+  /* блим */
+  26% {
+    opacity: 1;
+    filter: drop-shadow(0 0 14px #1877f2) drop-shadow(0 0 30px #1877f2);
+  }
+
+  /* 40–55% — довше тримається світло */
+  40% {
+    opacity: 1;
+    filter: drop-shadow(0 0 10px #1877f2) drop-shadow(0 0 24px #1877f2);
+  }
+
+  50% {
+    opacity: 1;
+  }
+
+  55% {
+    opacity: 0.6;
+    filter: drop-shadow(0 0 3px #1877f2);
+  }
+
+  /* плавне пригасання */
+
+  /* 60–72% — одиночний сильний флік */
+  60% {
+    opacity: 0.95;
+    filter: drop-shadow(0 0 8px #1877f2);
+  }
+
+  63% {
+    opacity: 0.25;
+    filter: drop-shadow(0 0 1.5px #1877f2);
+  }
+
+  /* різкий спад */
+  66% {
+    opacity: 1;
+    filter: drop-shadow(0 0 18px #1877f2) drop-shadow(0 0 36px #1877f2);
+  }
+
+  /* сильний спалах */
+
+  /* 80–100% — повернення до спокою */
+  80% {
+    opacity: 0.95;
+    filter: drop-shadow(0 0 8px #1877f2);
+  }
+
+  90% {
+    opacity: 0.85;
+    filter: drop-shadow(0 0 6px #1877f2);
+  }
+
+  100% {
+    opacity: 1;
+    filter: drop-shadow(0 0 6px #1877f2) drop-shadow(0 0 14px #1877f2);
   }
 }

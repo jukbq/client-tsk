@@ -73,6 +73,7 @@ section {
         -webkit-overflow-scrolling: touch; // плавний скрол на iOS
         scrollbar-width: thin;
         scrollbar-color: var(--clr-4) transparent;
+  
 
         &::-webkit-scrollbar {
           height: 6px;
@@ -168,8 +169,10 @@ section {
 
         .description {
           line-height: 1.5;
-          font-size: 1rem;
+        /*   font-size: 1rem; */
           text-align: justify;
+      
+
 
           p {
             margin-bottom: 1rem;

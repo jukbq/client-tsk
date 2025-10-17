@@ -1,82 +1,86 @@
 /* src/app/auth/auth.component.scss */
 .auth-container {
   display: flex;
+  width: 100vw;
+  min-height: 100vh;
   align-items: center;
   justify-content: center;
-  min-height: 70vh;
-  background: #f6f7f9;
-}
 
-.auth-card {
-  width: 360px;
-  padding: 26px;
-  border-radius: 10px;
-  background: #fff;
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.06);
-  text-align: center;
 
-  h2 {
-    margin: 0 0 8px 0;
-  }
-  .hint {
-    color: #666;
-    font-size: 13px;
-    margin-bottom: 16px;
-  }
+  .auth-card {
+    width: 360px;
+    padding: 26px;
+    border-radius: 10px;
+    background: #fff;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.06);
+    text-align: center;
 
-  .btn {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    justify-content: center;
-    width: 100%;
-    padding: 12px;
-    margin-bottom: 12px;
-    border-radius: 8px;
-    border: 0;
-    font-weight: 600;
-    cursor: pointer;
-    transition: transform 0.08s ease;
-    &:active {
-      transform: translateY(1px);
+    h2 {
+      margin: 0 0 8px 0;
     }
 
-    &.google {
-      background: #fff;
-      border: 1px solid #ddd;
-      color: #222;
-    }
-    &.facebook {
-      background: #1877f2;
-      color: #fff;
+    .hint {
+      color: #666;
+      font-size: 13px;
+      margin-bottom: 16px;
     }
 
-    .icon {
-      display: inline-flex;
-      width: 28px;
-      height: 28px;
+    .btn {
+      display: flex;
       align-items: center;
+      gap: 12px;
       justify-content: center;
-      border-radius: 6px;
-      background: rgba(0, 0, 0, 0.05);
-      font-weight: 700;
+      width: 100%;
+      padding: 12px;
+      margin-bottom: 12px;
+      border-radius: 8px;
+      border: 0;
+      font-weight: 600;
+      cursor: pointer;
+      transition: transform 0.08s ease;
+
+      &:active {
+        transform: translateY(1px);
+      }
+
+      &.google {
+        background: #fff;
+        border: 1px solid #ddd;
+        color: #222;
+      }
+
+      &.facebook {
+        background: #1877f2;
+        color: #fff;
+      }
+
+      .icon {
+        display: inline-flex;
+        width: 28px;
+        height: 28px;
+        align-items: center;
+        justify-content: center;
+        border-radius: 6px;
+        background: rgba(0, 0, 0, 0.05);
+        font-weight: 700;
+      }
+    }
+
+    .error {
+      margin-top: 8px;
+      color: #b00020;
+      font-size: 13px;
+    }
+
+    .small {
+      margin-top: 10px;
+      color: #777;
+      font-size: 13px;
     }
   }
 
-  .error {
-    margin-top: 8px;
-    color: #b00020;
-    font-size: 13px;
+  .spinner {
+    padding: 40px;
+    text-align: center;
   }
-
-  .small {
-    margin-top: 10px;
-    color: #777;
-    font-size: 13px;
-  }
-}
-
-.spinner {
-  padding: 40px;
-  text-align: center;
 }

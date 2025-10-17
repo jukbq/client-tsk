@@ -53,9 +53,9 @@
         /* Кастомний акордеон */
         .accordion {
           margin: 0;
+
           .accordion-toggle {
             width: 100%;
-            background-color: var(--clr-1);
             padding: 10px 15px;
             cursor: pointer;
             font-size: 1.3rem;
@@ -63,6 +63,32 @@
             text-align: left;
             position: relative;
             transition: background 0.3s ease, box-shadow 0.3s ease;
+
+            animation: colorShift 5s ease infinite;
+            background: linear-gradient(270deg, #a67c17ff, #c4b299ff, #f3e9d2ff, #d9c7a1ff);
+            background-size: 800% 800%;
+
+            @keyframes colorShift {
+              0% {
+                background-position: 0% 50%;
+              }
+
+              25% {
+                background-position: 50% 50%;
+              }
+
+              50% {
+                background-position: 100% 50%;
+              }
+
+              75% {
+                background-position: 50% 50%;
+              }
+
+              100% {
+                background-position: 0% 50%;
+              }
+            }
 
             &:hover {
               background-color: var(--clr-2);
