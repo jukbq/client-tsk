@@ -5,64 +5,66 @@
   min-height: 100vh;
   align-items: center;
   justify-content: center;
+  margin-top: var(--header-height);
 
 
   .auth-card {
-    width: 360px;
+    width: 60vw;
+    height: 50vh;
+    position: relative;
     padding: 26px;
     border-radius: 10px;
-    background: #fff;
     box-shadow: 0 8px 30px rgba(0, 0, 0, 0.06);
     text-align: center;
+    background-image: url("../../../../assets/image/login/background-log-in.webp");
+    background-position: center;
+    background-size: contain;
+    background-repeat: no-repeat;
 
-    h2 {
+    @media (max-width: 1024px) {
+      width: 100vw;
+      height: 100vh;
+      border-radius: 0;
+      box-shadow: none;
+      background-size: cover;
+    }
+
+    h1 {
       margin: 0 0 8px 0;
+      color: var(--clr-w);
     }
 
     .hint {
-      color: #666;
+      color: var(--clr-w);
       font-size: 13px;
       margin-bottom: 16px;
     }
 
+
+
     .btn {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      justify-content: center;
-      width: 100%;
-      padding: 12px;
-      margin-bottom: 12px;
-      border-radius: 8px;
-      border: 0;
-      font-weight: 600;
+      width: 7vw;
+      height: 11vh;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      border: none;
+      background: none;
       cursor: pointer;
-      transition: transform 0.08s ease;
 
-      &:active {
-        transform: translateY(1px);
+      @media (max-width: 1024px) {
+        width: 16vw;
+        height: 18vh;
+        top: 55%;
       }
-
-      &.google {
-        background: #fff;
-        border: 1px solid #ddd;
-        color: #222;
+      @media (max-width: 780px) {
+        width: 20vw;
+      
       }
-
-      &.facebook {
-        background: #1877f2;
-        color: #fff;
-      }
-
-      .icon {
-        display: inline-flex;
-        width: 28px;
-        height: 28px;
-        align-items: center;
-        justify-content: center;
-        border-radius: 6px;
-        background: rgba(0, 0, 0, 0.05);
-        font-weight: 700;
+      @media (max-width: 580px) {
+        width: 60vw;
+      
       }
     }
 
