@@ -14,35 +14,37 @@
             <div
               *ngIf="group.stepImage"
               class="step_img"
-              style="cursor: pointer"
-            >
+              style="cursor: pointer">
               <img
                 [src]="group.stepImage"
                 [alt]="group.stepName"
                 class="img-fluid"
                 loading="lazy"
-                decoding="async"
-              />
+                decoding="async" />
             </div>
 
             <div class="text" [innerHTML]="group.description"></div>
 
             <!-- Кастомний акордеон -->
-             
+
             <div *ngIf="group.fullDescription" class="accordion">
               <button
                 class="accordion-toggle"
                 (click)="toggleAccordion(i, j)"
                 [class.open]="isAccordionOpen(i, j)"
-              >
+                [attr.aria-expanded]="isAccordionOpen(i, j)"
+                [attr.aria-controls]="'acc-' + i + '-' + j"
+                type="button">
                 {{ isAccordionOpen(i, j) ? "Сховати" : "Детальніше" }}
                 <span class="arrow"></span>
               </button>
 
               <div
                 class="accordion-content"
+                [id]="'acc-' + i + '-' + j"
+                [attr.data-key]="i + '-' + j"
                 [class.open]="isAccordionOpen(i, j)"
-              >
+                [style.maxHeight]="isAccordionOpen(i,j) ? getScrollHeight(i,j) : null">
                 <div [innerHTML]="group.fullDescription"></div>
               </div>
             </div>
