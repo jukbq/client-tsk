@@ -52,8 +52,9 @@ export function app(): express.Express {
     return res.status(404).send('Not Found');
   });
 
+
   // 🧼 Стара версія recipe-filte з query
-  server.get('/recipe-filte', (req, res) => {
+  server.get('/recipe-filte', (req, res, next) => {
     const { tag, id } = req.query;
 
     if (tag && id) {
