@@ -23,29 +23,37 @@ export function app(): express.Express {
 
   // 🔐 HTTPS редірект
   server.use((req, res, next) => {
-    if (req.headers['x-forwarded-proto'] !== 'https') {
+    if (
+      req.headers['x-forwarded-proto'] &&
+      req.headers['x-forwarded-proto'] !== 'https'
+    ) {
       return res.redirect(301, `https://${req.headers.host}${req.url}`);
     }
+    // Якщо заголовку немає — не редіректимо (Firebase може проксити)
     next();
   });
 
-  // 🤖 robots.txt і sitemap.xml
+  // 🤖 robots.txt і sitemap.xml (з кешем 1 день)
   server.get('/robots.txt', (req, res) => {
     const path = join(browserDistFolder, 'robots.txt');
-    fs.existsSync(path)
-      ? res.setHeader('Cache-Control', 'public, max-age=86400') && res.sendFile(path)
-      : res.status(404).send('Not Found');
+    if (fs.existsSync(path)) {
+      res.setHeader('Cache-Control', 'public, max-age=86400'); // 1 day
+      return res.sendFile(path);
+    }
+    return res.status(404).send('Not Found');
   });
 
   server.get('/sitemap.xml', (req, res) => {
     const path = join(browserDistFolder, 'sitemap.xml');
-    fs.existsSync(path)
-      ? res.setHeader('Cache-Control', 'public, max-age=86400') && res.sendFile(path)
-      : res.status(404).send('Not Found');
+    if (fs.existsSync(path)) {
+      res.setHeader('Cache-Control', 'public, max-age=86400'); // 1 day
+      return res.sendFile(path);
+    }
+    return res.status(404).send('Not Found');
   });
 
   // 🧼 Стара версія recipe-filte з query
-  server.get('/recipe-filte', (req, res, next) => {
+  server.get('/recipe-filte', (req, res) => {
     const { tag, id } = req.query;
 
     if (tag && id) {
@@ -57,21 +65,72 @@ export function app(): express.Express {
     return res.status(404).send('Not Found');
   });
 
+  // -----------------------
+  //  Статика — з контролем заголовків
+  // -----------------------
+  // Використовуємо express.static як middleware і setHeaders для контролю кешу
+  server.use(
+    express.static(browserDistFolder, {
+      index: false, // щоб не віддавати index.html для asset-запитів автоматично
+      immutable: true,
+      maxAge: '1y',
+      setHeaders: (res, filePath) => {
+        // 1) service-worker.js або ngsw.json - не кешувати довго, щоб оновлення доставилось швидко
+        if (
+          filePath.endsWith('service-worker.js') ||
+          filePath.endsWith('ngsw.json')
+        ) {
+          res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
+          return;
+        }
+
+        // 2) index.html — ніколи не кешувати (щоб браузер швидко отримував нові хеші)
+        if (filePath.endsWith('index.html')) {
+          res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
+          return;
+        }
+
+        // 3) для хешованих файлів (js/css/img) — довгий кеш (immutable)
+        if (
+          /\.[0-9a-f]{8,}\.(js|css|png|jpg|jpeg|svg|webp|woff2?)$/.test(
+            filePath
+          ) ||
+          /-([0-9a-f]{6,})\.(js|css)$/.test(filePath) ||
+          filePath.match(/\.(js|css|png|jpg|jpeg|svg|webp|woff2?)$/)
+        ) {
+          res.setHeader('Cache-Control', 'public, max-age=31536000, immutable');
+          return;
+        }
+
+        // default fallback
+        res.setHeader('Cache-Control', 'public, max-age=3600');
+      },
+    })
+  );
+
   // 🧱 Статика
-  server.get('**', express.static(browserDistFolder, {
-    maxAge: '1y',
-    index: 'index.html',
-  }));
+  server.get(
+    '**',
+    express.static(browserDistFolder, {
+      maxAge: '1y',
+      index: 'index.html',
+    })
+  );
 
   // 🚫 API заглушка
   server.get('/api/**', (req, res) => {
-    res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate');
+    res.setHeader(
+      'Cache-Control',
+      'no-store, no-cache, must-revalidate, proxy-revalidate'
+    );
     res.setHeader('Pragma', 'no-cache');
     res.setHeader('Expires', '0');
     res.status(404).send('API not implemented');
   });
 
-  // 🧠 Angular SSR з перевіркою на 404
+  // -----------------------
+  //  Angular SSR (catch-all)
+  // -----------------------
   server.get('**', (req, res, next) => {
     commonEngine
       .render({
@@ -81,21 +140,18 @@ export function app(): express.Express {
         publicPath: browserDistFolder,
         providers: [
           { provide: APP_BASE_HREF, useValue: req.baseUrl },
-          { provide: RESPONSE, useValue: res }
+          { provide: RESPONSE, useValue: res },
         ],
       })
       .then((html) => {
-        // 🧠 Якщо в HTML є маркери 404-сторінки — віддаємо 404 статус
+        // Для HTML відповіді — жорсткі заголовки, щоб браузери швидко отримували нові index.html
+        res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
+
         if (html.includes('id="soft-404-marker"')) {
           console.warn(`⚠️ SSR DETECTED 404 FOR ${req.originalUrl}`);
-          console.log(`🔁 Sending status ${res.statusCode} for ${req.originalUrl}`);
-
-          res.status(404).send(html);
-        }
-        else {
-          console.log(`🔁 Sending status ${res.statusCode} for ${req.originalUrl}`);
-
-          res.status(200).send(html);
+          return res.status(404).send(html);
+        } else {
+          return res.status(200).send(html);
         }
       })
       .catch(async (err) => {
@@ -108,18 +164,28 @@ export function app(): express.Express {
             publicPath: browserDistFolder,
             providers: [
               { provide: APP_BASE_HREF, useValue: req.baseUrl },
-              { provide: RESPONSE, useValue: res }
+              { provide: RESPONSE, useValue: res },
             ],
           });
+          res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
           return res.status(404).send(html);
         }
 
         console.error('❌ SSR error:', err);
-        res.status(500).send('Internal Server Error');
+        // Віддаємо SPA index як fallback, щоб користувачі не бачили 500 під час помилки SSR
+        try {
+          res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
+          return res
+            .status(200)
+            .sendFile(join(browserDistFolder, 'index.html'));
+        } catch (sendErr) {
+          // якщо і це провалилось — відправимо 500
+          console.error('❌ Fallback send failed:', sendErr);
+          res.status(500).send('Internal Server Error');
+        }
         next(err);
         return;
       });
-
   });
 
   return server;
