@@ -52,7 +52,6 @@ export function app(): express.Express {
     return res.status(404).send('Not Found');
   });
 
-
   // 🧼 Стара версія recipe-filte з query
   server.get('/recipe-filte', (req, res, next) => {
     const { tag, id } = req.query;
@@ -133,11 +132,25 @@ export function app(): express.Express {
   //  Angular SSR (catch-all)
   // -----------------------
   server.get('**', (req, res, next) => {
+    // Визначаємо "публічний" хост у пріоритеті:
+    // 1) якщо проксі передав X-Forwarded-Host — використовуємо його,
+    // 2) інакше беремо env APP_HOST (можна прописати в deployment: tsk.in.ua),
+    // 3) інакше стандартний req.headers.host
+    const forwardedHost = (req.headers['x-forwarded-host'] as string) || null;
+    const originHost =
+      forwardedHost ||
+      process.env['APP_HOST'] ||
+      (req.headers.host as string) ||
+      'tsk.in.ua';
+    const origin = `${req.protocol}://${originHost}`;
+
+    const renderUrl = `${origin}${req.originalUrl}`;
+
     commonEngine
       .render({
         bootstrap,
         documentFilePath: indexHtml,
-        url: `${req.protocol}://${req.headers.host}${req.originalUrl}`,
+        url: renderUrl,
         publicPath: browserDistFolder,
         providers: [
           { provide: APP_BASE_HREF, useValue: req.baseUrl },
@@ -145,7 +158,6 @@ export function app(): express.Express {
         ],
       })
       .then((html) => {
-        // Для HTML відповіді — жорсткі заголовки, щоб браузери швидко отримували нові index.html
         res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
 
         if (html.includes('id="soft-404-marker"')) {
@@ -173,14 +185,12 @@ export function app(): express.Express {
         }
 
         console.error('❌ SSR error:', err);
-        // Віддаємо SPA index як fallback, щоб користувачі не бачили 500 під час помилки SSR
         try {
           res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
           return res
             .status(200)
             .sendFile(join(browserDistFolder, 'index.html'));
         } catch (sendErr) {
-          // якщо і це провалилось — відправимо 500
           console.error('❌ Fallback send failed:', sendErr);
           res.status(500).send('Internal Server Error');
         }

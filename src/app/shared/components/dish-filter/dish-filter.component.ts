@@ -2,11 +2,8 @@ import { Component, Inject, PLATFORM_ID } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CommonModule, isPlatformBrowser, ViewportScroller } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { RouterLink } from '@angular/router';
-
 import { SearchService } from '../../services/search/search.service';
 import { SeoService } from '../../services/seo/seo.service';
-
 import { ShortRecipesResponse } from '../../interfaces/short-recipes';
 import { Meta, Title } from '@angular/platform-browser';
 import { SsrLinkDirective } from '../../directives/ssr-link.directive';
