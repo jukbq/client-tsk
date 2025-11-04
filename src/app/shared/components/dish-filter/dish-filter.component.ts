@@ -60,9 +60,7 @@ export class DishFilterComponent {
       this.recipes = resolvedData.recipes;
       this.searchResults = this.recipes.slice(0, this.displayCount);
       this.currentURL = resolvedData.currentURL;
-      this.seoService.setCanonicalUrl(this.currentURL);
-
-      this.extractSeoDescription(resolvedData);
+this.extractSeoDescription(resolvedData);
     });
 
     if (this.isBrowser) {
@@ -129,7 +127,7 @@ export class DishFilterComponent {
       data.descriptionHoliday,
       data.descriptionRecipeType
     ];
-
+     this.seoService.setCanonicalUrl(this.currentURL);
     const found = possibleDescriptions.find(d => d?.title);
 
     if (found) {
