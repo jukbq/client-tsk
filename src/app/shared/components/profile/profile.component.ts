@@ -48,9 +48,9 @@ export class ProfileComponent {
       })
     );
   }
-  ngOnInit() {
+/*   ngOnInit() {
     console.log(this.userDoc$);
-  }
+  } */
 
   onSelectItem(i: number): void {
     // Якщо клікнули на активний пункт — закриваємо, інакше відкриваємо його
