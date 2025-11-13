@@ -1,5 +1,5 @@
 import { Component, HostListener } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { Router, RouterOutlet } from '@angular/router';
 import { HeaderComponent } from "./shared/components/header/header.component";
 import { CommonModule } from '@angular/common';
 import { FooyerComponent } from "./shared/components/fooyer/fooyer.component";
@@ -9,15 +9,14 @@ import { FooyerComponent } from "./shared/components/fooyer/fooyer.component";
   standalone: true,
   imports: [CommonModule, RouterOutlet, HeaderComponent, FooyerComponent],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.scss'
+  styleUrl: './app.component.scss',
 })
 export class AppComponent {
   title = 'Таверна Синій кіт';
 
-
-
-
   isScrollVisible: boolean = false;
+
+  constructor(private router: Router) {}
 
   // Відстежування події прокрутки вікна
   @HostListener('window:scroll', ['$event'])
@@ -31,5 +30,10 @@ export class AppComponent {
       top: 0,
       behavior: 'smooth', // Плавна прокрутка
     });
+  }
+
+  showFooter(): boolean {
+    const noFooterRoutes = ['/auth', '/profile']; // сторінки, де футер не потрібен
+    return !noFooterRoutes.includes(this.router.url);
   }
 }

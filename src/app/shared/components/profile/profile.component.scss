@@ -1,38 +1,181 @@
-/* src/app/profile/profile.component.scss */
-.profile-wrap {
-  display: flex;
-  justify-content: center;
-  margin-top: var(--header-height);
+.profile_page {
+  width: 100vw;
+  height: 100%;
+  overflow: hidden;
 
-  .card {
-    width: 360px;
-    background: #fff;
-    padding: 20px;
-    border-radius: 10px;
-    text-align: center;
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
-    .avatar {
-      width: 72px;
-      height: 72px;
-      border-radius: 12px;
-      object-fit: cover;
-      margin-bottom: 10px;
+
+  .profile_wrap {
+    width: 100%;
+    height: calc(100vh - var(--header-height));
+    position: relative;
+    padding: var(--header-height);
+    display: flex;
+
+    .sidebar {
+      width: 25%;
+      height: 100%;
+
+
+
+      ul {
+        width: 100%;
+        list-style: none;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+
+
+
+        li {
+          width: 90%;
+          height: 6vh;
+          margin: 10px 0;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          border-radius: 5px;
+          position: relative;
+          cursor: pointer;
+          transition: background-color 0.3s, color 0.3s;
+          background-image: url("../../../../assets/image/profile/old-vintage.png");
+          background-size: cover;
+          background-repeat: no-repeat;
+          background-position: center;
+
+          &::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.3); // напівпрозорий чорний шар
+            transition: all 0.3s;
+            pointer-events: none;
+            opacity: 0; // спочатку не видно
+            z-index: 1;
+          }
+
+          p {
+            color: var(--clr-4);
+            padding: 0;
+            margin: 0;
+            font-size: 21px;
+            z-index: 2;
+          }
+
+
+          &.active,
+          &:hover {
+            color: var(--clr-2);
+
+            &::before {
+              opacity: 1; // показати розмиття при активності або наведенні
+            }
+
+            p {
+              color: var(--clr-2);
+
+            }
+
+
+          }
+
+
+        }
+      }
+
     }
-    h3 {
-      margin: 0;
+
+    .content {
+      width: 75%;
+      height: 100%;
+      padding: 20px;
+      color: var(--clr-2);
+
+      section {
+        width: 100%;
+        height: 100%;
+
+        h2 {
+          width: 100%;
+          text-align: center;
+        }
+
+        button {
+          display: inline-block;
+          background-color: #ff5500;
+          padding: 0.5rem 1.5rem;
+          border-radius: 25px;
+          font-weight: 700;
+          color: #fff;
+          text-transform: uppercase;
+          letter-spacing: 1px;
+          box-shadow: 0 3px 6px rgba(255, 85, 0, 0.6);
+          transition: var(--transition);
+
+          &:hover {
+            background-color: #e04e00;
+            box-shadow: 0 5px 10px rgba(224, 78, 0, 0.8);
+          }
+
+          .open {
+            user-select: none;
+          }
+        }
+      }
+
     }
-    .small {
-      color: #666;
-      font-size: 13px;
-      margin-bottom: 12px;
+
+    @media (max-width: 980px) {
+      .sidebar ul li {
+        width: 100%;
+
+        p {
+          font-size: 18px;
+        }
+      }
     }
-    .btn.logout {
-      padding: 10px 14px;
-      border-radius: 8px;
-      background: #ef4444;
-      color: #fff;
-      border: 0;
-      cursor: pointer;
+
+    @media (max-width: 768px) {
+      padding: 0;
+      padding-top: var(--header-height);
+
+      .sidebar {
+        width: 100%;
+        position: absolute;
+        top: 0;
+        left: -100%;
+        padding-top: var(--header-height);
+        display: flex;
+        align-items: flex-start;
+        justify-content: center;
+        background-color: rgba(0, 0, 0, 0.544);
+
+
+        ul {
+          width: 90%;
+
+          li {
+            width: 100%;
+
+            p {
+              font-size: 18px;
+            }
+          }
+        }
+      }
+
+
+      .content {
+        width: 100%;
+      
+
+      }
+
+
+
     }
   }
 }
