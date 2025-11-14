@@ -3,14 +3,21 @@
   <div class="profile_wrap">
 
     <!-- Ліва панель меню -->
-    <aside class="sidebar">
+    <aside [class.open]="isMenuOpen" class="sidebar">
       <ul>
         <li *ngFor="let menuItem of list; let i = index"
           [ngClass]="{ 'active': i === activeItem }"
-          (click)="onSelectItem(i)">
+          (click)="onSelectItem(i)"  (click)="openMobileMenu()" >
           <p class="nav-link">{{ menuItem.name }}</p>
         </li>
       </ul>
+
+      <div
+        [class.open]="isMenuOpen"
+        (click)="openMobileMenu()" 
+        
+        class="open_menu">
+      </div>
     </aside>
 
     <!-- Контент праворуч -->
@@ -36,7 +43,32 @@
       <!-- Смаколики до душі -->
       <section *ngIf="activeItem === 1">
         <h2>Смаколики до душі</h2>
-        <p>Тут будуть ваші вподобані рецепти.</p>
+         <ul class="dishes_list">
+        @for (recipeList of recipes; track recipeList; ) {
+        <li class="dishes_card">
+          <a [appSsrLink]="['recipe-page', recipeList.id]">
+            <div class="img_black">
+              <img
+                [src]="recipeList.mainImage"
+                alt="{{ recipeList.recipeTitle }}"
+                loading="lazy"
+              />
+            </div>
+          </a>
+          <div class="text_block">
+            <div class="recipe_name">
+              <a [appSsrLink]="['recipe-page', recipeList.id]">
+                {{ recipeList.recipeTitle }}
+              </a>
+            </div>
+          </div>
+
+        
+        </li>
+        }
+
+     
+      </ul>
       </section>
 
       <!-- Недоварені записи -->

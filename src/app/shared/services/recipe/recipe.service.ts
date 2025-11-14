@@ -1,10 +1,10 @@
 import { Injectable, makeStateKey, TransferState } from '@angular/core';
 import { collection, collectionData, CollectionReference, doc, docData, DocumentData, Firestore, getCountFromServer, limit, orderBy, query, where } from '@angular/fire/firestore';
-import { map, Observable, of } from 'rxjs';
+import { combineLatest, map, Observable, of } from 'rxjs';
 import { ShortRecipesResponse } from '../../interfaces/short-recipes';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class RecipeService {
   private collection: CollectionReference<DocumentData>;
@@ -13,10 +13,10 @@ export class RecipeService {
     this.collection = collection(this.afs, 'short-recipes');
   }
 
-
-
   getAll(): Observable<ShortRecipesResponse[]> {
-    return collectionData(this.collection, { idField: 'id' }) as Observable<ShortRecipesResponse[]>;
+    return collectionData(this.collection, { idField: 'id' }) as Observable<
+      ShortRecipesResponse[]
+    >;
   }
 
   async getRecipeCount(dishesID: string): Promise<number> {
@@ -25,18 +25,48 @@ export class RecipeService {
     return snapshot.data().count;
   }
 
+  //Отримання улюдениз рецептів крпмстувача
+  getRecipesByIds(ids: string[]): Observable<any[]> {
+    if (!ids || ids.length === 0) return of([]);
+
+    const chunks: string[][] = [];
+    for (let i = 0; i < ids.length; i += 10) {
+      chunks.push(ids.slice(i, i + 10));
+    }
+
+    const observables = chunks.map((chunk) => {
+      const q = query(this.collection, where('id', 'in', chunk));
+      return collectionData(q, { idField: 'id' }).pipe(
+        map((recipes: any[]) =>
+          recipes.map((r) => ({
+            id: r.id,
+            recipeTitle: r.recipeTitle,
+            mainImage: r.mainImage,
+            createdAt: r.createdAt,
+          }))
+        )
+      );
+    });
+
+    return combineLatest(observables).pipe(map((arrays) => arrays.flat()));
+  }
 
   //отримання останніх рецептів
 
   getRecentRecipes(limitCount: number = 6): Observable<ShortRecipesResponse[]> {
-    const DATA_KEY = makeStateKey<ShortRecipesResponse[]>(`recentRecipes-${limitCount}`);
+    const DATA_KEY = makeStateKey<ShortRecipesResponse[]>(
+      `recentRecipes-${limitCount}`
+    );
 
     if (this.transferState.hasKey(DATA_KEY)) {
       return of(this.transferState.get(DATA_KEY, []));
     }
 
-    const queryRef = query(this.collection, orderBy('createdAt', 'desc'), limit(limitCount));
-
+    const queryRef = query(
+      this.collection,
+      orderBy('createdAt', 'desc'),
+      limit(limitCount)
+    );
 
     return collectionData(queryRef, { idField: 'id' }).pipe(
       map((recipes: DocumentData[]) =>
@@ -48,14 +78,15 @@ export class RecipeService {
         }))
       )
     );
-
   }
 
-
   getRecipeLightById(categoryId: string): Observable<any[]> {
-    const queryRef = query(this.collection, where('categoriesDishes.id', '==', categoryId));
+    const queryRef = query(
+      this.collection,
+      where('categoriesDishes.id', '==', categoryId)
+    );
     return collectionData(queryRef, { idField: 'id' }).pipe(
-      map(recipes =>
+      map((recipes) =>
         recipes.map((recipe: any) => ({
           id: recipe.id,
           recipeTitle: recipe.recipeTitle,
@@ -64,18 +95,26 @@ export class RecipeService {
           region: recipe.region,
           ingredients: (recipe.ingredients || []).flatMap((group: any) =>
             (group.group || []).map((item: any) => ({
-              name: item.selectedProduct?.productsName?.trim() || 'Невідомий інгредієнт',
-              id: item.selectedProduct?.id || null
+              name:
+                item.selectedProduct?.productsName?.trim() ||
+                'Невідомий інгредієнт',
+              id: item.selectedProduct?.id || null,
             }))
-          )
+          ),
         }))
       )
     );
   }
 
-
-  getRandomRecipesByDishesID(dishesid: string, count: number): Observable<ShortRecipesResponse[]> {
-    const queryRef = query(this.collection, where('dishes.id', '==', dishesid), limit(count));
+  getRandomRecipesByDishesID(
+    dishesid: string,
+    count: number
+  ): Observable<ShortRecipesResponse[]> {
+    const queryRef = query(
+      this.collection,
+      where('dishes.id', '==', dishesid),
+      limit(count)
+    );
 
     return collectionData(queryRef, { idField: 'id' }).pipe(
       map((recipes: DocumentData[]) =>
@@ -92,22 +131,24 @@ export class RecipeService {
     );
   }
 
-
   getRecipeByID(id: string): Observable<any> {
     const docRef = doc(this.afs, `short-recipes/${id}`);
-    return docData(docRef, { idField: 'id' }) as Observable<ShortRecipesResponse>;
-
+    return docData(docRef, {
+      idField: 'id',
+    }) as Observable<ShortRecipesResponse>;
   }
-
 
   //Конвертор інгридієнтів
   formatIngredients(ingredientsGroup: any[]): any[] {
-    return ingredientsGroup.map(group => {
+    return ingredientsGroup.map((group) => {
       return {
-        name: group.name || '',  // зберігаємо назву групи, якщо є
+        name: group.name || '', // зберігаємо назву групи, якщо є
         group: group.group.map((item: any) => {
-          const productsImages = item.selectedProduct.productsImages ? `${item.selectedProduct.productsImages}` : '';
-          const name = item.selectedProduct?.productsName?.trim() || 'Інгредієнт';
+          const productsImages = item.selectedProduct.productsImages
+            ? `${item.selectedProduct.productsImages}`
+            : '';
+          const name =
+            item.selectedProduct?.productsName?.trim() || 'Інгредієнт';
           const amount = item.amount ? `${item.amount}` : '';
           const unit = item.unitsMeasure ? `${item.unitsMeasure}` : '';
           const notes = item.notes ? `(${item.notes})` : '';
@@ -120,24 +161,20 @@ export class RecipeService {
             image: productsImages,
             text: text,
             recipeID: item.selectedProduct.recipeID || null,
-
           };
-        })
+        }),
       };
     });
   }
 
-
-
   // Приймаємо масив, який складається з об'єктів з групами інгредієнтів
-  findRecipesWithIds(data: { group: any[]; name: string }[]): { recipeID: string; recipeName: string }[] {
-
+  findRecipesWithIds(
+    data: { group: any[]; name: string }[]
+  ): { recipeID: string; recipeName: string }[] {
     const recipes: { recipeID: string; recipeName: string }[] = [];
 
-
-
-    data.forEach(item => {
-      item.group.forEach(ingredient => {
+    data.forEach((item) => {
+      item.group.forEach((ingredient) => {
         const prod = ingredient.selectedProduct;
         if (prod && prod.recipeID) {
           recipes.push({
@@ -149,13 +186,11 @@ export class RecipeService {
     });
 
     // Видаляємо дублі за recipeID, якщо треба
-    const uniqueRecipes = recipes.filter((rec, index, arr) =>
-      arr.findIndex(r => r.recipeID === rec.recipeID) === index
+    const uniqueRecipes = recipes.filter(
+      (rec, index, arr) =>
+        arr.findIndex((r) => r.recipeID === rec.recipeID) === index
     );
 
     return uniqueRecipes;
   }
-
-
-
 }

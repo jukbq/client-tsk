@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Auth, signInWithPopup, GoogleAuthProvider, FacebookAuthProvider, signOut, User, onAuthStateChanged } from '@angular/fire/auth';
-import { Firestore, doc, getDoc, setDoc, serverTimestamp } from '@angular/fire/firestore';
+import { Firestore, doc, getDoc, setDoc, serverTimestamp, docData } from '@angular/fire/firestore';
 import { Router } from '@angular/router';
-import { BehaviorSubject, firstValueFrom } from 'rxjs';
+import { BehaviorSubject, firstValueFrom, Observable } from 'rxjs';
 
 
 export interface AppUser {
@@ -15,19 +15,22 @@ export interface AppUser {
 
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AuthService {
   private _user$ = new BehaviorSubject<User | null>(null);
   user$ = this._user$.asObservable();
 
-  constructor(private auth: Auth, private firestore: Firestore, private router: Router) {
+  constructor(
+    private auth: Auth,
+    private firestore: Firestore,
+    private router: Router
+  ) {
     // слідкуємо за зміною auth
     onAuthStateChanged(this.auth, (u) => {
       this._user$.next(u);
     });
   }
-
 
   // --- Social logins ---
   async loginWithGoogle() {
@@ -62,7 +65,7 @@ export class AuthService {
         displayName: user.displayName || null,
         email: user.email || null,
         photoURL: user.photoURL || null,
-        createdAt: serverTimestamp()
+        createdAt: serverTimestamp(),
       };
       await setDoc(ref, data);
     } else {
@@ -82,4 +85,6 @@ export class AuthService {
     // дочекаємось першого значущого emission
     return firstValueFrom(this.user$);
   }
+
+
 }
