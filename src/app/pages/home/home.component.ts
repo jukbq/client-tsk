@@ -1,5 +1,19 @@
-import { CommonModule, DOCUMENT, isPlatformBrowser, PlatformLocation, ViewportScroller } from '@angular/common';
-import { Component, ElementRef, HostListener, Inject, PLATFORM_ID, Renderer2, ViewChild } from '@angular/core';
+import {
+  CommonModule,
+  DOCUMENT,
+  isPlatformBrowser,
+  PlatformLocation,
+  ViewportScroller,
+} from '@angular/common';
+import {
+  Component,
+  ElementRef,
+  HostListener,
+  Inject,
+  PLATFORM_ID,
+  Renderer2,
+  ViewChild,
+} from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SeoService } from '../../shared/services/seo/seo.service';
 import { Meta, Title } from '@angular/platform-browser';
@@ -10,14 +24,15 @@ import { SsrLinkDirective } from '../../shared/directives/ssr-link.directive';
 import { log } from 'node:console';
 import { FavoritesService } from '../../shared/services/favorites/favorites.service';
 import { AuthService } from '../../shared/services/auth/auth.service';
-
+import { ModalService } from '../../shared/services/modal/modal.service';
+import { AuthModalComponent } from '../../shared/components/auth-modal/auth-modal.component';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule, SsrLinkDirective],
+  imports: [CommonModule, SsrLinkDirective, AuthModalComponent],
   templateUrl: './home.component.html',
-  styleUrl: './home.component.scss'
+  styleUrl: './home.component.scss',
 })
 export class HomeComponent {
   @ViewChild('textBlocks') textBlocksRef!: ElementRef<HTMLDivElement>;
@@ -25,7 +40,6 @@ export class HomeComponent {
   selectedIndex = 0;
   isMobile = false;
   underIds = new Set<string>();
-
 
   favoriteIds: string[] = [];
 
@@ -37,11 +51,10 @@ export class HomeComponent {
   dishCategories: { [key: string]: any[] } = {};
   isBrowser: boolean = false;
 
-
-
   //contennt
   homeTite = '';
-  mainImage = 'https://firebasestorage.googleapis.com/v0/b/synikit-12dee.appspot.com/o/home%2Fbackground.webp?alt=media&token=fd797c35-8b8c-4c3e-a51c-c64679a02814';
+  mainImage =
+    'https://firebasestorage.googleapis.com/v0/b/synikit-12dee.appspot.com/o/home%2Fbackground.webp?alt=media&token=fd797c35-8b8c-4c3e-a51c-c64679a02814';
   schema: any;
 
   private ldJsonScript?: HTMLScriptElement;
@@ -60,8 +73,11 @@ export class HomeComponent {
     private categoryService: CategoriesService,
     private recipeService: RecipeService,
     private fav: FavoritesService,
-    private auth: AuthService
-  ) { this.isBrowser = isPlatformBrowser(this.platformId); }
+    private auth: AuthService,
+    private modal: ModalService
+  ) {
+    this.isBrowser = isPlatformBrowser(this.platformId);
+  }
 
   ngOnInit(): void {
     if (this.isBrowser) {
@@ -69,10 +85,11 @@ export class HomeComponent {
       this.checkScreen();
       window.addEventListener('resize', () => this.checkScreen());
 
-      this.auth.user$.subscribe(user => {
+      this.auth.user$.subscribe((user) => {
         if (user) {
-          this.fav.getFavorites(user.uid).subscribe(ids => this.favoriteIds = ids);
-
+          this.fav
+            .getFavorites(user.uid)
+            .subscribe((ids) => (this.favoriteIds = ids));
         }
       });
 
@@ -80,27 +97,24 @@ export class HomeComponent {
     }
 
     this.route.data.subscribe((data: any) => {
-      const wrapper = data.dishes
+      const wrapper = data.dishes;
       const dishes = wrapper.data;
       this.currentURL = wrapper.url;
       this.loadData();
-      this.dishesList = dishes
+      this.dishesList = dishes;
       this.dishesList.sort((a, b) => a.dishesName.localeCompare(b.dishesName));
-      this.recipeCountLoad()
-      this.recipes = data.recentRecipe
-
+      this.recipeCountLoad();
+      this.recipes = data.recentRecipe;
     });
   }
-
 
   checkScreen() {
     this.isMobile = window.innerWidth <= 900; // брейкпоінт для мобілки
   }
 
-
   loadData() {
-    this.homeTite = 'Таверна "Синій Кіт" – перевірені рецепти та поради'
-    this.seoServices.setCanonicalUrl(this.currentURL)
+    this.homeTite = 'Таверна "Синій Кіт" – перевірені рецепти та поради';
+    this.seoServices.setCanonicalUrl(this.currentURL);
     this.titleService.setTitle(this.homeTite);
     this.meta.updateTag({ property: 'canonical', content: this.currentURL });
     this.meta.updateTag({
@@ -156,7 +170,6 @@ export class HomeComponent {
 
   selectRecipe(i: number) {
     this.selectedIndex = i;
-
   }
 
   openRecipe(id: string) {
@@ -178,14 +191,17 @@ export class HomeComponent {
     this.ldJsonScript = script;
   }
 
-
   async recipeCountLoad() {
     for (let dish of this.dishesList) {
-      this.recipeCounts[dish.id] = await this.recipeService.getRecipeCount(dish.id);
+      this.recipeCounts[dish.id] = await this.recipeService.getRecipeCount(
+        dish.id
+      );
 
-      this.categoryService.getLightById(dish.id).subscribe(categories => {
+      this.categoryService.getLightById(dish.id).subscribe((categories) => {
         this.dishCategories[dish.id] = categories;
-        this.dishCategories[dish.id].sort((a, b) => a.categoryName.localeCompare(b.categoryName));
+        this.dishCategories[dish.id].sort((a, b) =>
+          a.categoryName.localeCompare(b.categoryName)
+        );
       });
     }
   }
@@ -217,14 +233,19 @@ export class HomeComponent {
     });
   }
 
-
   isFavorite(recipeId: string) {
     return this.favoriteIds.includes(recipeId);
   }
 
   toggleFavorite(recipeId: string) {
     const user = this.auth.currentUser;
-    if (!user) return alert('Треба увійти в акаунт');
+    if (!user) {
+      this.modal.open({
+        type: 'auth',
+        data: { reason: 'add-fav', recipeId, returnUrl: this.router.url },
+      });
+      return;
+    }
 
     if (this.isFavorite(recipeId)) {
       this.fav.removeFavorite(user.uid, recipeId);
@@ -232,7 +253,4 @@ export class HomeComponent {
       this.fav.addFavorite(user.uid, recipeId);
     }
   }
-
-
-
 }

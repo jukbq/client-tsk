@@ -13,6 +13,8 @@ import { RecipeInstructionsComponent } from "./components/recipe-instructions/re
 import { AutoScrollCarouselComponent } from "./components/auto-scroll-carousel/auto-scroll-carousel.component";
 import { FavoritesService } from '../../shared/services/favorites/favorites.service';
 import { AuthService } from '../../shared/services/auth/auth.service';
+import { AuthModalComponent } from "../../shared/components/auth-modal/auth-modal.component";
+import { ModalService } from '../../shared/services/modal/modal.service';
 declare var bootstrap: any;
 
 
@@ -27,7 +29,8 @@ declare var bootstrap: any;
     RecipeIngredientsComponent,
     RecipeInstructionsComponent,
     AutoScrollCarouselComponent,
-  ],
+    AuthModalComponent
+],
   templateUrl: './recipe-page.component.html',
   styleUrl: './recipe-page.component.scss'
 })
@@ -83,7 +86,8 @@ export class RecipePageComponent {
     private viewportScroller: ViewportScroller,
     private route: ActivatedRoute,
     private fav: FavoritesService,
-    private auth: AuthService
+    private auth: AuthService,
+       private modal: ModalService
   ) { this.isBrowser = isPlatformBrowser(this.platformId); }
 
 
@@ -268,7 +272,13 @@ export class RecipePageComponent {
 
   toggleFavorite(recipeId: string) {
     const user = this.auth.currentUser;
-    if (!user) return alert('Треба увійти в акаунт');
+    if (!user) {
+      this.modal.open({
+        type: 'auth',
+        data: { reason: 'add-fav', recipeId, returnUrl: this.router.url },
+      });
+      return;
+    }
 
     if (this.isFavorite(recipeId)) {
       this.fav.removeFavorite(user.uid, recipeId);

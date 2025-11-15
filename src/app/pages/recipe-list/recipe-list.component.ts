@@ -1,8 +1,21 @@
-import { Component, ElementRef, HostListener, Inject, PLATFORM_ID, Renderer2, ViewChild } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  HostListener,
+  Inject,
+  PLATFORM_ID,
+  Renderer2,
+  ViewChild,
+} from '@angular/core';
 import { СuisineResponse } from '../../shared/interfaces/cuisine';
 import { RegionResponse } from '../../shared/interfaces/region';
 import { ProductsRequest } from '../../shared/interfaces/products';
-import { CommonModule, DOCUMENT, isPlatformBrowser, ViewportScroller } from '@angular/common';
+import {
+  CommonModule,
+  DOCUMENT,
+  isPlatformBrowser,
+  ViewportScroller,
+} from '@angular/common';
 import { ActivatedRoute, ParamMap, Router, RouterLink } from '@angular/router';
 import { FooyerComponent } from '../../shared/components/fooyer/fooyer.component';
 import { SeoService } from '../../shared/services/seo/seo.service';
@@ -12,7 +25,8 @@ import { RecipeService } from '../../shared/services/recipe/recipe.service';
 import { SsrLinkDirective } from '../../shared/directives/ssr-link.directive';
 import { FavoritesService } from '../../shared/services/favorites/favorites.service';
 import { AuthService } from '../../shared/services/auth/auth.service';
-
+import { AuthModalComponent } from '../../shared/components/auth-modal/auth-modal.component';
+import { ModalService } from '../../shared/services/modal/modal.service';
 
 interface RecipeLight {
   id: string;
@@ -23,13 +37,12 @@ interface RecipeLight {
   ingredients: ProductsRequest;
 }
 
-
 @Component({
   selector: 'app-recipe-list',
   standalone: true,
-  imports: [CommonModule, SsrLinkDirective],
+  imports: [CommonModule, SsrLinkDirective, AuthModalComponent],
   templateUrl: './recipe-list.component.html',
-  styleUrl: './recipe-list.component.scss'
+  styleUrl: './recipe-list.component.scss',
 })
 export class RecipeListComponent {
   @ViewChild('textBlocks') textBlocksRef!: ElementRef<HTMLDivElement>;
@@ -41,7 +54,6 @@ export class RecipeListComponent {
   filteredRegions: Array<any> = [];
   filyerIngredients: Array<any> = [];
   selectedProducts: string[] = [];
-
 
   image = '';
   additionalImage = '';
@@ -61,8 +73,6 @@ export class RecipeListComponent {
   wasTextVisible = false;
   private ldJsonScript?: HTMLScriptElement;
 
-
-
   constructor(
     @Inject(DOCUMENT) private document: Document,
     @Inject(PLATFORM_ID) private platformId: any,
@@ -76,31 +86,29 @@ export class RecipeListComponent {
     private recipeService: RecipeService,
     private route: ActivatedRoute,
     private fav: FavoritesService,
-    private auth: AuthService
+    private auth: AuthService,
+    private modal: ModalService
   ) {
     this.isBrowser = isPlatformBrowser(this.platformId);
   }
-
 
   ngOnInit() {
     if (this.isBrowser) {
       this.viewportScroller.scrollToPosition([0, 0]);
 
-      this.auth.user$.subscribe(user => {
+      this.auth.user$.subscribe((user) => {
         if (user) {
-          this.fav.getFavorites(user.uid).subscribe(ids => this.favoriteIds = ids);
+          this.fav
+            .getFavorites(user.uid)
+            .subscribe((ids) => (this.favoriteIds = ids));
         }
       });
-
-
     }
-
-
 
     this.route.paramMap.subscribe((params: ParamMap) => {
       const categoryId = params.get('categoryid');
-      this.categoryId = categoryId as string
-      this.recipeStateService.setCategoryId(this.categoryId)
+      this.categoryId = categoryId as string;
+      this.recipeStateService.setCategoryId(this.categoryId);
       this.loadRecipes();
     });
 
@@ -117,12 +125,8 @@ export class RecipeListComponent {
         this.currentURL = wrapper.url;
         this.dataLoad(data);
       },
-
     });
-
-
   }
-
 
   loadRecipes() {
     const savedRecipes = this.recipeStateService.getRecipes();
@@ -130,47 +134,49 @@ export class RecipeListComponent {
     if (savedRecipes.length) {
       this.recipes = savedRecipes;
 
-      this.recipesFilter = this.recipes
+      this.recipesFilter = this.recipes;
       this.recipesFilter.sort((a, b) =>
         a.recipeTitle.localeCompare(b.recipeTitle)
       );
-      this.getFiltr()
+      this.getFiltr();
       this.route.data.subscribe((data: any) => {
         this.checkPlatform(data);
       });
-
     } else {
       this.viewportScroller.scrollToPosition([0, 0]);
-      this.recipeService.getRecipeLightById(this.categoryId).subscribe((data: any) => {
-        this.recipes = data
-        this.recipesFilter = this.recipes
-        this.recipesFilter.sort((a, b) =>
-          a.recipeTitle.localeCompare(b.recipeTitle)
-        );
-        this.getFiltr()
-        this.recipeStateService.setRecipes(this.recipes);
-      });
-
+      this.recipeService
+        .getRecipeLightById(this.categoryId)
+        .subscribe((data: any) => {
+          this.recipes = data;
+          this.recipesFilter = this.recipes;
+          this.recipesFilter.sort((a, b) =>
+            a.recipeTitle.localeCompare(b.recipeTitle)
+          );
+          this.getFiltr();
+          this.recipeStateService.setRecipes(this.recipes);
+        });
     }
-  };
-
+  }
 
   getFiltr() {
     this.countriesRecipe = [];
     this.filteredRegions = [];
     this.filyerIngredients = [];
-    const country = new Map<any, { id: number | string, cuisineName: string }>();
-    const product = new Map<any, { id: number | string, name: string }>();
-    this.recipes.forEach(r => {
+    const country = new Map<
+      any,
+      { id: number | string; cuisineName: string }
+    >();
+    const product = new Map<any, { id: number | string; name: string }>();
+    this.recipes.forEach((r) => {
       const c = r.cuisine;
       if (c && !country.has(c.id)) {
         country.set(c.id, { id: c.id, cuisineName: c.cuisineName });
       }
     });
-    this.recipes.forEach(r => {
+    this.recipes.forEach((r) => {
       const ingredients = r.ingredients;
       if (ingredients && Array.isArray(ingredients)) {
-        ingredients.forEach(p => {
+        ingredients.forEach((p) => {
           if (p && !product.has(p.id)) {
             product.set(p.id, { id: p.id, name: p.name });
           }
@@ -179,24 +185,17 @@ export class RecipeListComponent {
     });
 
     this.countries = Array.from(country.values());
-    this.countries.sort((a, b) =>
-      a.cuisineName.localeCompare(b.cuisineName)
-    );
+    this.countries.sort((a, b) => a.cuisineName.localeCompare(b.cuisineName));
     this.filyerIngredients = Array.from(product.values());
-    this.filyerIngredients.sort((a, b) =>
-      a.name.localeCompare(b.name)
-    );
+    this.filyerIngredients.sort((a, b) => a.name.localeCompare(b.name));
   }
-
 
   dataLoad(data: any) {
     function stripHtml(html: string): string {
       return html.replace(/<\/?[^>]+(>|$)/g, '');
     }
-    this.seoServices.setCanonicalUrl(this.currentURL)
+    this.seoServices.setCanonicalUrl(this.currentURL);
     const category = data.category.data;
-
-
 
     if (
       !category ||
@@ -217,7 +216,7 @@ export class RecipeListComponent {
     const image = category.image;
     this.currentURL = `${this.document.location.origin}${this.router.url}`;
 
-    this.seoServices.setCanonicalUrl(this.currentURL)
+    this.seoServices.setCanonicalUrl(this.currentURL);
 
     this.titleService.setTitle(seoName);
     this.meta.updateTag({ property: 'canonical', content: this.currentURL });
@@ -253,20 +252,16 @@ export class RecipeListComponent {
       },
       potentialAction: {
         '@type': 'SearchAction',
-        target:
-          'https://tsk.in.ua/search?q={search_term_string}',
+        target: 'https://tsk.in.ua/search?q={search_term_string}',
         'query-input': 'required name=search_term_string',
       },
     };
 
     this.setSchema(this.schema);
     this.checkPlatform(data);
-
   }
 
-
   setSchema(schema: any): void {
-
     if (this.ldJsonScript) {
       this.renderer.removeChild(this.document.head, this.ldJsonScript);
     }
@@ -277,13 +272,11 @@ export class RecipeListComponent {
     this.renderer.appendChild(this.document.head, script);
   }
 
-
-
   checkPlatform(data: any) {
     if (this.isBrowser) {
-      this.image = data.category.data.image
-      this.categoryDescription = data.category.data.categoryDescription
-      this.additionalImage = data.category.data.additionalImage
+      this.image = data.category.data.image;
+      this.categoryDescription = data.category.data.categoryDescription;
+      this.additionalImage = data.category.data.additionalImage;
       this.dishesName = data.category.data.dishes.dishesName;
       this.dishesID = data.category.data.dishes.id;
       this.updateFontSize(data.category.data.categoryName); // Встановлюємо при початковому завантаженні
@@ -300,24 +293,23 @@ export class RecipeListComponent {
       this.fontSize = '5vh';
     } else if (screenWidth < 789) {
       // Для маленьких планшетів
-      this.fontSize = textLength <= 10 ? '11vh' : textLength <= 20 ? '10vh' : '8vh';
+      this.fontSize =
+        textLength <= 10 ? '11vh' : textLength <= 20 ? '10vh' : '8vh';
     } else if (screenWidth < 992) {
       // Для планшетів
-      this.fontSize = textLength <= 10 ? '15vh' : textLength <= 20 ? '12vh' : '10vh';
+      this.fontSize =
+        textLength <= 10 ? '15vh' : textLength <= 20 ? '12vh' : '10vh';
     } else {
       // Для десктопів
-      this.fontSize = textLength <= 10 ? '18vh' : textLength <= 20 ? '15vh' : '12vh';
+      this.fontSize =
+        textLength <= 10 ? '18vh' : textLength <= 20 ? '15vh' : '12vh';
     }
-    this.categoryName = categoryName
-
+    this.categoryName = categoryName;
   }
-
 
   toggleCollapse(): void {
     this.isCollapsed = !this.isCollapsed;
   }
-
-
 
   // Відстежування події прокрутки вікна
   @HostListener('window:scroll', ['$event'])
@@ -335,10 +327,15 @@ export class RecipeListComponent {
 
     // Анімація опису
     if (this.textBlocksRef) {
-      const elementPosition = this.textBlocksRef.nativeElement.getBoundingClientRect().top + window.scrollY;
+      const elementPosition =
+        this.textBlocksRef.nativeElement.getBoundingClientRect().top +
+        window.scrollY;
       const elementHeight = this.textBlocksRef.nativeElement.offsetHeight;
 
-      if (scrollPosition + window.innerHeight > elementPosition + elementHeight / 2) {
+      if (
+        scrollPosition + window.innerHeight >
+        elementPosition + elementHeight / 2
+      ) {
         this.isVisible = true;
       }
     }
@@ -347,34 +344,39 @@ export class RecipeListComponent {
     const recipeCards = document.querySelectorAll<HTMLElement>('.dishes_card');
     const contents = document.querySelectorAll<HTMLElement>('.content');
 
-    recipeCards.forEach(card => {
+    recipeCards.forEach((card) => {
       const elementTop = card.getBoundingClientRect().top + window.scrollY;
       const elementHeight = card.offsetHeight;
 
-      if (scrollPosition + window.innerHeight > elementTop + elementHeight / 2) {
+      if (
+        scrollPosition + window.innerHeight >
+        elementTop + elementHeight / 2
+      ) {
         card.classList.add('show');
       }
     });
 
-    contents.forEach(content => {
+    contents.forEach((content) => {
       const elementTop = content.getBoundingClientRect().top + window.scrollY;
       const elementHeight = content.offsetHeight;
 
-      if (scrollPosition + window.innerHeight > elementTop + elementHeight / 2) {
+      if (
+        scrollPosition + window.innerHeight >
+        elementTop + elementHeight / 2
+      ) {
         content.classList.add('show');
       }
     });
   }
 
-
   onCountriSelection(id: string) {
-    const unique = new Map<any, { id: number | string, regionName: string }>();
+    const unique = new Map<any, { id: number | string; regionName: string }>();
     /*  const selectElement = event.target as HTMLSelectElement; 
      const selectedCuisineId = selectElement.value; */
     if (id !== 'all') {
-      this.recipesFilter = this.recipes.filter(r => r.cuisine.id === id);
+      this.recipesFilter = this.recipes.filter((r) => r.cuisine.id === id);
       this.countriesRecipe = this.recipesFilter;
-      this.recipesFilter.forEach(r => {
+      this.recipesFilter.forEach((r) => {
         const c = r.region;
         if (c && !unique.has(c.id)) {
           unique.set(c.id, { id: c.id, regionName: c.regionName });
@@ -382,26 +384,22 @@ export class RecipeListComponent {
       });
       this.filteredRegions = Array.from(unique.values());
       window.scrollBy(0, 1);
-
     } else {
-      this.recipesFilter = this.recipes
+      this.recipesFilter = this.recipes;
       this.recipesFilter.sort((a, b) =>
         a.recipeTitle.localeCompare(b.recipeTitle)
       );
       window.scrollBy(0, 1);
     }
-
-
   }
 
   onRegionSelection(id: string) {
-
     if (id !== 'all') {
-      this.recipesFilter = this.countriesRecipe.filter(r =>
-        r.region?.id === id
+      this.recipesFilter = this.countriesRecipe.filter(
+        (r) => r.region?.id === id
       );
     } else {
-      this.recipesFilter = this.countriesRecipe
+      this.recipesFilter = this.countriesRecipe;
       this.recipesFilter.sort((a, b) =>
         a.recipeTitle.localeCompare(b.recipeTitle)
       );
@@ -409,15 +407,15 @@ export class RecipeListComponent {
     window.scrollBy(0, 1);
   }
 
-
   resetProducts() {
     this.selectedProducts = [];
-    this.recipesFilter = this.countriesRecipe.length ? this.countriesRecipe : this.recipes;
+    this.recipesFilter = this.countriesRecipe.length
+      ? this.countriesRecipe
+      : this.recipes;
     this.recipesFilter.sort((a, b) =>
       a.recipeTitle.localeCompare(b.recipeTitle)
     );
   }
-
 
   onProductToggle(productId: string) {
     const index = this.selectedProducts.indexOf(productId);
@@ -429,14 +427,20 @@ export class RecipeListComponent {
 
     if (this.selectedProducts.length === 0) {
       // Якщо нічого не вибрано — показуємо всі рецепти
-      this.recipesFilter = this.countriesRecipe.length ? this.countriesRecipe : this.recipes;
+      this.recipesFilter = this.countriesRecipe.length
+        ? this.countriesRecipe
+        : this.recipes;
       this.recipesFilter.sort((a, b) =>
         a.recipeTitle.localeCompare(b.recipeTitle)
       );
     } else {
       // Фільтруємо тільки за обраними інгредієнтами
-      this.recipesFilter = (this.countriesRecipe.length ? this.countriesRecipe : this.recipes).filter(recipe =>
-        recipe.ingredients?.some((i: { id: string; }) => this.selectedProducts.includes(i.id))
+      this.recipesFilter = (
+        this.countriesRecipe.length ? this.countriesRecipe : this.recipes
+      ).filter((recipe) =>
+        recipe.ingredients?.some((i: { id: string }) =>
+          this.selectedProducts.includes(i.id)
+        )
       );
       this.recipesFilter.sort((a, b) =>
         a.recipeTitle.localeCompare(b.recipeTitle)
@@ -446,13 +450,11 @@ export class RecipeListComponent {
     window.scrollBy(0, 1);
   }
 
-
   ngAfterViewInit(): void {
     if (this.isBrowser) {
       setTimeout(() => this.onScroll(null));
     }
   }
-
 
   isFavorite(recipeId: string) {
     return this.favoriteIds.includes(recipeId);
@@ -460,7 +462,13 @@ export class RecipeListComponent {
 
   toggleFavorite(recipeId: string) {
     const user = this.auth.currentUser;
-    if (!user) return alert('Треба увійти в акаунт');
+    if (!user) {
+      this.modal.open({
+        type: 'auth',
+        data: { reason: 'add-fav', recipeId, returnUrl: this.router.url },
+      });
+      return;
+    }
 
     if (this.isFavorite(recipeId)) {
       this.fav.removeFavorite(user.uid, recipeId);
