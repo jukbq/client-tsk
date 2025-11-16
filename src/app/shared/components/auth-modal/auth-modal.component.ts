@@ -1,7 +1,8 @@
-import { Component, ElementRef, HostListener, Renderer2 } from '@angular/core';
+import { Component, ElementRef, HostListener, Inject, PLATFORM_ID, Renderer2 } from '@angular/core';
 import { ModalPayload, ModalService } from '../../services/modal/modal.service';
 import { Subscription } from 'rxjs';
 import { Router } from '@angular/router';
+import { isPlatformBrowser } from '@angular/common';
 
 @Component({
   selector: 'app-auth-modal',
@@ -15,13 +16,17 @@ export class AuthModalComponent {
   payload: ModalPayload | null = null;
   private sub: Subscription | null = null;
   private previouslyFocused: HTMLElement | null = null;
+  isBrowser: boolean = false;
 
   constructor(
+    @Inject(PLATFORM_ID) private platformId: Object,
     public modal: ModalService,
     private elRef: ElementRef<HTMLElement>,
     private renderer: Renderer2,
     private router: Router
-  ) {}
+  ) {
+    this.isBrowser = isPlatformBrowser(this.platformId); 
+  }
 
   ngOnInit() {
     this.sub = this.modal.state$.subscribe((state) => {
@@ -36,16 +41,20 @@ export class AuthModalComponent {
 
   private show(payload: ModalPayload | null) {
     this.payload = payload;
-    this.previouslyFocused = document.activeElement as HTMLElement | null;
-    this.open = true;
-    this.renderer.addClass(document.body, 'no-scroll');
+    if (this.isBrowser) {
+      this.previouslyFocused = document.activeElement as HTMLElement | null;
+      this.open = true;
+      this.renderer.addClass(document.body, 'no-scroll');
+    }
   }
 
   private hide() {
     this.open = false;
     this.payload = null;
+     if (this.isBrowser) {
     this.renderer.removeClass(document.body, 'no-scroll');
     setTimeout(() => this.previouslyFocused?.focus(), 0);
+  }
   }
 
   backdropClick(event: MouseEvent) {

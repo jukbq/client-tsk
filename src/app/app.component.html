@@ -1,8 +1,26 @@
 <app-header></app-header>
 <router-outlet></router-outlet>
 <app-fooyer *ngIf="showFooter()"></app-fooyer>
+
 <div
   class="scroll-to-top"
   (click)="scrollToTop()"
-  *ngIf="isScrollVisible"
-></div>
+  *ngIf="isScrollVisible"></div>
+
+<div *ngIf="showPatreonPopup"
+  class="patreon-popup"
+  [class.show]="showPatreonPopup">
+  
+  <div class="popup-content">
+    <img src="../assets/image/donat/donat-kit.webp"
+      alt="funny cat holding treasure chest with coins on white background"
+      class="popup-cat-img">
+    <!--     <div class="popup-text">
+      Підкинь на чай коту!
+    </div> -->
+    <a href="https://www.patreon.com/Pidtrimai_Synogo_Kota" target="_blank"
+      class="popup-button">Підтримати</a>
+
+    <div class="popup-close" (click)="closePatreonPopup()" >&times;</div>
+  </div>
+</div>

@@ -11,7 +11,7 @@ export function getDifficultySeoDescription(level: string) {
             description: 'Ідеально для новачків або коли нема часу. Мінімум дій – максимум смаку.',
             metaTitle: 'Прості рецепти – швидке та легке приготування',
             metaDescription: 'Готуйте без зайвого клопоту! Найпростіші рецепти на кожен день – смачно і без стресу.',
-            image: '/assets/icon/difficulty/base.webp'
+            image: '/assets/icon/difficultywebp'
         },
         medium: {
             title: 'Рецепти середньої складності',
