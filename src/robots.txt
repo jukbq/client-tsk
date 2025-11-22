@@ -1,7 +1,5 @@
 User-agent: *
 Disallow: /404
-Disallow: /recipes-list/BioevhrBuRs63g4bjxcq
-Disallow: /recipe-filter?tag=holiday&id=l3FkqUs5TA9nBsmrtnVC
-Disallow: /recipe-filter?tag=region&id=VIWvbfLLYpuUuCCBCQ3a
+
 
 Sitemap: https://tsk.in.ua/sitemap.xml
