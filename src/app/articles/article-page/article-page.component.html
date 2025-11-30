@@ -14,8 +14,7 @@
           loading="eager"
           decoding="auto"
           (click)="openModal(image)"
-          style="cursor: pointer"
-        />
+          style="cursor: pointer" />
       </div>
 
       <!--ХЛІБНІ КРИХТИ-->
@@ -34,12 +33,12 @@
             <li class="breadcrumb-item">
               <a [appSsrLink]="['article-categories', articleTypeID]">{{
                 articleTypeName
-              }}</a>
+                }}</a>
             </li>
             <li class="breadcrumb-item">
               <a [appSsrLink]="['article-list', aticleCategoryID]">{{
                 aticleCategoryName
-              }}</a>
+                }}</a>
             </li>
             <li class="breadcrumb-item active" aria-current="page">
               {{ articleName }}
@@ -78,8 +77,29 @@
                 loading="eager"
                 decoding="auto"
                 (click)="openModal(image)"
-                style="cursor: pointer"
-              />
+                style="cursor: pointer" />
+            </div>
+
+            <div *ngIf="item.recipeID" class="recipe_link_block">
+
+              <h3>Рецепт в тему</h3>
+              <div class="recipe_link">
+                <a [appSsrLink]="['recipe-page', item.recipeID]">
+                  <div class="img_black">
+                    <img
+                      [src]="item.mainImage"
+                      alt="{{ item.recipeName }}"
+                      loading="lazy" />
+                  </div>
+                </a>
+                <div class="text_block">
+                  <div class="recipe_name">
+                    <h4 [appSsrLink]="['recipe-page', item.recipeID]">
+                      {{ item.recipeName }}
+                    </h4>
+                  </div>
+                </div>
+              </div>
             </div>
           </li>
           }

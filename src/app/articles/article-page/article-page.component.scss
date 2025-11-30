@@ -20,6 +20,7 @@ section {
         display: none;
       }
     }
+
     .article_bosy {
       width: 60%;
       min-height: 100vh;
@@ -55,6 +56,58 @@ section {
         }
       }
 
+      .recipe_link_block {
+        width: 100%;
+
+        .recipe_link {
+          width: 100%;
+          height: auto;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+
+          .img_black {
+            width: 100%;
+            height: 180px;
+            overflow: hidden;
+
+            img {
+              width: 100%;
+              height: 100%;
+              object-fit: cover;
+              transition: transform 0.3s ease;
+              display: block;
+              user-select: none;
+              pointer-events: none;
+            }
+
+            &:hover img {
+              transform: scale(1.1);
+            }
+          }
+
+          .text_block {
+            width: 50%;
+            padding: 0.75rem 1rem;
+            text-align: center;
+
+            .recipe_name {
+              font-weight: 700;
+              font-size: 1.1rem;
+
+              h4 {
+             cursor: pointer;
+                transition: color 0.3s ease;
+
+                &:hover {
+                  color: #ff5500;
+                }
+              }
+            }
+          }
+        }
+      }
+
       .bread_crumbs {
         width: 100%;
         height: auto;
@@ -74,6 +127,7 @@ section {
             flex-wrap: nowrap;
             white-space: nowrap;
             display: flex;
+
             &.show {
               display: flexbox;
               flex-wrap: nowrap;
@@ -116,19 +170,23 @@ section {
 
       .menu_block {
         width: 100%;
+
         .recipe_menu {
           list-style: none;
           display: flex;
           flex-direction: column;
+
           li {
             width: 100%;
             text-align: left;
             margin-bottom: 0.5vh;
+
             a {
               text-decoration: none;
               color: var(--clr-4);
               transition: all 0.5s;
             }
+
             &:hover {
               a {
                 color: var(--clr-2);
@@ -153,10 +211,12 @@ section {
             width: 95%;
             padding: 1vh;
             margin-bottom: 20px;
+
             h2 {
               width: 100%;
               text-align: center;
             }
+
             .paragraph_text {
               text-align: justify;
             }

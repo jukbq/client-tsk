@@ -50,7 +50,7 @@ export class ArticlePageComponent {
   ngOnInit(): void {
 
     this.route.data.subscribe((data: any) => {
-      const wrapper = data?.article;
+         const wrapper = data?.article;
       const article = wrapper?.data;
       this.currentURL = wrapper?.url
 
@@ -75,6 +75,7 @@ export class ArticlePageComponent {
       const menuElement = this.document.querySelector('.recipe_menu') as HTMLElement;
       this.menuOffset = menuElement ? menuElement.offsetHeight + 20 : 100; // 20 — запас
     }
+
 
 
 
