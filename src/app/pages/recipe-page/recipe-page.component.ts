@@ -15,6 +15,7 @@ import { FavoritesService } from '../../shared/services/favorites/favorites.serv
 import { AuthService } from '../../shared/services/auth/auth.service';
 import { AuthModalComponent } from "../../shared/components/auth-modal/auth-modal.component";
 import { ModalService } from '../../shared/services/modal/modal.service';
+import { AdsensePopupComponent } from "../../shared/adsense/adsense-popup/adsense-popup.component";
 declare var bootstrap: any;
 
 
@@ -29,7 +30,8 @@ declare var bootstrap: any;
     RecipeIngredientsComponent,
     RecipeInstructionsComponent,
     AutoScrollCarouselComponent,
-    AuthModalComponent
+    AuthModalComponent,
+    AdsensePopupComponent
 ],
   templateUrl: './recipe-page.component.html',
   styleUrl: './recipe-page.component.scss'
