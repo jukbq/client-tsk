@@ -76,10 +76,6 @@ export class ArticlePageComponent {
       this.menuOffset = menuElement ? menuElement.offsetHeight + 20 : 100; // 20 — запас
     }
 
-
-
-
-
   }
 
 

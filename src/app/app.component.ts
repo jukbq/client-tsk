@@ -3,11 +3,12 @@ import { Router, RouterOutlet } from '@angular/router';
 import { HeaderComponent } from "./shared/components/header/header.component";
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { FooyerComponent } from "./shared/components/fooyer/fooyer.component";
+import { AdsensePopupComponent } from "./shared/adsense/adsense-popup/adsense-popup.component";
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule, RouterOutlet, HeaderComponent, FooyerComponent],
+  imports: [CommonModule, RouterOutlet, HeaderComponent, FooyerComponent, AdsensePopupComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
 })
