@@ -37,24 +37,22 @@ export class AdsensePopupComponent {
   private loadAd() {
     if (!isPlatformBrowser(this.platformId)) return;
 
-    
-
-    // Спочатку ховаємо блок
-    this.showAd = false;
-
     setTimeout(() => {
-      // Показуємо блок
       this.showAd = true;
 
-      // Даємо Angular вставити <ins> у DOM
-      setTimeout(() => {
+      try {
+        (window as any).adsbygoogle = (window as any).adsbygoogle || [];
+        (window as any).adsbygoogle.push({});
+      } catch (e) {
+        console.error('AdSense error:', e);
+      }
+
+      // Додатково оновлюємо при зміні розміру
+      window.addEventListener('resize', () => {
         try {
-          (window as any).adsbygoogle = (window as any).adsbygoogle || [];
           (window as any).adsbygoogle.push({});
-        } catch (err) {
-          console.warn('AdSense error:', err);
-        }
-      }, 50); // 50мс — оптимально
-    }, 300); // мінімальна затримка, щоб DOM стабільно оновився
+        } catch {}
+      });
+    }, 1000); // 1 секунда, щоб DOM відрендерився
   }
 }
