@@ -20,29 +20,41 @@ export class AdsensePopupComponent {
   ) {}
 
   ngAfterViewInit(): void {
-    if (isPlatformBrowser(this.platformId)) {
-      this.loadAd();
+    if (!isPlatformBrowser(this.platformId)) return;
 
-      // Оновлюємо рекламу при зміні маршруту
-      this.router.events
-        .pipe(filter((event) => event instanceof NavigationEnd))
-        .subscribe(() => {
-          this.loadAd();
-        });
-    }
+    this.loadAd();
+
+    // Показ реклами після переходу між сторінками
+    this.router.events
+      .pipe(filter((ev) => ev instanceof NavigationEnd))
+      .subscribe(() => this.loadAd());
+  }
+
+  close() {
+    this.showAd = false;
   }
 
   private loadAd() {
-    this.showAd = false; // скидаємо показ
+    if (!isPlatformBrowser(this.platformId)) return;
+
+    
+
+    // Спочатку ховаємо блок
+    this.showAd = false;
+
     setTimeout(() => {
+      // Показуємо блок
       this.showAd = true;
-      try {
-        // TypeScript вже не буде скаржитись
-        (window as any).adsbygoogle = (window as any).adsbygoogle || [];
-        (window as any).adsbygoogle.push({});
-      } catch (e) {
-        console.error('AdSense error:', e);
-      }
-    }, 500); // невелика затримка, щоб DOM встиг відрендеритись
+
+      // Даємо Angular вставити <ins> у DOM
+      setTimeout(() => {
+        try {
+          (window as any).adsbygoogle = (window as any).adsbygoogle || [];
+          (window as any).adsbygoogle.push({});
+        } catch (err) {
+          console.warn('AdSense error:', err);
+        }
+      }, 50); // 50мс — оптимально
+    }, 300); // мінімальна затримка, щоб DOM стабільно оновився
   }
 }
