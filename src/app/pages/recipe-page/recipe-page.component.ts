@@ -31,12 +31,11 @@ declare var bootstrap: any;
     RecipeInstructionsComponent,
     AutoScrollCarouselComponent,
     AuthModalComponent,
-    AdsensePopupComponent
-],
+    AdsensePopupComponent,
+  ],
   templateUrl: './recipe-page.component.html',
-  styleUrl: './recipe-page.component.scss'
+  styleUrl: './recipe-page.component.scss',
 })
-
 export class RecipePageComponent {
   isBrowser: boolean = false;
 
@@ -44,8 +43,6 @@ export class RecipePageComponent {
   activeItem = 0;
   activeBlock = '';
   menuOffset!: number;
-
-
 
   //дані рецепта
   currentURL = '';
@@ -74,8 +71,12 @@ export class RecipePageComponent {
   tgShareUrl: string | undefined;
   vbShareUrl: string | undefined;
 
-
   recipeID = '';
+
+  //Стаття в тему
+  articleID: string | null = null;
+  articleImage: string | null = null;
+  articleName: string | null = null;
 
   constructor(
     @Inject(DOCUMENT) private document: Document,
@@ -89,21 +90,22 @@ export class RecipePageComponent {
     private route: ActivatedRoute,
     private fav: FavoritesService,
     private auth: AuthService,
-       private modal: ModalService
-  ) { this.isBrowser = isPlatformBrowser(this.platformId); }
-
-
+    private modal: ModalService
+  ) {
+    this.isBrowser = isPlatformBrowser(this.platformId);
+  }
 
   ngOnInit() {
     this.viewportScroller.scrollToPosition([0, 0]);
     this.route.data.subscribe((data: any) => {
-
       if (this.isBrowser) {
         window.scrollTo(0, 0);
 
-        this.auth.user$.subscribe(user => {
+        this.auth.user$.subscribe((user) => {
           if (user) {
-            this.fav.getFavorites(user.uid).subscribe(ids => this.favoriteIds = ids);
+            this.fav
+              .getFavorites(user.uid)
+              .subscribe((ids) => (this.favoriteIds = ids));
           }
         });
 
@@ -114,9 +116,7 @@ export class RecipePageComponent {
         this.waShareUrl = `ttps://wa.me/?text=` + this.currentURL;
         this.tgShareUrl = `https://t.me/share/url?url=` + this.currentURL;
         this.vbShareUrl = `viber://forward?text=` + this.currentURL;
-
       }
-
 
       if (data === null) {
         const meta = document.createElement('meta');
@@ -135,65 +135,62 @@ export class RecipePageComponent {
         return;
       }
 
-
       const recipeSchema = data.recipe.recipeSchema;
       this.seoServices.setSchema(recipeSchema);
       this.activeBlock = 'recipe-about';
 
       this.processRecipeData(recipeSSR);
-      this.info = info
+      this.info = info;
     });
 
     if (this.isBrowser) {
       window.scrollTo(0, 0);
       const header = document.querySelector('header') as HTMLElement | null;
       const menu = document.querySelector('.menu_block') as HTMLElement | null;
-      const content = document.querySelector('.recipe_block') as HTMLElement | null;
-
+      const content = document.querySelector(
+        '.recipe_block'
+      ) as HTMLElement | null;
 
       if (header && menu && content) {
         this.menuOffset = menu.offsetHeight;
         header.style.position = `fixed`;
         content.style.marginTop = `${this.menuOffset}px`;
       }
-
     }
   }
-
-
-
 
   // Викликаємо сервіс для отримання даних рецепта на стороні сервера
   processRecipeData(recipe: any) {
     if (recipe) {
-      this.currentURL = recipe.currentURL
-      this.seoServices.setCanonicalUrl(this.currentURL)
+      this.currentURL = recipe.currentURL;
+      this.seoServices.setCanonicalUrl(this.currentURL);
 
-      this.recipeTitle = recipe.recipeTitle
-      this.mainImage = recipe.mainImage
-      this.recipeSubtitles = recipe.recipeSubtitles
-      this.descriptionRecipe = recipe.descriptionRecipe
+      this.recipeTitle = recipe.recipeTitle;
+      this.mainImage = recipe.mainImage;
+      this.recipeSubtitles = recipe.recipeSubtitles;
+      this.descriptionRecipe = recipe.descriptionRecipe;
 
+      this.dishesID = recipe.dishesID;
+      this.dishesName = recipe.dishesName;
+      this.categoryID = recipe.categoryID;
+      this.recipeID = recipe.recipeID;
+      this.categoryName = recipe.categoryName;
 
-      this.dishesID = recipe.dishesID
-      this.dishesName = recipe.dishesName
-      this.categoryID = recipe.categoryID
-      this.recipeID = recipe.recipeID
-      this.categoryName = recipe.categoryName
-
-      const seoName = recipe.seoName
+      const seoName = recipe.seoName;
       const seoDescription = recipe.seoDescription;
       const keywords = recipe.keywords;
       this.seasons = recipe.bestSeason || [];
 
+      this.ingredients = recipe.ingredients;
+      this.accompanyingRecipes = recipe.accompanyingRecipes;
 
-      this.ingredients = recipe.ingredients
-      this.accompanyingRecipes = recipe.accompanyingRecipes
-
-
-      this.instructions = recipe.instructions
+      this.instructions = recipe.instructions;
       this.advice = recipe.advice;
       this.completion = recipe.completion;
+
+      this.articleID = recipe.articleID;;
+      this.articleImage = recipe.articleImage;
+      this.articleName = recipe.articleName;
 
       // Оновлюємо мета-теги після того, як дані рецепта були отримані
       this.titleService.setTitle(seoName);
@@ -214,19 +211,15 @@ export class RecipePageComponent {
       this.meta.updateTag({ property: 'og:type', content: 'website' });
       this.meta.updateTag({ property: 'og:image', content: this.mainImage });
       this.meta.updateTag({ property: 'og:url', content: this.currentURL });
-
     }
-
-
-
   }
-
 
   scroll(id: string, index: number) {
     this.activeItem = index;
     const el = document.getElementById(id);
     if (el) {
-      const y = el.getBoundingClientRect().top + window.pageYOffset - this.menuOffset;
+      const y =
+        el.getBoundingClientRect().top + window.pageYOffset - this.menuOffset;
       window.scrollTo({ top: y, behavior: 'smooth' });
     }
   }
@@ -238,7 +231,7 @@ export class RecipePageComponent {
       { id: 'recipe-about', index: 0 },
       { id: 'ingredients', index: 1 },
       { id: 'instruction', index: 2 },
-      { id: 'council', index: 3 }
+      { id: 'council', index: 3 },
     ];
 
     const middleScreen = window.innerHeight / 2;
@@ -258,15 +251,12 @@ export class RecipePageComponent {
     this.activeItem = currentSectionIndex;
   }
 
-
-
   reloadMenu() {
     if (this.isBrowser) {
       this.viewportScroller.scrollToPosition([0, 0]);
       this.activeItem = 0;
     }
   }
-
 
   isFavorite(recipeId: string) {
     return this.favoriteIds.includes(recipeId);
@@ -288,7 +278,6 @@ export class RecipePageComponent {
       this.fav.addFavorite(user.uid, recipeId);
     }
   }
-
 }
 
 

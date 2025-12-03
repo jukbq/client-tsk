@@ -170,8 +170,13 @@ export class RecipeService {
   // Приймаємо масив, який складається з об'єктів з групами інгредієнтів
   findRecipesWithIds(
     data: { group: any[]; name: string }[]
-  ): { recipeID: string; recipeName: string }[] {
-    const recipes: { recipeID: string; recipeName: string }[] = [];
+  ): { recipeID: string; recipeName: string; recipeImage: string }[] {
+    const recipes: {
+      recipeID: string;
+      recipeName: string;
+      recipeImage: string;
+    }[] = [];
+   
 
     data.forEach((item) => {
       item.group.forEach((ingredient) => {
@@ -180,6 +185,7 @@ export class RecipeService {
           recipes.push({
             recipeID: prod.recipeID,
             recipeName: prod.productsName.trim(),
+            recipeImage: prod.recipeImage,
           });
         }
       });

@@ -28,7 +28,7 @@
     transition: max-height 0.3s ease;
     background-color: var(--clr-6);
     padding: 10px 5vw;
-color: var(--clr-b);
+    color: var(--clr-b);
 
 
     &::after {
@@ -54,7 +54,7 @@ color: var(--clr-b);
         display: none; // прибираємо градієнт, коли відкрито повністю
       }
     }
-    
+
   }
 
   .toggle_btn {

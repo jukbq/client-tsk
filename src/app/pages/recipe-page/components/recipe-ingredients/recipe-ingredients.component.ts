@@ -7,11 +7,13 @@ import { SsrLinkDirective } from '../../../../shared/directives/ssr-link.directi
   standalone: true,
   imports: [CommonModule, SsrLinkDirective],
   templateUrl: './recipe-ingredients.component.html',
-  styleUrl: './recipe-ingredients.component.scss'
+  styleUrl: './recipe-ingredients.component.scss',
 })
 export class RecipeIngredientsComponent {
   @Input() ingredients: any = [];
   @Input() accompanyingRecipes: any = [];
+
+  isExpanded = false;
 
   //Відбправка списку інгридієнтів в Вайбер
   saveToViber() {
@@ -19,7 +21,6 @@ export class RecipeIngredientsComponent {
     const viberUrl = `viber://forward?text=${encodeURIComponent(list)}`;
     window.open(viberUrl, '_blank');
   }
-
 
   //Відбправка списку інгридієнтів в телеграм
   saveToTelegram() {
@@ -41,5 +42,9 @@ export class RecipeIngredientsComponent {
           .join('\n');
       })
       .join('\n');
+  }
+
+  toggleExpand() {
+    this.isExpanded = !this.isExpanded;
   }
 }

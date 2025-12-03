@@ -115,8 +115,9 @@ export const recipeResolver: ResolveFn<boolean> = (
           categoryName: recipe.categoriesDishes.categoryName,
 
           ingredients: recipeService.formatIngredients(recipe.ingredients),
-          accompanyingRecipes: recipeService.findRecipesWithIds(recipe.ingredients),
-
+          accompanyingRecipes: recipeService.findRecipesWithIds(
+            recipe.ingredients
+          ),
 
           instructions: recipe.instructions,
 
@@ -125,7 +126,10 @@ export const recipeResolver: ResolveFn<boolean> = (
           completion: recipe.completion,
           currentURL: `https://tsk.in.ua${currentURL}`,
 
-        }
+          articleID: recipe.articleID || null,
+          articleImage: recipe.articleImage || null,
+          articleName: recipe.articleName || null,
+        };
 
 
 

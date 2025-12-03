@@ -1,23 +1,4 @@
-<!--СУПУТНІ РЕЦЕПТИ-->
-<div
-  *ngIf="accompanyingRecipes && accompanyingRecipes.length > 0"
-  class="accompanying_recipes"
->
-  <h3 class="accompanying_recipes_title">Супутні рецепти</h3>
-  <ul>
-    @for (item of accompanyingRecipes; track $index) {
-    <li>
-      <a
-        class="recipeLink"
-        [appSsrLink]="['recipe-page', item.recipeID]"
-        target="_blank"
-      >
-        {{ item.recipeName }}
-      </a>
-    </li>
-    }
-  </ul>
-</div>
+
 
 <!--ІНГРИДІЄНТИ-->
 <div id="ingredients" class="ingredients_block">
@@ -100,3 +81,51 @@
     </div>
   </div>
 </div>
+
+
+<!--СУПУТНІ РЕЦЕПТИ-->
+<div
+  *ngIf="accompanyingRecipes && accompanyingRecipes.length > 0"
+  class="accompanying_recipes"
+>
+  <h3 class="accompanying_recipes_title">Супутні рецепти</h3>
+
+  <!-- Плавний контейнер -->
+  <div class="smooth-wrapper" [class.expanded]="isExpanded">
+    <ul>
+      @for (
+        item of accompanyingRecipes;
+        track $index
+      ) {
+        <li *ngIf="isExpanded || $index === 0" class="recipe_link">
+          <a [appSsrLink]="['recipe-page', item.recipeID]">
+            <div class="img_black">
+              <img
+                [src]="item.recipeImage"
+                alt="{{ item.recipeName }}"
+                loading="lazy"
+              />
+            </div>
+          </a>
+
+          <div class="text_block">
+            <div class="recipe_name">
+              <h4 [appSsrLink]="['recipe-page', item.recipeID]">
+                {{ item.recipeName }}
+              </h4>
+            </div>
+          </div>
+        </li>
+      }
+    </ul>
+  </div>
+
+  <button
+    *ngIf="accompanyingRecipes.length > 1"
+    class="toggle_btn"
+    (click)="toggleExpand()"
+  >
+    {{ isExpanded ? "Приховати" : "Показати всі" }}
+  </button>
+</div>
+

@@ -4,13 +4,16 @@
   <div class="menu_block">
     <ul class="recipe_menu">
       <li [ngClass]="{ active: 0 == activeItem }" class="item_menu">
-        <a href="javascript:void(0)" (click)="scroll('recipe-about', 0)">ПРО РЕЦЕПТ</a>
+        <a href="javascript:void(0)" (click)="scroll('recipe-about', 0)">ПРО
+          РЕЦЕПТ</a>
       </li>
       <li [ngClass]="{ active: 1 == activeItem }" class="item_menu">
-        <a href="javascript:void(0)" (click)="scroll('ingredients', 1)">ІНГРЕДІЄНТИ</a>
+        <a href="javascript:void(0)"
+          (click)="scroll('ingredients', 1)">ІНГРЕДІЄНТИ</a>
       </li>
       <li [ngClass]="{ active: 2 == activeItem }" class="item_menu">
-        <a href="javascript:void(0)" (click)="scroll('instruction', 2)">КРОКИ</a>
+        <a href="javascript:void(0)"
+          (click)="scroll('instruction', 2)">КРОКИ</a>
       </li>
       <li [ngClass]="{ active: 3 == activeItem }" class="item_menu">
         <a href="javascript:void(0)" (click)="scroll('council', 3)">ПОРАДИ</a>
@@ -40,7 +43,7 @@
           <li class="breadcrumb-item">
             <a [appSsrLink]="['recipes-list', categoryID]">{{
               categoryName
-            }}</a>
+              }}</a>
           </li>
 
           <li class="breadcrumb-item active" aria-current="page">
@@ -54,11 +57,10 @@
         <h1>{{ recipeTitle }}</h1>
       </div>
 
-      
-
       <!--Зображення-->
       <div class="image_block">
-        <img class="recipe_image" [src]="mainImage" alt="Фотографія страви під назвою {{ recipeTitle }}" width="780"
+        <img class="recipe_image" [src]="mainImage"
+          alt="Фотографія страви під назвою {{ recipeTitle }}" width="780"
           height="440" fetchpriority="high" loading="eager" decoding="auto"
           style="cursor: pointer; object-fit: cover" />
 
@@ -73,28 +75,25 @@
 
       <app-recipe-info [seasons]="seasons" [info]="info"></app-recipe-info>
 
-   
-
       <app-recipe-description [recipeSubtitles]="recipeSubtitles"
         [descriptionRecipe]="descriptionRecipe"></app-recipe-description>
 
-           <div class="adsense_block">
-        <app-adsense-popup></app-adsense-popup> 
+      <div class="adsense_block">
+        <app-adsense-popup></app-adsense-popup>
       </div>
 
       <app-recipe-ingredients [accompanyingRecipes]="accompanyingRecipes"
         [ingredients]="ingredients"></app-recipe-ingredients>
 
-
-            <div class="adsense_block">
-        <app-adsense-popup></app-adsense-popup> 
+      <div class="adsense_block">
+        <app-adsense-popup></app-adsense-popup>
       </div>
 
-      <app-recipe-instructions [instructions]="instructions"></app-recipe-instructions>
+      <app-recipe-instructions
+        [instructions]="instructions"></app-recipe-instructions>
 
-
-          <div class="adsense_block">
-        <app-adsense-popup></app-adsense-popup> 
+      <div class="adsense_block">
+        <app-adsense-popup></app-adsense-popup>
       </div>
       <!--  ПОРАДИ  -->
       <div id="council" class="advice_block">
@@ -108,17 +107,46 @@
         <div class="text" [innerHTML]="completion"></div>
       </div>
 
-      <!--  Соціальні мережі  -->
-      <div class="social_holder">
-        <a class="share_btn_item fb" [href]="fbShareUrl" target="_blank" title="Поділитися у Facebook"></a>
-        <a class="share_btn_item pi" [href]="piShareUrl" target="_blank" title="Поділитися у Pinterest"></a>
-        <a class="share_btn_item wa" [href]="waShareUrl" target="_blank" title="Поділитися у Whatsapp"></a>
-        <a class="share_btn_item tg" [href]="tgShareUrl" target="_blank" title="Поділитися у Telegram"></a>
-        <a class="share_btn_item vb" [href]="vbShareUrl" target="_blank" title="Поділитися у Viber"></a>
+       <!--  Стаття в тему  -->
+      <div *ngIf="articleID" class="article_topic">
+
+        <h2>Стаття в тему</h2>
+
+        <div class="article_link">
+          <a [appSsrLink]="['article-page', articleID]">
+            <div class="img_black">
+              <img
+                [src]="articleImage"
+                alt="{{ articleName }}"
+                loading="lazy" />
+            </div>
+          </a>
+          <div class="text_block">
+            <div class="recipe_name">
+              <h4 [appSsrLink]="['article-page', articleID]">
+                {{ articleName }}
+              </h4>
+            </div>
+          </div>
+        </div>
       </div>
 
-          <div class="adsense_block">
-        <app-adsense-popup></app-adsense-popup> 
+      <!--  Соціальні мережі  -->
+      <div class="social_holder">
+        <a class="share_btn_item fb" [href]="fbShareUrl" target="_blank"
+          title="Поділитися у Facebook"></a>
+        <a class="share_btn_item pi" [href]="piShareUrl" target="_blank"
+          title="Поділитися у Pinterest"></a>
+        <a class="share_btn_item wa" [href]="waShareUrl" target="_blank"
+          title="Поділитися у Whatsapp"></a>
+        <a class="share_btn_item tg" [href]="tgShareUrl" target="_blank"
+          title="Поділитися у Telegram"></a>
+        <a class="share_btn_item vb" [href]="vbShareUrl" target="_blank"
+          title="Поділитися у Viber"></a>
+      </div>
+
+      <div class="adsense_block">
+        <app-adsense-popup></app-adsense-popup>
       </div>
     </div>
 
