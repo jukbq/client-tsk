@@ -118,6 +118,11 @@ export const recipeResolver: ResolveFn<boolean> = (
           accompanyingRecipes: recipeService.findRecipesWithIds(
             recipe.ingredients
           ),
+          accompanyingArticles: recipeService.findArticlesWithIds(
+            recipe.ingredients
+          ),
+
+          
 
           instructions: recipe.instructions,
 
@@ -125,13 +130,19 @@ export const recipeResolver: ResolveFn<boolean> = (
           advice: recipe.advice,
           completion: recipe.completion,
           currentURL: `https://tsk.in.ua${currentURL}`,
-
-          articleID: recipe.articleID || null,
-          articleImage: recipe.articleImage || null,
-          articleName: recipe.articleName || null,
+        
         };
 
-
+if (recipe.articleID && recipe.articleImage && recipe.articleName) {
+  recipeSSR.accompanyingArticles = [
+    ...recipeSSR.accompanyingArticles,
+    {
+      articleID: recipe.articleID,
+      articleImage: recipe.articleImage,
+      articleName: recipe.articleName,
+    },
+  ];
+}
 
 
 

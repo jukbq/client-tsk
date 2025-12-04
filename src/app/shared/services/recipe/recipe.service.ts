@@ -176,7 +176,6 @@ export class RecipeService {
       recipeName: string;
       recipeImage: string;
     }[] = [];
-   
 
     data.forEach((item) => {
       item.group.forEach((ingredient) => {
@@ -198,5 +197,40 @@ export class RecipeService {
     );
 
     return uniqueRecipes;
+  }
+
+  // Приймаємо масив, який складається з об'єктів з групами інгредієнтів
+  findArticlesWithIds(
+    data: { group: any[]; name: string }[]
+  ): { articleID: string; articleName: string; articleImage: string }[] {
+    const recipes: {
+      articleID: string;
+      articleName: string;
+      articleImage: string;
+    }[] = [];
+
+
+    
+
+    data.forEach((item) => {
+      item.group.forEach((ingredient) => {
+        const prod = ingredient.selectedProduct;
+        if (prod && prod.articleID) {
+          recipes.push({
+            articleID: prod.articleID,
+            articleName: prod.articleName.trim(),
+            articleImage: prod.articleImage,
+          });
+        }
+      });
+    });
+
+    // Видаляємо дублі за articleID, якщо треба
+    const uniqueArticle = recipes.filter(
+      (rec, index, arr) =>
+        arr.findIndex((r) => r.articleID === rec.articleID) === index
+    );
+
+    return uniqueArticle;
   }
 }

@@ -58,6 +58,7 @@ export class RecipePageComponent {
   info: any = [];
   ingredients: any = [];
   accompanyingRecipes: any = [];
+  accompanyingArticles: any = [];
   instructions: any = [];
   advice = '';
   completion = '';
@@ -73,10 +74,7 @@ export class RecipePageComponent {
 
   recipeID = '';
 
-  //Стаття в тему
-  articleID: string | null = null;
-  articleImage: string | null = null;
-  articleName: string | null = null;
+  isExpanded = false;
 
   constructor(
     @Inject(DOCUMENT) private document: Document,
@@ -113,9 +111,13 @@ export class RecipePageComponent {
           `https://www.facebook.com/sharer.php?u=` + this.currentURL;
         this.piShareUrl =
           `https://pinterest.com/pin/create/button/?url=` + this.currentURL;
-        this.waShareUrl = `ttps://wa.me/?text=` + this.currentURL;
+        this.waShareUrl = `https://wa.me/?text=${encodeURIComponent(
+          this.currentURL
+        )}`;
+
         this.tgShareUrl = `https://t.me/share/url?url=` + this.currentURL;
-        this.vbShareUrl = `viber://forward?text=` + this.currentURL;
+        this.vbShareUrl = `viber://forward?text=${encodeURIComponent(this.currentURL)}`;
+
       }
 
       if (data === null) {
@@ -183,14 +185,12 @@ export class RecipePageComponent {
 
       this.ingredients = recipe.ingredients;
       this.accompanyingRecipes = recipe.accompanyingRecipes;
+      this.accompanyingArticles = recipe.accompanyingArticles;
+         
 
       this.instructions = recipe.instructions;
       this.advice = recipe.advice;
       this.completion = recipe.completion;
-
-      this.articleID = recipe.articleID;;
-      this.articleImage = recipe.articleImage;
-      this.articleName = recipe.articleName;
 
       // Оновлюємо мета-теги після того, як дані рецепта були отримані
       this.titleService.setTitle(seoName);
@@ -277,6 +277,10 @@ export class RecipePageComponent {
     } else {
       this.fav.addFavorite(user.uid, recipeId);
     }
+  }
+
+  toggleExpand() {
+    this.isExpanded = !this.isExpanded;
   }
 }
 

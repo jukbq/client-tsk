@@ -107,32 +107,54 @@
         <div class="text" [innerHTML]="completion"></div>
       </div>
 
-       <!--  Стаття в тему  -->
-      <div *ngIf="articleID" class="article_topic">
+      <!--  Стаття в тему  -->
+      <div
+        *ngIf="accompanyingArticles && accompanyingArticles.length > 0"
+        class="article_topic">
 
-        <h2>Стаття в тему</h2>
+        <h2>Статтяі в тему</h2>
 
-        <div class="article_link">
-          <a [appSsrLink]="['article-page', articleID]">
-            <div class="img_black">
-              <img
-                [src]="articleImage"
-                alt="{{ articleName }}"
-                loading="lazy" />
-            </div>
-          </a>
-          <div class="text_block">
-            <div class="recipe_name">
-              <h4 [appSsrLink]="['article-page', articleID]">
-                {{ articleName }}
-              </h4>
-            </div>
-          </div>
+        <!-- Плавний контейнер -->
+        <div class="smooth-wrapper" [class.expanded]="isExpanded">
+          <ul>
+            @for (
+            item of accompanyingArticles;
+            track $index
+            ) {
+            <li *ngIf="isExpanded || $index === 0" class="recipe_link">
+              <a [appSsrLink]="['recipe-page', item.articleID]">
+                <div class="img_black">
+                  <img
+                    [src]="item.articleImage"
+                    alt="{{ item.articleName }}"
+                    loading="lazy" />
+                </div>
+              </a>
+
+              <div class="text_block">
+                <div class="recipe_name">
+                  <h4 [appSsrLink]="['recipe-page', item.articleID]">
+                    {{ item.articleName }}
+                  </h4>
+                </div>
+              </div>
+            </li>
+            }
+          </ul>
         </div>
+
+        <div
+          *ngIf="accompanyingArticles.length > 1"
+          class="button"
+          (click)="toggleExpand()">
+          {{ isExpanded ? "Приховати" : "Показати всі" }}
+      </div>
+
+  
       </div>
 
       <!--  Соціальні мережі  -->
-      <div class="social_holder">
+  <!--     <div class="social_holder">
         <a class="share_btn_item fb" [href]="fbShareUrl" target="_blank"
           title="Поділитися у Facebook"></a>
         <a class="share_btn_item pi" [href]="piShareUrl" target="_blank"
@@ -143,7 +165,7 @@
           title="Поділитися у Telegram"></a>
         <a class="share_btn_item vb" [href]="vbShareUrl" target="_blank"
           title="Поділитися у Viber"></a>
-      </div>
+      </div> -->
 
       <div class="adsense_block">
         <app-adsense-popup></app-adsense-popup>

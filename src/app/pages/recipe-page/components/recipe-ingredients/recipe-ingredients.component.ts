@@ -12,6 +12,7 @@ import { SsrLinkDirective } from '../../../../shared/directives/ssr-link.directi
 export class RecipeIngredientsComponent {
   @Input() ingredients: any = [];
   @Input() accompanyingRecipes: any = [];
+  
 
   isExpanded = false;
 

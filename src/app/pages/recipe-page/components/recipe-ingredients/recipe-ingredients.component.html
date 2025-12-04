@@ -19,8 +19,7 @@
               [src]="group.image"
               alt="{{ group.text }}"
               loading="lazy"
-              decoding="async"
-            />
+              decoding="async" />
           </div>
 
           <!--Назва-->
@@ -30,25 +29,6 @@
             </p>
           </div>
 
-          <!--Посилання-->
-          <div *ngIf="group.recipeID" class="links">
-            <a
-              class="recipeLink"
-              [appSsrLink]="['recipe-page', group.recipeID]"
-              target="_blank"
-            >
-              <div class="iamge"></div>
-            </a>
-            <!--
-                              <a *ngIf="group.selectedProduct.articleList"
-                                class="recipeLink"
-                                [href]="group.selectedProduct.articleList"
-                                target="_blank"
-                              >
-                                <div class="iamge"></div>
-                              </a>
-                              -->
-          </div>
         </div>
 
         }
@@ -64,8 +44,7 @@
             src="../../../../../assets/icon/social/viber.webp"
             alt="Зберегти у Viber"
             loading="lazy"
-            decoding="async"
-          />
+            decoding="async" />
         </div>
       </div>
       <div (click)="saveToTelegram()" class="social_icon telegram">
@@ -74,58 +53,52 @@
             src="../../../../../assets/icon/social/telegram.webp"
             alt="Зберегти у Telegram"
             loading="lazy"
-            decoding="async"
-          />
+            decoding="async" />
         </div>
       </div>
     </div>
   </div>
 </div>
 
-
 <!--СУПУТНІ РЕЦЕПТИ-->
 <div
   *ngIf="accompanyingRecipes && accompanyingRecipes.length > 0"
-  class="accompanying_recipes"
->
+  class="accompanying_recipes">
   <h3 class="accompanying_recipes_title">Супутні рецепти</h3>
 
   <!-- Плавний контейнер -->
   <div class="smooth-wrapper" [class.expanded]="isExpanded">
     <ul>
       @for (
-        item of accompanyingRecipes;
-        track $index
+      item of accompanyingRecipes;
+      track $index
       ) {
-        <li *ngIf="isExpanded || $index === 0" class="recipe_link">
-          <a [appSsrLink]="['recipe-page', item.recipeID]">
-            <div class="img_black">
-              <img
-                [src]="item.recipeImage"
-                alt="{{ item.recipeName }}"
-                loading="lazy"
-              />
-            </div>
-          </a>
-
-          <div class="text_block">
-            <div class="recipe_name">
-              <h4 [appSsrLink]="['recipe-page', item.recipeID]">
-                {{ item.recipeName }}
-              </h4>
-            </div>
+      <li *ngIf="isExpanded || $index === 0" class="recipe_link">
+        <a [appSsrLink]="['recipe-page', item.recipeID]">
+          <div class="img_black">
+            <img
+              [src]="item.recipeImage"
+              alt="{{ item.recipeName }}"
+              loading="lazy" />
           </div>
-        </li>
+        </a>
+
+        <div class="text_block">
+          <div class="recipe_name">
+            <h4 [appSsrLink]="['recipe-page', item.recipeID]">
+              {{ item.recipeName }}
+            </h4>
+          </div>
+        </div>
+      </li>
       }
     </ul>
   </div>
 
-  <button
+  <div
     *ngIf="accompanyingRecipes.length > 1"
-    class="toggle_btn"
-    (click)="toggleExpand()"
-  >
+    class="button"
+    (click)="toggleExpand()">
     {{ isExpanded ? "Приховати" : "Показати всі" }}
-  </button>
+  </div>
 </div>
-
