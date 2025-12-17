@@ -1,0 +1,123 @@
+@use "../../../styles/fonts";
+@use "../../../styles/base-styles";
+
+.privacy-section {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: var(--header-height);
+  color: var(--clr-w);
+  padding: 40px 20px;
+
+  .content_block {
+    width: 70%;
+    max-width: 900px;
+    background-color: rgba(var(--clr-3-rgb, 20, 20, 20), 0.5);
+    padding: 40px;
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+
+    @media (max-width: 980px) {
+      width: 95%;
+      padding: 20px;
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 10px;
+      color: var(--clr-2);
+    }
+
+    .renewal {
+      text-align: right;
+      font-size: 0.9rem;
+      opacity: 0.7;
+      margin-bottom: 30px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      padding-bottom: 10px;
+    }
+
+    .legal-text {
+      h2 {
+        margin: 30px 0 15px;
+        color: var(--clr-1);
+        font-size: 1.4rem;
+      }
+
+      p, li {
+        margin-bottom: 10px;
+        font-size: 1.05rem;
+        line-height: 1.7;
+      }
+
+      ul {
+        padding-left: 20px;
+        margin-bottom: 20px;
+        
+        li strong {
+          color: var(--clr-2);
+        }
+      }
+
+      a {
+        color: var(--clr-1);
+        text-decoration: none;
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+    }
+  }
+
+  // Стилізація банера кукі
+  .cookie-banner {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 90%;
+    max-width: 600px;
+    background-color: var(--clr-3);
+    border: 2px solid var(--clr-1);
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.8);
+    z-index: 1000;
+    animation: slideUp 0.5s ease-out;
+
+    .banner-content {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 15px;
+      text-align: center;
+
+      p {
+        font-size: 0.95rem;
+        margin: 0;
+      }
+
+      .btn-accept {
+        padding: 8px 30px;
+        background-color: var(--clr-1);
+        color: white;
+        border: none;
+        border-radius: 20px;
+        cursor: pointer;
+        font-weight: bold;
+        transition: transform 0.2s;
+
+        &:hover {
+          transform: scale(1.05);
+          background-color: var(--clr-2);
+        }
+      }
+    }
+  }
+}
+
+@keyframes slideUp {
+  from { transform: translate(-50%, 100%); opacity: 0; }
+  to { transform: translate(-50%, 0); opacity: 1; }
+}

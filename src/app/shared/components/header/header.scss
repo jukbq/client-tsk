@@ -1,0 +1,297 @@
+@use "../../../styles/base-styles" as *;
+
+// Змінні для зручності (якщо вони не в base-styles, вони будуть тут)
+:host {
+  --neon-blue: #1877f2;
+  --menu-bg: rgba(12, 27, 42, 0.9);
+  --transition-speed: 0.3s;
+}
+
+header {
+  width: 100%;
+  height: var(--header-height);
+  background: var(--clr-4);
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1100;
+  top: 0;
+  left: 0;
+  will-change: transform;
+  overflow: visible;
+
+
+  &.fixed-header{
+    position: fixed;
+  }
+
+  // Розмитий фон за хедером
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: var(--clr-3);
+    filter: blur(20px);
+    z-index: -1;
+  }
+
+  .navbar {
+    width: 90%; // Трохи розширив для мобілок, на десктопі обмежимо max-width
+    max-width: 1400px;
+    position: relative;
+    height: 100%;
+    background-color: transparent !important;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    z-index: 10;
+
+    .navbar_brand {
+      display: flex;
+      align-items: center;
+      text-decoration: none;
+      cursor: pointer;
+      gap: 12px;
+
+      .image {
+        width: clamp(40px, 7vw, 60px);
+        height: clamp(40px, 7vw, 60px);
+        background: url("../../../../assets/icon/logo.webp") no-repeat center/contain;
+      }
+
+      p {
+        color: #a5bedf;
+        margin: 0;
+        font-weight: 600;
+        letter-spacing: 1px;
+        text-shadow: 0 0 10px var(--neon-blue), 0 0 20px var(--neon-blue);
+
+        @media (max-width: 600px) {
+          display: none; // Ховаємо текст на зовсім малих екранах
+        }
+      }
+    }
+
+    .navbar_navigate {
+      height: 100%;
+      display: flex;
+      align-items: center;
+      gap: 15px;
+
+      .header_icon {
+        width: 35px;
+        height: 35px;
+        background-size: contain;
+        background-position: center;
+        background-repeat: no-repeat;
+        cursor: pointer;
+        transition: transform 0.2s ease;
+        
+        // Неонове мерехтіння
+        filter: drop-shadow(0 0 5px var(--neon-blue));
+        animation: slowPulse 6s ease-in-out infinite, flickerPattern 6s steps(1, end) infinite;
+
+        &:hover {
+          transform: scale(1.1);
+        }
+
+        &.facebook { background-image: url("../../../../assets/icon/social/facebook.webp"); animation-delay: 0s; }
+        &.telegram { background-image: url("../../../../assets/icon/social/telegram.webp"); animation-delay: 2s; }
+        &.serch { background-image: url("../../../../assets/icon/social/search.webp"); animation-delay: 4s; }
+        &.auth { background-image: url("../../../../assets/icon/social/guest.webp"); }
+        &.active { background-image: url("../../../../assets/icon/social/logged.webp"); }
+
+        @media (max-width: 850px) {
+          display: none; // Ховаємо в основному рядку, вони будуть в меню
+        }
+      }
+
+      .burger_button {
+        all: unset;
+        width: 30px;
+        height: 24px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        cursor: pointer;
+        z-index: 9999;
+
+        span {
+          display: block;
+          height: 3px;
+          width: 100%;
+          background-color: var(--neon-blue);
+          box-shadow: 0 0 8px var(--neon-blue);
+          border-radius: 2px;
+          transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        &.open {
+          span:nth-child(1) { transform: translateY(10.5px) rotate(45deg); }
+          span:nth-child(2) { opacity: 0; transform: translateX(-20px); }
+          span:nth-child(3) { transform: translateY(-10.5px) rotate(-45deg); }
+        }
+      }
+    }
+  }
+
+  // Випадаюче меню
+  .navigation_menu {
+    position: fixed; // Fixed краще для мобільного оверлею
+    top: 0;
+    right: 0;
+    width: 100%;
+    height: 100vh;
+    z-index: 1500;
+    backdrop-filter: blur(8px);
+    background-color: rgba(0, 0, 0, 0.4);
+    display: flex;
+    justify-content: flex-end;
+    animation: fadeIn 0.3s ease;
+
+    .navigation_menu_inner {
+      width: 320px;
+      height: 100%;
+      background-color: var(--menu-bg);
+      box-shadow: -5px 0 20px rgba(0, 0, 0, 0.5);
+      padding: 80px 20px 20px; // Відступ зверху під бургер
+      display: flex;
+      flex-direction: column;
+
+      @media (max-width: 480px) {
+        width: 100%;
+      }
+
+      .menu {
+        flex: 1;
+        overflow-y: auto;
+        scrollbar-width: none;
+        &::-webkit-scrollbar { display: none; }
+
+        .header_menu {
+          list-style: none;
+          padding: 0;
+          margin: 0;
+
+          .head_li {
+            margin-bottom: 10px;
+
+            .btn_menu {
+              display: flex;
+              align-items: center;
+              justify-content: space-between;
+              background: rgba(255, 255, 255, 0.05);
+              border-radius: 4px;
+              overflow: hidden;
+              transition: var(--transition-speed);
+
+              .nav-link {
+                flex: 1;
+                padding: 15px;
+                color: #fff;
+                text-decoration: none;
+                font-size: 1.2rem;
+              }
+
+              .batton {
+                width: 50px;
+                height: 50px;
+                background: url("../../../../assets/icon/plas.png") no-repeat center/20px;
+                transition: transform 0.4s;
+                cursor: pointer;
+              }
+
+              &:hover { background: rgba(24, 119, 242, 0.2); }
+            }
+
+            // Відкрите підменю
+            &.active {
+              .btn_menu {
+                background: var(--clr-2);
+                .nav-link { color: #000; font-weight: bold; }
+                .batton { transform: rotate(45deg); filter: invert(1); }
+              }
+              .sub_menu { display: flex; }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+// Підменю (Dishes -> Categories)
+.sub_menu {
+  display: none;
+  flex-direction: column;
+  padding-left: 15px;
+  border-left: 2px solid var(--neon-blue);
+  margin: 10px 0;
+  animation: slideIn 0.3s ease;
+
+  .sub_li {
+    .submenu_text {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      
+      .nav-link {
+        padding: 10px;
+        color: #ccd6f6;
+        text-decoration: none;
+      }
+      
+      .batton {
+        width: 40px;
+        height: 40px;
+        background: url("../../../../assets/icon/plas.png") no-repeat center/15px;
+        transition: 0.3s;
+      }
+    }
+
+    &.active {
+      .submenu_text .batton { transform: rotate(45deg); }
+    }
+  }
+}
+
+// Третій рівень (Categories -> Sub-categories)
+.sub_sub_menu {
+  display: flex;
+  flex-direction: column;
+  padding-left: 15px;
+  list-style: none;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+
+  .sub_sub_li .nav-link {
+    display: block;
+    padding: 8px;
+    font-size: 0.95rem;
+    color: #8892b0;
+    text-decoration: none;
+    &:hover { color: var(--neon-blue); }
+  }
+}
+
+// Анімації
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideIn {
+  from { opacity: 0; transform: translateX(10px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes slowPulse {
+  0%, 100% { filter: drop-shadow(0 0 5px var(--neon-blue)); opacity: 0.9; }
+  50% { filter: drop-shadow(0 0 15px var(--neon-blue)); opacity: 1; }
+}
+
+// Твій flickerPattern залишається без змін, він чудовий.

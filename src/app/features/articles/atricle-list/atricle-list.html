@@ -1,0 +1,77 @@
+<section>
+  <div class="background_image">
+    @if (image()) {
+      <img
+        class="bg_image"
+        [ngSrc]="image()"
+        [alt]="categoryName()"
+        fill
+        priority
+        style="object-fit: cover;"
+      />
+    }
+  </div>
+
+  <div class="home_title">
+    <h1 [style.font-size]="fontSize()">
+      {{ categoryName() }}
+    </h1>
+
+    <nav aria-label="breadcrumb" class="breadcrumb_line">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a [appSsrLink]="'/'">Головна</a></li>
+        <li class="breadcrumb-item"><a [appSsrLink]="'/dishes'">Рецепти Синього Кота</a></li>
+        <li class="breadcrumb-item">
+          <a [appSsrLink]="['categories', articleTypeID()]">{{ articleTypeName() }}</a>
+        </li>
+        <li class="breadcrumb-item active">{{ categoryName() }}</li>
+      </ol>
+    </nav>
+  </div>
+
+  <div class="list_block">
+    <div class="description_block">
+      <div #textBlocks class="content" [class.show]="isVisible()">
+        <div class="description">
+          <div class="cat_img">
+            @if (additionalImage()) {
+              <img
+                [ngSrc]="additionalImage()"
+                [alt]="categoryName()"
+                width="400"
+                height="300"
+              />
+            }
+          </div>
+          <div [innerHTML]="categoryDescription()"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="dishes_list_block">
+      <ul class="dishes_list">
+        @for (article of articles(); track article.id) {
+          <li class="dishes_card">
+            <a [appSsrLink]="['article-page', article.id]">
+              <div class="img_black">
+                <img
+                  [ngSrc]="article.mainImage"
+                  [alt]="article.articleName"
+                  width="350"
+                  height="250"
+                />
+              </div>
+            </a>
+            <div class="text_block">
+              <div class="recipe_name">
+                <a [appSsrLink]="['article-page', article.id]">
+                  {{ article.articleName }}
+                </a>
+              </div>
+            </div>
+          </li>
+        }
+      </ul>
+    </div>
+  </div>
+</section>

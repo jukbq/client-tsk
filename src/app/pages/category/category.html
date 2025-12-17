@@ -1,0 +1,60 @@
+<section>
+  <div class="background_image">
+    <img [ngSrc]="image()" 
+         [alt]="dishesName()" 
+         fill 
+         priority 
+         class="bg_image" />
+  </div>
+
+  <div class="home_title">
+    <h1>{{ dishesName() }}</h1>
+    <nav aria-label="breadcrumb" class="breadcrumb_line">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a [appSsrLink]="'/'">Головна</a></li>
+        <li class="breadcrumb-item"><a [appSsrLink]="'/dishes'">Рецепти Синього Кота</a></li>
+        <li class="breadcrumb-item active">{{ dishesName() }}</li>
+      </ol>
+    </nav>
+  </div>
+
+  <div class="list_block">
+    <div class="description_block">
+      <div #textBlocks class="content" [class.show]="isVisible()">
+        <div class="description">
+          <div class="cat_img">
+            <img [ngSrc]="additionalImage()" 
+                 [alt]="dishesName()" 
+                 width="400" 
+                 height="400" />
+          </div>
+          <div [innerHTML]="dishDescription()"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="dishes_list_block">
+      <ul class="dishes_list">
+        @for (category of categryList(); track category.id) {
+          <li class="dishes_card">
+            <a [appSsrLink]="['recipes-list', category.id]">
+              <div class="img_black">
+                <img [ngSrc]="category.image" 
+                     [alt]="category.categoryName" 
+                     width="400" 
+                     height="225" />
+              </div>
+            </a>
+            <div class="text_block">
+              <div class="recipe_name">
+                <a [appSsrLink]="['recipes-list', category.id]">
+                  {{ category.categoryName }}
+                </a>
+              </div>
+            </div>
+          </li>
+        }
+      </ul>
+    </div>
+  </div>
+</section>

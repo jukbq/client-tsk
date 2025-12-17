@@ -1,0 +1,103 @@
+<header>
+  <div class="navbar">
+    <a class="navbar_brand" [appSsrLink]="'/'">
+      <div class="image"></div>
+      <p>Таверна "Синій кіт"</p>
+    </a>
+
+    <div class="navbar_navigate">
+      <a class="header_icon facebook" href="https://www.facebook.com/groups/2412991875747035" target="_blank"></a>
+      <a class="header_icon telegram" href="https://t.me/+CczEzPwB2RJhM2My" target="_blank"></a>
+      <a class="header_icon serch" [appSsrLink]="['search']"></a>
+
+      <a class="header_icon" 
+         [class.active]="isLoggedIn()" 
+         [class.auth]="!isLoggedIn()"
+         [appSsrLink]="isLoggedIn() ? ['profile'] : ['auth']">
+      </a>
+
+      <button class="burger_button" [class.open]="isMenuOpen()" (click)="toggleMenu()">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+
+  @if (isMenuOpen()) {
+    <div class="navigation_menu" (click)="closeMenu()">
+      <div class="navigation_menu_inner" (click)="$event.stopPropagation()">
+        <div class="menu">
+          <ul class="header_menu">
+            
+            <li class="head_li" [class.active]="activeMenu() === 'dishes'">
+              <div class="btn_menu">
+                <a (click)="closeMenu()" class="nav-link" [appSsrLink]="'/dishes'">Рецепти Кота</a>
+                <div class="batton" (click)="onSelectItem('dishes')"></div>
+              </div>
+
+              @if (activeMenu() === 'dishes') {
+                <ul class="sub_menu">
+                  @for (dish of dishesList(); track dish.id; let j = $index) {
+                    <li class="sub_li" [class.active]="j === activeSubItem()">
+                      <div class="submenu_text">
+                        <a (click)="closeMenu()" [appSsrLink]="['categories', dish.id]" class="nav-link">
+                          {{ dish.dishesName }}
+                        </a>
+                        <div class="batton" (click)="loadSubDishes(dish.id, j)"></div>
+                      </div>
+
+                      @if (j === activeSubItem() && subDishes().length > 0) {
+                        <ul class="sub_sub_menu active">
+                          @for (sub of subDishes(); track sub.id) {
+                            <li class="sub_sub_li">
+                              <a (click)="closeMenu()" [appSsrLink]="['recipes-list', sub.id]" class="nav-link">
+                                {{ sub.categoryName }}
+                              </a>
+                            </li>
+                          }
+                        </ul>
+                      }
+                    </li>
+                  }
+                </ul>
+              }
+            </li>
+
+            <li class="head_li" [class.active]="activeMenu() === 'articles'">
+              <div class="btn_menu">
+                <a (click)="closeMenu()" class="nav-link" [appSsrLink]="'/articlses'">Байки Кота</a>
+                <div class="batton" (click)="onSelectItem('articles')"></div>
+              </div>
+
+              @if (activeMenu() === 'articles') {
+                <ul class="sub_menu">
+                  @for (type of articleTypeList(); track type.id; let j = $index) {
+                    <li class="sub_li" [class.active]="j === activeSubItem()">
+                      <div class="submenu_text">
+                        <a (click)="closeMenu()" [appSsrLink]="['article-categories', type.id]" class="nav-link">
+                          {{ type.articleTypeName }}
+                        </a>
+                        <div class="batton" (click)="loadArticleCategories(type.id, j)"></div>
+                      </div>
+
+                      @if (j === activeSubItem() && subArticleCategories().length > 0) {
+                        <ul class="sub_sub_menu active">
+                          @for (cat of subArticleCategories(); track cat.id) {
+                            <li class="sub_sub_li">
+                              <a (click)="closeMenu()" [appSsrLink]="['article-list', cat.id]" class="nav-link">
+                                {{ cat.aticleCategoryName }}
+                              </a>
+                            </li>
+                          }
+                        </ul>
+                      }
+                    </li>
+                  }
+                </ul>
+              }
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  }
+</header>

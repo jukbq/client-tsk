@@ -1,0 +1,79 @@
+<section>
+  <div class="home_body">
+    <div class="hero-title">
+      <h1>
+        Довгих днів, Подорожній!<br />
+        Ласкаво прошу до таверни «Синій Кіт»!
+      </h1>
+    </div>
+
+    <h2 class="block_title">Нові рецепти</h2>
+    <div class="hero_select">
+      @if (recipes().length && !isMobile()) {
+        @let selected = recipes()[selectedIndex()];
+        <div class="hero-large">
+          <img [ngSrc]="selected.mainImage" 
+               [alt]="selected.recipeTitle" 
+               width="800" height="800" 
+               priority />
+          <div class="overlay">
+            <h3>{{ selected.recipeTitle }}</h3>
+            <a class="button" [appSsrLink]="['recipe-page', selected.id]">
+              <div class="open">Відкрити</div>
+            </a>
+          </div>
+          <div class="fav-btn" (click)="toggleFavorite(selected.id)">
+            <img [ngSrc]="isFavorite(selected.id) 
+                         ? 'assets/icon/favorite/star-favorite-filled.webp'
+                         : 'assets/icon/favorite/star-favorite-empty.webp'"
+                 width="40" height="40"
+                 alt="Обране" />
+          </div>
+        </div>
+      }
+
+      <div class="hero-thumbs">
+        @for (item of recipes(); track item.id; let i = $index) {
+          <div class="thumb" [class.selected]="i === selectedIndex() && !isMobile()"
+               (click)="!isMobile() ? selectRecipe(i) : null">
+            <img [ngSrc]="item.mainImage" [alt]="item.recipeTitle" width="260" height="260" />
+            <span class="eye-icon">👁️</span>
+            @if (isMobile()) {
+              <a class="button" [appSsrLink]="['recipe-page', item.id]">Відкрити</a>
+            }
+          </div>
+        }
+      </div>
+    </div>
+
+    <ul class="dishes_list">
+      @for (subItem of dishesList(); track subItem.id) {
+        <li class="dishes_block">
+          <h2 class="block_title">{{ subItem.dishesName }}</h2>
+          <div class="category_list">
+            <a class="dishes_img" [appSsrLink]="['categories', subItem.id]">
+              <img [ngSrc]="subItem.image" [alt]="subItem.seoName" width="800" height="500" />
+              <div class="overlay">
+                <h3>{{ subItem.seoName }}</h3>
+              </div>
+            </a>
+            <div class="categories">
+              <div class="subcategories_thumbs">
+                @for (category of dishCategories()[subItem.id]; track category.id) {
+                  <a [appSsrLink]="['recipes-list', category.id]"
+                     class="subcategory_thumb" [title]="category.categoryName">
+                    <img [ngSrc]="category.image || 'assets/default-category.jpg'"
+                         [alt]="category.categoryName" width="250" height="150" />
+                    <span>{{ category.categoryName }}</span>
+                  </a>
+                }
+              </div>
+            </div>
+          </div>
+        </li>
+      }
+    </ul>
+  </div>
+</section>
+
+<app-auth-modal />

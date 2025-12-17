@@ -1,0 +1,85 @@
+<section>
+  <div class="background_image">
+    <img class="bg_image" 
+         ngSrc="assets/image/recepty-synoho-kota.webp" 
+         fill 
+         priority 
+         alt="Фонове зображення таверни" />
+  </div>
+
+  <div class="home_title">
+    <h1>Рецепти Синього Кота</h1>
+    <nav aria-label="breadcrumb" class="breadcrumb_line">
+      <ol class="breadcrumb collapse d-md-flex" id="breadcrumbMenu">
+        <li class="breadcrumb-item">
+          <a [appSsrLink]="'/'">Головна</a>
+        </li>
+        <li class="breadcrumb-item active" aria-current="page">Рецепти Синього Кота</li>
+      </ol>
+    </nav>
+  </div>
+
+  <div class="list_block">
+    <div class="description_block">
+      <div #textBlocks class="content" [class.show]="isVisible()">
+        <div class="description">
+          <div class="cat_img">
+            <img
+              ngSrc="assets/image/recepty-synoho-kota-kit.webp"
+              alt="Кіт таверни Синій Кіт"
+              width="400"
+              height="500"
+            />
+          </div>
+          <p><strong>Довгих днів, та приємних ночей, подорожній!</strong></p>
+         <p>
+            Якщо ти не знаєш, з чого почати — то ти вже там, де треба. Бо тут
+            зібрано все, чим живе наша таверна. Перед тобою основні категорії
+            Синього Кота, перевірені на сковорідці, черпаках, гостях і навіть
+            одній вередливій ельфійці.
+          </p>
+          <p>
+            Тут ти знайдеш: і соковиті гарячі м’ясні страви, і легкі овочеві
+            салати, і старі добрі закуски з оселедцем, і каші, які навіть гном
+            не відмовиться з’їсти без пива. Тут і теплий борщ з пампушками, і
+            холодна паста з буряка з сиром, і печене м’ясо, і намазки, і пироги,
+            і навіть поради, що з чим запити.
+          </p>
+          <p>
+            Ці рецепти я збирав роками: в тавернах на роздоріжжях, у бабусь у
+            передмісті Дрімучого Лісу, в трактирі “Схибленого Козака” і навіть
+            на ринку в Печерській Брамі. І тепер вони всі тут, для тебе.
+          </p>
+          <p>
+            Тож не вагайся. Пролистай, обери, готуй. А якщо буде добре — розкажи
+            друзям і налий кухоль на моє здоров’я.
+          </p>
+          <p>
+            Бо кожна страва — це не просто їжа. Це історія, яка пахне дровами,
+            зеленню, та краплями горілки. І ти можеш стати її частиною — просто
+            візьми й приготуй.
+          </p>
+          </div>
+      </div>
+    </div>
+
+    <div class="dishes_list_block">
+      <ul class="dishes_list">
+        @for (dish of dishes(); track dish.id) {
+        <li class="dishes_card">
+          <a [appSsrLink]="['categories', dish.id]" [title]="dish.dishesName">
+            <div class="img_black">
+              <img [ngSrc]="dish.image" [alt]="dish.dishesName" width="320" height="180" />
+            </div>
+          </a>
+          <div class="text_block">
+            <div class="recipe_name">
+              <a [appSsrLink]="['categories', dish.id]">{{ dish.dishesName }}</a>
+            </div>
+          </div>
+        </li>
+        }
+      </ul>
+    </div>
+  </div>
+</section>

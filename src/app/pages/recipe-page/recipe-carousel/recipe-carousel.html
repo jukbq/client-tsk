@@ -1,0 +1,47 @@
+<div
+  class="carousel-wrapper"
+  (mouseenter)="onMouseEnter()"
+  (mouseleave)="onMouseLeave()"
+>
+  <button 
+    class="scroll-btn left" 
+    (click)="scroll('left')" 
+    type="button"
+    aria-label="Scroll left">&lt;</button>
+
+  <div
+    class="auto-scroll-container"
+    #scrollContainer
+    [class.dragging]="isDragging"
+    (mousedown)="onDragStart($event)"
+    (mouseup)="onDragEnd()"
+    (mouseleave)="onDragEnd()"
+    (mousemove)="onDragMove($event)"
+    (touchstart)="onDragStart($event)"
+    (touchend)="onDragEnd()"
+    (touchmove)="onDragMove($event)"
+  >
+    @for (recipe of recipes(); track recipe.id) {
+      <div class="recipe-card">
+        <a [appSsrLink]="['/recipe-page', recipe.id]">
+          <div class="img-wrapper">
+            <img
+              [ngSrc]="recipe.mainImage"
+              [alt]="recipe.recipeTitle"
+              width="250"
+              height="180"
+              loading="lazy"
+            />
+          </div>
+          <h3>{{ recipe.recipeTitle }}</h3>
+        </a>
+      </div>
+    }
+  </div>
+
+  <button 
+    class="scroll-btn right" 
+    (click)="scroll('right')" 
+    type="button"
+    aria-label="Scroll right">&gt;</button>
+</div>

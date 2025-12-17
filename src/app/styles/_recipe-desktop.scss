@@ -1,0 +1,320 @@
+section {
+  position: relative;
+  width: 100vw;
+  min-height: 100vh;
+  margin-top: var(--header-height);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  color: #eee;
+
+  .background_image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    overflow: hidden;
+    z-index: -1;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    .bg_image {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      filter: brightness(0.7);
+      user-select: none;
+      pointer-events: none;
+
+      &::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        pointer-events: none;
+        background: radial-gradient(
+          circle,
+          transparent 50%,
+          rgba(0, 0, 0, 0.85) 100%
+        );
+      }
+    }
+  }
+
+  .home_title {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+
+    h1 {
+      margin-top: 2rem;
+      text-shadow: 0 2px 6px rgba(0, 0, 0, 0.85);
+      user-select: none;
+    }
+
+    .breadcrumb_line {
+      width: 70%;
+      padding: 10px 20px;
+      border-radius: 8px;
+      user-select: none;
+      margin-bottom: 1.5rem;
+
+      ol.breadcrumb {
+        display: flex;
+        gap: 10px;
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch; // плавний скрол на iOS
+        scrollbar-width: thin;
+        scrollbar-color: var(--clr-4) transparent;
+
+        &::-webkit-scrollbar {
+          height: 6px;
+        }
+
+        &::-webkit-scrollbar-track {
+          background: transparent;
+        }
+
+        &::-webkit-scrollbar-thumb {
+          background-color: var(--clr-4);
+          border-radius: 3px;
+        }
+
+        li.breadcrumb-item {
+          font-family: "Cinzel", serif;
+          font-weight: 600;
+          font-size: 1.1rem;
+          color: var(--clr-w);
+          white-space: nowrap; // щоб не переносилось
+
+          &.active {
+            color: var(--clr-2);
+            font-weight: 700;
+          }
+
+          a {
+            color: inherit;
+            text-decoration: none;
+            padding: 0 4px;
+            transition: color 0.3s ease;
+
+            &:hover {
+              color: var(--clr-5);
+              text-decoration: underline;
+            }
+          }
+
+          & + li::before {
+            content: "⫷";
+            color: var(--clr-4);
+            margin-right: 10px;
+            user-select: none;
+            font-weight: 900;
+            font-size: 1.2rem;
+            position: relative;
+            top: 1px;
+          }
+        }
+      }
+
+      @media (max-width: 768px) {
+        padding: 8px 15px;
+
+        ol.breadcrumb {
+          font-size: 0.9rem;
+          gap: 6px;
+
+          li.breadcrumb-item {
+            & + li::before {
+              margin-right: 6px;
+              font-size: 1rem;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .list_block {
+    width: 70%;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    margin-top: 4rem;
+
+    @media (max-width: 768px) {
+      width: 95%;
+    }
+
+    .description_block {
+      color: #ddd;
+
+      .content {
+        width: 100%;
+        display: block;
+        transform: translateY(40px);
+        transition: opacity 0.7s ease, transform 0.7s ease;
+
+        .description {
+          line-height: 1.5;
+       /*    font-size: 1rem; */
+          text-align: justify;
+          
+
+          p {
+            margin-bottom: 1rem;
+          }
+
+          strong {
+            font-size: 1.2rem;
+          }
+
+          .cat_img {
+            float: right;
+            width: 40%;
+            max-width: 400px;
+            margin: 0 0 1rem 1rem;
+
+            img {
+              width: 100%;
+              height: auto;
+              display: block;
+              user-select: none;
+              pointer-events: none;
+              filter: drop-shadow(0 0 4px rgba(0, 0, 0, 0.6));
+            }
+          }
+        }
+      }
+
+      @media (max-width: 768px) {
+        .description {
+          .cat_img {
+            display: none;
+          }
+        }
+      }
+    }
+
+    .dishes_list_block {
+      width: 100%;
+      margin: 20px 0;
+      ul.dishes_list {
+        width: 100%;
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1.5rem;
+        justify-content: space-between;
+
+        .dishes_card {
+          position: relative;
+          width: calc(24% - 1rem);
+          border-radius: 8px;
+          box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+          overflow: hidden;
+          cursor: pointer;
+          background: rgba(20, 20, 20, 0.75);
+
+          &:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 14px 30px rgba(0, 0, 0, 0.7);
+          }
+
+          a {
+            text-decoration: none;
+            color: inherit;
+            display: block;
+          }
+
+          .img_black {
+            width: 100%;
+            height: 180px;
+            overflow: hidden;
+
+            img {
+              width: 100%;
+              height: 100%;
+              object-fit: cover;
+              transition: transform 0.3s ease;
+              display: block;
+              user-select: none;
+              pointer-events: none;
+            }
+
+            &:hover img {
+              transform: scale(1.1);
+            }
+          }
+
+          .text_block {
+            padding: 0.75rem 1rem;
+            text-align: center;
+
+            .recipe_name {
+              font-weight: 700;
+              font-size: 1.1rem;
+
+              a {
+                color: #f0f0f0;
+                transition: color 0.3s ease;
+
+                &:hover {
+                  color: #ff5500;
+                }
+              }
+            }
+          }
+
+          .fav-btn {
+            width: 10%;
+            height: auto;
+            position: absolute;
+            top: 3%;
+            left: 3%;
+            transform: none;
+
+            img {
+              width: 90%;
+              height: 90%;
+              object-fit: cover;
+              display: block;
+              transform: none;
+            }
+          }
+        }
+
+        @media (max-width: 1024px) {
+          .dishes_card {
+            width: calc(33.333% - 1rem);
+          }
+        }
+        @media (max-width: 768px) {
+          .dishes_card {
+            width: calc(50% - 1rem);
+          }
+        }
+        @media (max-width: 480px) {
+          .dishes_card {
+            width: 100%;
+          }
+        }
+      }
+    }
+  }
+}

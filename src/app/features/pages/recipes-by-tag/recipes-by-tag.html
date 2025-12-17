@@ -1,0 +1,70 @@
+<div class="recipes_tag">
+  <div class="ads"></div>
+
+  <div class="recipe_block">
+    <input
+      type="text"
+      [(ngModel)]="query"
+      (input)="onSearch()"
+      placeholder="Пошук рецептів..."
+      class="serch_area"
+    />
+
+    @if (searchResults().length > 0) {
+    <div class="search_results">
+      <div class="list_name">
+        <h1>{{ listTitle }}</h1>
+        <div class="image">
+          @if (image) {
+          <img 
+          [ngSrc]="image" 
+          [alt]="listTitle"
+          width="500" 
+          height="250"
+          priority />
+          }
+        </div>
+        <h4>{{ listDescription }}</h4>
+      </div>
+
+      <div class="dishes_list_block">
+        <ul class="dishes_list">
+          @for (recipe of searchResults(); track recipe.id) {
+          <li class="dishes_card">
+            <a [appSsrLink]="['recipe-page', recipe.id]">
+              <div class="img_black">
+                <img
+                  [ngSrc]="recipe.mainImage"
+                  [alt]="recipe.recipeTitle"
+                  width="300"
+                  height="200"
+                />
+              </div>
+            </a>
+            <div class="text_block">
+              <div class="recipe_name">
+                <a [appSsrLink]="['recipe-page', recipe.id]">
+                  {{ recipe.recipeTitle }}
+                </a>
+              </div>
+            </div>
+          </li>
+          } @empty {
+          <li>Рецептів не знайдено.</li>
+          }
+        </ul>
+
+        <div class="show_more">
+          @if (searchResults().length < recipes().length) {
+          <div
+           (click)="loadMore()" class="sm_button">Показати ще
+          </div>
+          }
+        </div>
+      </div>
+    </div>
+    }
+  </div>
+
+  <div class="ads"></div>
+</div>

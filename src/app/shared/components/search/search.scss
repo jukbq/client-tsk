@@ -1,0 +1,147 @@
+section {
+  width: 100vw;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: var(--header-height);
+  background-color: #121212; // Темний фон для всього розділу, щоб пасувало до карток
+
+  .serch_area {
+    width: 60%;
+    padding: 12px 20px;
+    font-size: 16px;
+    background: #1e1e1e;
+    color: #fff;
+    border: 1px solid #333;
+    border-radius: 8px;
+    margin: 20px 0;
+    transition: all 0.3s ease;
+
+    &:focus {
+      outline: none;
+      border-color: #ff5500;
+      box-shadow: 0 0 10px rgba(255, 85, 0, 0.3);
+    }
+  }
+
+  .search_results {
+    width: 60%;
+    margin: 20px 0 50px 0;
+    position: relative;
+    z-index: 1;
+
+    .dishes_list {
+      width: 100%;
+      display: flex;
+      flex-flow: row wrap;
+      justify-content: space-between;
+      gap: 2rem; // Рівномірні відступи
+      padding: 0;
+      list-style: none;
+
+      .dishes_card {
+        position: relative;
+        width: calc(48% - 1rem); // Трохи підкоригував для кращого балансу
+        border-radius: 12px;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+        overflow: hidden;
+        cursor: pointer;
+        background: rgba(30, 30, 30, 0.9);
+        transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s ease;
+        
+        // Анімація випливання
+        animation: cardIn 0.5s ease-out backwards;
+
+        &:hover {
+          transform: translateY(-8px);
+          box-shadow: 0 14px 30px rgba(0, 0, 0, 0.7);
+
+          .img_black img {
+            transform: scale(1.1);
+          }
+        }
+
+        .img_black {
+          position: relative; // Для NgOptimizedImage fill
+          width: 100%;
+          height: 220px; // Трохи збільшив для солідності
+          overflow: hidden;
+
+          img {
+            object-fit: cover;
+            transition: transform 0.5s ease;
+          }
+        }
+
+        .text_block {
+          padding: 1rem;
+          text-align: center;
+
+          .recipe_name {
+            font-weight: 700;
+            font-size: 1.15rem;
+
+            a {
+              text-decoration: none;
+              color: #f0f0f0;
+              transition: color 0.3s ease;
+
+              &:hover {
+                color: #ff5500;
+              }
+            }
+          }
+        }
+
+      
+      }
+
+      @media (max-width: 900px) {
+        .dishes_card { width: calc(50% - 1rem); }
+      }
+
+      @media (max-width: 650px) {
+        .dishes_card { width: 100%; }
+      }
+    }
+
+    .show_more {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      margin-top: 40px;
+
+      .sm_button {
+        background-color: #ff5500;
+        padding: 12px 30px;
+        border-radius: 50px;
+        font-weight: 700;
+        color: #fff;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        border: none;
+        cursor: pointer;
+        box-shadow: 0 4px 15px rgba(255, 85, 0, 0.4);
+        transition: all 0.3s ease;
+
+        &:hover {
+          background-color: #e04e00;
+          box-shadow: 0 6px 20px rgba(255, 85, 0, 0.6);
+          transform: translateY(-2px);
+        }
+      }
+    }
+  }
+}
+
+@keyframes cardIn {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

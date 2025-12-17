@@ -1,0 +1,18 @@
+<div class="recipe_description">
+  
+  @if (recipeSubtitles()) {
+    <h2 class="recipe_subtitles">
+      {{ recipeSubtitles() }}
+    </h2>
+  }
+
+  <div
+    class="recipe_description_block"
+    [class.expanded]="isExpanded()"
+    [innerHTML]="safeDescription()"
+  ></div>
+
+  <button class="toggle_btn" (click)="toggleExpand()" type="button">
+    {{ isExpanded() ? "Приховати" : "Читати далі" }}
+  </button>
+</div>

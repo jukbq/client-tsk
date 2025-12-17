@@ -1,0 +1,126 @@
+.recipe-page {
+  width: 100vw;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  color: var(--clr-2);
+
+  .menu_block {
+    width: 100vw;
+    position: fixed;
+    display: flex;
+    justify-content: center;
+    z-index: 1000;
+    overflow: hidden;
+    padding: var(--header-height) 0 0 0;
+    background-color: var(--clr-3);
+    top: 0;
+    left: 0;
+
+    .recipe_menu {
+      width: 70%;
+      height: 4vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow-x: auto;
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      scrollbar-width: none;
+      -ms-overflightow-style: none;
+      background-color: var(--clr-2);
+
+      @media (max-width: 980px) {
+        width: 100%;
+      }
+
+      @media (max-width: 780px) {
+        height: 8vh;
+        flex-wrap: wrap;
+        gap: 0;
+        padding: 0;
+      }
+
+      &::-webkit-scrollbar {
+        display: none;
+      }
+
+      .item_menu {
+        min-width: 25%;
+        height: 100%;
+        flex: 0 0 auto;
+        border: 0.5px solid var(--clr-b);
+        cursor: pointer;
+
+        @media (max-width: 780px) {
+          min-width: 49%;
+          height: 50%;
+
+          &:nth-child(odd) {
+            border-right: none;
+          }
+
+          &:nth-child(-n + 2) {
+            border-bottom: none;
+          }
+        }
+
+        a {
+          width: 100%;
+          height: 100%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          color: #000000;
+          text-decoration: none;
+          font-size: 14px;
+          font-weight: 800;
+          margin: 0;
+        }
+
+        &.active {
+          border-bottom: none;
+          background-color: var(--clr-1);
+
+          a {
+            color: var(--clr-4);
+          }
+        }
+      }
+    }
+  }
+
+  .recipe_block {
+    width: 100%;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+
+    .ads {
+      width: 15%;
+
+      @media (max-width: 980px) {
+        display: none;
+      }
+    }
+
+    .recipe_body {
+      width: 70%;
+      min-height: 100vh;
+      border-left: 0.3px solid var(--clr-g);
+      border-right: 0.3px solid var(--clr-g);
+
+      @media (max-width: 980px) {
+        width: 100%;
+      }
+
+      .adsense_block {
+        width: 100%;
+        height: auto;
+        background-color: var(--clr-6);
+      }
+    }
+  }
+}

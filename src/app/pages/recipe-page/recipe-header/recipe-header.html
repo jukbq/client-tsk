@@ -1,0 +1,29 @@
+<div class="recipe_title">
+  <h1>{{ recipeTitle() }}</h1>
+</div>
+
+<div class="image_block">
+  <img
+    [ngSrc]="mainImage()"
+    width="780"
+    height="440"
+    [alt]="'Фотографія страви під назвою ' + recipeTitle()"
+    ngSrcset="480w, 768w, 1024w"
+    sizes="(max-width: 768px) 100vw, 50vw"
+    priority
+  />
+
+  <button 
+    class="fav-btn" 
+    (click)="toggleFavorite(recipeID())"
+    type="button"
+    [attr.aria-label]="isFavorite(recipeID()) ? 'Видалити з обраного' : 'Додати в обране'">
+    <img
+      class="fav-icon"
+      [src]="isFavorite(recipeID()) 
+        ? 'assets/icon/favorite/star-favorite-filled.webp' 
+        : 'assets/icon/favorite/star-favorite-empty.webp'"
+      alt=""
+    />
+  </button>
+</div>

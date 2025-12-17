@@ -1,0 +1,55 @@
+<div id="council" class="advice_block">
+  <h2>Деякі поради</h2>
+  <div class="text" [innerHTML]="safeAdvice()"></div>
+</div>
+
+@if (completion()) {
+  <div class="completion_block">
+    <h2>Завершення</h2>
+    <div class="text" [innerHTML]="safeCompletion()"></div>
+  </div>
+}
+
+@if (accompanyingArticles().length > 0) {
+  <div class="article_topic">
+    <h2>Статті в тему</h2>
+
+    <div class="smooth-wrapper" [class.expanded]="isExpanded()">
+      <ul>
+        @for (item of accompanyingArticles(); track item.articleID) {
+          @if (isExpanded() || $index === 0) {
+            <li class="recipe_link">
+              <a [appSsrLink]="['recipe-page', item.articleID]">
+                <div class="img_black">
+                  <img
+                    [ngSrc]="item.articleImage"
+                    [alt]="item.articleName"
+                    width="150"
+                    height="100"
+                    loading="lazy" />
+                </div>
+              </a>
+
+              <div class="text_block">
+                <div class="recipe_name">
+                  <h4 [appSsrLink]="['recipe-page', item.articleID]">
+                    {{ item.articleName }}
+                  </h4>
+                </div>
+              </div>
+            </li>
+          }
+        }
+      </ul>
+    </div>
+
+    @if (accompanyingArticles().length > 1) {
+      <button 
+        type="button"
+        class="toggle_button" 
+        (click)="toggleExpand()">
+        {{ isExpanded() ? "Приховати" : "Показати всі" }}
+      </button>
+    }
+  </div>
+}

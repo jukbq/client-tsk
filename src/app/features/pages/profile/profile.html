@@ -1,0 +1,71 @@
+<section class="profile_page">
+  <div class="profile_wrap">
+    <aside [class.open]="isMenuOpen" class="sidebar">
+      <ul>
+        @for (menuItem of list; track menuItem.id; let i = $index) {
+        <li [class.active]="i === activeItem" (click)="onSelectItem(i); isMenuOpen = false">
+          <p class="nav-link">{{ menuItem.name }}</p>
+        </li>
+        }
+      </ul>
+
+      <div class="open_menu" [class.open]="isMenuOpen" (click)="openMobileMenu()"></div>
+    </aside>
+    
+
+    <main class="content">
+      @if (activeItem === 0) {
+      <section class="fade-in">
+        <h2>Моя комора</h2>
+        @if (user$ | async; as user) {
+        <div class="user-card">
+          @if (user.photoURL) {
+          <img [src]="user.photoURL" class="avatar" alt="avatar" />
+          }
+          <div class="user-info">
+            <p><strong>Ім’я подорожнього:</strong> {{ user.displayName || 'Анонімний Гість' }}</p>
+            <p><strong>Голуб'яча пошта:</strong> {{ user.email }}</p>
+          </div>
+        </div>
+        } @else {
+        <p>Шукаємо записи в реєстрах таверни...</p>
+        }
+        <button class="btn logout" (click)="logout()">Вийти з таверни</button>
+      </section>
+      } @else if (activeItem === 1) {
+      <section class="fade-in">
+        <h2>Смаколики до душі</h2>
+        <ul class="dishes_list">
+          @for (recipe of (recipes$ | async); track recipe.id) {
+          <li class="dishes_card">
+            <a [appSsrLink]="['recipe-page', recipe.id]">
+              <div class="img_black">
+                <img [src]="recipe.mainImage" [alt]="recipe.recipeTitle" loading="lazy" />
+              </div>
+            </a>
+            <div class="text_block">
+              <div class="recipe_name">
+                <a [appSsrLink]="['recipe-page', recipe.id]">{{ recipe.recipeTitle }}</a>
+              </div>
+            </div>
+          </li>
+          } @empty {
+          <p class="empty-msg">Ваша сумка порожня. Додайте рецепти, що припали до серця!</p>
+          }
+        </ul>
+      </section>
+      } @else if (activeItem === 2) {
+      <section class="fade-in">
+        <h2>Недоварені записи</h2>
+        <p>Тут ви знайдете чернетки ваших рецептів, які ще чекають свого часу на вогні.</p>
+      </section>
+      } @else if (activeItem === 3) {
+      <section class="fade-in">
+        <h2>Скриня налаштувань</h2>
+        <p>Особисті налаштування вашого перебування в «Синьому Коті».</p>
+        <button class="btn logout" (click)="logout()">Залишити заклад</button>
+      </section>
+      }
+    </main>
+  </div>
+</section>

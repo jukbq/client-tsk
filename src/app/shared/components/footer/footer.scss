@@ -1,0 +1,86 @@
+footer {
+  background-color: var(--clr-b, #1a1a1a);
+  color: var(--clr-w, #ffffff);
+  padding: 40px 20px 20px;
+  margin-top: auto; // Притискає футер до низу, якщо контенту мало
+
+  .block_1 {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+
+    ul {
+      list-style: none;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      padding: 0;
+      margin: 0;
+      gap: clamp(10px, 2vw, 30px);
+
+      li {
+        a {
+          text-decoration: none;
+          color: var(--clr-w);
+          font-size: 0.95rem;
+          opacity: 0.8;
+          transition: all 0.3s ease;
+          border-bottom: 1px solid transparent;
+
+          &:hover {
+            opacity: 1;
+            color: var(--clr-2); // Ваш золотистий/акцентний колір
+            border-bottom-color: var(--clr-2);
+          }
+        }
+      }
+    }
+
+    // Роздільник між сервісними посиланнями та категоріями
+    .categories-nav {
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      padding-top: 20px;
+      
+      ul li a {
+        font-size: 0.85rem;
+        text-transform: capitalize;
+      }
+    }
+  }
+
+  .block_2 {
+    margin-top: 40px;
+    padding-top: 20px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    text-align: center;
+    font-size: 0.85rem;
+    opacity: 0.6;
+
+    a {
+      color: inherit;
+      text-decoration: underline;
+      transition: opacity 0.3s;
+
+      &:hover {
+        opacity: 1;
+      }
+    }
+  }
+
+  @media (max-width: 768px) {
+    padding: 30px 15px 15px;
+    
+    .block_1 ul {
+      flex-direction: column;
+      align-items: center;
+      gap: 15px;
+      
+      li {
+        padding: 0;
+        text-align: center;
+      }
+    }
+  }
+}

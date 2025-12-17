@@ -1,0 +1,74 @@
+<div class="seasons" [class]="'count-' + seasons().length">
+  @for (item of seasons(); track item.list) {
+    <a
+      [class]="'season_item ' + item.list"
+      [appSsrLink]="['recipe-filte', 'season', item.list]">
+      <img
+        [src]="item.image"
+        [alt]="item.name"
+        width="50"
+        height="50"
+        loading="lazy"
+        decoding="async" />
+      <p>{{ item.name }}</p>
+    </a>
+  }
+</div>
+
+<div class="info">
+  <button
+    class="info_toggle"
+    (click)="toggleAll()"
+    [attr.aria-expanded]="isOpen()"
+    aria-controls="info-list"
+    type="button">
+    {{ isOpen() ? 'Приховати фільтри' : 'Показати фільтри' }}
+    <span class="chev" aria-hidden="true">{{ isOpen() ? '▼' : '▶' }}</span>
+  </button>
+
+  <div
+    id="info-list"
+    class="info_block_item"
+    [class.open]="isOpen()"
+    role="region"
+    aria-live="polite">
+    
+    @for (item of info(); track item.slug) {
+      @if (item.name !== null) {
+        
+        @if (!isBlockedFilter(item.infoLink)) {
+          <a
+            class="info_item"
+            [appSsrLink]="['recipe-filte', item.infoLink, item.slug]">
+            <div class="image">
+              <img
+                [src]="item.image"
+                [alt]="item.name"
+                width="70"
+                height="70"
+                loading="lazy" />
+            </div>
+            <div class="name">
+              <p class="infoLink">{{ item.name }}</p>
+            </div>
+          </a>
+        } @else {
+          <div class="info_item info_item--disabled">
+            <div class="image">
+              <img
+                [src]="item.image"
+                [alt]="item.name"
+                width="70"
+                height="70"
+                loading="lazy" />
+            </div>
+            <div class="name">
+              <p>{{ item.name }}</p>
+            </div>
+          </div>
+        }
+
+      }
+    }
+  </div>
+</div>

@@ -1,0 +1,25 @@
+.ad-wrapper {
+  display: block;
+  width: 100%;
+  text-align: center;
+  overflow: hidden;
+  
+  // Резервуємо місце, щоб контент не стрибав (Cumulative Layout Shift)
+  /* min-height: 280px;  */
+  background-color: rgba(0, 0, 0, 0.02);
+  border-radius: 8px;
+
+  .ad-label {
+    display: block;
+    font-size: 10px;
+    color: #999;
+    text-transform: uppercase;
+    margin-bottom: 5px;
+    letter-spacing: 1px;
+  }
+}
+
+// Стилізація самого блоку Google (опціонально)
+.adsbygoogle {
+  margin: 0 auto;
+}

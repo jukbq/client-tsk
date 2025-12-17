@@ -1,0 +1,254 @@
+// Змінні для зручності (можна винести в global styles)
+:host {
+  --transition: all 0.3s ease;
+  --header-height: 80px; // Налаштуй під свій хедер
+}
+
+section {
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: var(--header-height);
+
+  .article_bloxk {
+    width: 100%;
+    max-width: 1440px; // Обмеження для дуже великих екранів
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+
+    .ads {
+      width: 20%;
+      position: sticky;
+      top: calc(var(--header-height) + 20px);
+      padding: 0 10px;
+
+      @media (max-width: 980px) {
+        display: none; // Ховаємо бічну рекламу на мобайлі
+      }
+    }
+
+    .article_bosy {
+      width: 60%;
+      min-height: 100vh;
+      border-left: 1px solid var(--clr-g, #eee);
+      border-right: 1px solid var(--clr-g, #eee);
+      padding: 2vh 20px;
+      text-align: left; // Текст статті зазвичай краще читається зліва
+      background: var(--clr-1);
+
+      @media (max-width: 980px) {
+        width: 100%;
+        border: none;
+      }
+
+      h1 {
+        width: 100%;
+        text-align: center;
+        margin-bottom: 3vh;
+        font-size: clamp(1.8rem, 5vw, 2.5rem);
+      }
+
+      .image_block {
+        width: 100%;
+        margin-bottom: 25px;
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        cursor: pointer;
+
+        img {
+          width: 100%;
+          height: auto;
+          display: block;
+          transition: transform 0.5s ease;
+
+          &:hover {
+            transform: scale(1.02);
+          }
+        }
+      }
+
+      // Стилі для реклами в контенті
+      .adsense_block {
+        width: 100%;
+        margin: 30px 0;
+     display: flex;
+        justify-content: center;
+      }
+
+      .bread_crumbs {
+        width: 100%;
+        margin: 25px 0;
+        padding-bottom: 10px;
+        border-bottom: 1px solid #ccc;
+
+        .breadcrumb-wrapper {
+          overflow-x: auto;
+          white-space: nowrap;
+          scrollbar-width: none; // Ховаємо скроллбар у Firefox
+          &::-webkit-scrollbar {
+            display: none;
+          } // Ховаємо в Chrome/Safari
+
+          .breadcrumb {
+            display: flex;
+            list-style: none;
+            padding: 0;
+            margin: 0;
+
+            .breadcrumb-item {
+              display: flex;
+              align-items: center;
+              font-size: 0.9rem;
+
+              & + .breadcrumb-item::before {
+                content: ' / ';
+                padding: 0 10px;
+                color: #888;
+              }
+
+              a {
+                color: var(--clr-4, #333);
+                text-decoration: none;
+                font-weight: 600;
+                &:hover {
+                  color: #ff5500;
+                }
+              }
+
+              &.active {
+                color: #888;
+                font-weight: normal;
+                pointer-events: none;
+              }
+            }
+          }
+        }
+      }
+
+      .menu_block {
+        background: var(--clr-2);
+        padding: 20px;
+        border-radius: 8px;
+        margin-bottom: 30px;
+
+        .recipe_menu {
+          list-style: none;
+          padding: 0;
+
+          li {
+            margin-bottom: 10px;
+            padding-left: 15px;
+            border-left: 3px solid transparent;
+            transition: var(--transition);
+
+            a {
+              text-decoration: none;
+              color: var(--clr-4, #444);
+              font-weight: 500;
+            }
+
+            // Наш новий синтаксис [class.active]
+            &.active {
+              border-left-color: #ff5500;
+              a {
+                color: #ff5500;
+                font-weight: 700;
+              }
+            }
+
+            &:hover:not(.active) {
+              border-left-color: #ccc;
+  a {
+                color: #ff5500;
+                font-weight: 700;
+              }
+
+              
+            }
+          }
+        }
+      }
+
+      .erticle_content {
+        ul {
+          list-style: none;
+          padding: 0;
+
+          li {
+            margin-bottom: 40px;
+
+            h2 {
+              margin: 25px 0 15px;
+              color: var(--clr-b, #222);
+            }
+
+            .paragraph_text {
+              line-height: 1.7;
+              font-size: 1.1rem;
+              color: #444;
+              margin-bottom: 20px;
+            }
+          }
+        }
+      }
+
+      .recipe_link_block {
+        background: var(--clr-2);
+        padding: 20px;
+        border-radius: 10px;
+        border: 1px dashed #ff5500;
+        margin-top: 20px;
+
+        h3 {
+          color: #ff5500;
+          margin-bottom: 15px;
+        }
+
+        .recipe_link {
+          display: flex;
+          gap: 20px;
+          align-items: center;
+          text-decoration: none;
+
+          @media (max-width: 500px) {
+            flex-direction: column;
+          }
+
+          .img_black {
+            width: 200px;
+            height: 120px;
+            border-radius: 8px;
+            overflow: hidden;
+            flex-shrink: 0;
+
+            img {
+              width: 100%;
+              height: 100%;
+              object-fit: cover;
+              transition: transform 0.3s ease;
+            }
+          }
+
+          .text_block {
+            flex-grow: 1;
+            h4 {
+              margin: 0;
+              color: #222;
+              &:hover {
+                color: #ff5500;
+              }
+            }
+          }
+
+          &:hover .img_black img {
+            transform: scale(1.1);
+          }
+        }
+      }
+    }
+  }
+}

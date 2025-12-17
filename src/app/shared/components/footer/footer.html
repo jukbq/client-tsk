@@ -1,0 +1,26 @@
+<footer>
+  <div class="block_1">
+    <nav aria-label="Додаткова навігація">
+      <ul>
+        <li><a [appSsrLink]="['about-us']">Про сайт</a></li>
+        <li><a [appSsrLink]="['kontakty']">Контакти</a></li>
+        <li><a [appSsrLink]="['umovy-korystuvannya']">Умови користування</a></li>
+        <li><a [appSsrLink]="['privacyy']">Політика конфіденційності</a></li>
+      </ul>
+    </nav>
+
+    <nav class="categories-nav" aria-label="Категорії страв">
+      <ul>
+        @for (item of dishesList(); track item.id) {
+          <li>
+            <a [appSsrLink]="['categories', item.id]">{{ item.dishesName }}</a>
+          </li>
+        }
+      </ul>
+    </nav>
+  </div>
+
+  <div class="block_2">
+    <p>© {{ currentYear }} <a href="https://ohle-dev.in.ua/" target="_blank">OhleDev</a>. Усі права захищені.</p>
+  </div>
+</footer>

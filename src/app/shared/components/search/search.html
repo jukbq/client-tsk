@@ -1,0 +1,52 @@
+<section>
+  <input
+    type="text"
+    class="serch_area"
+    placeholder="Пошук рецептів..."
+    [value]="query()"
+    (input)="onQueryChange($event)"
+  />
+
+  @if (searchResults().length > 0) {
+    <div class="search_results">
+      <div class="dishes_list_block">
+        <ul class="dishes_list">
+          @for (recipe of searchResults(); track recipe.id) {
+            <li class="dishes_card">
+          
+              <a [appSsrLink]="['recipe-page', recipe.id]">
+                <div class="img_black">
+                  <img
+                    [ngSrc]="recipe.mainImage"
+                    [alt]="recipe.recipeTitle"
+                    fill
+                    [priority]="$index < 2"
+                    class="recipe_img"
+                  />
+                </div>
+              </a>
+
+              <div class="text_block">
+                <div class="recipe_name">
+                  <a [appSsrLink]="['recipe-page', recipe.id]">
+                    {{ recipe.recipeTitle }}
+                  </a>
+                </div>
+              </div>
+            </li>
+          } @empty {
+            <li class="no_results">Рецептів не знайдено.</li>
+          }
+        </ul>
+
+        @if (searchResults().length < recipes().length) {
+          <div class="show_more">
+            <button class="sm_button" (click)="loadMore()">
+              Показати ще
+            </button>
+          </div>
+        }
+      </div>
+    </div>
+  }
+</section>

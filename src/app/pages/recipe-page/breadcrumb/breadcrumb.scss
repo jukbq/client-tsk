@@ -1,0 +1,99 @@
+  .breadcrumb_line {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        user-select: none;
+
+        @media (max-width: 780px) {
+          width: 95%;
+        }
+
+        ol.breadcrumb {
+          display: flex;
+          gap: 10px;
+          list-style: none;
+          padding: 10px 20px;
+          margin: 0;
+          overflow-x: auto;
+          -webkit-overflow-scrolling: touch; // плавний скрол на iOS
+          scrollbar-width: thin;
+          scrollbar-color: var(--clr-4) #f0f0f0; // видимий трек
+          /*   @media (max-width: 780px) {
+            padding: 0;
+          } */
+
+          &::-webkit-scrollbar {
+            height: 6px;
+          }
+
+          &::-webkit-scrollbar-track {
+            background: #f0f0f0; // світлий трек
+          }
+
+          &::-webkit-scrollbar-thumb {
+            background-color: var(--clr-4); // помітний повзунок
+            border-radius: 3px;
+            border: 2px solid #f0f0f0;
+          }
+
+          li.breadcrumb-item {
+            font-family: "Cinzel", serif;
+            font-weight: 600;
+            font-size: 1.1rem;
+            color: var(--clr-w);
+            white-space: nowrap;
+
+            &.active {
+              color: var(--clr-2);
+              font-weight: 700;
+            }
+
+            a {
+              color: inherit;
+              text-decoration: none;
+              padding: 0 4px;
+              transition: color 0.3s ease;
+
+              &:hover {
+                color: var(--clr-5);
+                text-decoration: underline;
+              }
+            }
+
+            &+li::before {
+              content: "⫷";
+              color: var(--clr-4);
+              margin-right: 10px;
+              user-select: none;
+              font-weight: 900;
+              font-size: 1.2rem;
+              position: relative;
+              top: 1px;
+            }
+          }
+        }
+
+        // Мобільна версія — ховаємо скроллбар
+        @media (max-width: 768px) {
+          ol.breadcrumb {
+            scrollbar-width: none; // Firefox
+            -ms-overflow-style: none; // IE/Edge
+
+            &::-webkit-scrollbar {
+              display: none; // Chrome/Safari
+            }
+
+            font-size: 0.9rem;
+            gap: 6px;
+
+            li.breadcrumb-item {
+              &+li::before {
+                margin-right: 6px;
+                font-size: 1rem;
+              }
+            }
+          }
+
+          padding: 8px 15px;
+        }
+      }

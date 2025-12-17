@@ -1,0 +1,103 @@
+<section>
+  <div class="background_image">
+    <img class="bg_image" 
+         ngSrc="assets/image/baiky-synoho-kota.webp" 
+         fill 
+         priority 
+         alt="Фонове зображення таверни" />
+  </div>
+
+  <div class="home_title">
+    <h1 [style.fontSize]="fontSize()">Байки Синього Кота</h1>
+
+    <nav aria-label="breadcrumb" class="breadcrumb_line">
+      <ol class="breadcrumb collapse d-md-flex" id="breadcrumbMenu">
+        <li class="breadcrumb-item">
+          <a [appSsrLink]="'/'">Головна</a>
+        </li>
+        <li class="breadcrumb-item active" aria-current="page">
+          Байки Синього Кота
+        </li>
+      </ol>
+    </nav>
+  </div>
+
+  <div class="list_block">
+    <div class="description_block">
+      <div #textBlocks class="content" [class.show]="isVisible()">
+        <div class="description">
+          <div class="cat_img">
+            <img
+              ngSrc="assets/image/baiky-synoho-kota-kit.webp"
+              alt="Кіт"
+              width="400" 
+              height="500"
+              priority
+            />
+          </div>
+
+          <p><strong>Довгих днів, та приємних ночей, подорожній!</strong></p>
+          <p>
+            Прошу сідай отам, де менше крихт, і посунь пивний кухоль – я тобі
+            зараз таке розповім, що борода зав’ється, навіть як у тебе її нема.
+          </p>
+          
+          <blockquote class="tavern-tip">
+            <em>До речі, під таку розмову найкраще йде прохолодний ягідний узвар або міцний ель. Коли горло змочене, то й байка ллється солодше.</em>
+          </blockquote>
+
+          <p>
+            Цей розділ не просто збірка текстів. Це хроніки, що їх я особисто
+            писав (ну добре, іноді надиктовував одному заплямованому писарю, але
+            ідеї мої!). Тут ти знайдеш легенди про походження найсмачніших
+            страв, байки про кулінарні подвиги давніх героїв, історії з кухонь,
+            де готують не лише суп, а й змови. Тут хрумтить хліб, вариться
+            цибуля, і кожне слово пахне приправами.
+          </p>
+          <p>
+            Я розповім, як шаман у степах наварив перший борщ, чому імператор не
+            дожив до десерту, і хто насправді вкрав рецепт рогаликів у
+            двоголового дракона. Звісно, всі імена змінено, а винних уже з’їли.
+            Але атмосфера справжня: тріск вогнища, гуркіт кухонних казанів і
+            брязкіт келихів.
+          </p>
+          <p>
+            Цей розділ для тих, хто хоче не лише готувати, а й поринути в казку.
+            Тому відкривай кожну статтю як нову главу кухонного епосу. Байка за
+            байкою — і ти вже не просто кухар, а кулінарний авантюрист.
+          </p>
+          <p>
+            <strong>Гортай, читай, дивуйся — а потім бери ложку і приготуй щось справді легендарне!</strong>
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="dishes_list_block">
+      <ul class="dishes_list">
+        @for (item of articleTypes(); track item.id) {
+        <li class="dishes_card">
+          <a [appSsrLink]="['article-categories', item.id]">
+            <div class="img_black">
+              <img
+                [ngSrc]="item.image"
+                [alt]="item.articleTypeName"
+                width="320" 
+                height="180"
+                loading="lazy"
+              />
+            </div>
+          </a>
+          <div class="text_block">
+            <div class="recipe_name">
+              <a [appSsrLink]="['article-categories', item.id]">
+                {{ item.articleTypeName }}
+              </a>
+            </div>
+          </div>
+        </li>
+        }
+      </ul>
+    </div>
+  </div>
+</section>

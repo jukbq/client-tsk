@@ -1,0 +1,297 @@
+@use "../../../styles/fonts";
+@use "../../../styles/base-styles";
+
+// Змінні для зручності (якщо вони не в base-styles)
+:host {
+  --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.profile_page {
+  width: 100vw;
+  min-height: 100vh;
+  background-color: var(--clr-bg);
+  color: var(--clr-w);
+  overflow-x: hidden;
+
+  .profile_wrap {
+    width: 100%;
+    min-height: calc(100vh - var(--header-height));
+    display: flex;
+    padding-top: var(--header-height);
+    position: relative;
+
+    // --- SIDEBAR (Комора/Меню) ---
+    .sidebar {
+      width: 25%;
+      background: rgba(0, 0, 0, 0.2);
+      border-right: 1px solid rgba(255, 255, 255, 0.05);
+      transition: var(--transition);
+      z-index: 100;
+
+      ul {
+        list-style: none;
+        padding: 40px 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        li {
+          width: 85%;
+          height: 60px;
+          margin-bottom: 15px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          cursor: pointer;
+          position: relative;
+          background-image: url("../../../../assets/image/profile/old-vintage.png");
+          background-size: cover;
+          background-position: center;
+          border-radius: 8px;
+          overflow: hidden;
+          transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+          // Напівпрозорий шар (з вашого прикладу)
+          &::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.4);
+            opacity: 1;
+            transition: opacity 0.3s;
+            z-index: 1;
+          }
+
+          p {
+            position: relative;
+            z-index: 2;
+            color: var(--clr-w);
+            font-size: 1.1rem;
+            font-weight: 600;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.8);
+            margin: 0;
+            transition: color 0.3s ease;
+          }
+
+          &:hover, &.active {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            
+            &::before {
+              background: rgba(var(--clr-1-rgb), 0.4); // Підсвітка фірмовим кольором
+            }
+            p {
+              color: var(--clr-2); // Золотистий/акцентний колір
+            }
+          }
+        }
+      }
+    }
+
+    // --- CONTENT AREA ---
+    .content {
+      flex: 1;
+      padding: 40px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+
+      section {
+        width: 100%;
+        max-width: 1200px;
+        
+        h2 {
+          font-size: 2.5rem;
+          margin-bottom: 2rem;
+          color: var(--clr-2);
+          text-align: center;
+          position: relative;
+          padding-bottom: 10px;
+
+          &::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 150px;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--clr-1), transparent);
+          }
+        }
+      }
+
+      // Картка користувача
+      .user-card {
+        display: flex;
+        align-items: center;
+        gap: 30px;
+        background: rgba(255, 255, 255, 0.03);
+        padding: 30px;
+        border-radius: 20px;
+        border: 1px solid rgba(255, 255, 255, 0.05);
+        margin-bottom: 40px;
+        backdrop-filter: blur(5px);
+
+        .avatar {
+          width: 130px;
+          height: 130px;
+          border-radius: 50%;
+          border: 4px solid var(--clr-1);
+          object-fit: cover;
+          box-shadow: 0 0 20px rgba(var(--clr-1-rgb), 0.2);
+        }
+
+        .user-info p {
+          margin: 10px 0;
+          font-size: 1.2rem;
+          strong { color: var(--clr-2); }
+        }
+      }
+
+      // --- СПИСОК РЕЦЕПТІВ (Dishes List) ---
+      .dishes_list {
+        width: 100%;
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+        gap: 25px;
+        padding: 20px 0;
+        list-style: none;
+
+        .dishes_card {
+          position: relative;
+          background: rgba(20, 20, 20, 0.8);
+          border-radius: 12px;
+          overflow: hidden;
+          box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+          transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+          &:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.7);
+
+            .img_black img { transform: scale(1.1); }
+          }
+
+          .img_black {
+            width: 100%;
+            height: 200px;
+            overflow: hidden;
+            
+            img {
+              width: 100%;
+              height: 100%;
+              object-fit: cover;
+              transition: transform 0.5s ease;
+            }
+          }
+
+          .text_block {
+            padding: 15px;
+            text-align: center;
+
+            .recipe_name {
+              font-weight: 700;
+              font-size: 1.1rem;
+              
+              a {
+                text-decoration: none;
+                color: #f0f0f0;
+                transition: color 0.3s;
+                &:hover { color: var(--clr-1); }
+              }
+            }
+          }
+        }
+      }
+
+      // Кнопки
+      .btn.logout {
+        display: block;
+        margin: 20px auto;
+        background: var(--clr-1);
+        border: none;
+        padding: 14px 40px;
+        border-radius: 50px;
+        color: white;
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        cursor: pointer;
+        box-shadow: 0 5px 15px rgba(255, 85, 0, 0.4);
+        transition: var(--transition);
+
+        &:hover {
+          background: #ff5500;
+          transform: translateY(-2px);
+          box-shadow: 0 8px 20px rgba(255, 85, 0, 0.6);
+        }
+      }
+    }
+
+    // --- MOBILE RESPONSIVE (з вашою логікою стрілки) ---
+    @media (max-width: 768px) {
+      .sidebar {
+        position: fixed;
+        left: -100%;
+        top: 0; // Починаємо від верху, якщо header фіксований
+        height: 100vh;
+        width: 75%;
+        background: rgba(15, 15, 15, 0.98);
+        box-shadow: 15px 0 40px rgba(0, 0, 0, 0.8);
+        padding-top: var(--header-height);
+
+        &.open { left: 0; }
+
+        .open_menu {
+          position: absolute;
+          right: -65px;
+          top: 100px;
+          width: 65px;
+          height: 65px;
+          background-image: url("../../../../assets/icon/wood-arrow-menu.webp");
+          background-size: contain;
+          background-repeat: no-repeat;
+          cursor: pointer;
+          transition: transform 0.5s;
+
+          &.open {
+            right: 10px;
+            animation: flip-arrow 0.7s ease forwards;
+          }
+        }
+      }
+
+      .content {
+        padding: 20px;
+        width: 100%;
+        
+        .user-card {
+          flex-direction: column;
+          text-align: center;
+          gap: 15px;
+        }
+        
+        .dishes_list {
+          grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+        }
+      }
+    }
+  }
+}
+
+// --- АНІМАЦІЇ ---
+.fade-in {
+  animation: fadeIn 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes flip-arrow {
+  0% { transform: rotateY(0deg); }
+  100% { transform: rotateY(180deg); }
+}

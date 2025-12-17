@@ -1,0 +1,16 @@
+section {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  margin-top: var(--header-height);
+
+  .bg_image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Це дозволяє зображенню зберігати пропорції і заповнювати блок */
+    object-position: center; /* Це центрує зображення в межах блоку */
+  }
+}

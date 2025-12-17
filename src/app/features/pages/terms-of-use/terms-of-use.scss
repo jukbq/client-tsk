@@ -1,0 +1,115 @@
+@use "./../../../styles/fonts";
+@use "./../../../styles/base-styles";
+
+section.terms-container {
+  width: 100vw;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  padding: calc(var(--header-height) + 40px) 20px 60px;
+  background-color: #0f0f0f; // Глибокий темний
+  color: #e0e0e0;
+
+  .terms_card {
+    width: 100%;
+    max-width: 900px;
+    background: rgba(25, 25, 25, 0.8);
+    backdrop-filter: blur(10px);
+    padding: 40px;
+    border-radius: 20px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+    border: 1px solid #333;
+
+    h1 {
+      font-size: 2.5rem;
+      color: #ff5500;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    h2 {
+      font-size: 1.8rem;
+      border-left: 4px solid #ff5500;
+      padding-left: 15px;
+      margin: 40px 0 20px;
+      color: #fff;
+    }
+
+    .intro {
+      text-align: center;
+      font-size: 1.2rem;
+      line-height: 1.8;
+      span { color: #ff5500; font-weight: bold; }
+      a { color: #0088cc; text-decoration: none; &:hover { text-decoration: underline; } }
+    }
+
+    .rules_grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      margin-top: 30px;
+
+      .rule_box {
+        padding: 20px;
+        border-radius: 12px;
+        background: rgba(255, 255, 255, 0.03);
+        
+        h3 { margin-bottom: 10px; font-size: 1.3rem; }
+        ul { padding-left: 20px; li { margin-bottom: 10px; } }
+
+        &.positive h3 { color: #4caf50; }
+        &.negative h3 { color: #f44336; }
+      }
+    }
+
+    .warning_list {
+      background: rgba(255, 85, 0, 0.05);
+      padding: 20px;
+      border-radius: 12px;
+      border: 1px dashed #ff5500;
+      p { margin-bottom: 10px; }
+    }
+
+    .links {
+      display: flex;
+      gap: 15px;
+      margin-top: 15px;
+
+      .link_btn {
+        padding: 10px 25px;
+        background: #333;
+        color: #fff;
+        text-decoration: none;
+        border-radius: 50px;
+        transition: 0.3s;
+        &.tg:hover { background: #0088cc; }
+        &:hover { background: #ff5500; }
+      }
+    }
+
+    .terms_footer {
+      margin-top: 50px;
+      padding-top: 30px;
+      border-top: 1px solid #333;
+      text-align: center;
+      font-size: 0.95rem;
+
+      .final_word {
+        font-size: 1.3rem;
+        margin-top: 30px;
+        color: #ff5500;
+      }
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  section.terms-container {
+    padding-top: calc(var(--header-height) + 20px);
+    .terms_card {
+      padding: 20px;
+      .rules_grid { grid-template-columns: 1fr; }
+      h1 { font-size: 1.8rem; }
+    }
+  }
+}

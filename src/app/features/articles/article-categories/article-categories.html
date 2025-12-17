@@ -1,0 +1,82 @@
+<section>
+  <div class="background_image">
+    @if (image()) {
+      <img
+        class="bg_image"
+        [ngSrc]="image()"
+        [alt]="articleTypeName()"
+        fill
+        priority
+      />
+    }
+  </div>
+
+  <div class="home_title">
+    <h1 [ngStyle]="{ 'font-size': fontSize() }">
+      {{ articleTypeName() }}
+    </h1>
+
+    <nav aria-label="breadcrumb" class="breadcrumb_line">
+      <ol class="breadcrumb" id="breadcrumbMenu">
+        <li class="breadcrumb-item">
+          <a [appSsrLink]="'/'">Головна</a>
+        </li>
+        <li class="breadcrumb-item">
+          <a [appSsrLink]="'/dishes'">Рецепти Синього Кота</a>
+        </li>
+        <li class="breadcrumb-item active" aria-current="page">
+          {{ articleTypeName() }}
+        </li>
+      </ol>
+    </nav>
+  </div>
+
+  <div class="list_block">
+    <div class="description_block">
+      <div #textBlocks class="content" [class.show]="isVisible()">
+        <div class="description">
+          <div class="cat_img">
+            @if (additionalImage()) {
+              <img
+                [ngSrc]="additionalImage()"
+                [alt]="articleTypeName()"
+                width="300" 
+                height="300"
+                loading="lazy"
+              />
+            }
+          </div>
+          <div [innerHTML]="articleTypeDescription()"></div>
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="dishes_list_block">
+      <ul class="dishes_list">
+        @for (category of aticleCategryList(); track category.id) {
+          <li class="dishes_card">
+            <a [appSsrLink]="['article-list', category.id]">
+              <div class="img_black">
+                <img
+                  [ngSrc]="category.image"
+                  [alt]="category.aticleCategoryName"
+                  width="400"
+                  height="250"
+                  loading="lazy"
+                />
+              </div>
+            </a>
+            <div class="text_block">
+              <div class="recipe_name">
+                <a [appSsrLink]="['article-list', category.id]">
+                  {{ category.aticleCategoryName }}
+                </a>
+              </div>
+            </div>
+          </li>
+        }
+      </ul>
+    </div>
+  </div>
+</section>

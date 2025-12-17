@@ -1,0 +1,48 @@
+<div id="instruction" class="recipe_preparation">
+  <div class="instructions">
+    <div class="group_block">
+      @for (steps of instructions(); track $index; let i = $index) { @if (steps.groupName) {
+      <div class="group_name mb-3">
+        <h4>{{ steps.groupName }}</h4>
+      </div>
+      } @for (group of steps.group; track $index; let j = $index) {
+      <div [id]="'Step' + (j + 1)" class="ing_line">
+        <h4>Крок {{ j + 1 }}: {{ group.stepName || '' }}</h4>
+
+        @if (group.stepImage) {
+        <div class="step_img">
+          <img
+            [ngSrc]="group.stepImage"
+            [alt]="group.stepName"
+            width="800"
+            height="500"
+            class="img-fluid"
+            loading="lazy"
+          />
+        </div>
+        }
+
+        <div class="text" [innerHTML]="sanitizeHtml(group.description)"></div>
+
+        @if (group.fullDescription) {
+        <div class="accordion">
+          <button
+            class="accordion-toggle"
+            (click)="toggleAccordion(i, j)"
+            [class.open]="isAccordionOpen(i, j)"
+            type="button"
+          >
+            {{ isAccordionOpen(i, j) ? 'Сховати' : 'Детальніше' }}
+            <span class="arrow"></span>
+          </button>
+
+          <div class="accordion-content" [class.open]="isAccordionOpen(i, j)">
+            <div [innerHTML]="sanitizeHtml(group.fullDescription)"></div>
+          </div>
+        </div>
+        }
+      </div>
+      } }
+    </div>
+  </div>
+</div>

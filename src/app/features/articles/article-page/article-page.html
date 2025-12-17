@@ -1,0 +1,107 @@
+<section>
+  <div class="article_bloxk">
+    <div class="ads">
+      <app-display-ads></app-display-ads>
+    </div>
+
+    <div class="article_bosy">
+      <h1>{{ articleName() }}</h1>
+
+      <div class="image_block">
+        @if (image()) {
+        <img
+          class="recipe_image"
+          [ngSrc]="image()"
+          [alt]="'головне зображення ' + articleName()"
+          width="800"
+          height="450"
+          priority
+          (click)="openModal(image())"
+        />
+        }
+      </div>
+
+      <div class="adsense_block">
+        <app-display-ads></app-display-ads>
+      </div>
+
+      <nav aria-label="breadcrumb" class="bread_crumbs">
+        <div class="breadcrumb-wrapper">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a [appSsrLink]="'/'">Головна</a></li>
+            <li class="breadcrumb-item">
+              <a [appSsrLink]="['article-categories', articleTypeID()]">{{ articleTypeName() }}</a>
+            </li>
+            <li class="breadcrumb-item active">{{ articleName() }}</li>
+          </ol>
+        </div>
+      </nav>
+
+      <div class="menu_block">
+        <ul class="recipe_menu">
+          @for (item of articleContent(); let i = $index; track i) { @if
+          (item.paragraphName?.trim()) {
+          <li [class.active]="i === activeItem()" class="item_menu">
+            <a href="javascript:void(0)" (click)="scroll('paragraph' + i, i)">
+              {{ item.paragraphName }}
+            </a>
+          </li>
+          } }
+        </ul>
+      </div>
+
+      <div class="erticle_content">
+        <ul>
+          @for (item of articleContent(); let i = $index; track i) {
+          <li>
+            <h2 [id]="'paragraph' + i">{{ item.paragraphName }}</h2>
+            <div class="paragraph_text" [innerHTML]="item.description"></div>
+
+            @if (item.paragraphImage) {
+            <div class="image_block">
+              <img
+                class="recipe_image"
+                [ngSrc]="item.paragraphImage"
+                [alt]="item.paragraphName"
+                width="600"
+                height="400"
+              />
+            </div>
+            } @if (item.recipeID) {
+            <div class="recipe_link_block">
+              <h3>Рецепт в тему</h3>
+              <div class="recipe_link">
+                <a [appSsrLink]="['recipe-page', item.recipeID]">
+                  <div class="img_black">
+                    <img [ngSrc]="item.mainImage" width="300" height="180" alt="recipe" />
+                  </div>
+                </a>
+                <div class="text_block">
+                  <div class="recipe_name">
+                    <h4 [appSsrLink]="['recipe-page', item.recipeID]">
+                      {{ item.recipeName }}
+                    </h4>
+                  </div>
+                </div>
+              </div>
+            </div>
+            } @if (i % 2 === 1) {
+            <div class="adsense_block">
+              <app-display-ads></app-display-ads>
+            </div>
+            }
+          </li>
+          }
+        </ul>
+      </div>
+
+      <div class="adsense_block">
+        <app-display-ads></app-display-ads>
+      </div>
+    </div>
+
+    <div class="ads">
+      <app-display-ads></app-display-ads>
+    </div>
+  </div>
+</section>

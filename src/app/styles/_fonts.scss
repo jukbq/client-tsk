@@ -1,0 +1,135 @@
+/* ============================
+   styles.scss / _fonts.scss
+============================ */
+
+/* ----------------------------
+   Roboto Serif Variable
+---------------------------- */
+@font-face {
+  font-family: "Roboto Serif";
+  src: url("/assets/fonts/Roboto_Serif/RobotoSerif-VariableFont_GRAD,opsz,wdth,wght.ttf") format("truetype");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Roboto Serif";
+  src: url("/assets/fonts/Roboto_Serif/RobotoSerif-Italic-VariableFont_GRAD,opsz,wdth,wght.ttf") format("truetype");
+  font-weight: 100 900;
+  font-style: italic;
+  font-display: swap;
+}
+
+/* ----------------------------
+   Rubik Dirt
+---------------------------- */
+@font-face {
+  font-family: "Rubik Dirt";
+  src: url("/assets/fonts/rubik-dirt/RubikDirt-Regular.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Rubik Dirt";
+  src: url("/assets/fonts/rubik-dirt/RubikDirt-Italic.woff2") format("woff2");
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+
+/* ============================
+   Глобальні стилі для тексту
+============================ */
+body,
+p,
+a,
+li,
+span,
+blockquote,
+.small,
+.caption {
+  font-family: "Roboto Serif", serif;
+  font-weight: 400;
+  font-size: 1rem;
+  line-height: 1.6;
+
+}
+
+p em,
+a em,
+li em,
+blockquote em,
+span em {
+  font-style: italic;
+}
+
+/* ============================
+   Міксин для заголовків
+============================ */
+@mixin heading($mobile, $tablet, $desktop, $style: normal) {
+  font-family: "Rubik Dirt", system-ui, sans-serif;
+  font-weight: 400;
+  /* завжди за замовчуванням */
+  font-style: $style;
+  line-height: 1.2;
+  margin-bottom: 1rem;
+  text-wrap: balance;
+  font-size: $mobile;
+
+  @media (min-width: 481px) {
+    font-size: $tablet;
+  }
+
+  @media (min-width: 769px) {
+    font-size: $desktop;
+  }
+}
+
+/* ============================
+   Заголовки
+============================ */
+h1 {
+  @include heading(clamp(2rem, 4vw + 1rem, 3.5rem),
+    clamp(2.5rem, 4vw + 1rem, 3.5rem),
+    clamp(3rem, 4vw + 1rem, 4rem));
+}
+
+h2 {
+  @include heading(clamp(1.75rem, 3vw + 0.5rem, 2.5rem),
+    clamp(2rem, 3vw + 0.5rem, 2.5rem),
+    clamp(2.5rem, 3vw + 0.5rem, 3rem));
+}
+
+h3 {
+  @include heading(clamp(1.5rem, 2vw + 0.5rem, 2rem),
+    clamp(1.75rem, 2vw + 0.5rem, 2.25rem),
+    clamp(2rem, 2vw + 0.5rem, 2.5rem));
+}
+
+h4 {
+  @include heading(1.125rem, 1.25rem, 1.5rem);
+}
+
+h5 {
+  @include heading(1rem, 1.125rem, 1.25rem);
+}
+
+h6 {
+  @include heading(0.875rem, 1rem, 1rem);
+}
+
+/* ============================
+   Додаткові стилі для посилань (якщо треба)
+============================ */
+a {
+  text-decoration: none;
+  color: #1a0dab;
+
+  &:hover,
+  &:focus {
+    text-decoration: underline;
+  }
+}

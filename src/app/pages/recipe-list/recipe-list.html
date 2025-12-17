@@ -1,0 +1,74 @@
+<section>
+  <div class="background_image">
+    <img class="bg_image" 
+         [ngSrc]="image()" 
+         fill 
+         priority 
+         [alt]="categoryName()" />
+  </div>
+
+  <div class="home_title">
+    <h1 [style.font-size]="fontSize()">{{ categoryName() }}</h1>
+
+    <nav aria-label="breadcrumb" class="breadcrumb_line">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a [appSsrLink]="'/'">Головна</a></li>
+        <li class="breadcrumb-item"><a [appSsrLink]="'/dishes'">Рецепти Синього Кота</a></li>
+        <li class="breadcrumb-item">
+          <a [appSsrLink]="['categories', dishesID()]">{{ dishesName() }}</a>
+        </li>
+        <li class="breadcrumb-item active" aria-current="page">{{ categoryName() }}</li>
+      </ol>
+    </nav>
+  </div>
+
+  <div class="list_block">
+    <div class="description_block">
+      <div #textBlocks class="content" [class.show]="isVisible()">
+        <div class="description">
+          <div class="cat_img">
+            <img [ngSrc]="additionalImage()" 
+                 [alt]="dishesName()" 
+                 width="400" 
+                 height="300" />
+          </div>
+          <div [innerHTML]="categoryDescription()"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="dishes_list_block">
+      <ul class="dishes_list">
+        @for (recipe of recipesFilter(); track recipe.id) {
+          <li class="dishes_card">
+            <a [appSsrLink]="['recipe-page', recipe.id]">
+              <div class="img_black">
+                <img [ngSrc]="recipe.mainImage" 
+                     [alt]="recipe.recipeTitle" 
+                     width="300" 
+                     height="200" />
+              </div>
+            </a>
+
+            <div class="text_block">
+              <div class="recipe_name">
+                <a [appSsrLink]="['recipe-page', recipe.id]">{{ recipe.recipeTitle }}</a>
+              </div>
+            </div>
+
+            <div class="fav-btn" (click)="toggleFavorite(recipe.id)">
+              <img [ngSrc]="isFavorite(recipe.id)
+                             ? 'assets/icon/favorite/star-favorite-filled.webp'
+                             : 'assets/icon/favorite/star-favorite-empty.webp'"
+                   [alt]="isFavorite(recipe.id) ? 'Видалити з обраного' : 'Додати в обране'"
+                   width="32" 
+                   height="32" />
+            </div>
+          </li>
+        }
+      </ul>
+    </div>
+  </div>
+</section>
+
+<app-auth-modal />

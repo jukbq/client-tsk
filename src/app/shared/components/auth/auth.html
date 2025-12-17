@@ -1,0 +1,17 @@
+<div class="auth-container">
+  @if (!loading()) {
+    <div class="auth-card">
+      <h1>Вхід на сайт</h1>
+      <p class="hint">Швидко і без паролів — через Google</p>
+
+      <button class="btn google" (click)="loginWithGoogle()" [disabled]="loading()">
+        </button>
+
+      @if (error()) {
+        <div class="error">{{ error() }}</div>
+      }
+    </div>
+  } @else {
+    <div class="spinner">Завантаження...</div>
+  }
+</div>

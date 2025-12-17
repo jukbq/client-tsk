@@ -1,0 +1,17 @@
+<nav id="recipe-about" aria-label="breadcrumb" class="breadcrumb_line">
+  <ol class="breadcrumb" id="breadcrumbMenu">
+    @for (item of breadcrumbItems(); track item.label) {
+      <li
+        class="breadcrumb-item"
+        [class.active]="item.link === ''"
+        [attr.aria-current]="item.link === '' ? 'page' : null"
+      >
+        @if (item.link !== '') {
+          <a [appSsrLink]="item.link">{{ item.label }}</a>
+        } @else {
+          {{ item.label }}
+        }
+      </li>
+    }
+  </ol>
+</nav>

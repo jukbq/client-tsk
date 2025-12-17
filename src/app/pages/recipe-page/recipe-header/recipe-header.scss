@@ -1,0 +1,73 @@
+.recipe_title {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 0;
+  text-align: center;
+  background-color: var(--clr-4);
+
+  h1 {
+    margin-top: 1rem;
+    padding: 0 10px;
+    text-shadow: 0 2px 6px rgba(0, 0, 0, 0.85);
+    user-select: none;
+    color: var(--clr-w);
+    font-size: clamp(1.5rem, 5vw, 2.5rem); // Адаптивний розмір шрифту
+  }
+}
+
+.image_block {
+  width: 100%;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  overflow: hidden;
+
+  img {
+    aspect-ratio: 16 / 9;
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    display: block;
+  }
+
+  .fav-btn {
+    appearance: none;
+    background: transparent;
+    border: none;
+    padding: 0;
+    width: 10%; // Трохи збільшив для зручності натискання пальцем
+    max-width: 60px;
+    aspect-ratio: 1 / 1;
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    cursor: pointer;
+    z-index: 5;
+    transition: transform 0.2s ease;
+
+    &:hover {
+      transform: scale(1.1);
+    }
+
+    &:active {
+      transform: scale(0.9);
+    }
+
+    .fav-icon {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      filter: drop-shadow(0 0 4px rgba(0, 0, 0, 0.5)); // Додав тінь іконці
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .fav-btn {
+      width: 50px;
+      bottom: 20px;
+      left: 20px;
+    }
+  }
+}
