@@ -14,6 +14,7 @@ import { articleTypeByIdResolver } from './shared/resolver/article-type-by-id/ar
 import { articlePageResolver } from './shared/resolver/article-page/article-page-resolver';
 import { articleCategotyByidResolver } from './shared/resolver/article-categoty-byid/article-categoty-byid-resolver';
 import { articlesByCategoryResolver } from './shared/resolver/articles-by-category/articles-by-category-resolver';
+import { RenderMode } from '@angular/ssr';
 
 export const routes: Routes = [
   // Головна
@@ -35,7 +36,6 @@ export const routes: Routes = [
     resolve: {
       dishes: dishesAllResolver,
     }
-   
   },
 
   // Категорії
@@ -46,8 +46,8 @@ export const routes: Routes = [
     resolve: {
       dishes: dishByIdResolver,
       categryList: categoryListResolver,
-    }
-  
+    },
+    data: { renderMode: RenderMode.Server }
   },
 
   {
@@ -56,8 +56,8 @@ export const routes: Routes = [
       import('./pages/recipe-list/recipe-list').then(m => m.RecipeList),
     resolve: {
       category: categoryByIdResolver,
-    }
-    
+    },
+    data: { renderMode: RenderMode.Server }
   },
 
   {
@@ -66,8 +66,8 @@ export const routes: Routes = [
       import('./pages/recipe-page/recipe-page').then(m => m.RecipePage),
     resolve: {
       recipe: recipeResolver,
-    }
-  
+    },
+    data: { renderMode: RenderMode.Server }
   },
 
   {
@@ -78,13 +78,14 @@ export const routes: Routes = [
     resolve: {
       recipes: filterResolver,
     },
+    data: { renderMode: RenderMode.Server }
   },
 
   {
     path: 'search',
     loadComponent: () =>
       import('./shared/components/search/search').then(m => m.Search),
-    data: { hideFooter: true },
+    data: { hideFooter: true }
   },
 
   {
@@ -110,7 +111,7 @@ export const routes: Routes = [
     path: 'auth',
     loadComponent: () =>
       import('./shared/components/auth/auth').then(m => m.Auth),
-    data: { hideFooter: true },
+    data: { hideFooter: true }
   },
 
   {
@@ -146,6 +147,7 @@ export const routes: Routes = [
       articleTypes: articleTypeByIdResolver,
       aticleCategryList: articleCategotyByTypeIdResolver,
     },
+    data: { renderMode: RenderMode.Server }
   },
 
   {
@@ -157,6 +159,7 @@ export const routes: Routes = [
       category: articleCategotyByidResolver,
       articles: articlesByCategoryResolver,
     },
+    data: { renderMode: RenderMode.Server }
   },
 
   {
@@ -167,6 +170,7 @@ export const routes: Routes = [
     resolve: {
       article: articlePageResolver,
     },
+    data: { renderMode: RenderMode.Server }
   },
 
   // Soft 404
@@ -174,8 +178,6 @@ export const routes: Routes = [
     path: '**',
     loadComponent: () =>
       import('./pages/soft-404/soft-404').then(m => m.Soft404),
-    data: { renderMode: 'ssr' },
+    data: { renderMode: RenderMode.Server },
   },
 ];
-
-
