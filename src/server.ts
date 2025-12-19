@@ -15,11 +15,13 @@ const app = express();
 app.use(compression({ threshold: 0 }));
 const angularApp = new AngularNodeAppEngine();
 
-// 🤖 robots.txt і sitemap.xml (з кешем 1 день)
+/**
+ * 🤖 Обслуговування статичних файлів (robots, sitemap)
+ */
 app.get('/robots.txt', (req, res) => {
   const path = join(browserDistFolder, 'robots.txt');
   if (fs.existsSync(path)) {
-    res.setHeader('Cache-Control', 'public, max-age=86400'); // 1 day
+    res.setHeader('Cache-Control', 'public, max-age=86400');
     return res.sendFile(path);
   }
   return res.status(404).send('Not Found');
@@ -28,28 +30,32 @@ app.get('/robots.txt', (req, res) => {
 app.get('/sitemap.xml', (req, res) => {
   const path = join(browserDistFolder, 'sitemap.xml');
   if (fs.existsSync(path)) {
-    res.setHeader('Cache-Control', 'public, max-age=86400'); // 1 day
+    res.setHeader('Cache-Control', 'public, max-age=86400');
     return res.sendFile(path);
   }
   return res.status(404).send('Not Found');
 });
 
-
-
 /**
- * Example Express Rest API endpoints can be defined here.
- * Uncomment and define endpoints as necessary.
- *
- * Example:
- * ```ts
- * app.get('/api/{*splat}', (req, res) => {
- *   // Handle API request
- * });
- * ```
+ * 🧼 SEO FIX: Обробка кривих посилань з query-параметрами (?tag=...&id=...)
+ * Ми робимо 301 редірект на чисту структуру /recipe-filte/:type/:id
  */
+app.get('/recipe-filte', (req, res, next) => {
+  const { tag, id } = req.query;
+
+  if (tag && id) {
+    // Формуємо чисте посилання, яке розуміє ваш роутинг Angular
+    const cleanUrl = `/recipe-filte/${tag}/${id}`;
+    console.log(`🔀 SEO Redirect (Old Query -> Clean URL): ${req.url} → ${cleanUrl}`);
+    return res.redirect(301, cleanUrl);
+  }
+  
+  // Якщо параметрів немає, просто пускаємо далі в Angular (там відпрацює 404 якщо треба)
+  next();
+});
 
 /**
- * Serve static files from /browser
+ * 🧱 Статика (JS, CSS, Зображення)
  */
 app.use(
   express.static(browserDistFolder, {
@@ -77,31 +83,49 @@ app.use(
   })
 );
 
-
 /**
- * Handle all other requests by rendering the Angular application.
+ * 🚀 Angular SSR (Головний обробник)
  */
 app.use((req, res, next) => {
   angularApp
     .handle(req)
-    .then((response) => (response ? writeResponseToNodeResponse(response, res) : next()))
-    .catch(next);
+    .then(async (response) => {
+      if (!response) return next();
+
+      // Щоб перевірити вміст сторінки на "soft-404", нам треба прочитати body.
+      // Важливо: response.clone(), бо потік body можна прочитати лише один раз.
+      const responseClone = response.clone();
+      const html = await responseClone.text();
+
+      // Перевіряємо ваш маркер 404 помилки в HTML коді
+      if (html.includes('id="soft-404-marker"') || html.includes('404-not-found')) {
+        console.warn(`⚠️ SSR: Force 404 status for ${req.originalUrl}`);
+        
+        // Створюємо нову відповідь зі статусом 404, зберігаючи контент сторінки помилки
+        const forced404Response = new Response(html, {
+          status: 404,
+          headers: response.headers
+        });
+        return writeResponseToNodeResponse(forced404Response, res);
+      }
+
+      // Якщо все ок — віддаємо стандартну відповідь (200)
+      return writeResponseToNodeResponse(response, res);
+    })
+    .catch((err) => {
+      console.error('❌ SSR Render Error:', err);
+      next(err);
+    });
 });
 
 /**
- * Start the server if this module is the main entry point, or it is ran via PM2.
- * The server listens on the port defined by the `PORT` environment variable, or defaults to 4000.
+ * Запуск сервера
  */
 if (isMainModule(import.meta.url) || process.env['pm_id']) {
-  const port = Number(process.env['PORT']) || 4000; // Переконуємось, що це число
-  
-  // ВАЖЛИВО: додаємо '0.0.0.0', щоб Google Cloud міг "постукати" в контейнер
+  const port = Number(process.env['PORT']) || 4000;
   app.listen(port, '0.0.0.0', () => {
     console.log(`Node Express server listening on http://0.0.0.0:${port}`);
   });
 }
 
-/**
- * Request handler used by the Angular CLI (for dev-server and during build) or Firebase Cloud Functions.
- */
 export const reqHandler = createNodeRequestHandler(app);
