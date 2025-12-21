@@ -14,7 +14,7 @@
     background-color: var(--clr-4);
     margin: 0;
     text-align: center;
-    padding: 10px 5vw;
+    padding: 10px 2w;
     color: var(--clr-w);
   }
 
@@ -23,12 +23,20 @@
     box-sizing: border-box;
     width: 100%;
     // Обмежуємо висоту на мобільних, щоб кнопка мала сенс
-    max-height: 250px; 
+    max-height: 250px;
     overflow: hidden;
     transition: max-height 0.5s ease-in-out;
     background-color: var(--clr-6);
-    padding: 10px 5vw 40px 5vw; // Додав відступ знизу під кнопку
+    padding: 10px 2vw 40px 2vw; // Додав відступ знизу під кнопку
     color: var(--clr-b);
+    p{
+
+    font-weight: 400;
+    font-size: 1rem;
+ 
+}
+   
+   
 
     &::after {
       content: "";

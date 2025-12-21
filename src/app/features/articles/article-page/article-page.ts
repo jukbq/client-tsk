@@ -37,6 +37,8 @@ export class ArticlePage implements OnInit {
   readonly aticleCategoryName = signal('');
   readonly articleContent = signal<any[]>([]);
   readonly activeItem = signal(0);
+  readonly adsIndexes = signal<Set<number>>(new Set());
+
   
   private ldJsonScript?: HTMLScriptElement;
   private menuOffset = 100;
@@ -85,6 +87,8 @@ export class ArticlePage implements OnInit {
     this.articleContent.set(article.articleContent || []);
 
     this.setupSeo(article);
+    this.articleContent.set(article.articleContent || []);
+this.generateAdsPositions();
   }
 
   private setupSeo(article: any) {
@@ -147,4 +151,44 @@ export class ArticlePage implements OnInit {
       console.log('Open image:', imageSrc);
     }
   }
+
+  private generateAdsPositions() {
+  const content = this.articleContent();
+  const contentLength = content.length;
+
+  if (contentLength < 5) {
+    // коротка стаття — йди без реклами
+    this.adsIndexes.set(new Set());
+    return;
+  }
+
+  const maxAds = Math.min(2, Math.floor(contentLength / 4));
+  const minDistance = 3;
+
+  const indexes = new Set<number>();
+  let attempts = 0;
+
+  while (indexes.size < maxAds && attempts < 100) {
+    const index = Math.floor(Math.random() * contentLength);
+
+    // ❌ не перший, не другий, не останній
+    if (index < 2 || index > contentLength - 2) {
+      attempts++;
+      continue;
+    }
+
+    const tooClose = [...indexes].some(
+      (i) => Math.abs(i - index) < minDistance
+    );
+
+    if (!tooClose) {
+      indexes.add(index);
+    }
+
+    attempts++;
+  }
+
+  this.adsIndexes.set(indexes);
+}
+
 }

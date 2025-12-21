@@ -22,6 +22,7 @@ section {
     display: flex;
     align-items: center;
     justify-content: center;
+
     .bg_image {
       position: absolute;
       width: 100%;
@@ -39,11 +40,9 @@ section {
         left: 0;
         right: 0;
         pointer-events: none;
-        background: radial-gradient(
-          circle,
-          transparent 50%,
-          rgba(0, 0, 0, 0.85) 100%
-        );
+        background: radial-gradient(circle,
+            transparent 50%,
+            rgba(0, 0, 0, 0.85) 100%);
       }
     }
   }
@@ -117,7 +116,7 @@ section {
             }
           }
 
-          & + li::before {
+          &+li::before {
             content: "⫷";
             color: var(--clr-4);
             margin-right: 10px;
@@ -138,7 +137,7 @@ section {
           gap: 6px;
 
           li.breadcrumb-item {
-            & + li::before {
+            &+li::before {
               margin-right: 6px;
               font-size: 1rem;
             }
@@ -170,9 +169,8 @@ section {
 
         .description {
           line-height: 1.5;
-       /*    font-size: 1rem; */
           text-align: justify;
-          
+
 
           p {
             margin-bottom: 1rem;
@@ -202,6 +200,10 @@ section {
 
       @media (max-width: 768px) {
         .description {
+          font-size: 1rem;
+          padding: 0 1rem;
+
+
           .cat_img {
             display: none;
           }
@@ -212,6 +214,7 @@ section {
     .dishes_list_block {
       width: 100%;
       margin: 20px 0;
+
       ul.dishes_list {
         width: 100%;
         list-style: none;
@@ -304,11 +307,13 @@ section {
             width: calc(33.333% - 1rem);
           }
         }
+
         @media (max-width: 768px) {
           .dishes_card {
             width: calc(50% - 1rem);
           }
         }
+
         @media (max-width: 480px) {
           .dishes_card {
             width: 100%;

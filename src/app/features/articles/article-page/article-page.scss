@@ -5,7 +5,7 @@
 }
 
 section {
-  width: 100%;
+  width: 100vw;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -18,6 +18,8 @@ section {
     display: flex;
     align-items: flex-start;
     justify-content: center;
+
+
 
     .ads {
       width: 20%;
@@ -33,15 +35,21 @@ section {
     .article_bosy {
       width: 60%;
       min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
       border-left: 1px solid var(--clr-g, #eee);
       border-right: 1px solid var(--clr-g, #eee);
-      padding: 2vh 20px;
+      padding: 0 2vw;
       text-align: left; // Текст статті зазвичай краще читається зліва
       background: var(--clr-1);
 
       @media (max-width: 980px) {
-        width: 100%;
+        width: 100vw;
         border: none;
+       
+     
       }
 
       h1 {
@@ -56,6 +64,8 @@ section {
         margin-bottom: 25px;
         border-radius: 12px;
         overflow: hidden;
+        display: flex;
+        justify-content: center;
         box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
         cursor: pointer;
 
@@ -72,16 +82,15 @@ section {
       }
 
       // Стилі для реклами в контенті
-      .adsense_block {
+      /*.adsense_block {
         width: 100%;
-        margin: 30px 0;
-     display: flex;
+        display: flex;
         justify-content: center;
-      }
+      } */
 
       .bread_crumbs {
         width: 100%;
-        margin: 25px 0;
+        margin: 15px 0;
         padding-bottom: 10px;
         border-bottom: 1px solid #ccc;
 
@@ -89,9 +98,12 @@ section {
           overflow-x: auto;
           white-space: nowrap;
           scrollbar-width: none; // Ховаємо скроллбар у Firefox
+
           &::-webkit-scrollbar {
             display: none;
-          } // Ховаємо в Chrome/Safari
+          }
+
+          // Ховаємо в Chrome/Safari
 
           .breadcrumb {
             display: flex;
@@ -104,7 +116,7 @@ section {
               align-items: center;
               font-size: 0.9rem;
 
-              & + .breadcrumb-item::before {
+              &+.breadcrumb-item::before {
                 content: ' / ';
                 padding: 0 10px;
                 color: #888;
@@ -114,6 +126,7 @@ section {
                 color: var(--clr-4, #333);
                 text-decoration: none;
                 font-weight: 600;
+
                 &:hover {
                   color: #ff5500;
                 }
@@ -154,6 +167,7 @@ section {
             // Наш новий синтаксис [class.active]
             &.active {
               border-left-color: #ff5500;
+
               a {
                 color: #ff5500;
                 font-weight: 700;
@@ -162,12 +176,13 @@ section {
 
             &:hover:not(.active) {
               border-left-color: #ccc;
-  a {
+
+              a {
                 color: #ff5500;
                 font-weight: 700;
               }
 
-              
+
             }
           }
         }
@@ -184,6 +199,7 @@ section {
             h2 {
               margin: 25px 0 15px;
               color: var(--clr-b, #222);
+              text-align: center;
             }
 
             .paragraph_text {
@@ -191,6 +207,12 @@ section {
               font-size: 1.1rem;
               color: #444;
               margin-bottom: 20px;
+              padding: 0 2vw;
+              text-align: justify;
+              hyphens: auto;
+              word-wrap: break-word;
+              overflow-wrap: break-word;
+              text-justify: inter-word;
             }
           }
         }
@@ -235,9 +257,11 @@ section {
 
           .text_block {
             flex-grow: 1;
+
             h4 {
               margin: 0;
               color: #222;
+
               &:hover {
                 color: #ff5500;
               }
