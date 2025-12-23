@@ -1,5 +1,17 @@
 import { isPlatformBrowser, NgOptimizedImage, ViewportScroller } from '@angular/common';
-import { Component, DOCUMENT, effect, ElementRef, HostListener, inject, OnInit, PLATFORM_ID, Renderer2, signal, ViewChild } from '@angular/core';
+import {
+  Component,
+  DOCUMENT,
+  effect,
+  ElementRef,
+  HostListener,
+  inject,
+  OnInit,
+  PLATFORM_ID,
+  Renderer2,
+  signal,
+  ViewChild,
+} from '@angular/core';
 import { SsrLinkDirective } from '../../../shared/SsrLinkDirective/ssr-link.directive';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SeoService } from '../../../core/services/seo/seo-service';
@@ -8,7 +20,7 @@ import { toSignal } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-atricle-list',
- imports: [SsrLinkDirective, NgOptimizedImage],
+  imports: [SsrLinkDirective, NgOptimizedImage],
   templateUrl: './atricle-list.html',
   styleUrl: './atricle-list.scss',
 })
@@ -77,7 +89,7 @@ export class AtricleList implements OnInit {
   }
 
   private setupSeo(category: any) {
-    const stripHtml = (html: string) => html ? html.replace(/<\/?[^>]+(>|$)/g, '') : '';
+    const stripHtml = (html: string) => (html ? html.replace(/<\/?[^>]+(>|$)/g, '') : '');
     const seoName = category.seoAticleCategoryName;
     const seoDesc = category.seoAticleCategoryDescription;
 
@@ -91,17 +103,32 @@ export class AtricleList implements OnInit {
       { property: 'og:image', content: this.image() },
       { property: 'og:url', content: this.currentURL() },
       { property: 'og:type', content: 'website' },
-      { name: 'keywords', content: category.keywords }
+      { name: 'keywords', content: category.keywords },
     ];
-    tags.forEach(tag => this.meta.updateTag(tag));
+    tags.forEach((tag) => this.meta.updateTag(tag));
 
-    this.setSchema({
+    const schema = {
       '@context': 'https://schema.org',
-      '@type': 'CollectionPage',
+      '@type': 'ItemList',
       name: this.categoryName(),
       description: stripHtml(this.categoryDescription()),
-      image: this.image()
-    });
+      url: this.currentURL(),
+      image: this.image(),
+      itemListElement: this.articles().map((article, index) => ({
+        '@type': 'ListItem',
+        position: index + 1,
+        name: article.title,
+        url: article.url,
+      })),
+      mainEntityOfPage: this.currentURL(),
+      publisher: {
+        '@type': 'Person',
+        name: 'Оглій Юрій',
+        url: 'https://tsk.in.ua',
+      },
+    };
+
+    this.setSchema(schema);
   }
 
   private setSchema(schema: any): void {
@@ -149,7 +176,7 @@ export class AtricleList implements OnInit {
 
     // Анімація карток
     const cards = this.document.querySelectorAll('.dishes_card:not(.show)');
-    cards.forEach(card => {
+    cards.forEach((card) => {
       const rect = card.getBoundingClientRect();
       if (window.innerHeight > rect.top + rect.height / 4) {
         this.renderer.addClass(card, 'show');

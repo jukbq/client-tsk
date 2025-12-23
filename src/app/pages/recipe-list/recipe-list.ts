@@ -145,7 +145,7 @@ export class RecipeList {
 
     this.setSchema({
       '@context': 'https://schema.org',
-      '@type': 'Recipe', // Можна адаптувати під CollectionPage для списку
+      '@type': 'ItemList', // Можна адаптувати під CollectionPage для списку
       name: cat.categoryName,
       url: this.currentURL,
       image: cat.image,

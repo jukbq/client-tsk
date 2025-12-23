@@ -1,4 +1,16 @@
-import { Component, DOCUMENT, effect, ElementRef, HostListener, inject, OnInit, PLATFORM_ID, Renderer2, signal, ViewChild } from '@angular/core';
+import {
+  Component,
+  DOCUMENT,
+  effect,
+  ElementRef,
+  HostListener,
+  inject,
+  OnInit,
+  PLATFORM_ID,
+  Renderer2,
+  signal,
+  ViewChild,
+} from '@angular/core';
 import { SsrLinkDirective } from '../../../shared/SsrLinkDirective/ssr-link.directive';
 import { isPlatformBrowser, NgOptimizedImage, NgStyle, ViewportScroller } from '@angular/common';
 import { toSignal } from '@angular/core/rxjs-interop';
@@ -37,7 +49,7 @@ export class ArticleCategories implements OnInit {
   readonly aticleCategryList = signal<any[]>([]);
   readonly isVisible = signal(false);
   readonly currentURL = signal('');
-  
+
   private ldJsonScript?: HTMLScriptElement;
 
   // Отримуємо дані з роута як сигнал
@@ -58,12 +70,9 @@ export class ArticleCategories implements OnInit {
   }
 
   private processRouteData(data: any) {
-
-
     const wrapper = data?.articleTypes;
     const categoryList = data?.aticleCategryList;
-  const type = wrapper?.data;
-
+    const type = wrapper?.data;
 
     if (!type || !categoryList?.data?.length) {
       this.router.navigate(['/404']);
@@ -78,46 +87,51 @@ export class ArticleCategories implements OnInit {
     this.currentURL.set(wrapper.url);
     this.aticleCategryList.set(categoryList.data);
     this.articleTypeName.set(type.articleTypeName);
-   
+
     this.articleTypeDescription.set(type.articleTypeDescription);
     this.image.set(type.image);
-   
-    
+
     this.additionalImage.set(type.additionalImage);
 
     this.setupSeo(type);
   }
 
   private setupSeo(type: any) {
-    const stripHtml = (html: string) => html ? html.replace(/<\/?[^>]+(>|$)/g, '') : '';
-    
+    const stripHtml = (html: string) => (html ? html.replace(/<\/?[^>]+(>|$)/g, '') : '');
+
     this.seoServices.setCanonicalUrl(this.currentURL());
     this.titleService.setTitle(type.seoName);
 
     const metaTags: MetaDefinition[] = [
-  { name: 'description', content: type.seoDescription },
-  { name: 'keywords', content: type.keywords },
-  { property: 'og:title', content: type.seoName },
-  { property: 'og:description', content: type.seoDescription },
-  { property: 'og:url', content: this.currentURL() },
-  { property: 'og:image', content: this.image() },
-  { property: 'og:type', content: 'website' }
-];
+      { name: 'description', content: type.seoDescription },
+      { name: 'keywords', content: type.keywords },
+      { property: 'og:title', content: type.seoName },
+      { property: 'og:description', content: type.seoDescription },
+      { property: 'og:url', content: this.currentURL() },
+      { property: 'og:image', content: this.image() },
+      { property: 'og:type', content: 'website' },
+    ];
 
-metaTags.forEach(tag => this.meta.updateTag(tag));
+    metaTags.forEach((tag) => this.meta.updateTag(tag));
 
     const schema = {
       '@context': 'https://schema.org',
-      '@type': 'WebSite',
+      '@type': 'CollectionPage',
       name: type.articleTypeName,
-      url: this.currentURL(),
       description: stripHtml(type.articleTypeDescription),
+      url: this.currentURL(),
       image: this.image(),
+      hasPart: this.aticleCategryList().map((cat) => ({
+        '@type': 'CollectionPage',
+        name: cat.name,
+        url: cat.url,
+      })),
       publisher: {
         '@type': 'Person',
         name: 'Оглій Юрій',
         url: 'https://tsk.in.ua',
-      }
+      },
+        mainEntityOfPage: this.currentURL()
     };
 
     this.setSchema(schema);
@@ -133,33 +147,33 @@ metaTags.forEach(tag => this.meta.updateTag(tag));
     this.renderer.appendChild(this.document.head, this.ldJsonScript);
   }
 
- private updateFontSize(name: string | undefined | null) {
-  // Якщо назва не прийшла, використовуємо порожній рядок, щоб .length не видав помилку
-  const safeName = name ?? ''; 
-  const width = window.innerWidth;
-  const len = safeName.length;
-  
-  let size = '12vh';
+  private updateFontSize(name: string | undefined | null) {
+    // Якщо назва не прийшла, використовуємо порожній рядок, щоб .length не видав помилку
+    const safeName = name ?? '';
+    const width = window.innerWidth;
+    const len = safeName.length;
 
-  if (width < 576) {
-    size = '5vh';
-  } else if (width < 789) {
-    size = len <= 10 ? '11vh' : len <= 20 ? '10vh' : '8vh';
-  } else if (width < 992) {
-    size = len <= 10 ? '15vh' : len <= 20 ? '12vh' : '10vh';
-  } else {
-    size = len <= 10 ? '18vh' : len <= 20 ? '15vh' : '12vh';
+    let size = '12vh';
+
+    if (width < 576) {
+      size = '5vh';
+    } else if (width < 789) {
+      size = len <= 10 ? '11vh' : len <= 20 ? '10vh' : '8vh';
+    } else if (width < 992) {
+      size = len <= 10 ? '15vh' : len <= 20 ? '12vh' : '10vh';
+    } else {
+      size = len <= 10 ? '18vh' : len <= 20 ? '15vh' : '12vh';
+    }
+
+    this.fontSize.set(size);
   }
-
-  this.fontSize.set(size);
-}
 
   @HostListener('window:scroll')
   onScroll() {
     if (!this.isBrowser) return;
 
     const scrollY = window.scrollY;
-    
+
     // Parallax Signal-friendly
     const bgImage = this.document.querySelector('.bg_image') as HTMLElement;
     if (bgImage) {
@@ -175,7 +189,7 @@ metaTags.forEach(tag => this.meta.updateTag(tag));
     }
 
     // Cards Animation
-    this.document.querySelectorAll('.dishes_card').forEach(card => {
+    this.document.querySelectorAll('.dishes_card').forEach((card) => {
       const rect = card.getBoundingClientRect();
       if (window.innerHeight > rect.top + rect.height / 2) {
         card.classList.add('show');

@@ -119,7 +119,15 @@ this.generateAdsPositions();
         '@type': 'Person',
         name: 'Оглій Юрій',
         url: 'https://tsk.in.ua'
+      },
+        publisher: {
+      '@type': 'Organization',
+      name: 'Таверна Синій Кіт',
+      logo: {
+        '@type': 'ImageObject',
+        url: 'https://tsk.in.ua/assets/logo.webp'
       }
+    }
     };
     this.setSchema(schema);
   }

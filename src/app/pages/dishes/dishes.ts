@@ -67,7 +67,7 @@ export class Dishes {
 
     this.setSchema({
       '@context': 'https://schema.org',
-      '@type': 'WebSite', // Можна змінити на Guide або CollectionPage
+      '@type': 'CollectionPage ', // Можна змінити на Guide або CollectionPage
       name: seoTitle,
       url: 'https://tsk.in.ua/dishes',
       description: seoDescription,

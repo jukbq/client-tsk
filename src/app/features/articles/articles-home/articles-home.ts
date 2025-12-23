@@ -1,5 +1,15 @@
 import { isPlatformBrowser, NgOptimizedImage, ViewportScroller } from '@angular/common';
-import { Component, DOCUMENT, ElementRef, HostListener, inject, PLATFORM_ID, Renderer2, signal, ViewChild } from '@angular/core';
+import {
+  Component,
+  DOCUMENT,
+  ElementRef,
+  HostListener,
+  inject,
+  PLATFORM_ID,
+  Renderer2,
+  signal,
+  ViewChild,
+} from '@angular/core';
 import { SsrLinkDirective } from '../../../shared/SsrLinkDirective/ssr-link.directive';
 import { ActivatedRoute } from '@angular/router';
 import { SeoService } from '../../../core/services/seo/seo-service';
@@ -12,8 +22,7 @@ import { Meta, Title } from '@angular/platform-browser';
   styleUrl: './articles-home.scss',
 })
 export class ArticlesHome {
-
-// Injectors
+  // Injectors
   private readonly document = inject(DOCUMENT);
   private readonly platformId = inject(PLATFORM_ID);
   private readonly route = inject(ActivatedRoute);
@@ -30,7 +39,7 @@ export class ArticlesHome {
   articleTypes = signal<any[]>([]);
   fontSize = signal<string>('');
   isVisible = signal<boolean>(false);
-  
+
   isBrowser = isPlatformBrowser(this.platformId);
   currentURL = 'https://tsk.in.ua/articlses';
 
@@ -58,7 +67,7 @@ export class ArticlesHome {
 
     this.seoServices.setCanonicalUrl(this.currentURL);
     this.titleService.setTitle(seoTitle);
-    
+
     this.meta.updateTag({ name: 'description', content: seoDescription });
     this.meta.updateTag({ property: 'og:title', content: seoTitle });
     this.meta.updateTag({ property: 'og:image', content: mainImage });
@@ -66,10 +75,17 @@ export class ArticlesHome {
 
     const schema = {
       '@context': 'https://schema.org',
-      '@type': 'WebSite',
+      '@type': 'CollectionPage',
       name: seoTitle,
+      description: seoDescription,
       url: this.currentURL,
-      publisher: { '@type': 'Person', name: 'Оглій Юрій' }
+      hasPart: this.articleTypes().map((cat: any) => ({
+        '@type': 'CollectionPage',
+        name: cat.name,
+        url: cat.url,
+      })),
+      publisher: { '@type': 'Person', name: 'Оглій Юрій' },
+      mainEntityOfPage: this.currentURL,
     };
 
     this.setSchema(schema);
@@ -95,7 +111,7 @@ export class ArticlesHome {
     if (!this.isBrowser) return;
 
     const scrollY = window.scrollY;
-    
+
     // Паралакс через Renderer2 (безпечніше для SSR/DOM)
     const bgImage = this.document.querySelector('.bg_image') as HTMLElement;
     if (bgImage) {
@@ -112,7 +128,7 @@ export class ArticlesHome {
 
     // Анімація карток через класи (можна переробити на Intersection Observer для перфомансу)
     const cards = this.document.querySelectorAll('.dishes_card');
-    cards.forEach(card => {
+    cards.forEach((card) => {
       if (card.getBoundingClientRect().top < window.innerHeight * 0.9) {
         card.classList.add('show');
       }
