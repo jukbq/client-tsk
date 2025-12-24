@@ -1,21 +1,29 @@
-import { Component, DOCUMENT, effect, inject, OnInit, PLATFORM_ID, Renderer2, signal } from '@angular/core';
+import {
+  Component,
+  DOCUMENT,
+  effect,
+  inject,
+  OnInit,
+  PLATFORM_ID,
+  Renderer2,
+  signal,
+} from '@angular/core';
 import { SsrLinkDirective } from '../../../shared/SsrLinkDirective/ssr-link.directive';
 import { isPlatformBrowser, NgOptimizedImage, ViewportScroller } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SeoService } from '../../../core/services/seo/seo-service';
 import { Meta, MetaDefinition, Title } from '@angular/platform-browser';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { DisplayAds } from "../../../shared/components/adsense/display-ads/display-ads";
+import { DisplayAds } from '../../../shared/components/adsense/display-ads/display-ads';
 
 @Component({
   selector: 'app-article-page',
   imports: [SsrLinkDirective, NgOptimizedImage, DisplayAds],
   templateUrl: './article-page.html',
   styleUrl: './article-page.scss',
-  
 })
 export class ArticlePage implements OnInit {
-// --- Dependency Injection ---
+  // --- Dependency Injection ---
   private readonly document = inject(DOCUMENT);
   private readonly platformId = inject(PLATFORM_ID);
   private readonly route = inject(ActivatedRoute);
@@ -39,7 +47,6 @@ export class ArticlePage implements OnInit {
   readonly activeItem = signal(0);
   readonly adsIndexes = signal<Set<number>>(new Set());
 
-  
   private ldJsonScript?: HTMLScriptElement;
   private menuOffset = 100;
 
@@ -51,7 +58,7 @@ export class ArticlePage implements OnInit {
     const data = this.routeData();
     // Виправляємо помилку ts(4111) через квадратні дужки
     const wrapper = data?.['article'];
-    
+
     if (wrapper) {
       this.processArticleData(wrapper);
     }
@@ -70,7 +77,7 @@ export class ArticlePage implements OnInit {
 
   private processArticleData(wrapper: any) {
     const article = wrapper.data;
-    
+
     if (!article || (Array.isArray(article) && article.length === 0)) {
       this.router.navigate(['/404']);
       return;
@@ -88,12 +95,12 @@ export class ArticlePage implements OnInit {
 
     this.setupSeo(article);
     this.articleContent.set(article.articleContent || []);
-this.generateAdsPositions();
+    this.generateAdsPositions();
   }
 
   private setupSeo(article: any) {
-    const stripHtml = (html: string) => html ? html.replace(/<\/?[^>]+(>|$)/g, '') : '';
-    
+    const stripHtml = (html: string) => (html ? html.replace(/<\/?[^>]+(>|$)/g, '') : '');
+
     this.seoServices.setCanonicalUrl(this.currentURL());
     this.titleService.setTitle(article.seoName);
 
@@ -104,10 +111,10 @@ this.generateAdsPositions();
       { property: 'og:description', content: article.seoDescription },
       { property: 'og:image', content: article.mainImage },
       { property: 'og:url', content: this.currentURL() },
-      { property: 'og:type', content: 'article' }
+      { property: 'og:type', content: 'article' },
     ];
 
-    tags.forEach(tag => this.meta.updateTag(tag));
+    tags.forEach((tag) => this.meta.updateTag(tag));
 
     const schema = {
       '@context': 'https://schema.org',
@@ -118,16 +125,16 @@ this.generateAdsPositions();
       author: {
         '@type': 'Person',
         name: 'Оглій Юрій',
-        url: 'https://tsk.in.ua'
+        url: 'https://tsk.in.ua',
       },
-        publisher: {
-      '@type': 'Organization',
-      name: 'Таверна Синій Кіт',
-      logo: {
-        '@type': 'ImageObject',
-        url: 'https://tsk.in.ua/assets/logo.webp'
-      }
-    }
+      publisher: {
+        '@type': 'Organization',
+        name: 'Таверна Синій Кіт',
+        logo: {
+          '@type': 'ImageObject',
+          url: 'https://tsk.in.ua/assets/logo.webp',
+        },
+      },
     };
     this.setSchema(schema);
   }
@@ -161,42 +168,39 @@ this.generateAdsPositions();
   }
 
   private generateAdsPositions() {
-  const content = this.articleContent();
-  const contentLength = content.length;
+    const content = this.articleContent();
+    const contentLength = content.length;
 
-  if (contentLength < 5) {
-    // коротка стаття — йди без реклами
-    this.adsIndexes.set(new Set());
-    return;
-  }
+    if (contentLength < 5) {
+      // коротка стаття — йди без реклами
+      this.adsIndexes.set(new Set());
+      return;
+    }
 
-  const maxAds = Math.min(2, Math.floor(contentLength / 4));
-  const minDistance = 3;
+    const maxAds = Math.min(2, Math.floor(contentLength / 4));
+    const minDistance = 3;
 
-  const indexes = new Set<number>();
-  let attempts = 0;
+    const indexes = new Set<number>();
+    let attempts = 0;
 
-  while (indexes.size < maxAds && attempts < 100) {
-    const index = Math.floor(Math.random() * contentLength);
+    while (indexes.size < maxAds && attempts < 100) {
+      const index = Math.floor(Math.random() * contentLength);
 
-    // ❌ не перший, не другий, не останній
-    if (index < 2 || index > contentLength - 2) {
+      // ❌ не перший, не другий, не останній
+      if (index < 2 || index > contentLength - 2) {
+        attempts++;
+        continue;
+      }
+
+      const tooClose = [...indexes].some((i) => Math.abs(i - index) < minDistance);
+
+      if (!tooClose) {
+        indexes.add(index);
+      }
+
       attempts++;
-      continue;
     }
 
-    const tooClose = [...indexes].some(
-      (i) => Math.abs(i - index) < minDistance
-    );
-
-    if (!tooClose) {
-      indexes.add(index);
-    }
-
-    attempts++;
+    this.adsIndexes.set(indexes);
   }
-
-  this.adsIndexes.set(indexes);
-}
-
 }
