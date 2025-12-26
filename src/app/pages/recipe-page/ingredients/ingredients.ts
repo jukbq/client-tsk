@@ -16,6 +16,7 @@ export class Ingredients {
   // Локальний стан
   isExpanded = signal(false);
 
+
   toggleExpand() {
     this.isExpanded.update(v => !v);
   }

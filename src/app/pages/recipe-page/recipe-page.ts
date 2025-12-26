@@ -145,9 +145,9 @@ export class RecipePage {
     this.descriptionRecipe.set(ssr.descriptionRecipe);
     this.advice.set(ssr.advice);
     this.completion.set(ssr.completion);
-
     this.seasons.set(ssr.bestSeason || []);
     this.ingredients.set(ssr.ingredients || []);
+    this.accompanyingRecipes.set(ssr.accompanyingRecipes || []);
     this.instructions.set(ssr.instructions || []);
     this.info.set(data.info || []);
 
