@@ -92,7 +92,7 @@ export class RecipePage {
   ];
 
   headerHeight = signal(0);
-  menuHeight = signal(0);
+  menuHeight = signal(60);
   totalOffset = computed(() => this.menuHeight());
 
   ngOnInit() {

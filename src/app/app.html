@@ -7,3 +7,15 @@
 @if (!hideFooter()) {
  <app-footer></app-footer>
 }
+
+
+@if (isScrollVisible()) {
+  <div 
+    class="scroll-to-top" 
+    (click)="scrollToTop()"
+    role="button"
+    aria-label="Вгору">
+  
+  </div>
+}
+
