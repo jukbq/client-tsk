@@ -3,6 +3,7 @@
 </div>
 
 <div class="image_block">
+  @if (mainImage()) {
   <img
     [ngSrc]="mainImage()"
     width="780"
@@ -11,7 +12,10 @@
     ngSrcset="480w, 768w, 1024w"
     sizes="(max-width: 768px) 100vw, 50vw"
     priority
-  />
+      />
+    } @else {
+    <div class="image-skeleton"></div>
+  }
 
   <button 
     class="fav-btn" 
