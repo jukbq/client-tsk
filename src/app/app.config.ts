@@ -3,7 +3,7 @@ import {
   provideBrowserGlobalErrorListeners,
   provideZonelessChangeDetection,
   PLATFORM_ID,
-  inject,
+  inject
 } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { provideRouter } from '@angular/router';
@@ -11,12 +11,7 @@ import { routes } from './app.routes';
 import { provideClientHydration, withEventReplay } from '@angular/platform-browser';
 import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
 import { getAuth, provideAuth } from '@angular/fire/auth';
-import {
-  getAnalytics,
-  provideAnalytics,
-  ScreenTrackingService,
-  UserTrackingService,
-} from '@angular/fire/analytics';
+import { getAnalytics, provideAnalytics, ScreenTrackingService, UserTrackingService } from '@angular/fire/analytics';
 import { getFirestore, provideFirestore } from '@angular/fire/firestore';
 import { getStorage, provideStorage } from '@angular/fire/storage';
 
@@ -58,17 +53,11 @@ export const appConfig: ApplicationConfig = {
       return {} as any;
     }),
 
-    ScreenTrackingService,
+   
+    provideFirestore(() => getFirestore()),
+    provideStorage(() => getStorage()),
+
+     ScreenTrackingService,
     UserTrackingService,
-    provideFirestore(() => {
-      const platformId = inject(PLATFORM_ID);
-      if (isPlatformBrowser(platformId)) return getFirestore();
-      return {} as any;
-    }),
-    provideStorage(() => {
-      const platformId = inject(PLATFORM_ID);
-      if (isPlatformBrowser(platformId)) return getStorage();
-      return {} as any;
-    }),
   ],
 };
