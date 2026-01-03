@@ -3,31 +3,9 @@
   <head>
     <meta charset="utf-8" />
     <title>Таверна "Синій кіт"</title>
-    <link rel="canonical" href="https://tsk.in.ua" />
-    <link rel="alternate" hreflang="uk" href="https://tsk.in.ua/" />
-
     <base href="/" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="robots" content="index, follow" />
 
-    <meta name="facebook-domain-verification" content="tavtiz53vobpm18uex6kpzx1cnpnoi" />
-    <link rel="icon" type="image/x-icon" href="favicon.ico" />
-    <meta property="og:locale" content="uk_UA" />
-    <meta property="og:type" content="website" />
-    <meta property="og:title" content="Таверна Синій Кіт" />
-    <meta property="og:description" content="Рецепти та байки від Синього Кота" />
-    <meta property="og:url" content="https://tsk.in.ua" />
-    <meta property="og:site_name" content="Таверна Синій Кіт" />
-    <meta property="og:image" content="" />
-    <meta property="og:image:width" content="1024" />
-    <meta property="og:image:height" content="683" />
-    <meta name="keywords" content="рецепти, таверна, синій кіт" />
-
-    <meta name="verify-admitad" content="71c81024ea" />
-    <meta name="p:domain_verify" content="6832de458892ec93e24607a58ce261a1" />
-
-    <meta name="google-adsense-account" content="ca-pub-0683376676562440" />
-    
+    <link rel="preconnect" href="https://firebasestorage.googleapis.com" />
     <link rel="preconnect" href="https://firestore.googleapis.com" />
     <link rel="preconnect" href="https://www.gstatic.com" />
     <link rel="preconnect" href="https://www.googleapis.com" />
@@ -48,30 +26,49 @@
       crossorigin="anonymous"
     />
 
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="index, follow" />
+    <meta name="facebook-domain-verification" content="tavtiz53vobpm18uex6kpzx1cnpnoi" />
+    <link rel="icon" type="image/x-icon" href="favicon.ico" />
+
+   <link rel="canonical" href="https://tsk.in.ua" />
+    <link rel="alternate" hreflang="uk" href="https://tsk.in.ua/" />
+    <meta property="og:locale" content="uk_UA" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Таверна Синій Кіт" />
+    <meta property="og:description" content="Рецепти та байки від Синього Кота" />
+    <meta property="og:url" content="https://tsk.in.ua" />
+    <meta property="og:site_name" content="Таверна Синій Кіт" />
+    <meta property="og:image" content="" />
+    <meta property="og:image:width" content="1024" />
+    <meta property="og:image:height" content="683" />
+    <meta name="keywords" content="рецепти, таверна, синій кіт" />
+    <meta name="verify-admitad" content="71c81024ea" />
+    <meta name="p:domain_verify" content="6832de458892ec93e24607a58ce261a1" />
+    <meta name="google-adsense-account" content="ca-pub-0683376676562440" />
+
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-1W77MLHL6H"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
-      function gtag() {
-        dataLayer.push(arguments);
-      }
+      function gtag() { dataLayer.push(arguments); }
       gtag('js', new Date());
       gtag('config', 'G-1W77MLHL6H');
     </script>
   </head>
+
   <body>
+  
     <app-root></app-root>
 
-    <script>
-      window.addEventListener('load', function() {
-        // Реклама завантажиться через 3 секунди після повного завантаження сторінки
+   <script>
+      window.addEventListener('DOMContentLoaded', function() {
         setTimeout(function() {
           var script = document.createElement('script');
           script.async = true;
           script.src = "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-0683376676562440";
           script.setAttribute('crossorigin', 'anonymous');
           document.head.appendChild(script);
-          console.log('AdSense loaded with delay');
-        }, 3000); 
+        }, 3500); 
       });
     </script>
   </body>
