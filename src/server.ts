@@ -66,29 +66,37 @@ app.get(['/recipe', '/recipe/'], (req, res) => {
 });
 
 /**
- * 🧱 Статика (JS, CSS, Зображення)
+ * 🧱 Статика (JS, CSS, Зображення, Шрифти)
  */
 app.use(
   express.static(browserDistFolder, {
     index: false,
     redirect: false,
     setHeaders: (res, path) => {
-      if (path.endsWith('service-worker.js') || path.endsWith('ngsw.json')) {
+      // 1. Не кешуємо конфіги та сервіс-воркери
+      if (path.endsWith('service-worker.js') || path.endsWith('ngsw.json') || path.endsWith('index.html')) {
         res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
         return;
       }
-      if (path.endsWith('index.html')) {
-        res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
+
+      // 2. ШРИФТИ — Найвищий пріоритет (кешуємо на 1 рік)
+      // Ми додаємо перевірку на розширення woff2, woff, ttf
+      if (/\.(woff2?|ttf|otf)$/.test(path)) {
+        res.setHeader('Cache-Control', 'public, max-age=31536000, immutable');
         return;
       }
+
+      // 3. Інша статика (зображення, JS/CSS з хешами)
       if (
-        /\.[0-9a-f]{8,}\.(js|css|png|jpg|jpeg|svg|webp|woff2?)$/.test(path) ||
+        /\.[0-9a-f]{8,}\.(js|css|png|jpg|jpeg|svg|webp)$/.test(path) ||
         /-([0-9a-f]{6,})\.(js|css)$/.test(path) ||
-        path.match(/\.(js|css|png|jpg|jpeg|svg|webp|woff2?)$/)
+        path.match(/\.(js|css|png|jpg|jpeg|svg|webp)$/)
       ) {
         res.setHeader('Cache-Control', 'public, max-age=31536000, immutable');
         return;
       }
+
+      // 4. Дефолт для решти (1 година)
       res.setHeader('Cache-Control', 'public, max-age=3600');
     },
   })

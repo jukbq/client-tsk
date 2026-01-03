@@ -10,7 +10,7 @@
     margin: 0;
     text-align: center;
     box-sizing: border-box;
-    color: var(--clr-w);
+    color: var(--clr-2);
   }
 
   .main_data {
@@ -92,7 +92,7 @@
       text-align: center;
       background-color: var(--clr-4);
       margin: 0;
-      color: var(--clr-w);
+      color: var(--clr-2);
     }
 
     .save_ibgredients {
@@ -147,7 +147,7 @@
   flex-direction: column;
   background-color: var(--clr-6);
   position: relative;
-   color: var(--clr-w);
+   color: var(--clr-2);
 
   .accompanying_recipes_title {
     width: 100%;

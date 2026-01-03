@@ -30,7 +30,7 @@
 
     p {
       margin: 8px 0 0;
-      color: #fff; // Білий текст краще читається на градієнтах
+      color: var(--clr-3);
       font-weight: 700;
       font-size: clamp(0.85rem, 1.2vw, 1.1rem);
       text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);

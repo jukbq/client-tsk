@@ -8,17 +8,9 @@
 @font-face {
   font-family: "Roboto Serif";
   /* Видалено слеші перед комами */
-  src: url("../../assets/fonts/Roboto_Serif/RobotoSerif-VariableFont_GRAD,opsz,wdth,wght.ttf") format("truetype");
+  src: url("../../assets/fonts/roboto-serif-v17-cyrillic_latin-regular.woff2") format("truetype");
   font-weight: 100 900;
   font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "Roboto Serif";
-  src: url("../../assets/fonts/Roboto_Serif/RobotoSerif-Italic-VariableFont_GRAD,opsz,wdth,wght.ttf") format("truetype");
-  font-weight: 100 900;
-  font-style: italic;
   font-display: swap;
 }
 
@@ -28,7 +20,7 @@
 @font-face {
   font-family: "Rubik Dirt";
   /* Змінено формат на truetype, оскільки розширення .ttf */
-  src: url("../../assets/fonts/Rubik_Dirt/RubikDirt-Regular.ttf") format("truetype");
+  src: url("../../assets/fonts/rubik-dirt-v2-cyrillic_latin-regular.woff2") format("truetype");
   font-weight: 400;
   font-style: normal;
   font-display: swap;
