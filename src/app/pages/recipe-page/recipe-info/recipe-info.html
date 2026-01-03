@@ -4,12 +4,12 @@
       [class]="'season_item ' + item.list"
       [appSsrLink]="['recipe-filte', 'season', item.list]">
       <img
-        [src]="item.image"
+       [ngSrc]="item.image"
         [alt]="item.name"
         width="50"
         height="50"
-        loading="lazy"
-        decoding="async" />
+       priority
+        [title]="item.name" />
       <p>{{ item.name }}</p>
     </a>
   }
@@ -42,7 +42,7 @@
             [appSsrLink]="['recipe-filte', item.infoLink, item.slug]">
             <div class="image">
               <img
-                [src]="item.image"
+                [ngSrc]="item.image"
                 [alt]="item.name"
                 width="70"
                 height="70"

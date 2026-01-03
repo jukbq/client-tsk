@@ -1,10 +1,10 @@
 import { Component, inject, Inject, input, Input, PLATFORM_ID, signal } from '@angular/core';
 import { SsrLinkDirective } from '../../../shared/SsrLinkDirective/ssr-link.directive';
-import { isPlatformBrowser } from '@angular/common';
+import { isPlatformBrowser, NgOptimizedImage } from '@angular/common';
 
 @Component({
   selector: 'app-recipe-info',
-  imports: [SsrLinkDirective],
+  imports: [SsrLinkDirective, NgOptimizedImage],
   templateUrl: './recipe-info.html',
   styleUrl: './recipe-info.scss',
 })
