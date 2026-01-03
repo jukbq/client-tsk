@@ -136,13 +136,14 @@
       // --- РОЗУМНИЙ БЛОК РЕКЛАМИ ---
       .adsense_block {
         width: 100%;
+        min-height: 280px; 
         display: flex;
         justify-content: center;
         align-items: center;
         background-color: var(--clr-6);
         
         // Резерв для Google Adsense
-        min-height: 280px; 
+     
         transition: all 0.3s ease;
 
         /* Якщо AdBlock заблокував вміст, блок схлопнеться, щоб не було дірки */
