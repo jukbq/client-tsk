@@ -14,51 +14,40 @@
     <link rel="icon" type="image/x-icon" href="favicon.ico" />
     <meta property="og:locale" content="uk_UA" />
     <meta property="og:type" content="website" />
-    <meta property="og:title" content="" />
-    <meta property="og:description" content="" />
-    <meta property="og:url" content="" />
+    <meta property="og:title" content="Таверна Синій Кіт" />
+    <meta property="og:description" content="Рецепти та байки від Синього Кота" />
+    <meta property="og:url" content="https://tsk.in.ua" />
     <meta property="og:site_name" content="Таверна Синій Кіт" />
-    <!--   <meta property="article:modified_time" content="2024-12-20T15:26:03+00:00" /> -->
     <meta property="og:image" content="" />
     <meta property="og:image:width" content="1024" />
     <meta property="og:image:height" content="683" />
-    <meta property="keywords" content="" />
+    <meta name="keywords" content="рецепти, таверна, синій кіт" />
 
     <meta name="verify-admitad" content="71c81024ea" />
-    <!--Pinterest-->
     <meta name="p:domain_verify" content="6832de458892ec93e24607a58ce261a1" />
 
     <meta name="google-adsense-account" content="ca-pub-0683376676562440" />
-    <script type="application/ld+json"></script>
-    <!-- Firebase -->
+    
     <link rel="preconnect" href="https://firestore.googleapis.com" />
     <link rel="preconnect" href="https://www.gstatic.com" />
     <link rel="preconnect" href="https://www.googleapis.com" />
     <link rel="preconnect" href="https://taverna-synii-kit-13c01.firebaseapp.com" />
+
     <link
       rel="preload"
       href="/assets/fonts/roboto-serif-v17-cyrillic_latin-regular.woff2"
       as="font"
-      type="font/ttf"
+      type="font/woff2"
       crossorigin="anonymous"
     />
-
     <link
       rel="preload"
       href="/assets/fonts/rubik-dirt-v2-cyrillic_latin-regular.woff2"
       as="font"
-      type="font/ttf"
+      type="font/woff2"
       crossorigin="anonymous"
     />
 
-    <script
-      async
-      src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-0683376676562440"
-      crossorigin="anonymous"
-    ></script>
-
-    <!-- Google tag (gtag.js) -->
-    <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-1W77MLHL6H"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
@@ -66,11 +55,24 @@
         dataLayer.push(arguments);
       }
       gtag('js', new Date());
-
       gtag('config', 'G-1W77MLHL6H');
     </script>
   </head>
   <body>
     <app-root></app-root>
+
+    <script>
+      window.addEventListener('load', function() {
+        // Реклама завантажиться через 3 секунди після повного завантаження сторінки
+        setTimeout(function() {
+          var script = document.createElement('script');
+          script.async = true;
+          script.src = "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-0683376676562440";
+          script.setAttribute('crossorigin', 'anonymous');
+          document.head.appendChild(script);
+          console.log('AdSense loaded with delay');
+        }, 3000); 
+      });
+    </script>
   </body>
 </html>
