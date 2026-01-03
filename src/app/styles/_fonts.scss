@@ -7,7 +7,8 @@
 ---------------------------- */
 @font-face {
   font-family: "Roboto Serif";
-  src: url("/assets/fonts/Roboto_Serif/RobotoSerif-VariableFont_GRAD,opsz,wdth,wght.ttf") format("truetype");
+  /* Видалено слеші перед комами */
+  src: url("../../assets/fonts/Roboto_Serif/RobotoSerif-VariableFont_GRAD,opsz,wdth,wght.ttf") format("truetype");
   font-weight: 100 900;
   font-style: normal;
   font-display: swap;
@@ -15,7 +16,7 @@
 
 @font-face {
   font-family: "Roboto Serif";
-  src: url("/assets/fonts/Roboto_Serif/RobotoSerif-Italic-VariableFont_GRAD,opsz,wdth,wght.ttf") format("truetype");
+  src: url("../../assets/fonts/Roboto_Serif/RobotoSerif-Italic-VariableFont_GRAD,opsz,wdth,wght.ttf") format("truetype");
   font-weight: 100 900;
   font-style: italic;
   font-display: swap;
@@ -26,19 +27,13 @@
 ---------------------------- */
 @font-face {
   font-family: "Rubik Dirt";
-  src: url("/assets/fonts/rubik-dirt/RubikDirt-Regular.woff2") format("woff2");
+  /* Змінено формат на truetype, оскільки розширення .ttf */
+  src: url("../../assets/fonts/Rubik_Dirt/RubikDirt-Regular.ttf") format("truetype");
   font-weight: 400;
   font-style: normal;
   font-display: swap;
 }
 
-@font-face {
-  font-family: "Rubik Dirt";
-  src: url("/assets/fonts/rubik-dirt/RubikDirt-Italic.woff2") format("woff2");
-  font-weight: 400;
-  font-style: italic;
-  font-display: swap;
-}
 
 /* ============================
    Глобальні стилі для тексту
