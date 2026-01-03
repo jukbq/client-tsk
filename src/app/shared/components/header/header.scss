@@ -1,10 +1,15 @@
-@use "../../../styles/base-styles" as *;
+@use "../../../styles/base-styles"as *;
 
 // Змінні для зручності (якщо вони не в base-styles, вони будуть тут)
 :host {
   --neon-blue: #1877f2;
   --menu-bg: rgba(12, 27, 42, 0.9);
   --transition-speed: 0.3s;
+
+  &.fixed-header {
+    position: fixed;
+  }
+
 }
 
 header {
@@ -22,9 +27,7 @@ header {
   overflow: visible;
 
 
-  &.fixed-header{
-    position: fixed;
-  }
+
 
   // Розмитий фон за хедером
   &::before {
@@ -90,7 +93,7 @@ header {
         background-repeat: no-repeat;
         cursor: pointer;
         transition: transform 0.2s ease;
-        
+
         // Неонове мерехтіння
         filter: drop-shadow(0 0 5px var(--neon-blue));
         animation: slowPulse 6s ease-in-out infinite, flickerPattern 6s steps(1, end) infinite;
@@ -99,11 +102,28 @@ header {
           transform: scale(1.1);
         }
 
-        &.facebook { background-image: url("../../../../assets/icon/social/facebook.webp"); animation-delay: 0s; }
-        &.telegram { background-image: url("../../../../assets/icon/social/telegram.webp"); animation-delay: 2s; }
-        &.serch { background-image: url("../../../../assets/icon/social/search.webp"); animation-delay: 4s; }
-        &.auth { background-image: url("../../../../assets/icon/social/guest.webp"); }
-        &.active { background-image: url("../../../../assets/icon/social/logged.webp"); }
+        &.facebook {
+          background-image: url("../../../../assets/icon/social/facebook.webp");
+          animation-delay: 0s;
+        }
+
+        &.telegram {
+          background-image: url("../../../../assets/icon/social/telegram.webp");
+          animation-delay: 2s;
+        }
+
+        &.serch {
+          background-image: url("../../../../assets/icon/social/search.webp");
+          animation-delay: 4s;
+        }
+
+        &.auth {
+          background-image: url("../../../../assets/icon/social/guest.webp");
+        }
+
+        &.active {
+          background-image: url("../../../../assets/icon/social/logged.webp");
+        }
 
         @media (max-width: 850px) {
           display: none; // Ховаємо в основному рядку, вони будуть в меню
@@ -131,9 +151,18 @@ header {
         }
 
         &.open {
-          span:nth-child(1) { transform: translateY(10.5px) rotate(45deg); }
-          span:nth-child(2) { opacity: 0; transform: translateX(-20px); }
-          span:nth-child(3) { transform: translateY(-10.5px) rotate(-45deg); }
+          span:nth-child(1) {
+            transform: translateY(10.5px) rotate(45deg);
+          }
+
+          span:nth-child(2) {
+            opacity: 0;
+            transform: translateX(-20px);
+          }
+
+          span:nth-child(3) {
+            transform: translateY(-10.5px) rotate(-45deg);
+          }
         }
       }
     }
@@ -170,7 +199,10 @@ header {
         flex: 1;
         overflow-y: auto;
         scrollbar-width: none;
-        &::-webkit-scrollbar { display: none; }
+
+        &::-webkit-scrollbar {
+          display: none;
+        }
 
         .header_menu {
           list-style: none;
@@ -205,17 +237,30 @@ header {
                 cursor: pointer;
               }
 
-              &:hover { background: rgba(24, 119, 242, 0.2); }
+              &:hover {
+                background: rgba(24, 119, 242, 0.2);
+              }
             }
 
             // Відкрите підменю
             &.active {
               .btn_menu {
                 background: var(--clr-2);
-                .nav-link { color: #000; font-weight: bold; }
-                .batton { transform: rotate(45deg); filter: invert(1); }
+
+                .nav-link {
+                  color: #000;
+                  font-weight: bold;
+                }
+
+                .batton {
+                  transform: rotate(45deg);
+                  filter: invert(1);
+                }
               }
-              .sub_menu { display: flex; }
+
+              .sub_menu {
+                display: flex;
+              }
             }
           }
         }
@@ -238,13 +283,13 @@ header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      
+
       .nav-link {
         padding: 10px;
         color: #ccd6f6;
         text-decoration: none;
       }
-      
+
       .batton {
         width: 40px;
         height: 40px;
@@ -254,7 +299,9 @@ header {
     }
 
     &.active {
-      .submenu_text .batton { transform: rotate(45deg); }
+      .submenu_text .batton {
+        transform: rotate(45deg);
+      }
     }
   }
 }
@@ -274,24 +321,71 @@ header {
     font-size: 0.95rem;
     color: #8892b0;
     text-decoration: none;
-    &:hover { color: var(--neon-blue); }
+
+    &:hover {
+      color: var(--neon-blue);
+    }
   }
 }
 
 // Анімації
 @keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
 }
 
 @keyframes slideIn {
-  from { opacity: 0; transform: translateX(10px); }
-  to { opacity: 1; transform: translateX(0); }
+  from {
+    opacity: 0;
+    transform: translateX(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
 }
 
 @keyframes slowPulse {
-  0%, 100% { filter: drop-shadow(0 0 5px var(--neon-blue)); opacity: 0.9; }
-  50% { filter: drop-shadow(0 0 15px var(--neon-blue)); opacity: 1; }
+
+  0%,
+  100% {
+    filter: drop-shadow(0 0 5px var(--neon-blue));
+    opacity: 0.9;
+  }
+
+  50% {
+    filter: drop-shadow(0 0 15px var(--neon-blue));
+    opacity: 1;
+  }
 }
 
 // Твій flickerPattern залишається без змін, він чудовий.
+// Анімація "зламаного неону"
+@keyframes flickerPattern {
+  0%, 19.999%, 22%, 62.999%, 64%, 64.999%, 70%, 100% {
+    opacity: 1;
+    filter: drop-shadow(0 0 5px var(--neon-blue));
+  }
+  20%, 21.999%, 63%, 63.999%, 65%, 69.999% {
+    opacity: 0.4;
+    filter: none;
+  }
+}
+
+// Плавне пульсування (вже було у вас, але перевірте наявність)
+@keyframes slowPulse {
+  0%, 100% {
+    filter: drop-shadow(0 0 5px var(--neon-blue));
+    opacity: 0.9;
+  }
+  50% {
+    filter: drop-shadow(0 0 15px var(--neon-blue));
+    opacity: 1;
+  }
+}

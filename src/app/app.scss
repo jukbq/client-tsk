@@ -9,3 +9,13 @@
   height: 40px;
   background-size: cover;
 }
+
+
+app-header.fixed-header {
+  width: 100vw;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 10000; // Щоб був над усім контентом
+ 
+}

@@ -20,7 +20,6 @@ export class App {
 // Стан (Signals)
   protected readonly title = signal('Таверна Синій кіт');
   hideFooter = signal(false);
-  isFixedHeader = signal(false);
   isScrollVisible = signal(false);
   showPatreonPopup = signal(false);
 
@@ -40,10 +39,7 @@ constructor() {
         // 1. Керування футером через дані роуту
         this.hideFooter.set(!!route?.data?.['hideFooter']);
 
-        // 2. Логіка фіксованого хедеру
-        const url = event.urlAfterRedirects;
-        const shouldFix = url.startsWith('/recipe-page') || url.startsWith('/search');
-        this.isFixedHeader.set(shouldFix);
+                 
       });
   }
 

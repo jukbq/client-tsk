@@ -15,6 +15,9 @@ import { toSignal } from '@angular/core/rxjs-interop';
   imports: [SsrLinkDirective],
   templateUrl: './header.html',
   styleUrl: './header.scss',
+  host: {
+    '[class.fixed-header]': 'isFixed()'
+  }
 })
 export class Header {
   // Inject services
@@ -47,14 +50,24 @@ export class Header {
   user = toSignal(this.authService.user$);
   isLoggedIn = () => !!this.user();
 
+  isFixed = signal(false);
   constructor() {
     // Відстеження роутінгу для паралаксу
     if (this.isBrowser) {
       this.router.events.pipe(
         filter(event => event instanceof NavigationEnd)
       ).subscribe((event: NavigationEnd) => {
-        this.updateParallaxState(event.urlAfterRedirects);
+        const url = event.urlAfterRedirects;
+       // 1. Оновлюємо стан паралаксу (ваша логіка)
+        this.updateParallaxState(url);
+
+        // 2. Оновлюємо стан фіксації (нова логіка)
+        // Додаємо сюди всі маршрути, де хедер має бути fixed
+        const shouldFix = url.includes('/recipe-page') || url.includes('/search');
+        this.isFixed.set(shouldFix);
       });
+
+      
     }
   }
 
