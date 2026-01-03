@@ -21,6 +21,7 @@
     (click)="toggleAll()"
     [attr.aria-expanded]="isOpen()"
     aria-controls="info-list"
+    aria-label="Показати або приховати фільтри"
     type="button">
     {{ isOpen() ? 'Приховати фільтри' : 'Показати фільтри' }}
     <span class="chev" aria-hidden="true">{{ isOpen() ? '▼' : '▶' }}</span>
