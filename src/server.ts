@@ -13,6 +13,7 @@ const browserDistFolder = join(import.meta.dirname, '../browser');
 
 const app = express();
 app.use(compression({ threshold: 0 }));
+
 const angularApp = new AngularNodeAppEngine();
 
 /**
@@ -24,7 +25,7 @@ app.get('/robots.txt', (req, res) => {
     res.setHeader('Cache-Control', 'public, max-age=86400');
     return res.sendFile(path);
   }
-  return res.status(404).send('Not Found');
+ return res.status(410).send('Gone');
 });
 
 app.get('/sitemap.xml', (req, res) => {
@@ -35,8 +36,6 @@ app.get('/sitemap.xml', (req, res) => {
   }
   return res.status(404).send('Not Found');
 });
-
-
 
 /**
  * 🧼 SEO FIX: Обробка кривих посилань з query-параметрами (?tag=...&id=...)
@@ -51,18 +50,17 @@ app.get('/recipe-filte', (req, res, next) => {
     console.log(`🔀 SEO Redirect (Old Query -> Clean URL): ${req.url} → ${cleanUrl}`);
     return res.redirect(301, cleanUrl);
   }
-  
+
   // Якщо параметрів немає, просто пускаємо далі в Angular (там відпрацює 404 якщо треба)
   next();
 });
-
 
 // 🛑 Жорстке відсікання сміттєвих адрес, які тероризує Google
 app.get(['/recipe', '/recipe/'], (req, res) => {
   console.log(`🚫 Blocking phantom route: ${req.url}`);
   res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
   // Можна віддати 404 або редіректнути на головну. Для Google краще 410 (Gone) або 404.
-  return res.status(404).send('Not Found'); 
+  return res.status(404).send('Not Found');
 });
 
 /**
@@ -74,7 +72,11 @@ app.use(
     redirect: false,
     setHeaders: (res, path) => {
       // 1. Не кешуємо конфіги та сервіс-воркери
-      if (path.endsWith('service-worker.js') || path.endsWith('ngsw.json') || path.endsWith('index.html')) {
+      if (
+        path.endsWith('service-worker.js') ||
+        path.endsWith('ngsw.json') ||
+        path.endsWith('index.html')
+      ) {
         res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
         return;
       }
@@ -87,12 +89,16 @@ app.use(
       }
 
       // 3. Інша статика (зображення, JS/CSS з хешами)
-      if (
-        /\.[0-9a-f]{8,}\.(js|css|png|jpg|jpeg|svg|webp)$/.test(path) ||
-        /-([0-9a-f]{6,})\.(js|css)$/.test(path) ||
-        path.match(/\.(js|css|png|jpg|jpeg|svg|webp)$/)
-      ) {
+      if (/\.[0-9a-f]{8,}\.(js|css|png|jpg|jpeg|svg|webp)$/.test(path)) {
         res.setHeader('Cache-Control', 'public, max-age=31536000, immutable');
+        return;
+      }
+
+      /**
+       * 🕐 Інша статика — 1 година
+       */
+      if (/\.(js|css|png|jpg|jpeg|svg|webp)$/.test(path)) {
+        res.setHeader('Cache-Control', 'public, max-age=3600');
         return;
       }
 
@@ -111,6 +117,9 @@ app.use((req, res, next) => {
     .then(async (response) => {
       if (!response) return next();
 
+      res.setHeader('Cache-Control', 'no-store');
+
+
       // Щоб перевірити вміст сторінки на "soft-404", нам треба прочитати body.
       // Важливо: response.clone(), бо потік body можна прочитати лише один раз.
       const responseClone = response.clone();
@@ -119,11 +128,11 @@ app.use((req, res, next) => {
       // Перевіряємо ваш маркер 404 помилки в HTML коді
       if (html.includes('id="soft-404-marker"') || html.includes('404-not-found')) {
         console.warn(`⚠️ SSR: Force 404 status for ${req.originalUrl}`);
-        
+
         // Створюємо нову відповідь зі статусом 404, зберігаючи контент сторінки помилки
         const forced404Response = new Response(html, {
           status: 404,
-          headers: response.headers
+          headers: response.headers,
         });
         return writeResponseToNodeResponse(forced404Response, res);
       }

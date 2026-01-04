@@ -3,11 +3,16 @@
   width: 100%;
   text-align: center;
   overflow: hidden;
-  
+transition: min-height 0.2s ease;
+
   // Резервуємо місце, щоб контент не стрибав (Cumulative Layout Shift)
   /* min-height: 280px;  */
   background-color: rgba(0, 0, 0, 0.02);
   border-radius: 8px;
+
+  &.ad-loading {
+  min-height: 250px;
+}
 
   .ad-label {
     display: block;
