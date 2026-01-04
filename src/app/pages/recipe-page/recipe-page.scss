@@ -57,8 +57,13 @@
           min-width: 49%;
           height: 50%;
 
-          &:nth-child(odd) { border-right: none; }
-          &:nth-child(-n + 2) { border-bottom: none; }
+          &:nth-child(odd) {
+            border-right: none;
+          }
+
+          &:nth-child(-n + 2) {
+            border-bottom: none;
+          }
         }
 
         a {
@@ -77,7 +82,10 @@
         &.active {
           border-bottom: none;
           background-color: var(--clr-1);
-          a { color: var(--clr-4); }
+
+          a {
+            color: var(--clr-4);
+          }
         }
       }
     }
@@ -89,7 +97,7 @@
     display: flex;
     align-items: flex-start;
     justify-content: center;
-    
+
     // Виправлення CLS: Резервуємо місце під меню відразу
     padding-top: calc(var(--header-height) + 4vh);
     transition: padding-top 0.3s ease;
@@ -100,7 +108,10 @@
 
     .ads {
       width: 15%;
-      @media (max-width: 980px) { display: none; }
+
+      @media (max-width: 980px) {
+        display: none;
+      }
     }
 
     .recipe_body {
@@ -122,7 +133,7 @@
 
       app-recipe-header {
         display: block;
-        min-height: 450px; 
+        min-height: 450px;
         background-color: var(--clr-4); // Фон, поки не завантажилась картинка
         overflow: hidden;
       }
@@ -134,27 +145,15 @@
       }
 
       // --- РОЗУМНИЙ БЛОК РЕКЛАМИ ---
-      .adsense_block {
+     /*  .adsense_block {
         width: 100%;
-        min-height: 280px; 
-        display: flex;
+               display: flex;
         justify-content: center;
         align-items: center;
         background-color: var(--clr-6);
-        
-        // Резерв для Google Adsense
-     
         transition: all 0.3s ease;
-
-        /* Якщо AdBlock заблокував вміст, блок схлопнеться, щоб не було дірки */
-        &:empty, &:has(ins:empty) {
-          min-height: 0;
-          height: 0;
-          margin: 0;
-          padding: 0;
-          background: transparent;
-        }
-      }
+    
+      } */
     }
   }
 }
