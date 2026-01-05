@@ -56,6 +56,7 @@ export class RecipesByTag implements OnInit, OnDestroy {
     // Отримуємо дані з резолвера
     this.route.data.subscribe((data: any) => {
       const resolvedData = data.recipes;
+     
 
       if (!resolvedData || !resolvedData.recipes) {
         this.router.navigate(['/404']);
@@ -63,6 +64,7 @@ export class RecipesByTag implements OnInit, OnDestroy {
       }
 
       this.recipes.set(resolvedData.recipes);
+      
       this.extractSeoDescription(resolvedData);
     });
 
@@ -116,19 +118,23 @@ export class RecipesByTag implements OnInit, OnDestroy {
 
   extractSeoDescription(data: any): void {
     this.currentURL = data.currentURL;
-    this.seoService.setCanonicalUrl(this.currentURL);
+  this.seoService.setCanonicalUrl(this.currentURL);
 
     const found = [
       data.descriptionSeason,
       data.descriptionDifficulty,
-      data.descriptionCountry,
+      data.descriptionCuisine,
       data.descriptionRegion,
       data.descriptionHoliday,
       data.descriptionRecipeType,
     ].find((d) => d?.title);
 
+
+      console.log(found);
     if (found) {
     this.listTitle = found.title;
+ 
+    
     this.listDescription = found.description;
     this.image = found.image;
 

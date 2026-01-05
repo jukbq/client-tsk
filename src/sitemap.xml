@@ -42,7 +42,7 @@
 <priority>0.80</priority>
 </url>
 <url>
-<loc>https://tsk.in.ua/privacyy/</loc>
+<loc>https://tsk.in.ua/privacyy</loc>
 <lastmod>1980-01-01T00:00:01+00:00</lastmod>
 <priority>0.50</priority>
 </url>
@@ -1995,6 +1995,26 @@
 <url>
 <loc>https://tsk.in.ua/recipe-page/salat-z-kapusty-po-ukrainsky</loc>
 <lastmod>2025-01-02T16:17:00+00:00</lastmod>
+<priority>0.7</priority>
+</url>
+<url>
+<loc>https://tsk.in.ua/recipe-page/salat-z-ohirkiv-i-pomidoriv</loc>
+<lastmod>2025-01-04T14:52:00+00:00</lastmod>
+<priority>0.7</priority>
+</url>
+<url>
+<loc>https://tsk.in.ua/recipe-page/vinegret-klasychnyi-po-ukrainsky</loc>
+<lastmod>2025-01-04T17:20:00+00:00</lastmod>
+<priority>0.7</priority>
+</url>
+<url>
+<loc>https://tsk.in.ua/recipe-page/vinehret-z-zelenym-horoshkom</loc>
+<lastmod>2025-01-05T10:39:00+00:00</lastmod>
+<priority>0.7</priority>
+</url>
+<url>
+<loc>https://tsk.in.ua/recipe-page/vinegret-bez-kartopli-postniy</loc>
+<lastmod>2025-01-05T14:04:00+00:00</lastmod>
 <priority>0.7</priority>
 </url>
 
