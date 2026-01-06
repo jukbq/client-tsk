@@ -25,7 +25,7 @@ app.get('/robots.txt', (req, res) => {
     res.setHeader('Cache-Control', 'public, max-age=86400');
     return res.sendFile(path);
   }
- return res.status(410).send('Gone');
+  return res.status(410).send('Gone');
 });
 
 app.get('/sitemap.xml', (req, res) => {
@@ -119,7 +119,6 @@ app.use((req, res, next) => {
 
       res.setHeader('Cache-Control', 'no-store');
 
-
       // Щоб перевірити вміст сторінки на "soft-404", нам треба прочитати body.
       // Важливо: response.clone(), бо потік body можна прочитати лише один раз.
       const responseClone = response.clone();
@@ -157,3 +156,4 @@ if (isMainModule(import.meta.url) || process.env['pm_id']) {
 }
 
 export const reqHandler = createNodeRequestHandler(app);
+

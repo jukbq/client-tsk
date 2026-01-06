@@ -7,7 +7,10 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "serve:ssr:client-tsk": "node dist/client-tsk/server/server.mjs"
+
+   "serve:ssr": "node dist/client-tsk/server/server.mjs",
+  "serve:prod": "cross-env NODE_ENV=production node dist/client-tsk/server/server.mjs",
+ "generate:sitemap": "node scripts/generate-sitemap.mjs"
   },
   "prettier": {
     "printWidth": 100,
@@ -35,6 +38,7 @@
     "compression": "^1.8.1",
     "express": "^5.1.0",
     "firebase": "^11.10.0",
+    "firebase-admin": "^13.6.0",
     "fuse.js": "^7.1.0",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0"
@@ -47,6 +51,7 @@
     "@types/express": "^5.0.1",
     "@types/jasmine": "~5.1.0",
     "@types/node": "^20.19.26",
+    "cross-env": "^10.1.0",
     "jasmine-core": "~5.9.0",
     "karma": "~6.4.0",
     "karma-chrome-launcher": "~3.2.0",
