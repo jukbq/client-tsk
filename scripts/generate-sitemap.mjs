@@ -80,12 +80,16 @@ async function generateSitemap() {
   console.log('📦 Fetching recipe lists...');
   const recipeListsSnap = await db.collection('categoriesDishes').get();
 
-  recipeListsSnap.docs.forEach((doc) => {
+    recipeListsSnap.docs.forEach((doc) => {
+    urls.add(`/recipes-list/${doc.id}`);
+  });
+
+/*   recipeListsSnap.docs.forEach((doc) => {
     const data = doc.data();
     if (data?.categoryId) {
       urls.add(`/recipes-list/${data.categoryId}`);
     }
-  });
+  }); */
 
   console.log(`   → recipe lists: ${recipeListsSnap.size}`);
 
