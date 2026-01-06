@@ -18,7 +18,7 @@ import path from 'path';
 import { db } from './firebase-admin.mjs';
 
 const BASE_URL = 'https://tsk.in.ua';
-const OUTPUT_PATH = path.resolve('dist/client-tsk/browser/sitemap.xml');
+const OUTPUT_PATH = path.resolve('src/sitemap.xml');
 
 async function generateSitemap() {
   console.log('🔍 Generating sitemap...');
