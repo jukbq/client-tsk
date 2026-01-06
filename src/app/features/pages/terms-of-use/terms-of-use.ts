@@ -21,10 +21,16 @@ export class TermsOfUse {
     if (this.isBrowser) {
       this.viewportScroller.scrollToPosition([0, 0]);
     }
-    
-    this.title.setTitle('Умови користування | Синій Кіт');
-    this.meta.updateTag({ name: 'description', content: 'Правила та умови перебування у таверні Синій Кіт. Як готувати, як ділитись контентом і чому не можна викрадати кота.' });
-    this.meta.updateTag({ name: 'robots', content: 'index, follow' });
-  }
 
+    this.title.setTitle('Умови користування | Синій Кіт');
+    this.meta.updateTag({
+      name: 'description',
+      content:
+        'Правила та умови перебування у таверні Синій Кіт. Як готувати, як ділитись контентом і чому не можна викрадати кота.',
+    });
+    this.meta.updateTag({
+      name: 'robots',
+      content: 'noindex, follow',
+    });
+  }
 }

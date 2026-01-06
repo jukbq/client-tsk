@@ -1,25 +1,35 @@
-import { Component, inject, signal } from '@angular/core';
-import { AuthService } from '../../../core/services/auth/auth-service';
+import { Component, inject, signal, OnInit } from '@angular/core';
+import { Meta, Title } from '@angular/platform-browser';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
-import { Footer } from "../footer/footer";
+import { AuthService } from '../../../core/services/auth/auth-service';
 
 @Component({
   selector: 'app-auth',
+  standalone: true,
   imports: [RouterModule],
   templateUrl: './auth.html',
   styleUrl: './auth.scss',
 })
-export class Auth {
-// Використовуємо inject замість конструктора
-  private auth = inject(AuthService);
-  private router = inject(Router);
-  private route = inject(ActivatedRoute);
-  
+export class Auth implements OnInit {
+  private readonly auth = inject(AuthService);
+  private readonly router = inject(Router);
+  private readonly route = inject(ActivatedRoute);
+  private readonly meta = inject(Meta);
+  private readonly title = inject(Title);
 
-  // Створюємо сигнали для стану
   loading = signal<boolean>(false);
   error = signal<string | null>(null);
 
+  ngOnInit(): void {
+    // 🔴 КЛЮЧОВЕ: auth сторінка не для індексу
+    this.meta.updateTag({
+      name: 'robots',
+      content: 'noindex, nofollow',
+    });
+
+    // Title — чисто для UX
+    this.title.setTitle('Вхід | Синій Кіт');
+  }
 
   async loginWithGoogle() {
     this.error.set(null);
@@ -37,11 +47,9 @@ export class Auth {
   }
 
   private async afterLoginRedirect() {
-    const returnUrl = this.route.snapshot.queryParamMap.get('returnUrl') || '/profile';
+    const returnUrl =
+      this.route.snapshot.queryParamMap.get('returnUrl') || '/profile';
+
     await this.router.navigateByUrl(returnUrl);
   }
-
-  
-
-
 }
