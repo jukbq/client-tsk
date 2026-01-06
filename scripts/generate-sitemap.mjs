@@ -84,14 +84,43 @@ async function generateSitemap() {
     urls.add(`/recipes-list/${doc.id}`);
   });
 
-/*   recipeListsSnap.docs.forEach((doc) => {
-    const data = doc.data();
-    if (data?.categoryId) {
-      urls.add(`/recipes-list/${data.categoryId}`);
-    }
-  }); */
-
   console.log(`   → recipe lists: ${recipeListsSnap.size}`);
+
+  // =====================================================
+  // 📜 ТИПИ СТАТТЕЙ
+  // =====================================================
+  console.log('📦 Fetching recipe lists...');
+  const articleType = await db.collection('article-type').get();
+
+    articleType.docs.forEach((doc) => {
+    urls.add(`/article-categories/${doc.id}`);
+  });
+
+  console.log(`   → article types: ${articleType.size}`);
+
+  // =====================================================
+  // 📜 КАТЕГОРІЇ СТАТТЕЙ
+  // =====================================================
+  console.log('📦 Fetching recipe lists...');
+  const articleCategory = await db.collection('article-category').get();
+
+    articleCategory.docs.forEach((doc) => {
+    urls.add(`/article-list/${doc.id}`);
+  });
+
+  console.log(`   → article categories: ${articleCategory.size}`);
+
+  // =====================================================
+  // 📜 СТАТТі
+  // =====================================================
+  console.log('📦 Fetching recipe lists...');
+  const articlePages = await db.collection('article-pages').get();
+
+    articlePages.docs.forEach((doc) => {
+    urls.add(`/article-page/${doc.id}`);
+  });
+
+  console.log(`   → article pages: ${articlePages.size}`);
 
   // =====================================================
   // 🧾 ГЕНЕРАЦІЯ XML
