@@ -1,3 +1,17 @@
+console.log('ENV CHECK', {
+  creds: process.env.GOOGLE_APPLICATION_CREDENTIALS,
+  project: process.env.GOOGLE_CLOUD_PROJECT,
+});
+
+console.log('🔥🔥🔥 generate-sitemap.mjs LOADED 🔥🔥🔥');
+
+// 🚧 STOP для локалки і build
+if (process.env.NODE_ENV !== 'production') {
+  console.log('⏭️ Sitemap generation skipped (not production)');
+  process.exit(0);
+}
+
+
 // scripts/generate-sitemap.mjs
 import fs from 'fs';
 import path from 'path';
@@ -51,7 +65,7 @@ async function generateSitemap() {
   // /categories/:dishesid
   // =====================================================
   console.log('📦 Fetching dish categories...');
-  const categoriesSnap = await db.collection('categoriesDishes').get();
+  const categoriesSnap = await db.collection('dishes').get();
 
   categoriesSnap.docs.forEach((doc) => {
     urls.add(`/categories/${doc.id}`);
@@ -64,12 +78,12 @@ async function generateSitemap() {
   // /recipes-list/:slug
   // =====================================================
   console.log('📦 Fetching recipe lists...');
-  const recipeListsSnap = await db.collection('recipeCategories').get();
+  const recipeListsSnap = await db.collection('categoriesDishes').get();
 
   recipeListsSnap.docs.forEach((doc) => {
     const data = doc.data();
-    if (data?.slug) {
-      urls.add(`/recipes-list/${data.slug}`);
+    if (data?.categoryId) {
+      urls.add(`/recipes-list/${data.categoryId}`);
     }
   });
 

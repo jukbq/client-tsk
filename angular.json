@@ -28,8 +28,8 @@
               "src/favicon.ico",
               "src/assets",
               "src/robots.txt",
-              "src/ads.txt"
-          
+              "src/ads.txt",
+              "src/sitemap.xml"
             ],
             "styles": ["src/styles.scss"],
             "server": "src/main.server.ts",

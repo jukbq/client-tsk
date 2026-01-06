@@ -1,3 +1,6 @@
+import { spawn } from 'node:child_process';
+import { fileURLToPath } from 'node:url';
+import path from 'node:path';
 import {
   AngularNodeAppEngine,
   createNodeRequestHandler,
@@ -12,6 +15,32 @@ import fs from 'fs';
 const browserDistFolder = join(import.meta.dirname, '../browser');
 
 const app = express();
+
+console.log('🚀 SERVER.TS STARTED');
+
+
+
+if (process.env['NODE_ENV'] === 'production') {
+  console.log('🧭 Production mode: spawning sitemap generator');
+
+  const projectRoot = process.cwd(); // 👈 КЛЮЧ
+
+  const sitemapScript = path.join(
+    projectRoot,
+    'scripts',
+    'generate-sitemap.mjs'
+  );
+
+  spawn('node', [sitemapScript], {
+    stdio: 'inherit',
+    env: process.env,
+  });
+}
+
+
+
+
+
 app.use(compression({ threshold: 0 }));
 
 const angularApp = new AngularNodeAppEngine();
