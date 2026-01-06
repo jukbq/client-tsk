@@ -4,12 +4,10 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build && npm run generate:sitemap",
-    "generate:sitemap": "node scripts/generate-sitemap.mjs",
+    "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "serve:ssr": "node dist/client-tsk/server/server.mjs",
-    "serve:prod": "cross-env NODE_ENV=production node dist/client-tsk/server/server.mjs"
+    "serve:ssr:client-tsk": "node dist/client-tsk/server/server.mjs"
   },
   "prettier": {
     "printWidth": 100,
