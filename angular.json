@@ -35,7 +35,8 @@
               "src/article-page-sitemap.xml",
               "src/article-type-sitemap.xml",
               "src/dishes-sitemap.xml",
-              "src/recipes-list-sitemap.xml"
+              "src/recipes-list-sitemap.xml",
+              "src/recipe-page-sitemap.xml"
             ],
             "styles": ["src/styles.scss"],
             "server": "src/main.server.ts",
