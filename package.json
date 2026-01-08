@@ -8,7 +8,9 @@
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "serve:ssr": "cross-env NODE_ENV=production LOCAL_FIREBASE=true node dist/client-tsk/server/server.mjs",
-    "generate:sitemap": "node scripts/generate-sitemap.mjs"
+    "generate:sitemap": "node scripts/generate-sitemap.mjs",
+     "generate:sitemap:local": "cross-env NODE_ENV=production LOCAL_FIREBASE=true node scripts/generate-sitemap.mjs"
+    
   },
   "prettier": {
     "printWidth": 100,
