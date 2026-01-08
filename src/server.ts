@@ -57,12 +57,15 @@ app.get('/robots.txt', (req, res) => {
   return res.status(410).send('Gone');
 });
 
-app.get('/sitemap.xml', (req, res) => {
-  const path = join(browserDistFolder, 'sitemap.xml');
-  if (fs.existsSync(path)) {
+app.get(/^\/(sitemap|.+-sitemap)\.xml$/, (req, res) => {
+  const fileName = req.path.substring(1);
+  const filePath = join(browserDistFolder, fileName);
+
+  if (fs.existsSync(filePath)) {
     res.setHeader('Cache-Control', 'public, max-age=86400');
-    return res.sendFile(path);
+    return res.sendFile(filePath);
   }
+
   return res.status(404).send('Not Found');
 });
 
