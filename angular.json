@@ -29,7 +29,13 @@
               "src/assets",
               "src/robots.txt",
               "src/ads.txt",
-              "src/sitemap.xml"
+              "src/sitemap.xml",
+              "src/static-sitemap.xml",
+              "src/article-category-sitemap.xml",
+              "src/article-page-sitemap.xml",
+              "src/article-type-sitemap.xml",
+              "src/dishes-sitemap.xml",
+              "src/recipes-list-sitemap.xml"
             ],
             "styles": ["src/styles.scss"],
             "server": "src/main.server.ts",
