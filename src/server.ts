@@ -19,7 +19,9 @@ const app = express();
 console.log('🚀 SERVER.TS STARTED');
 
 
-
+/* =========================
+   PROD: sitemap generator
+========================= */
 if (process.env['NODE_ENV'] === 'production') {
   console.log('🧭 Production mode: spawning sitemap generator');
 
@@ -37,22 +39,21 @@ if (process.env['NODE_ENV'] === 'production') {
   });
 }
 
-
-
-
-
+/* =========================
+   BASIC MIDDLEWARE
+========================= */
 app.use(compression({ threshold: 0 }));
 
 const angularApp = new AngularNodeAppEngine();
 
-/**
- * 🤖 Обслуговування статичних файлів (robots, sitemap)
- */
+/* =========================
+   ROBOTS + SITEMAP
+========================= */
 app.get('/robots.txt', (req, res) => {
-  const path = join(browserDistFolder, 'robots.txt');
-  if (fs.existsSync(path)) {
+   const filePath = join(browserDistFolder, 'robots.txt');
+ if (fs.existsSync(filePath)) {
     res.setHeader('Cache-Control', 'public, max-age=86400');
-    return res.sendFile(path);
+    return res.sendFile(filePath);
   }
   return res.status(410).send('Gone');
 });
@@ -68,6 +69,33 @@ app.get(/^\/(sitemap|.+-sitemap)\.xml$/, (req, res) => {
 
   return res.status(404).send('Not Found');
 });
+
+/* =========================
+   HARD SEO SANITY (CRITICAL)
+========================= */
+app.get('/recipe-page/:slug',  (req, res, next): void => {
+  const slug = req.params.slug;
+
+  // ❌ різані огризки
+   if (!slug || slug.endsWith('-')) {
+      res.status(404).send('Not Found');
+      return;
+    }
+
+  // ❌ сміття
+   if (!/^[a-z0-9-]+$/.test(slug)) {
+      res.status(404).send('Not Found');
+      return;
+    }
+
+  next();
+});
+
+
+
+
+
+
 
 /**
  * 🧼 SEO FIX: Обробка кривих посилань з query-параметрами (?tag=...&id=...)
