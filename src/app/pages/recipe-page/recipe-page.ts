@@ -104,7 +104,6 @@ export class RecipePage {
     this.route.data.subscribe((data: any) => {
       const recipeData = data?.recipe;
       if (!recipeData?.recipeSSR) {
-        if (this.isBrowser) this.router.navigate(['/404']);
         return;
       }
 

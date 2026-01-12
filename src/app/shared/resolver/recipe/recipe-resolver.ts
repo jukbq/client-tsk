@@ -1,8 +1,9 @@
 import { inject } from '@angular/core';
-import { ActivatedRouteSnapshot, ResolveFn, RouterStateSnapshot } from '@angular/router';
-import { catchError, map, Observable, of } from 'rxjs';
+import { ActivatedRouteSnapshot, ResolveFn, Router, RouterStateSnapshot } from '@angular/router';
+import { catchError, map, Observable, of, throwError } from 'rxjs';
 import { RecipeService } from '../../../core/services/recipe/recipe-service';
 import { SeoService } from '../../../core/services/seo/seo-service';
+import { RESPONSE } from '../../../../express.tokens';
 
 export interface RecipeSSR {
   recipeID: string;
@@ -28,7 +29,6 @@ export interface RecipeSSR {
 }
 
 export interface RecipeResolverData {
-
   recipeMeta: any;
   recipeSchema: any;
   recipeSSR: RecipeSSR;
@@ -36,16 +36,21 @@ export interface RecipeResolverData {
 }
 
 export const recipeResolver: ResolveFn<RecipeResolverData | null> = (
-  route: ActivatedRouteSnapshot,
-  state: RouterStateSnapshot
+  route,
+  state
 ): Observable<RecipeResolverData | null> => {
   const recipeID = route.params['recipeid'];
   const recipeService = inject(RecipeService);
   const seoService = inject(SeoService);
+  const router = inject(Router);
+  const response = inject(RESPONSE, { optional: true });
 
   return recipeService.getRecipeByID(recipeID).pipe(
     map((recipe) => {
-      if (!recipe || recipe.id !== recipeID) return null;
+      if (!recipe || recipe.id !== recipeID) {
+        if (response) response.statusCode = 404;
+        throw new Error('Recipe not found');
+      }
 
       const currentURL = state.url;
 
@@ -76,6 +81,7 @@ export const recipeResolver: ResolveFn<RecipeResolverData | null> = (
         nutrition: { '@type': 'NutritionInformation', calories: recipe.numberCalories },
         recipeIngredient: seoService.formatIngredientsForSchema(recipe.ingredients),
         recipeInstructions: seoService.convertStepsToSchema(recipe.instructions, currentURL),
+        
         url: `https://tsk.in.ua${currentURL}`,
         ...(recipe.videoUrl?.trim() && { video: recipe.videoUrl }),
       };
@@ -192,11 +198,13 @@ export const recipeResolver: ResolveFn<RecipeResolverData | null> = (
           .filter((i: any) => i.name),
       ];
 
-      return { recipeMeta,recipeSchema, recipeSSR, info };
+      return { recipeMeta, recipeSchema, recipeSSR, info };
     }),
-    catchError((error) => {
-      console.error('Error fetching recipe:', error);
-      return of(null);
+
+
+  catchError((err) => {
+      if (response) response.statusCode = 404;
+      return throwError(() => err);
     })
   );
 };
