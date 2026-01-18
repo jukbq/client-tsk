@@ -76,19 +76,16 @@ app.get(/^\/(sitemap|.+-sitemap)\.xml$/, (req, res) => {
 app.get('/recipe-page/:id', (req, res, next): void => {
   const id = req.params.id;
 
-  
+  if (!id) {
+    res.status(404).send('Not Found');
+    return
+  }
 
-  // ❌ різані огризки
-   if (!id || id.endsWith('-')) {
-      res.status(404).send('Not Found');
-      return;
-    }
-
-  // ❌ сміття
-   if (!/^[a-z0-9-]+$/.test(id)) {
-      res.status(404).send('Not Found');
-      return;
-    }
+  // явне сміття
+  if (id.endsWith('-') || id.includes('%20')) {
+    res.status(404).send('Not Found');
+    return 
+  }
 
   next();
 });
