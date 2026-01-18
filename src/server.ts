@@ -73,17 +73,19 @@ app.get(/^\/(sitemap|.+-sitemap)\.xml$/, (req, res) => {
 /* =========================
    HARD SEO SANITY (CRITICAL)
 ========================= */
-app.get('/recipe-page/:slug',  (req, res, next): void => {
-  const slug = req.params.slug;
+app.get('/recipe-page/:id', (req, res, next): void => {
+  const id = req.params.id;
+
+  
 
   // ❌ різані огризки
-   if (!slug || slug.endsWith('-')) {
+   if (!id || id.endsWith('-')) {
       res.status(404).send('Not Found');
       return;
     }
 
   // ❌ сміття
-   if (!/^[a-z0-9-]+$/.test(slug)) {
+   if (!/^[a-z0-9-]+$/.test(id)) {
       res.status(404).send('Not Found');
       return;
     }
