@@ -79,6 +79,8 @@ app.get('/recipe-page/:id', (req, res, next): void => {
   if (!id) {
     res.status(404).send('Not Found');
     return
+  
+    
   }
 
   // явне сміття
@@ -106,8 +108,7 @@ app.get('/recipe-filte', (req, res, next) => {
   if (tag && id) {
     // Формуємо чисте посилання, яке розуміє ваш роутинг Angular
     const cleanUrl = `/recipe-filte/${tag}/${id}`;
-    console.log(`🔀 SEO Redirect (Old Query -> Clean URL): ${req.url} → ${cleanUrl}`);
-    return res.redirect(301, cleanUrl);
+     return res.redirect(301, cleanUrl);
   }
 
   // Якщо параметрів немає, просто пускаємо далі в Angular (там відпрацює 404 якщо треба)

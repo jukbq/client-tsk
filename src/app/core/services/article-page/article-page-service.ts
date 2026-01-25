@@ -37,8 +37,7 @@ export class ArticlePageService {
     return collectionData(queryRef, { idField: 'id' }).pipe(
       map((articles: any[]) => {
         // Додамо лог, щоб побачити, що прилітає з бази (тільки для дебагу)
-        console.log(`Знайдено статей для категорії ${categoryId}:`, articles.length);
-        
+       
         return articles.map((article) => ({
           id: article.slug || article.id, 
           articleName: article.articleName,

@@ -14,8 +14,5 @@ export async function generateArticleCategoriesSitemap() {
   });
 
   writeFile('article-category-sitemap.xml', urlset(urls));
-
-  console.log(`   → article categories: ${urls.length}`);
-
   return ['article-category-sitemap.xml'];
 }

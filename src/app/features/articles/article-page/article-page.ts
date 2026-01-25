@@ -163,7 +163,7 @@ export class ArticlePage implements OnInit {
   openModal(imageSrc: string) {
     if (this.isBrowser) {
       // Тут твоя логіка відкриття модалки
-      console.log('Open image:', imageSrc);
+ 
     }
   }
 

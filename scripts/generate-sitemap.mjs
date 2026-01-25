@@ -8,12 +8,7 @@ import { generateArticleCategoriesSitemap } from './sitemap/article-categories.m
 import { generateArticlePagesSitemap } from './sitemap/articles.mjs';
 
 
-
-
-console.log('🔥 Sitemap generation started');
-
 if (process.env.NODE_ENV !== 'production') {
-  console.log('⏭️ Skipped (not production)');
   process.exit(0);
 }
 
