@@ -28,6 +28,9 @@ export class RecipeHeader {
   favoriteIds = signal<string[]>([]);
   private favSubscription?: Subscription;
 
+  selectedImage = signal<string | null>(null);
+
+
   ngOnInit() {
     // Підписуємось на зміни в сервісі обраного, щоб синхронізувати зірочку
     const user = this.auth.currentUser;
@@ -63,4 +66,13 @@ export class RecipeHeader {
       this.fav.addFavorite(user.uid, id);
     }
   }
+
+  openImage(src: string) {
+  this.selectedImage.set(src);
+}
+
+closeImage() {
+  this.selectedImage.set(null);
+}
+
 }

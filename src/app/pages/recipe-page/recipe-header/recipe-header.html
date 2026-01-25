@@ -11,13 +11,15 @@
     [alt]="'Фотографія страви під назвою ' + recipeTitle()"
     sizes="(max-width: 980px) 100vw, 80vw" 
     priority
+      class="main-image"
+      (click)="openImage(mainImage()!)"
   />
 } @else {
   <div class="image-skeleton"></div>
 }
   <button 
     class="fav-btn" 
-    (click)="toggleFavorite(recipeID())"
+    (click)="toggleFavorite(recipeID()); $event.stopPropagation()"
     type="button"
     [attr.aria-label]="isFavorite(recipeID()) ? 'Видалити з обраного' : 'Додати в обране'">
     <img
@@ -29,3 +31,22 @@
     />
   </button>
 </div>
+
+
+@if (selectedImage()) {
+<div class="image-backdrop" (click)="closeImage()">
+  <div class="image-modal">
+    <img
+      [src]="selectedImage()"
+      alt=""
+      (click)="closeImage()"
+    >
+    <button
+      class="close-btn"
+      (click)="closeImage(); $event.stopPropagation()">
+      ✕
+    </button>
+  </div>
+</div>
+
+}
