@@ -75,44 +75,115 @@ export class SeoService {
   }
 
   // Форматування інгредієнтів для schema
-  formatIngredientsForSchema(groups: any[]): string[] {
-    const result: string[] = [];
-    groups.forEach(g => {
-      g.group.forEach((item: any) => {
-        const amount = item.amount ? `${item.amount} ` : '';
-        const unit = item.unitsMeasure ? `${item.unitsMeasure} ` : '';
-        const notes = item.notes ? `(${item.notes}) ` : '';
-        const name = item.selectedProduct?.productsName?.trim() || 'Інгредієнт';
-        result.push(`${amount}${unit}${name} ${notes}`.trim());
-      });
-    });
-    return result;
-  }
+formatIngredientsForSchema(groups: any[]): string[] {
+  const result: string[] = [];
 
-  // Конвертер кроків для schema
-  convertStepsToSchema(steps: any[], currentURL: string): any[] {
-    const schemaSteps: any[] = [];
-    function stripHtml(html: string): string {
-      return html.replace(/<\/?[^>]+(>|$)/g, '');
-    }
-    let globalStepIndex = 1;
+  groups.forEach(g => {
+    g.group.forEach((item: any) => {
+      const name =
+        item.selectedProduct?.productsName?.trim() || 'Інгредієнт';
 
-    for (const group of steps) {
-      for (const step of group.group) {
-        if (!step.description?.trim()) continue;
-        const stepData: any = {
-          "@type": "HowToStep",
-          "name": step.stepName || "",
-          "text": stripHtml(step.description),
-          "url": `${this.document.location.origin}${currentURL}#Step${globalStepIndex}`,
-          ...(step.stepImage?.trim() ? { image: step.stepImage } : {})
-        };
-        schemaSteps.push(stepData);
-        globalStepIndex++;
+      const amount = Number(item.amount);
+      const unitRaw = item.unitsMeasure?.trim();
+      const notes = item.notes?.trim();
+
+      // 1️⃣ За смаком / без кількості
+      if (
+        !amount ||
+        amount === 0 ||
+        unitRaw?.toLowerCase().includes('на смак')
+      ) {
+        result.push(`${name} — на смак`);
+        return;
       }
+
+      // 2️⃣ Нормалізуємо одиниці
+      const unit = this.normalizeUnit(unitRaw);
+
+      // 3️⃣ Основний формат
+      let ingredient = `${name} — ${amount} ${unit}`;
+
+      // 4️⃣ Примітки (опційно)
+      if (notes) {
+        ingredient += ` (${notes})`;
+      }
+
+      result.push(ingredient);
+    });
+  });
+
+  return result;
+}
+
+// Нормалізація одиниць для schema.org
+private normalizeUnit(unit: string): string {
+  const map: Record<string, string> = {
+    'г.': 'г',
+    'гр.': 'г',
+    'мл.': 'мл',
+    'л.': 'л',
+    'шт.': 'шт'
+  };
+
+  return map[unit] || unit;
+}
+
+
+
+// Конвертер кроків для schema (чистий, без глюків)
+convertStepsToSchema(steps: any[], currentURL: string): any[] {
+  const schemaSteps: any[] = [];
+  let globalStepIndex = 1;
+
+  const cleanTextForSchema = (html: string): string => {
+    return html
+      // прибираємо HTML
+      .replace(/<[^>]*>/g, '')
+      // HTML entities → нормальний текст
+      .replace(/&nbsp;/g, ' ')
+      .replace(/&mdash;/g, '—')
+      .replace(/&ndash;/g, '–')
+      .replace(/&times;/g, '×')
+      // зайві пробіли
+      .replace(/\s+/g, ' ')
+      .trim();
+  };
+
+  const origin =
+    this.document?.location?.origin || 'https://tsk.in.ua';
+
+  for (const group of steps) {
+    for (const step of group.group) {
+      if (!step.description?.trim()) continue;
+
+      const text = cleanTextForSchema(step.description);
+      if (!text) continue;
+
+      const stepData: any = {
+        "@type": "HowToStep",
+        text,
+        url: `${origin}${currentURL}#Step${globalStepIndex}`,
+      };
+
+      // name — тільки якщо є нормальний
+      if (step.stepName?.trim()) {
+        stepData.name = step.stepName.trim();
+      }
+
+      // image — масив, не рядок
+      if (step.stepImage?.trim()) {
+        stepData.image = [step.stepImage.trim()];
+      }
+
+      schemaSteps.push(stepData);
+      globalStepIndex++;
     }
-    return schemaSteps;
   }
+
+  return schemaSteps;
+}
+
+
 
 setHreflang(url: string) {
   if (!url) return;

@@ -67,8 +67,13 @@ export const recipeResolver: ResolveFn<RecipeResolverData | null> = (
         '@context': 'https://schema.org/',
         '@type': 'Recipe',
         name: recipe.recipeTitle,
-        image: recipe.mainImage,
-        author: { '@type': 'Person', name: 'Yurii Ohlii' },
+       image: recipe.mainImage ? [recipe.mainImage] : undefined,
+
+        author: {
+          '@type': 'Organization',
+          name: 'Таверна «Синій Кіт»',
+          url: 'https://tsk.in.ua',
+        },
         ...(recipe.createdAt && {
           datePublished: recipe.createdAt,
         }),
@@ -81,9 +86,16 @@ export const recipeResolver: ResolveFn<RecipeResolverData | null> = (
         cookTime: seoService.convertTimeToISO(recipe.cookTime),
         totalTime: seoService.convertTimeToISO(recipe.totalTime),
         keywords: recipe.keywords,
-        recipeYield: recipe.numberServings,
+        recipeYield: recipe.numberServings
+  ? `${recipe.numberServings} порцій`
+  : undefined,
+
         recipeCategory: recipe.dishes.dishesName,
-        nutrition: { '@type': 'NutritionInformation', calories: recipe.numberCalories },
+        nutrition: {
+          '@type': 'NutritionInformation',
+          calories: `${recipe.numberCalories} kcal`,
+        },
+
         recipeIngredient: seoService.formatIngredientsForSchema(recipe.ingredients),
         recipeInstructions: seoService.convertStepsToSchema(recipe.instructions, currentURL),
 
