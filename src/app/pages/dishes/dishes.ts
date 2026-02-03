@@ -48,6 +48,7 @@ export class Dishes {
     const mainImage = 'https://tsk.in.ua/assets/image/recepty-synoho-kota.webp';
 
     this.seoService.setCanonicalUrl(this.currentURL);
+       this.seoService.setHreflang( this.currentURL);
     this.titleService.setTitle(seoTitle);
 
     // Виправлення помилки типізації MetaDefinition

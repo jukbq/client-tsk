@@ -113,4 +113,30 @@ export class SeoService {
     }
     return schemaSteps;
   }
+
+setHreflang(url: string) {
+  if (!url) return;
+
+  const href = url.startsWith('http')
+    ? url
+    : `${this.document.location.origin}${url}`;
+
+  const hreflangs = ['uk', 'x-default'];
+
+  hreflangs.forEach(lang => {
+    let link = this.document.querySelector(
+      `link[rel="alternate"][hreflang="${lang}"]`
+    ) as HTMLLinkElement | null;
+
+    if (!link) {
+      link = this.renderer.createElement('link');
+      this.renderer.setAttribute(link, 'rel', 'alternate');
+      this.renderer.setAttribute(link, 'hreflang', lang);
+      this.renderer.appendChild(this.document.head, link);
+    }
+
+    this.renderer.setAttribute(link, 'href', href);
+  });
+}
+
 }

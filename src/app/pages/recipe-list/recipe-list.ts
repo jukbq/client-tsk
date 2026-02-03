@@ -132,6 +132,7 @@ export class RecipeList {
     // SEO з використанням MetaDefinition для запобігання помилок TS
     this.titleService.setTitle(cat.seoCategoryName);
     this.seoServices.setCanonicalUrl(this.currentURL);
+      this.seoServices.setHreflang( this.currentURL);
 
     const tags: MetaDefinition[] = [
       { name: 'description', content: cat.seoCategoryDescription },

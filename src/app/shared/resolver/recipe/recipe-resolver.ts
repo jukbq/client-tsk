@@ -69,7 +69,9 @@ export const recipeResolver: ResolveFn<RecipeResolverData | null> = (
         name: recipe.recipeTitle,
         image: recipe.mainImage,
         author: { '@type': 'Person', name: 'Yurii Ohlii' },
-        datePublished: recipe.createdAt,
+        ...(recipe.createdAt && {
+          datePublished: recipe.createdAt,
+        }),
         description: recipe.seoDescription,
         ...(recipe.cuisine?.schemaCuisine && {
           recipeCuisine: recipe.cuisine.schemaCuisine,

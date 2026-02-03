@@ -125,7 +125,7 @@ export class RecipePage {
         return;
       }
 
-      this.applyRecipeData(recipeData);
+/*       this.applyRecipeData(recipeData); */
     });
   }
 
@@ -191,6 +191,8 @@ export class RecipePage {
 
     tags.forEach((tag) => this.meta.updateTag(tag));
     this.seoServices.setCanonicalUrl(meta.currentURL);
+
+    this.seoServices.setHreflang(meta.currentURL);
   }
 
   onMenuClick(item: MenuItem) {

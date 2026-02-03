@@ -80,6 +80,10 @@ export class Category {
     this.titleService.setTitle(dishes.seoName);
     this.seoServices.setCanonicalUrl(this.currentURL);
 
+    this.seoServices.setHreflang(this.currentURL);
+
+
+
     // Оновлення мета-тегів
     this.meta.updateTag({ name: 'description', content: dishes.seoDescription || '' });
     this.meta.updateTag({ property: 'og:title', content: dishes.seoName });
