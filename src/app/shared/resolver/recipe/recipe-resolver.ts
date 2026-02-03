@@ -37,7 +37,7 @@ export interface RecipeResolverData {
 
 export const recipeResolver: ResolveFn<RecipeResolverData | null> = (
   route,
-  state
+  state,
 ): Observable<RecipeResolverData | null> => {
   const recipeID = route.params['recipeid'];
   const recipeService = inject(RecipeService);
@@ -62,6 +62,8 @@ export const recipeResolver: ResolveFn<RecipeResolverData | null> = (
         currentURL: `https://tsk.in.ua${currentURL}`,
       };
 
+      console.log(recipe);
+
       // Формуємо schema.org
       const recipeSchema = {
         '@context': 'https://schema.org/',
@@ -71,7 +73,9 @@ export const recipeResolver: ResolveFn<RecipeResolverData | null> = (
         author: { '@type': 'Person', name: 'Yurii Ohlii' },
         datePublished: recipe.createdAt,
         description: recipe.seoDescription,
-        recipeCuisine: recipe.cuisine.cuisineName,
+        ...(recipe.cuisine?.schemaCuisine && {
+          recipeCuisine: recipe.schemaCuisine,
+        }),
         prepTime: seoService.convertTimeToISO(recipe.prepTime),
         cookTime: seoService.convertTimeToISO(recipe.cookTime),
         totalTime: seoService.convertTimeToISO(recipe.totalTime),
@@ -81,7 +85,7 @@ export const recipeResolver: ResolveFn<RecipeResolverData | null> = (
         nutrition: { '@type': 'NutritionInformation', calories: recipe.numberCalories },
         recipeIngredient: seoService.formatIngredientsForSchema(recipe.ingredients),
         recipeInstructions: seoService.convertStepsToSchema(recipe.instructions, currentURL),
-        
+
         url: `https://tsk.in.ua${currentURL}`,
         ...(recipe.videoUrl?.trim() && { video: recipe.videoUrl }),
       };
@@ -201,10 +205,9 @@ export const recipeResolver: ResolveFn<RecipeResolverData | null> = (
       return { recipeMeta, recipeSchema, recipeSSR, info };
     }),
 
-
-  catchError((err) => {
+    catchError((err) => {
       if (response) response.statusCode = 404;
       return throwError(() => err);
-    })
+    }),
   );
 };
