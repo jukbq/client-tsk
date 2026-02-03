@@ -89,6 +89,8 @@ export class Dishes {
     }
   }
 
+
+  
   @HostListener('window:scroll')
   onScroll(): void {
     if (!this.isBrowser) return;
