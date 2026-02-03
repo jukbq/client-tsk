@@ -62,8 +62,6 @@ export const recipeResolver: ResolveFn<RecipeResolverData | null> = (
         currentURL: `https://tsk.in.ua${currentURL}`,
       };
 
-      console.log(recipe);
-
       // Формуємо schema.org
       const recipeSchema = {
         '@context': 'https://schema.org/',
@@ -74,8 +72,9 @@ export const recipeResolver: ResolveFn<RecipeResolverData | null> = (
         datePublished: recipe.createdAt,
         description: recipe.seoDescription,
         ...(recipe.cuisine?.schemaCuisine && {
-          recipeCuisine: recipe.schemaCuisine,
+          recipeCuisine: recipe.cuisine.schemaCuisine,
         }),
+
         prepTime: seoService.convertTimeToISO(recipe.prepTime),
         cookTime: seoService.convertTimeToISO(recipe.cookTime),
         totalTime: seoService.convertTimeToISO(recipe.totalTime),
