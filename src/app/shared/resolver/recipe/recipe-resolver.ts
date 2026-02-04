@@ -67,7 +67,7 @@ export const recipeResolver: ResolveFn<RecipeResolverData | null> = (
         '@context': 'https://schema.org/',
         '@type': 'Recipe',
         name: recipe.recipeTitle,
-       image: recipe.mainImage ? [recipe.mainImage] : undefined,
+        image: recipe.mainImage ? [recipe.mainImage] : undefined,
 
         author: {
           '@type': 'Organization',
@@ -86,9 +86,7 @@ export const recipeResolver: ResolveFn<RecipeResolverData | null> = (
         cookTime: seoService.convertTimeToISO(recipe.cookTime),
         totalTime: seoService.convertTimeToISO(recipe.totalTime),
         keywords: recipe.keywords,
-        recipeYield: recipe.numberServings
-  ? `${recipe.numberServings} порцій`
-  : undefined,
+        recipeYield: recipe.numberServings ? `${recipe.numberServings} порцій` : undefined,
 
         recipeCategory: recipe.dishes.dishesName,
         nutrition: {

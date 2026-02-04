@@ -16,6 +16,8 @@ export const categoryByIdResolver: ResolveFn<CategoryByIdResolveData> = (
   const categoryid = route.params['categoryid'];
   const currentURL = state.url;
   const categoryService = inject(CategoriesService);
+  
+
 
   return categoryService.getObjectById(categoryid).pipe(
     map((data) => ({

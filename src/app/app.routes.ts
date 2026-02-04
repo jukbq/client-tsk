@@ -15,6 +15,7 @@ import { articlePageResolver } from './shared/resolver/article-page/article-page
 import { articleCategotyByidResolver } from './shared/resolver/article-categoty-byid/article-categoty-byid-resolver';
 import { articlesByCategoryResolver } from './shared/resolver/articles-by-category/articles-by-category-resolver';
 import { RenderMode } from '@angular/ssr';
+import { recipeListResolver } from './shared/resolver/recipe-list/recipe-list-resolver';
 
 export const routes: Routes = [
   // Головна
@@ -56,6 +57,7 @@ export const routes: Routes = [
       import('./pages/recipe-list/recipe-list').then(m => m.RecipeList),
     resolve: {
       category: categoryByIdResolver,
+      recipes: recipeListResolver,
     },
     data: { renderMode: RenderMode.Server }
   },

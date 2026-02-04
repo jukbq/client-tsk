@@ -1,4 +1,14 @@
-import { Component, DOCUMENT, ElementRef, HostListener, inject, PLATFORM_ID, Renderer2, signal, ViewChild } from '@angular/core';
+import {
+  Component,
+  DOCUMENT,
+  ElementRef,
+  HostListener,
+  inject,
+  PLATFORM_ID,
+  Renderer2,
+  signal,
+  ViewChild,
+} from '@angular/core';
 import { SsrLinkDirective } from '../../shared/SsrLinkDirective/ssr-link.directive';
 import { isPlatformBrowser, NgOptimizedImage, ViewportScroller } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
@@ -26,7 +36,7 @@ export class Dishes {
 
   dishes = signal<any[]>([]);
   isVisible = signal(false);
-  
+
   readonly isBrowser = isPlatformBrowser(this.platformId);
   private currentURL = '';
   private ldJsonScript?: HTMLScriptElement;
@@ -48,7 +58,7 @@ export class Dishes {
     const mainImage = 'https://tsk.in.ua/assets/image/recepty-synoho-kota.webp';
 
     this.seoService.setCanonicalUrl(this.currentURL);
-       this.seoService.setHreflang( this.currentURL);
+    this.seoService.setHreflang(this.currentURL);
     this.titleService.setTitle(seoTitle);
 
     // Виправлення помилки типізації MetaDefinition
@@ -59,10 +69,10 @@ export class Dishes {
       { property: 'og:url', content: this.currentURL },
       { property: 'og:image', content: mainImage },
       { name: 'keywords', content: 'рецепти, страви, кулінарія, таверна, салати' },
-      { name: 'author', content: 'Yurii Ohlii' }
+      { name: 'author', content: 'Yurii Ohlii' },
     ];
 
-    tags.forEach(tag => this.meta.updateTag(tag));
+    tags.forEach((tag) => this.meta.updateTag(tag));
 
     this.dishes.set([...data].sort((a, b) => a.dishesName.localeCompare(b.dishesName)));
 
@@ -73,7 +83,7 @@ export class Dishes {
       url: 'https://tsk.in.ua/dishes',
       description: seoDescription,
       image: mainImage,
-      publisher: { '@type': 'Person', name: 'Оглій Юрій' }
+      publisher: { '@type': 'Person', name: 'Оглій Юрій' },
     });
   }
 
@@ -89,8 +99,6 @@ export class Dishes {
     }
   }
 
-
-  
   @HostListener('window:scroll')
   onScroll(): void {
     if (!this.isBrowser) return;
