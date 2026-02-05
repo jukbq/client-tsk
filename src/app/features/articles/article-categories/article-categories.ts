@@ -104,8 +104,7 @@ export class ArticleCategories implements OnInit {
 
     const metaTags: MetaDefinition[] = [
       { name: 'description', content: type.seoDescription },
-      { name: 'keywords', content: type.keywords },
-      { property: 'og:title', content: type.seoName },
+           { property: 'og:title', content: type.seoName },
       { property: 'og:description', content: type.seoDescription },
       { property: 'og:url', content: this.currentURL() },
       { property: 'og:image', content: this.image() },

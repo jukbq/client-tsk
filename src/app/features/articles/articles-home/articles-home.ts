@@ -71,7 +71,7 @@ export class ArticlesHome {
     this.meta.updateTag({ name: 'description', content: seoDescription });
     this.meta.updateTag({ property: 'og:title', content: seoTitle });
     this.meta.updateTag({ property: 'og:image', content: mainImage });
-    this.meta.updateTag({ name: 'keywords', content: keywords });
+ 
 
     const schema = {
       '@context': 'https://schema.org',

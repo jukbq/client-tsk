@@ -103,8 +103,7 @@ export class AtricleList implements OnInit {
       { property: 'og:image', content: this.image() },
       { property: 'og:url', content: this.currentURL() },
       { property: 'og:type', content: 'website' },
-      { name: 'keywords', content: category.keywords },
-    ];
+      ];
     tags.forEach((tag) => this.meta.updateTag(tag));
 
     const schema = {
