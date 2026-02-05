@@ -1,10 +1,8 @@
 <section>
   <div class="home_body">
     <div class="hero-title">
-      <h1>
-        Довгих днів, Подорожній!<br />
-        Ласкаво прошу до таверни «Синій Кіт»!
-      </h1>
+      <h1>Рецепти для щоденної кухні від таверни «Синій Кіт»</h1>
+      <span> Довгих днів, Подорожній! Тут зібрані рецепти для нормальної кухні. </span>
     </div>
 
     <h2 class="block_title">Нові рецепти</h2>
@@ -12,10 +10,13 @@
       @if (recipes().length && !isMobile()) {
         @let selected = recipes()[selectedIndex()];
         <div class="hero-large">
-          <img [ngSrc]="selected.mainImage" 
-               [alt]="selected.recipeTitle" 
-               width="800" height="800" 
-               priority />
+          <img
+            [ngSrc]="selected.mainImage"
+            [alt]="selected.recipeTitle"
+            width="800"
+            height="800"
+            priority
+          />
           <div class="overlay">
             <h3>{{ selected.recipeTitle }}</h3>
             <a class="button" [appSsrLink]="['recipe-page', selected.id]">
@@ -23,19 +24,27 @@
             </a>
           </div>
           <div class="fav-btn" (click)="toggleFavorite(selected.id)">
-            <img [ngSrc]="isFavorite(selected.id) 
-                         ? 'assets/icon/favorite/star-favorite-filled.webp'
-                         : 'assets/icon/favorite/star-favorite-empty.webp'"
-                 width="40" height="40"
-                 alt="Обране" />
+            <img
+              [ngSrc]="
+                isFavorite(selected.id)
+                  ? 'assets/icon/favorite/star-favorite-filled.webp'
+                  : 'assets/icon/favorite/star-favorite-empty.webp'
+              "
+              width="40"
+              height="40"
+              alt="Обране"
+            />
           </div>
         </div>
       }
 
       <div class="hero-thumbs">
         @for (item of recipes(); track item.id; let i = $index) {
-          <div class="thumb" [class.selected]="i === selectedIndex() && !isMobile()"
-               (click)="!isMobile() ? selectRecipe(i) : null">
+          <div
+            class="thumb"
+            [class.selected]="i === selectedIndex() && !isMobile()"
+            (click)="!isMobile() ? selectRecipe(i) : null"
+          >
             <img [ngSrc]="item.mainImage" [alt]="item.recipeTitle" width="260" height="260" />
             <span class="eye-icon">👁️</span>
             @if (isMobile()) {
@@ -44,6 +53,34 @@
           </div>
         }
       </div>
+    </div>
+
+    <div class="home-seo-text">
+      <h2>Рецепти для щоденної кухні в таверні «Синій Кіт»</h2>
+
+      <p>
+        Таверна «Синій Кіт» — це місце для тих, хто готує вдома і хоче, щоб страва виходила з
+        першого разу. Тут зібрані рецепти для щоденної кухні без зайвого пафосу, кулінарних міфів і
+        непотрібних ускладнень. Якщо ти шукаєш, що приготувати на обід, вечерю або сімейне застілля
+        — усе необхідне вже зібрано в одному місці.
+      </p>
+
+      <p>
+        У рецептах «Синього Кота» головне — результат. Кожна страва перевірена на реальній кухні зі
+        звичайних продуктів і стандартним посудом. Ми даємо чіткі кроки та зрозумілі пояснення, щоб
+        процес приготування був спокійним і передбачуваним.
+      </p>
+
+      <p>
+        На сайті зібрані страви з різних кухонь світу: супи та бульйони, м’ясні страви, гарніри,
+        випічка, соуси й напої. Усе згруповано так, щоб було зручно обирати й не витрачати час на
+        довгі пошуки.
+      </p>
+
+      <p>
+        Таверна «Синій Кіт» створена для щоденного життя, а не для показових фото. Обирай рецепт і
+        готуй без нервів.
+      </p>
     </div>
 
     <ul class="dishes_list">
@@ -60,10 +97,17 @@
             <div class="categories">
               <div class="subcategories_thumbs">
                 @for (category of dishCategories()[subItem.id]; track category.id) {
-                  <a [appSsrLink]="['recipes-list', category.id]"
-                     class="subcategory_thumb" [title]="category.categoryName">
-                    <img [ngSrc]="category.image || 'assets/default-category.jpg'"
-                         [alt]="category.categoryName" width="250" height="150" />
+                  <a
+                    [appSsrLink]="['recipes-list', category.id]"
+                    class="subcategory_thumb"
+                    [title]="category.categoryName"
+                  >
+                    <img
+                      [ngSrc]="category.image || 'assets/default-category.jpg'"
+                      [alt]="category.categoryName"
+                      width="250"
+                      height="150"
+                    />
                     <span>{{ category.categoryName }}</span>
                   </a>
                 }

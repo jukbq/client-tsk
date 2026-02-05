@@ -72,12 +72,12 @@ export class Home {
         this.recipes.set(data.recentRecipe || []);
         const dishes = data.dishes?.data || [];
         this.dishesList.set(
-          dishes.sort((a: any, b: any) => a.dishesName.localeCompare(b.dishesName))
+          dishes.sort((a: any, b: any) => a.dishesName.localeCompare(b.dishesName)),
         );
 
         this.loadSeo(data.dishes?.url);
         this.loadAdditionalData();
-      })
+      }),
     );
   }
 
@@ -86,7 +86,7 @@ export class Home {
     this.subscriptions.add(
       fromEvent(window, 'resize')
         .pipe(debounceTime(100))
-        .subscribe(() => this.checkScreen())
+        .subscribe(() => this.checkScreen()),
     );
 
     this.subscriptions.add(
@@ -94,7 +94,7 @@ export class Home {
         if (user) {
           this.fav.getFavorites(user.uid).subscribe((ids) => this.favoriteIds.set(ids));
         }
-      })
+      }),
     );
   }
 
@@ -104,13 +104,18 @@ export class Home {
 
   // SEO та Schema.org
   private loadSeo(url: string) {
-    const title = 'Таверна "Синій Кіт" – перевірені рецепти та поради';
-    const img = 'https://firebasestorage.googleapis.com/v0/b/synikit-12dee.appspot.com/o/home%2Fbackground.webp?alt=media';
+    const title = 'Рецепти для щоденної кухні – Таверна «Синій Кіт»';
+    const img =
+      'https://firebasestorage.googleapis.com/v0/b/synikit-12dee.appspot.com/o/home%2Fbackground.webp?alt=media';
 
     this.titleService.setTitle(title);
     this.seoService.setCanonicalUrl(url);
 
-    this.meta.updateTag({ name: 'description', content: 'Таверна "Синій Кіт" — прості рецепти, смачні ідеї, соковите м\'ясо...' });
+    this.meta.updateTag({
+      name: 'description',
+      content:
+        'Рецепти для щоденної кухні від таверни «Синій Кіт»: супи, борщі, м’ясні страви, гарніри, випічка та напої. Готуй вдома без зайвих ускладнень.',
+    });
     this.meta.updateTag({ property: 'og:image', content: img });
     this.meta.updateTag({ property: 'og:url', content: url });
 
@@ -123,7 +128,6 @@ export class Home {
     });
   }
 
-
   private setSchema(schema: any) {
     const script = this.renderer.createElement('script');
     script.type = 'application/ld+json';
@@ -133,12 +137,12 @@ export class Home {
 
   // Завантаження категорій та кількості рецептів
   private loadAdditionalData() {
-    this.dishesList().forEach(dish => {
+    this.dishesList().forEach((dish) => {
       // Завантаження підкатегорій
-      this.categoryService.getLightById(dish.id).subscribe(categories => {
-        this.dishCategories.update(dc => ({
+      this.categoryService.getLightById(dish.id).subscribe((categories) => {
+        this.dishCategories.update((dc) => ({
           ...dc,
-          [dish.id]: categories.sort((a, b) => a.categoryName.localeCompare(b.categoryName))
+          [dish.id]: categories.sort((a, b) => a.categoryName.localeCompare(b.categoryName)),
         }));
       });
     });
@@ -153,7 +157,7 @@ export class Home {
 
   private animateOnScroll() {
     const elements = this.document.querySelectorAll('.dishes_block');
-    elements.forEach(el => {
+    elements.forEach((el) => {
       const rect = el.getBoundingClientRect();
       if (rect.top < window.innerHeight * 0.8) {
         this.renderer.addClass(el, 'show');
@@ -162,13 +166,20 @@ export class Home {
   }
 
   // Дії користувача
-  selectRecipe(i: number) { this.selectedIndex.set(i); }
-  isFavorite(id: string) { return this.favoriteIds().includes(id); }
+  selectRecipe(i: number) {
+    this.selectedIndex.set(i);
+  }
+  isFavorite(id: string) {
+    return this.favoriteIds().includes(id);
+  }
 
   toggleFavorite(recipeId: string) {
     const user = this.auth.currentUser;
     if (!user) {
-      this.modal.open({ type: 'auth', data: { reason: 'add-fav', recipeId, returnUrl: this.router.url } });
+      this.modal.open({
+        type: 'auth',
+        data: { reason: 'add-fav', recipeId, returnUrl: this.router.url },
+      });
       return;
     }
     // Логіка додавання/видалення...
@@ -177,5 +188,4 @@ export class Home {
   ngOnDestroy() {
     this.subscriptions.unsubscribe();
   }
-
 }

@@ -22,12 +22,12 @@ section {
     .hero-title {
       margin-bottom: 1.5rem;
 
-      h1 {
+      h1, span {
         color: #eee;
         text-shadow: 0 2px 6px rgba(0, 0, 0, 0.7);
         user-select: none;
       }
-
+       
       @media (max-width: 768px) {}
     }
 
@@ -267,6 +267,22 @@ section {
         }
       }
     }
+
+  .home-seo-text{
+    h2{
+    color: #eee;
+        text-shadow: 0 2px 6px rgba(0, 0, 0, 0.7);
+        user-select: none;
+     
+    }
+
+    p{
+      color: #ddd;
+        text-shadow: 0 1px 4px rgba(0, 0, 0, 0.6);
+        user-select: none;
+        text-align: justify;
+    }
+  }
 
     .dishes_list {
       list-style: none;
