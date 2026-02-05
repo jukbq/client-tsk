@@ -53,8 +53,10 @@ export class Dishes {
   }
 
   loadDishesList(data: any[]): void {
-    const seoTitle = 'Рецепти Синього Кота – Основні кулінарні категорії';
-    const seoDescription = 'Переглянь основні категорії страв у стилі таверни Синій Кіт.';
+    const seoTitle = 'Рецепти страв – категорії кухні | Таверна «Синій Кіт»';
+    const seoDescription =
+      'Усі рецепти страв Таверни «Синій Кіт»: борщі, супи, м’ясні та рибні страви, салати, соуси й напої. Обирай категорію та готуй перевірені рецепти.';
+
     const mainImage = 'https://tsk.in.ua/assets/image/recepty-synoho-kota.webp';
 
     this.seoService.setCanonicalUrl(this.currentURL);
@@ -68,7 +70,6 @@ export class Dishes {
       { property: 'og:description', content: seoDescription },
       { property: 'og:url', content: this.currentURL },
       { property: 'og:image', content: mainImage },
-      { name: 'keywords', content: 'рецепти, страви, кулінарія, таверна, салати' },
       { name: 'author', content: 'Yurii Ohlii' },
     ];
 
@@ -78,12 +79,41 @@ export class Dishes {
 
     this.setSchema({
       '@context': 'https://schema.org',
-      '@type': 'CollectionPage ', // Можна змінити на Guide або CollectionPage
+      '@type': 'CollectionPage',
       name: seoTitle,
       url: 'https://tsk.in.ua/dishes',
       description: seoDescription,
       image: mainImage,
-      publisher: { '@type': 'Person', name: 'Оглій Юрій' },
+      publisher: {
+        '@type': 'Person',
+        name: 'Оглій Юрій',
+      },
+      mainEntity: {
+        '@type': 'ItemList',
+        itemListElement: data.map((dish, index) => ({
+          '@type': 'ListItem',
+          position: index + 1,
+          name: dish.dishesName,
+          url: `https://tsk.in.ua/categories/${dish.id}`,
+        })),
+      },
+      breadcrumb: {
+        '@type': 'BreadcrumbList',
+        itemListElement: [
+          {
+            '@type': 'ListItem',
+            position: 1,
+            name: 'Головна',
+            item: 'https://tsk.in.ua/',
+          },
+          {
+            '@type': 'ListItem',
+            position: 2,
+              name: 'Рецепти страв Таверни «Синій Кіт»',
+            item: 'https://tsk.in.ua/dishes',
+          },
+        ],
+      },
     });
   }
 
