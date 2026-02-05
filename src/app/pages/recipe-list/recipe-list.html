@@ -1,10 +1,6 @@
 <section>
   <div class="background_image">
-    <img class="bg_image" 
-         [ngSrc]="image()" 
-         fill 
-         priority 
-         [alt]="categoryName()" />
+    <img class="bg_image" [ngSrc]="image()" fill priority [alt]="categoryName()" />
   </div>
 
   <div class="home_title">
@@ -22,20 +18,21 @@
     </nav>
   </div>
 
+  <h2 class="subcategory-title">Про {{ categoryName().toLowerCase() }}</h2>
+
   <div class="list_block">
     <div class="description_block">
       <div #textBlocks class="content" [class.show]="isVisible()">
         <div class="description">
           <div class="cat_img">
-            <img [ngSrc]="additionalImage()" 
-                 [alt]="dishesName()" 
-                 width="400" 
-                 height="300" />
+            <img [ngSrc]="additionalImage()" [alt]="dishesName()" width="400" height="300" />
           </div>
           <div [innerHTML]="categoryDescription()"></div>
         </div>
       </div>
     </div>
+
+    <h2 class="subcategory-title">Обери рецепт у «{{ categoryName() }}»</h2>
 
     <div class="dishes_list_block">
       <ul class="dishes_list">
@@ -43,10 +40,12 @@
           <li class="dishes_card">
             <a [appSsrLink]="['recipe-page', recipe.id]">
               <div class="img_black">
-                <img [ngSrc]="recipe.mainImage" 
-                     [alt]="recipe.recipeTitle" 
-                     width="300" 
-                     height="200" />
+                <img
+                  [ngSrc]="recipe.mainImage"
+                  [alt]="recipe.recipeTitle"
+                  width="300"
+                  height="200"
+                />
               </div>
             </a>
 
@@ -57,12 +56,16 @@
             </div>
 
             <div class="fav-btn" (click)="toggleFavorite(recipe.id)">
-              <img [ngSrc]="isFavorite(recipe.id)
-                             ? 'assets/icon/favorite/star-favorite-filled.webp'
-                             : 'assets/icon/favorite/star-favorite-empty.webp'"
-                   [alt]="isFavorite(recipe.id) ? 'Видалити з обраного' : 'Додати в обране'"
-                   width="32" 
-                   height="32" />
+              <img
+                [ngSrc]="
+                  isFavorite(recipe.id)
+                    ? 'assets/icon/favorite/star-favorite-filled.webp'
+                    : 'assets/icon/favorite/star-favorite-empty.webp'
+                "
+                [alt]="isFavorite(recipe.id) ? 'Видалити з обраного' : 'Додати в обране'"
+                width="32"
+                height="32"
+              />
             </div>
           </li>
         }
