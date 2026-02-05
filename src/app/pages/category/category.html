@@ -1,22 +1,24 @@
 <section>
   <div class="background_image">
     <img [ngSrc]="image()" 
-         [alt]="dishesName()" 
+         [alt]="h1Title()" 
          fill 
          priority 
          class="bg_image" />
   </div>
 
   <div class="home_title">
-    <h1>{{ dishesName() }}</h1>
+    <h1>{{ h1Title() }}</h1>
     <nav aria-label="breadcrumb" class="breadcrumb_line">
       <ol class="breadcrumb">
         <li class="breadcrumb-item"><a [appSsrLink]="'/'">Головна</a></li>
         <li class="breadcrumb-item"><a [appSsrLink]="'/dishes'">Рецепти Синього Кота</a></li>
-        <li class="breadcrumb-item active">{{ dishesName() }}</li>
+        <li class="breadcrumb-item active">{{ h1Title() }}</li>
       </ol>
     </nav>
   </div>
+
+
 
   <div class="list_block">
     <div class="description_block">
@@ -24,7 +26,7 @@
         <div class="description">
           <div class="cat_img">
             <img [ngSrc]="additionalImage()" 
-                 [alt]="dishesName()" 
+                 [alt]="h1Title()" 
                  width="400" 
                  height="400" />
           </div>
@@ -32,6 +34,11 @@
         </div>
       </div>
     </div>
+
+
+      <h2 class="subcategory-title">
+ Обери розділ у «{{ h1Title() }}»
+</h2>
 
     <div class="dishes_list_block">
       <ul class="dishes_list">

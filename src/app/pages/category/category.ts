@@ -25,7 +25,7 @@ import { SsrLinkDirective } from '../../shared/SsrLinkDirective/ssr-link.directi
   styleUrl: './category.scss',
 })
 export class Category {
- private readonly document = inject(DOCUMENT);
+  private readonly document = inject(DOCUMENT);
   private readonly platformId = inject(PLATFORM_ID);
   private readonly renderer = inject(Renderer2);
   private readonly viewportScroller = inject(ViewportScroller);
@@ -40,11 +40,11 @@ export class Category {
   // Signals для реактивності
   image = signal('');
   additionalImage = signal('');
-  dishesName = signal('');
+  h1Title = signal('');
   dishDescription = signal('');
   categryList = signal<CategoriesDishesResponse[]>([]);
   isVisible = signal(false);
-  
+
   readonly isBrowser = isPlatformBrowser(this.platformId);
   private currentURL = '';
   private ldJsonScript?: HTMLScriptElement;
@@ -57,7 +57,7 @@ export class Category {
     this.route.data.subscribe((data: any) => {
       const wrapper = data?.dishes;
       const categories = data?.categryList;
-      
+
       if (!wrapper?.data || !categories) {
         this.router.navigate(['/404']);
         return;
@@ -65,14 +65,14 @@ export class Category {
 
       this.currentURL = wrapper.url;
       this.categryList.set(
-        [...categories].sort((a, b) => a.categoryName.localeCompare(b.categoryName))
+        [...categories].sort((a, b) => a.categoryName.localeCompare(b.categoryName)),
       );
       this.setupSeo(wrapper.data);
     });
   }
 
   private setupSeo(dishes: DishesResponse) {
-    this.dishesName.set(dishes.dishesName);
+    this.h1Title.set(dishes.dishesName);
     this.dishDescription.set(dishes.dishDescription);
     this.image.set(dishes.image);
     this.additionalImage.set(dishes.additionalImage);
@@ -82,33 +82,67 @@ export class Category {
 
     this.seoServices.setHreflang(this.currentURL);
 
-
-
     // Оновлення мета-тегів
     this.meta.updateTag({ name: 'description', content: dishes.seoDescription || '' });
     this.meta.updateTag({ property: 'og:title', content: dishes.seoName });
+    this.meta.updateTag({ property: 'og:description', content: dishes.seoDescription || '' });
     this.meta.updateTag({ property: 'og:image', content: dishes.image });
     this.meta.updateTag({ property: 'og:url', content: this.currentURL });
 
-    this.setSchema({
-      '@context': 'https://schema.org',
-      '@type': 'CollectionPage',
+   this.setSchema({
+  '@context': 'https://schema.org',
+  '@type': 'CollectionPage',
+  name: dishes.dishesName,
+  description: dishes.seoDescription,
+  image: dishes.image,
+  url: this.currentURL,
+  mainEntity: {
+    '@type': 'ItemList',
+    itemListElement: this.categryList().map((item, index) => ({
+      '@type': 'ListItem',
+      position: index + 1,
+      name: item.categoryName,
+      url: `${this.currentURL.replace(/\/$/, '')}/recipes-list/${item.id}`,
+    })),
+  },
+});
+
+this.setSchema({
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    {
+      '@type': 'ListItem',
+      position: 1,
+      name: 'Головна',
+      item: 'https://tsk.in.ua/',
+    },
+    {
+      '@type': 'ListItem',
+      position: 2,
+      name: 'Рецепти страв Таверни «Синій Кіт»',
+      item: 'https://tsk.in.ua/dishes',
+    },
+    {
+      '@type': 'ListItem',
+      position: 3,
       name: dishes.dishesName,
-      description: dishes.seoDescription,
-      image: dishes.image,
-      url: this.currentURL
-    });
+      item: this.currentURL,
+    },
+  ],
+});
+
+
+
   }
 
-  private setSchema(schema: any) {
-    if (this.ldJsonScript) {
-      this.renderer.removeChild(this.document.head, this.ldJsonScript);
-    }
-    this.ldJsonScript = this.renderer.createElement('script');
-    this.ldJsonScript!.type = 'application/ld+json';
-    this.ldJsonScript!.text = JSON.stringify(schema);
-    this.renderer.appendChild(this.document.head, this.ldJsonScript);
-  }
+private setSchema(schema: any) {
+  const script = this.renderer.createElement('script');
+  script.type = 'application/ld+json';
+  script.text = JSON.stringify(schema);
+  this.renderer.appendChild(this.document.head, script);
+}
+
 
   @HostListener('window:scroll')
   onScroll() {
@@ -131,7 +165,7 @@ export class Category {
     }
 
     // Поява карток
-    this.document.querySelectorAll('.dishes_card').forEach(card => {
+    this.document.querySelectorAll('.dishes_card').forEach((card) => {
       const rect = card.getBoundingClientRect();
       if (rect.top < window.innerHeight * 0.9) {
         this.renderer.addClass(card, 'show');
