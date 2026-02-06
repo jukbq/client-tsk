@@ -24,8 +24,8 @@ export class Breadcrumb {
   breadcrumbItems = computed<BreadcrumbItem[]>(() => [
     { label: 'Головна', link: '/' },
     { label: 'Рецепти Синього Кота', link: '/dishes' },
-    { label: this.dishesName(), link: ['/categories', this.dishesID()] },
-    { label: this.categoryName(), link: ['/recipes-list', this.categoryID()] },
+    { label: this.dishesName(), link: ['categories', this.dishesID()] },
+    { label: this.categoryName(), link: ['recipes-list', this.categoryID()] },
     { label: this.recipeTitle(), link: '' },
   ]);
 }
