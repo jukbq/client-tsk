@@ -107,6 +107,7 @@ export class Category {
   },
 });
 
+
 this.setSchema({
   '@context': 'https://schema.org',
   '@type': 'BreadcrumbList',

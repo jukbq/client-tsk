@@ -182,7 +182,7 @@ export class RecipePage {
           name: ssr.categoryName,
           item: `https://tsk.in.ua/recipes-list/${ssr.categoryID}`,
         },
-        { position: 5, name: ssr.recipeTitle, item: ssr.currentURL },
+        { '@type': 'ListItem', position: 5, name: ssr.recipeTitle, item: ssr.currentURL },
       ],
     };
 
