@@ -103,14 +103,12 @@ export class RecipePage {
     // 2. Слухаємо зміну даних
     this.route.data.subscribe((data: any) => {
       const recipeData = data?.recipe;
-      const recipeSchema = data?.recipeSchema;
+   
       if (!recipeData?.recipeSSR) {
         return;
       }
 
-      if (recipeSchema) {
-        this.setSchema(recipeSchema, 'recipe');
-      }
+   
 
       this.applyRecipeData(recipeData);
 
@@ -177,6 +175,9 @@ export class RecipePage {
         { position: 5, name: ssr.recipeTitle, item: ssr.currentURL },
       ],
     };
+
+     
+    this.setSchema(data.recipeSchema, 'recipe');
     this.setSchema(breadcrumbSchema, 'breadcrumb');
   }
 
