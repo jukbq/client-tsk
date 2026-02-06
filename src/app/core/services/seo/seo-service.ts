@@ -93,7 +93,7 @@ formatIngredientsForSchema(groups: any[]): string[] {
         amount === 0 ||
         unitRaw?.toLowerCase().includes('на смак')
       ) {
-        result.push(`${name} — на смак`);
+        result.push(`${name} — За смаком `);
         return;
       }
 
