@@ -67,7 +67,7 @@ export class ArticlesHome {
     this.seoServices.setCanonicalUrl(this.currentURL);
     this.titleService.setTitle(seoTitle);
 
-    this.meta.updateTag({ name: 'description', content: seoDescription });
+    this.meta.updateTag({ name: 'og:description', content: seoDescription });
     this.meta.updateTag({ property: 'og:title', content: seoTitle });
     this.meta.updateTag({ property: 'og:image', content: mainImage });
  

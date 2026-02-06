@@ -103,12 +103,10 @@ export class RecipePage {
     // 2. Слухаємо зміну даних
     this.route.data.subscribe((data: any) => {
       const recipeData = data?.recipe;
-   
+
       if (!recipeData?.recipeSSR) {
         return;
       }
-
-   
 
       this.applyRecipeData(recipeData);
 
@@ -160,14 +158,26 @@ export class RecipePage {
       '@type': 'BreadcrumbList',
 
       itemListElement: [
-        { position: 1, name: 'Головна', item: 'https://tsk.in.ua/' },
         {
+          '@type': 'ListItem',
+          position: 1,
+          name: 'Головна',
+          item: 'https://tsk.in.ua/',
+        },
+        {
+          '@type': 'ListItem',
           position: 2,
           name: 'Рецепти страв Таверни «Синій Кіт»',
           item: 'https://tsk.in.ua/dishes',
         },
-        { position: 3, name: ssr.dishesName, item: `https://tsk.in.ua/categories/${ssr.dishesID}` },
         {
+          '@type': 'ListItem',
+          position: 3,
+          name: ssr.dishesName,
+          item: `https://tsk.in.ua/categories/${ssr.dishesID}`,
+        },
+        {
+          '@type': 'ListItem',
           position: 4,
           name: ssr.categoryName,
           item: `https://tsk.in.ua/recipes-list/${ssr.categoryID}`,
@@ -176,7 +186,6 @@ export class RecipePage {
       ],
     };
 
-     
     this.setSchema(data.recipeSchema, 'recipe');
     this.setSchema(breadcrumbSchema, 'breadcrumb');
   }
