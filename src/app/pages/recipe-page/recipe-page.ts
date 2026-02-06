@@ -103,8 +103,13 @@ export class RecipePage {
     // 2. Слухаємо зміну даних
     this.route.data.subscribe((data: any) => {
       const recipeData = data?.recipe;
+      const recipeSchema = data?.recipeSchema;
       if (!recipeData?.recipeSSR) {
         return;
+      }
+
+      if (recipeSchema) {
+        this.setSchema(recipeSchema, 'recipe');
       }
 
       this.applyRecipeData(recipeData);
@@ -125,7 +130,7 @@ export class RecipePage {
         return;
       }
 
-/*       this.applyRecipeData(recipeData); */
+      /*       this.applyRecipeData(recipeData); */
     });
   }
 
@@ -151,7 +156,43 @@ export class RecipePage {
     this.info.set(data.info || []);
 
     this.setMetaTags(data.recipeMeta);
-    this.seoServices.setSchema(data.recipeSchema);
+
+    const breadcrumbSchema = {
+      '@context': 'https://schema.org',
+      '@type': 'BreadcrumbList',
+
+      itemListElement: [
+        { position: 1, name: 'Головна', item: 'https://tsk.in.ua/' },
+        {
+          position: 2,
+          name: 'Рецепти страв Таверни «Синій Кіт»',
+          item: 'https://tsk.in.ua/dishes',
+        },
+        { position: 3, name: ssr.dishesName, item: `https://tsk.in.ua/categories/${ssr.dishesID}` },
+        {
+          position: 4,
+          name: ssr.categoryName,
+          item: `https://tsk.in.ua/recipes-list/${ssr.categoryID}`,
+        },
+        { position: 5, name: ssr.recipeTitle, item: ssr.currentURL },
+      ],
+    };
+    this.setSchema(breadcrumbSchema, 'breadcrumb');
+  }
+
+  private setSchema(schema: any, id: string): void {
+    const selector = `script[data-schema="${id}"]`;
+
+    let script = this.document.querySelector(selector) as HTMLScriptElement | null;
+
+    if (!script) {
+      script = this.document.createElement('script');
+      script.type = 'application/ld+json';
+      script.setAttribute('data-schema', id);
+      this.document.head.appendChild(script);
+    }
+
+    script.textContent = JSON.stringify(schema);
   }
 
   ngAfterViewInit() {
@@ -181,7 +222,7 @@ export class RecipePage {
 
     const tags: MetaDefinition[] = [
       { name: 'description', content: meta.seoDescription },
-         { property: 'og:title', content: meta.seoName },
+      { property: 'og:title', content: meta.seoName },
       { property: 'og:image', content: meta.mainImage },
       { property: 'og:url', content: meta.currentURL },
       { property: 'og:type', content: 'article' }, // Для рецептів краще article
