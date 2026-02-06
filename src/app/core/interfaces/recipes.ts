@@ -40,8 +40,7 @@ export interface RecipesRequest {
     descriptionRecipe: string;
     mainImage: string;
     focusKeyword: string;
-    keywords: string;
-
+  
     //Сторінка 3
     numberServings: number;
     quantityIngredients: number;

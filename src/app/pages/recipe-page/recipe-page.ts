@@ -181,8 +181,7 @@ export class RecipePage {
 
     const tags: MetaDefinition[] = [
       { name: 'description', content: meta.seoDescription },
-      { name: 'keywords', content: meta.keywords },
-      { property: 'og:title', content: meta.seoName },
+         { property: 'og:title', content: meta.seoName },
       { property: 'og:image', content: meta.mainImage },
       { property: 'og:url', content: meta.currentURL },
       { property: 'og:type', content: 'article' }, // Для рецептів краще article

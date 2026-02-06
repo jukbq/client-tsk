@@ -6,7 +6,6 @@ export interface DishesRequest {
   dishDescription: string;
   seoName: string;
   seoDescription: string;
-  keywords: string;
   image: string;
   additionalImage: string;
   numberСategories: number;

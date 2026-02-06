@@ -62,8 +62,7 @@ export class ArticlesHome {
   private loadSeoAndSchema() {
     const seoTitle = `Байки Синього Кота — смачні історії, легенди та пригоди в стилі таверни`;
     const seoDescription = `Читай байки Синього Кота – кулінарні легенди, веселі історії та загадки зі смаком таверни.`;
-    const keywords = `синій кіт, байки про їжу, кулінарні легенди, таверна`;
-    const mainImage = '/assets/image/baiky-synoho-kota.webp';
+      const mainImage = '/assets/image/baiky-synoho-kota.webp';
 
     this.seoServices.setCanonicalUrl(this.currentURL);
     this.titleService.setTitle(seoTitle);

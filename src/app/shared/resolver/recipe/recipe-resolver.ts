@@ -57,8 +57,7 @@ export const recipeResolver: ResolveFn<RecipeResolverData | null> = (
       const recipeMeta = {
         seoName: recipe.seoName,
         seoDescription: recipe.seoDescription,
-        keywords: recipe.keywords,
-        mainImage: recipe.mainImage,
+              mainImage: recipe.mainImage,
         currentURL: `https://tsk.in.ua${currentURL}`,
       };
 
@@ -85,8 +84,7 @@ export const recipeResolver: ResolveFn<RecipeResolverData | null> = (
         prepTime: seoService.convertTimeToISO(recipe.prepTime),
         cookTime: seoService.convertTimeToISO(recipe.cookTime),
         totalTime: seoService.convertTimeToISO(recipe.totalTime),
-        keywords: recipe.keywords,
-        recipeYield: recipe.numberServings ? `${recipe.numberServings} порцій` : undefined,
+               recipeYield: recipe.numberServings ? `${recipe.numberServings} порцій` : undefined,
 
         recipeCategory: recipe.dishes.dishesName,
         nutrition: {
