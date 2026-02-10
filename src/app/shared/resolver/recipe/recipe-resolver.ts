@@ -68,6 +68,10 @@ export const recipeResolver: ResolveFn<RecipeResolverData | null> = (
         name: recipe.recipeTitle,
         image: recipe.mainImage ? [recipe.mainImage] : undefined,
 
+        ...(recipe.keywords?.trim() && {
+  keywords: recipe.keywords,
+}),
+
         author: {
           '@type': 'Organization',
           name: 'Таверна «Синій Кіт»',
