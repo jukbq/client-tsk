@@ -231,7 +231,7 @@ export class RecipePage {
     this.titleService.setTitle(meta.seoName);
 
     const tags: MetaDefinition[] = [
-      { name: 'og:description', content: meta.seoDescription },
+      { property: 'og:description', content: meta.seoDescription },
       { property: 'og:title', content: meta.seoName },
       { property: 'og:image', content: meta.mainImage },
       { property: 'og:url', content: meta.currentURL },
