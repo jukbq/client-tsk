@@ -1,0 +1,22 @@
+<div class="related-wrapper">
+  <h2>Кіт радить скуштувати це</h2>
+
+
+  <div class="related-grid">
+    @for (recipe of recipes(); track recipe.id) {
+      <a
+        class="related-card"
+        [appSsrLink]="['/recipe-page', recipe.id]"
+      >
+        <img
+          [ngSrc]="recipe.mainImage"
+          width="300"
+          height="200"
+          alt="{{ recipe.title }}"
+          loading="lazy"
+        />
+        <h3>{{ recipe.recipeTitle }}</h3>
+      </a>
+    }
+  </div>
+</div>

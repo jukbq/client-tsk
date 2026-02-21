@@ -4,6 +4,7 @@ import { catchError, map, Observable, of, throwError } from 'rxjs';
 import { RecipeService } from '../../../core/services/recipe/recipe-service';
 import { SeoService } from '../../../core/services/seo/seo-service';
 import { RESPONSE } from '../../../../express.tokens';
+import { switchMap } from 'rxjs';
 
 export interface RecipeSSR {
   recipeID: string;
@@ -26,6 +27,8 @@ export interface RecipeSSR {
   advice: string;
   completion: string;
   currentURL: string;
+
+  relatedRecipes: any[];
 }
 
 export interface RecipeResolverData {
@@ -46,10 +49,10 @@ export const recipeResolver: ResolveFn<RecipeResolverData | null> = (
   const response = inject(RESPONSE, { optional: true });
 
   return recipeService.getRecipeByID(recipeID).pipe(
-    map((recipe) => {
+    switchMap((recipe) => {
       if (!recipe || recipe.id !== recipeID) {
         if (response) response.statusCode = 404;
-        throw new Error('Recipe not found');
+       return of(null);
       }
 
       const currentURL = state.url;
@@ -57,7 +60,7 @@ export const recipeResolver: ResolveFn<RecipeResolverData | null> = (
       const recipeMeta = {
         seoName: recipe.seoName,
         seoDescription: recipe.seoDescription,
-              mainImage: recipe.mainImage,
+        mainImage: recipe.mainImage,
         currentURL: `https://tsk.in.ua${currentURL}`,
       };
 
@@ -69,8 +72,8 @@ export const recipeResolver: ResolveFn<RecipeResolverData | null> = (
         image: recipe.mainImage ? [recipe.mainImage] : undefined,
 
         ...(recipe.keywords?.trim() && {
-  keywords: recipe.keywords,
-}),
+          keywords: recipe.keywords,
+        }),
 
         author: {
           '@type': 'Organization',
@@ -88,7 +91,7 @@ export const recipeResolver: ResolveFn<RecipeResolverData | null> = (
         prepTime: seoService.convertTimeToISO(recipe.prepTime),
         cookTime: seoService.convertTimeToISO(recipe.cookTime),
         totalTime: seoService.convertTimeToISO(recipe.totalTime),
-               recipeYield: recipe.numberServings ? `${recipe.numberServings} порцій` : undefined,
+        recipeYield: recipe.numberServings ? `${recipe.numberServings} порцій` : undefined,
 
         recipeCategory: recipe.dishes.dishesName,
         nutrition: {
@@ -138,6 +141,7 @@ export const recipeResolver: ResolveFn<RecipeResolverData | null> = (
         advice: recipe.advice,
         completion: recipe.completion,
         currentURL: `https://tsk.in.ua${currentURL}`,
+        relatedRecipes: [],
       };
 
       // Додаємо додаткові статті, якщо є
@@ -215,12 +219,21 @@ export const recipeResolver: ResolveFn<RecipeResolverData | null> = (
           .filter((i: any) => i.name),
       ];
 
-      return { recipeMeta, recipeSchema, recipeSSR, info };
+  
+
+      return recipeService.getRelatedByTags(recipe.tags || [], recipe.id, 6).pipe(
+        map((related) => {
+          recipeSSR.relatedRecipes = related;
+
+
+          return { recipeMeta, recipeSchema, recipeSSR, info };
+        }),
+      );
     }),
 
     catchError((err) => {
       if (response) response.statusCode = 404;
-      return throwError(() => err);
+      return of(null);
     }),
   );
 };

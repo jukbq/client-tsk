@@ -47,8 +47,10 @@ export class RecipeCarousel implements AfterViewInit, OnDestroy {
     });
   }
 
+  
+
   private loadRecipes(id: string) {
-    this.recipeService.getRandomRecipesByDishesID(id, 30).subscribe((data) => {
+    this.recipeService.getRandomRecipesByDishesID(id, 10).subscribe((data) => {
       const filtered = data.filter(r => r.id !== this.recipeID());
       this.recipes.set(filtered);
     });

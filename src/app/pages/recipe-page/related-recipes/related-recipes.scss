@@ -1,0 +1,55 @@
+.related-wrapper {
+  background: var(--clr-6);
+
+  h2 {
+    box-sizing: border-box;
+    width: 100%;
+    background-color: var(--clr-4);
+    margin: 0;
+    text-align: center;
+    padding: 10px 2vw;
+    color: var(--clr-2);
+  }
+
+  .related-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); // 📱 мобілка — 2 в ряд
+    gap: 1.5rem;
+    padding: 40px 2vw 40px 2vw;
+
+    @media (min-width: 992px) {
+      grid-template-columns: repeat(3, 1fr); // 💻 десктоп — 3 в ряд
+    }
+
+    .related-card {
+      display: block;
+      text-decoration: none;
+      color: var(--clr-b);
+      background: #1e1e1e;
+      border-radius: 12px;
+      overflow: hidden;
+      transition: transform 0.3s ease;
+
+      &:hover {
+        transform: translateY(-5px);
+      }
+
+      img {
+        width: 100%;
+        height: 180px;
+        object-fit: cover;
+      }
+
+h3 {
+  padding: 1rem;
+  font-size: 1.15rem; // більший шрифт
+  text-align: center;
+  color: var(--clr-2);
+
+  white-space: nowrap;     // ❗ забороняє перенос
+  overflow: hidden;        // обрізає зайве
+  text-overflow: ellipsis; // додає ...
+}
+    }
+  }
+}

@@ -1,25 +1,27 @@
+@if (isNotFound()) {
+  <div id="soft-404-marker">
+    <app-soft-404></app-soft-404>
+  </div>
+} @else {
+
 <main class="recipe-page">
   <div class="menu_block" id="menu-block">
     <ul class="recipe_menu">
       @for (item of menuItems; track item.id) {
-      <li [class.active]="item.index === activeItem()" class="item_menu">
-        <a type="button" (click)="onMenuClick(item)" class="menu_link">
-          {{ item.label }}
-        </a>
-      </li>
+        <li [class.active]="item.index === activeItem()" class="item_menu">
+          <a type="button" (click)="onMenuClick(item)" class="menu_link">
+            {{ item.label }}
+          </a>
+        </li>
       } @empty {
-      <li class="item_menu">Нема пунктів</li>
+        <li class="item_menu">Нема пунктів</li>
       }
     </ul>
   </div>
 
-  <div class="recipe_block"
-   [style.paddingTop.px]="totalOffset()"
-   style="min-height: 100vh;"
-   >
+  <div class="recipe_block" [style.paddingTop.px]="totalOffset()" style="min-height: 100vh">
     <div class="ads"></div>
     <div class="recipe_body">
-
       <section id="recipe-about">
         <app-breadcrumb
           [dishesID]="dishesID()"
@@ -27,7 +29,6 @@
           [categoryID]="categoryID()"
           [categoryName]="categoryName()"
           [recipeTitle]="recipeTitle()"
-          
         ></app-breadcrumb>
 
         <app-recipe-header
@@ -59,6 +60,10 @@
         <app-instructions [instructions]="instructions()"></app-instructions>
       </section>
 
+      <section id="related">
+        <app-related-recipes [recipes]="relatedRecipes()"></app-related-recipes>
+      </section>
+
       <div class="adsense_block">
         <app-display-ads></app-display-ads>
       </div>
@@ -81,3 +86,4 @@
     <div class="ads"></div>
   </div>
 </main>
+}

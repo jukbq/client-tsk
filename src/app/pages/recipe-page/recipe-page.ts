@@ -25,6 +25,8 @@ import { Ingredients } from './ingredients/ingredients';
 import { Instructions } from './instructions/instructions';
 import { RecipeAdviceC } from './recipe-advice-c/recipe-advice-c';
 import { RecipeCarousel } from './recipe-carousel/recipe-carousel';
+import { RelatedRecipes } from "./related-recipes/related-recipes";
+import { Soft404 } from "../soft-404/soft-404";
 
 interface MenuItem {
   id: string;
@@ -44,7 +46,9 @@ interface MenuItem {
     Instructions,
     RecipeAdviceC,
     RecipeCarousel,
-  ],
+    RelatedRecipes,
+    Soft404
+],
   templateUrl: './recipe-page.html',
   styleUrl: './recipe-page.scss',
 })
@@ -80,9 +84,12 @@ export class RecipePage {
   seasons = signal<any[]>([]);
   info = signal<any[]>([]);
   accompanyingRecipes = signal<any[]>([]);
+  relatedRecipes  = signal<any[]>([]);
   ingredients = signal<any[]>([]);
   instructions = signal<any[]>([]);
   accompanyingArticles = signal<any[]>([]);
+
+  isNotFound = signal(false);
 
   menuItems: MenuItem[] = [
     { id: 'recipe-about', label: 'ПРО РЕЦЕПТ', index: 0 },
@@ -96,6 +103,7 @@ export class RecipePage {
   totalOffset = computed(() => this.menuHeight());
 
   ngOnInit() {
+    
     if (this.isBrowser) {
       this.viewportScroller.scrollToPosition([0, 0]);
     }
@@ -103,11 +111,12 @@ export class RecipePage {
     // 2. Слухаємо зміну даних
     this.route.data.subscribe((data: any) => {
       const recipeData = data?.recipe;
-
       if (!recipeData?.recipeSSR) {
+        this.isNotFound.set(true);
         return;
       }
 
+      this.isNotFound.set(false);
       this.applyRecipeData(recipeData);
 
       // --- ДОДАЙТЕ ЦЕЙ БЛОК ТУТ ---
@@ -119,20 +128,14 @@ export class RecipePage {
       // ----------------------------
     });
 
-    this.route.data.subscribe((data: any) => {
-      const recipeData = data?.recipe;
-      if (!recipeData?.recipeSSR) {
-        if (this.isBrowser) this.router.navigate(['/404']);
-        return;
-      }
 
-      /*       this.applyRecipeData(recipeData); */
-    });
+ 
   }
 
   private applyRecipeData(data: any) {
     const ssr = data.recipeSSR;
 
+    
     // Масове оновлення сигналів
     this.dishesID.set(ssr.dishesID);
     this.dishesName.set(ssr.dishesName);
@@ -151,6 +154,7 @@ export class RecipePage {
     this.instructions.set(ssr.instructions || []);
     this.info.set(data.info || []);
 
+    this.relatedRecipes.set(ssr.relatedRecipes || []);
     this.setMetaTags(data.recipeMeta);
 
     const breadcrumbSchema = {
