@@ -52,7 +52,7 @@ export const recipeResolver: ResolveFn<RecipeResolverData | null> = (
     switchMap((recipe) => {
       if (!recipe || recipe.id !== recipeID) {
         if (response) response.statusCode = 404;
-       return of(null);
+        return of(null);
       }
 
       const currentURL = state.url;
@@ -80,9 +80,16 @@ export const recipeResolver: ResolveFn<RecipeResolverData | null> = (
           name: 'Таверна «Синій Кіт»',
           url: 'https://tsk.in.ua',
         },
-        ...(recipe.createdAt && {
-          datePublished: recipe.createdAt,
-        }),
+        ...(recipe.editAt
+          ? {
+              dateModified: recipe.editAt,
+              datePublished: recipe.createdAt,
+            }
+          : recipe.createdAt
+            ? {
+                datePublished: recipe.createdAt,
+              }
+            : {}),
         description: recipe.seoDescription,
         ...(recipe.cuisine?.schemaCuisine && {
           recipeCuisine: recipe.cuisine.schemaCuisine,
@@ -219,12 +226,9 @@ export const recipeResolver: ResolveFn<RecipeResolverData | null> = (
           .filter((i: any) => i.name),
       ];
 
-  
-
       return recipeService.getRelatedByTags(recipe.tags || [], recipe.id, 6).pipe(
         map((related) => {
           recipeSSR.relatedRecipes = related;
-
 
           return { recipeMeta, recipeSchema, recipeSSR, info };
         }),
