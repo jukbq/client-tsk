@@ -29,6 +29,9 @@ export interface RecipeSSR {
   currentURL: string;
 
   relatedRecipes: any[];
+
+  ratingSum: number;
+  ratingCount: number;
 }
 
 export interface RecipeResolverData {
@@ -109,6 +112,18 @@ export const recipeResolver: ResolveFn<RecipeResolverData | null> = (
         recipeIngredient: seoService.formatIngredientsForSchema(recipe.ingredients),
         recipeInstructions: seoService.convertStepsToSchema(recipe.instructions, currentURL),
 
+        ...(recipe.ratingCount > 0 && {
+          aggregateRating: {
+            ...(recipe.ratingCount > 0 && {
+          aggregateRating: {
+            '@type': 'AggregateRating',
+            ratingValue: (recipe.ratingSum / recipe.ratingCount).toFixed(1),
+            reviewCount: recipe.ratingCount,
+          },
+        }),
+          },
+        }),
+
         url: `https://tsk.in.ua${currentURL}`,
         ...(recipe.videoUrl?.trim() && { video: recipe.videoUrl }),
       };
@@ -149,6 +164,9 @@ export const recipeResolver: ResolveFn<RecipeResolverData | null> = (
         completion: recipe.completion,
         currentURL: `https://tsk.in.ua${currentURL}`,
         relatedRecipes: [],
+
+        ratingSum: recipe.ratingSum ?? 0,
+        ratingCount: recipe.ratingCount ?? 0,
       };
 
       // Додаємо додаткові статті, якщо є

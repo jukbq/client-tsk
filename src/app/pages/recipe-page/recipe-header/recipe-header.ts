@@ -5,10 +5,11 @@ import { Router } from '@angular/router';
 import { FavoritesService } from '../../../core/services/favorites/favorites-service';
 import { NgOptimizedImage } from '@angular/common';
 import { Subscription } from 'rxjs';
+import { Rating } from "../recipe/rating/rating";
 
 @Component({
   selector: 'app-recipe-header',
-  imports: [NgOptimizedImage],
+  imports: [NgOptimizedImage, Rating],
   templateUrl: './recipe-header.html',
   styleUrl: './recipe-header.scss',
 })
@@ -23,6 +24,9 @@ export class RecipeHeader {
   recipeTitle = input.required<string>();
   mainImage = input.required<string>();
   recipeID = input.required<string>();
+
+  ratingSum = input<number>(0);
+ratingCount = input<number>(0);
 
   // Стан списку обраного
   favoriteIds = signal<string[]>([]);

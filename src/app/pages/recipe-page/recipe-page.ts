@@ -25,8 +25,8 @@ import { Ingredients } from './ingredients/ingredients';
 import { Instructions } from './instructions/instructions';
 import { RecipeAdviceC } from './recipe-advice-c/recipe-advice-c';
 import { RecipeCarousel } from './recipe-carousel/recipe-carousel';
-import { RelatedRecipes } from "./related-recipes/related-recipes";
-import { Soft404 } from "../soft-404/soft-404";
+import { RelatedRecipes } from './related-recipes/related-recipes';
+import { Soft404 } from '../soft-404/soft-404';
 
 interface MenuItem {
   id: string;
@@ -47,8 +47,8 @@ interface MenuItem {
     RecipeAdviceC,
     RecipeCarousel,
     RelatedRecipes,
-    Soft404
-],
+    Soft404,
+  ],
   templateUrl: './recipe-page.html',
   styleUrl: './recipe-page.scss',
 })
@@ -84,12 +84,15 @@ export class RecipePage {
   seasons = signal<any[]>([]);
   info = signal<any[]>([]);
   accompanyingRecipes = signal<any[]>([]);
-  relatedRecipes  = signal<any[]>([]);
+  relatedRecipes = signal<any[]>([]);
   ingredients = signal<any[]>([]);
   instructions = signal<any[]>([]);
   accompanyingArticles = signal<any[]>([]);
 
   isNotFound = signal(false);
+
+  ratingSum = signal(0);
+  ratingCount = signal(0);
 
   menuItems: MenuItem[] = [
     { id: 'recipe-about', label: 'ПРО РЕЦЕПТ', index: 0 },
@@ -100,10 +103,17 @@ export class RecipePage {
 
   headerHeight = signal(0);
   menuHeight = signal(60);
+
+  averageRating = computed(() => {
+  const count = this.ratingCount();
+  if (!count) return 0;
+  return this.ratingSum() / count;
+});
+
+
   totalOffset = computed(() => this.menuHeight());
 
   ngOnInit() {
-    
     if (this.isBrowser) {
       this.viewportScroller.scrollToPosition([0, 0]);
     }
@@ -127,15 +137,14 @@ export class RecipePage {
       }
       // ----------------------------
     });
-
-
- 
   }
 
   private applyRecipeData(data: any) {
     const ssr = data.recipeSSR;
 
-    
+    this.ratingSum.set(ssr.ratingSum || 0);
+    this.ratingCount.set(ssr.ratingCount || 0);
+
     // Масове оновлення сигналів
     this.dishesID.set(ssr.dishesID);
     this.dishesName.set(ssr.dishesName);
@@ -144,6 +153,7 @@ export class RecipePage {
     this.recipeTitle.set(ssr.recipeTitle);
     this.mainImage.set(ssr.mainImage);
     this.recipeID.set(ssr.recipeID);
+
     this.recipeSubtitles.set(ssr.recipeSubtitles);
     this.descriptionRecipe.set(ssr.descriptionRecipe);
     this.advice.set(ssr.advice);

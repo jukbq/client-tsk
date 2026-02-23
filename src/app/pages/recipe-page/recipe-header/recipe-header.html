@@ -2,6 +2,14 @@
   <h1>{{ recipeTitle() }}</h1>
 </div>
 
+@if (recipeID()) {
+  <app-rating
+    [ratingSumInput]="ratingSum()"
+    [ratingCountInput]="ratingCount()"
+    [recipeID]="recipeID()">
+  </app-rating>
+}
+
 <div class="image_block">
 @if (mainImage()) {
   <img

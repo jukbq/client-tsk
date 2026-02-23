@@ -1,0 +1,25 @@
+<div class="rating-wrapper">
+  <div class="mugs">
+    @for (i of [1, 2, 3, 4, 5]; track i) {
+      <img
+        (click)="vote(i)"
+        class="vote-mug"
+        [src]="
+          i <= average()
+            ? 'assets/icon/rating/ale-mug-full.webp'
+            : i - 0.5 <= average()
+              ? 'assets/icon/rating/ale-mug-half.webp'
+              : 'assets/icon/rating/ale-mug-empty.webp'
+        "
+        width="32"
+        height="32"
+        alt=""
+      />
+    }
+  </div>
+
+  <div class="rating-text">
+    {{ average() | number:'1.1-1' }} / 5
+    ({{ localCount() }} {{ getVotesWord(localCount()) }})
+  </div>
+</div>
