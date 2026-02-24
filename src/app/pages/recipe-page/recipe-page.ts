@@ -73,7 +73,8 @@ export class RecipePage {
   categoryID = signal('');
   categoryName = signal('');
   recipeTitle = signal('');
-  mainImage = signal('');
+  mainImageDesktop = signal('');
+  mainImageMobile = signal('');
   recipeID = signal('');
   recipeSubtitles = signal('');
   descriptionRecipe = signal('');
@@ -151,7 +152,8 @@ export class RecipePage {
     this.categoryID.set(ssr.categoryID);
     this.categoryName.set(ssr.categoryName);
     this.recipeTitle.set(ssr.recipeTitle);
-    this.mainImage.set(ssr.mainImage);
+    this.mainImageDesktop.set(ssr.mainImageDesktop);
+    this.mainImageMobile.set(ssr.mainImageMobile);
     this.recipeID.set(ssr.recipeID);
 
     this.recipeSubtitles.set(ssr.recipeSubtitles);
@@ -247,7 +249,7 @@ export class RecipePage {
     const tags: MetaDefinition[] = [
       { property: 'og:description', content: meta.seoDescription },
       { property: 'og:title', content: meta.seoName },
-      { property: 'og:image', content: meta.mainImage },
+      { property: 'og:image', content: meta.mainImageDesktop  },
       { property: 'og:url', content: meta.currentURL },
       { property: 'og:type', content: 'article' }, // Для рецептів краще article
       { property: 'fb:app_id', content: '433617998637385' },

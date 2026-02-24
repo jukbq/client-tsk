@@ -3,40 +3,38 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 10px 0;
+  padding: 12px 0;
   text-align: center;
   background-color: var(--clr-4);
 
   h1 {
-    margin-top: 1rem;
-    padding: 0 10px;
+    margin: 1rem 0 0;
+    padding: 0 12px;
     text-shadow: 0 2px 6px rgba(0, 0, 0, 0.85);
     user-select: none;
     color: var(--clr-2);
-    font-size: clamp(1.5rem, 5vw, 2.5rem); // Адаптивний розмір шрифту
+    font-size: clamp(1.6rem, 4vw, 2.4rem);
+    line-height: 1.2;
   }
 }
 
 .image_block {
-  width: 100%;
-  position: relative;
-  display: flex;
-  justify-content: center;
-  overflow: hidden;
+ max-width: 100%;
+  margin: 0 auto;
 
-  img {
-    aspect-ratio: 16 / 9;
-    width: 100%;
-    height: auto;
-    object-fit: cover;
-    display: block;
-    cursor: zoom-in;
+  picture .main-image {
+   width: 100%;
+  height: auto;
+  cursor: pointer;
   }
 
   .image-skeleton {
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg,
+        transparent,
+        rgba(255, 255, 255, 0.15),
+        transparent);
     background-size: 200% 100%;
     animation: skeleton-blink 1.5s infinite;
   }
@@ -46,72 +44,72 @@
     background: transparent;
     border: none;
     padding: 0;
-    width: 10%; // Трохи збільшив для зручності натискання пальцем
-    max-width: 60px;
+    width: clamp(42px, 8vw, 60px);
     aspect-ratio: 1 / 1;
     position: absolute;
-    bottom: 10px;
-    left: 10px;
+    bottom: 20px;
+    left: 20px;
     cursor: pointer;
     z-index: 5;
     transition: transform 0.2s ease;
 
     &:hover {
-      transform: scale(1.1);
+      transform: scale(1.08);
     }
 
     &:active {
-      transform: scale(0.9);
+      transform: scale(0.92);
     }
 
     .fav-icon {
       width: 100%;
       height: 100%;
       object-fit: contain;
-      filter: drop-shadow(0 0 4px rgba(0, 0, 0, 0.5)); // Додав тінь іконці
-    }
-  }
-
-  @media (min-width: 1024px) {
-    .fav-btn {
-      width: 50px;
-      bottom: 20px;
-      left: 20px;
+      filter: drop-shadow(0 0 6px rgba(0, 0, 0, 0.6));
     }
   }
 }
 
-
 .image-backdrop {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, .85);
+  background: rgba(0, 0, 0, 0.9);
   display: flex;
   justify-content: center;
   align-items: center;
   z-index: 99999;
+  padding: 20px;
 
   .image-modal {
+    position: relative;
     max-width: 95vw;
     max-height: 95vh;
-    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 
     img {
-      width: 90vw;
-      height: auto;
-      max-height: 90vh;
-      object-fit: contain;
+     width: 90vw;
+  max-width: 1600px; 
+  height: auto;
+  max-height: 90vh;
+  object-fit: contain;
     }
 
     .close-btn {
       position: absolute;
-      top: -40px;
+      top: -35px;
       right: 0;
       background: none;
       border: none;
-      color: white;
+      color: #fff;
       font-size: 32px;
       cursor: pointer;
+      transition: opacity 0.2s;
+
+      &:hover {
+        opacity: 0.7;
+      }
     }
   }
 }

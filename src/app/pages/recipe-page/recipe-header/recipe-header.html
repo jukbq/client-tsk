@@ -6,55 +6,55 @@
   <app-rating
     [ratingSumInput]="ratingSum()"
     [ratingCountInput]="ratingCount()"
-    [recipeID]="recipeID()">
+    [recipeID]="recipeID()"
+  >
   </app-rating>
 }
 
 <div class="image_block">
-@if (mainImage()) {
-  <img
- [ngSrc]="mainImage()"
-    width="780"
-    height="440"
-    [alt]="'Фотографія страви під назвою ' + recipeTitle()"
-    sizes="(max-width: 980px) 100vw, 80vw" 
-    priority
-      class="main-image"
-      (click)="openImage(mainImage()!)"
-  />
-} @else {
-  <div class="image-skeleton"></div>
-}
-  <button 
-    class="fav-btn" 
+  @if (mainImageDesktop()) {
+    <picture>
+      @if (mainImageMobile()) {
+        <source media="(max-width: 768px)" [srcset]="mainImageMobile()!" />
+      }
+
+      <img
+        [ngSrc]="mainImageDesktop()"
+        width="1920"
+    height="1080"
+        [alt]="'Фотографія страви під назвою ' + recipeTitle()"
+        sizes="(max-width: 768px) 100vw, 80vw"
+        priority
+        class="main-image"
+        (click)="openCurrentImage()"
+      />
+    </picture>
+  } @else {
+    <div class="image-skeleton"></div>
+  }
+  <button
+    class="fav-btn"
     (click)="toggleFavorite(recipeID()); $event.stopPropagation()"
     type="button"
-    [attr.aria-label]="isFavorite(recipeID()) ? 'Видалити з обраного' : 'Додати в обране'">
+    [attr.aria-label]="isFavorite(recipeID()) ? 'Видалити з обраного' : 'Додати в обране'"
+  >
     <img
       class="fav-icon"
-      [src]="isFavorite(recipeID()) 
-        ? 'assets/icon/favorite/star-favorite-filled.webp' 
-        : 'assets/icon/favorite/star-favorite-empty.webp'"
+      [src]="
+        isFavorite(recipeID())
+          ? 'assets/icon/favorite/star-favorite-filled.webp'
+          : 'assets/icon/favorite/star-favorite-empty.webp'
+      "
       alt=""
     />
   </button>
 </div>
 
-
 @if (selectedImage()) {
-<div class="image-backdrop" (click)="closeImage()">
-  <div class="image-modal">
-    <img
-      [src]="selectedImage()"
-      alt=""
-      (click)="closeImage()"
-    >
-    <button
-      class="close-btn"
-      (click)="closeImage(); $event.stopPropagation()">
-      ✕
-    </button>
+  <div class="image-backdrop" (click)="closeImage()">
+    <div class="image-modal">
+      <img [src]="selectedImage()" alt="" (click)="closeImage()" />
+      <button class="close-btn" (click)="closeImage(); $event.stopPropagation()">✕</button>
+    </div>
   </div>
-</div>
-
 }

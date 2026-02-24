@@ -9,7 +9,10 @@ import { switchMap } from 'rxjs';
 export interface RecipeSSR {
   recipeID: string;
   recipeTitle: string;
-  mainImage: string;
+
+  mainImageDesktop: string;
+  mainImageMobile: string | null;
+
   recipeSubtitles: string;
   descriptionRecipe: string;
 
@@ -114,13 +117,9 @@ export const recipeResolver: ResolveFn<RecipeResolverData | null> = (
 
         ...(recipe.ratingCount > 0 && {
           aggregateRating: {
-            ...(recipe.ratingCount > 0 && {
-          aggregateRating: {
             '@type': 'AggregateRating',
             ratingValue: (recipe.ratingSum / recipe.ratingCount).toFixed(1),
             reviewCount: recipe.ratingCount,
-          },
-        }),
           },
         }),
 
@@ -146,7 +145,10 @@ export const recipeResolver: ResolveFn<RecipeResolverData | null> = (
       const recipeSSR: RecipeSSR = {
         recipeID,
         recipeTitle: recipe.recipeTitle,
-        mainImage: recipe.mainImage,
+
+        mainImageDesktop: recipe.mainImage,
+        mainImageMobile: recipe.mainImageMobile ?? null,
+
         recipeSubtitles: recipe.recipeSubtitles,
         descriptionRecipe: recipe.descriptionRecipe,
 

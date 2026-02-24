@@ -5,7 +5,7 @@ import { Router } from '@angular/router';
 import { FavoritesService } from '../../../core/services/favorites/favorites-service';
 import { NgOptimizedImage } from '@angular/common';
 import { Subscription } from 'rxjs';
-import { Rating } from "../recipe/rating/rating";
+import { Rating } from '../recipe/rating/rating';
 
 @Component({
   selector: 'app-recipe-header',
@@ -14,7 +14,7 @@ import { Rating } from "../recipe/rating/rating";
   styleUrl: './recipe-header.scss',
 })
 export class RecipeHeader {
-// Залежності
+  // Залежності
   private modal = inject(ModalService);
   private auth = inject(AuthService);
   private router = inject(Router);
@@ -22,11 +22,12 @@ export class RecipeHeader {
 
   // Вхідні дані як сигнали
   recipeTitle = input.required<string>();
-  mainImage = input.required<string>();
+  mainImageDesktop = input.required<string>();
+  mainImageMobile = input<string | null>(null);
   recipeID = input.required<string>();
 
   ratingSum = input<number>(0);
-ratingCount = input<number>(0);
+  ratingCount = input<number>(0);
 
   // Стан списку обраного
   favoriteIds = signal<string[]>([]);
@@ -34,12 +35,11 @@ ratingCount = input<number>(0);
 
   selectedImage = signal<string | null>(null);
 
-
   ngOnInit() {
     // Підписуємось на зміни в сервісі обраного, щоб синхронізувати зірочку
     const user = this.auth.currentUser;
     if (user) {
-      this.favSubscription = this.fav.getFavorites(user.uid).subscribe(ids => {
+      this.favSubscription = this.fav.getFavorites(user.uid).subscribe((ids) => {
         this.favoriteIds.set(ids || []);
       });
     }
@@ -72,11 +72,18 @@ ratingCount = input<number>(0);
   }
 
   openImage(src: string) {
-  this.selectedImage.set(src);
-}
+    this.selectedImage.set(src);
+  }
 
-closeImage() {
-  this.selectedImage.set(null);
-}
+  closeImage() {
+    this.selectedImage.set(null);
+  }
 
+  openCurrentImage() {
+  if (typeof window !== 'undefined' && window.innerWidth <= 768 && this.mainImageMobile()) {
+    this.selectedImage.set(this.mainImageMobile());
+  } else {
+    this.selectedImage.set(this.mainImageDesktop());
+  }
+}
 }
