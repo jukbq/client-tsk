@@ -4,10 +4,11 @@ import { Header } from './shared/components/header/header';
 import { isPlatformBrowser } from '@angular/common';
 import { filter } from 'rxjs';
 import { Footer } from "./shared/components/footer/footer";
+import { AuthModal } from "./shared/components/auth-modal/auth-modal";
 
 @Component({
   selector: 'app-root',
-  imports: [Header, RouterOutlet, Footer],
+  imports: [Header, RouterOutlet, Footer, AuthModal],
   templateUrl: './app.html',
   styleUrl: './app.scss',
 })

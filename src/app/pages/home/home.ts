@@ -21,11 +21,11 @@ import { FavoritesService } from '../../core/services/favorites/favorites-servic
 import { AuthService } from '../../core/services/auth/auth-service';
 import { ModalService } from '../../core/services/modal/modal.service';
 import { isPlatformBrowser, NgOptimizedImage, ViewportScroller } from '@angular/common';
-import { debounceTime, fromEvent, Subscription } from 'rxjs';
+import { debounceTime, fromEvent, of, Subscription, switchMap } from 'rxjs';
 
 @Component({
   selector: 'app-home',
-  imports: [SsrLinkDirective, AuthModal, NgOptimizedImage],
+  imports: [SsrLinkDirective, NgOptimizedImage],
   templateUrl: './home.html',
   styleUrl: './home.scss',
 })
@@ -89,13 +89,18 @@ export class Home {
         .subscribe(() => this.checkScreen()),
     );
 
-    this.subscriptions.add(
-      this.auth.user$.subscribe((user) => {
-        if (user) {
-          this.fav.getFavorites(user.uid).subscribe((ids) => this.favoriteIds.set(ids));
+  this.subscriptions.add(
+  this.auth.user$
+    .pipe(
+      switchMap(user => {
+        if (!user) {
+          return of([]);
         }
-      }),
-    );
+        return this.fav.getFavorites(user.uid);
+      })
+    )
+    .subscribe(ids => this.favoriteIds.set(ids))
+);
   }
 
   checkScreen() {
@@ -175,14 +180,32 @@ export class Home {
 
   toggleFavorite(recipeId: string) {
     const user = this.auth.currentUser;
+
+    // 🚫 Якщо не залогінений
     if (!user) {
       this.modal.open({
         type: 'auth',
-        data: { reason: 'add-fav', recipeId, returnUrl: this.router.url },
+        data: {
+          reason: 'add-fav',
+          recipeId,
+          returnUrl: this.router.url,
+        },
       });
       return;
     }
-    // Логіка додавання/видалення...
+
+    // ✅ Якщо вже в обраному — видаляємо
+    if (this.isFavorite(recipeId)) {
+      this.fav
+        .removeFavorite(user.uid, recipeId)
+        .catch((err) => console.error('Remove favorite error:', err));
+    }
+    // ✅ Якщо нема — додаємо
+    else {
+      this.fav
+        .addFavorite(user.uid, recipeId)
+        .catch((err) => console.error('Add favorite error:', err));
+    }
   }
 
   ngOnDestroy() {

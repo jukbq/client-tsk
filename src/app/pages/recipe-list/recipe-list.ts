@@ -12,19 +12,17 @@ import {
 import { ActivatedRoute, Router } from '@angular/router';
 import { isPlatformBrowser, NgOptimizedImage, ViewportScroller } from '@angular/common';
 import { Meta, MetaDefinition, Title } from '@angular/platform-browser';
-
 import { SsrLinkDirective } from '../../shared/SsrLinkDirective/ssr-link.directive';
-import { AuthModal } from '../../shared/components/auth-modal/auth-modal';
-
 import { SeoService } from '../../core/services/seo/seo-service';
 import { RecipeStateService } from '../../core/services/recipe-state/recipe-state-service';
 import { FavoritesService } from '../../core/services/favorites/favorites-service';
 import { AuthService } from '../../core/services/auth/auth-service';
 import { ModalService } from '../../core/services/modal/modal.service';
+import { of, switchMap } from 'rxjs';
 
 @Component({
   selector: 'app-recipe-list',
-  imports: [SsrLinkDirective, AuthModal, NgOptimizedImage],
+  imports: [SsrLinkDirective, NgOptimizedImage],
   templateUrl: './recipe-list.html',
   styleUrl: './recipe-list.scss',
 })
@@ -68,13 +66,16 @@ export class RecipeList {
     if (this.isBrowser) {
       this.viewportScroller.scrollToPosition([0, 0]);
 
-      this.auth.user$.subscribe((user) => {
-        if (user) {
-          this.fav.getFavorites(user.uid).subscribe((ids) => {
-            this.favoriteIds.set(ids);
-          });
-        }
-      });
+      this.auth.user$
+        .pipe(
+          switchMap((user) => {
+            if (!user) {
+              return of([]);
+            }
+            return this.fav.getFavorites(user.uid);
+          }),
+        )
+        .subscribe((ids) => this.favoriteIds.set(ids));
     }
 
     // 🔥 ВСЕ — З RESOLVER
@@ -90,9 +91,7 @@ export class RecipeList {
       // 2️⃣ Рецепти
       const recipes = Array.isArray(data.recipes) ? data.recipes : [];
 
-      const sorted = [...recipes].sort((a, b) =>
-        a.recipeTitle.localeCompare(b.recipeTitle)
-      );
+      const sorted = [...recipes].sort((a, b) => a.recipeTitle.localeCompare(b.recipeTitle));
 
       this.recipesFilter.set(sorted);
       this.recipeStateService.setRecipes(sorted);
@@ -155,7 +154,7 @@ export class RecipeList {
   }
 
   private setSchema(schema: any) {
-     if (this.ldJsonScript) {
+    if (this.ldJsonScript) {
       this.renderer.removeChild(this.document.head, this.ldJsonScript);
     }
     this.ldJsonScript = this.renderer.createElement('script');
@@ -190,25 +189,25 @@ export class RecipeList {
     return this.favoriteIds().includes(id);
   }
 
-  toggleFavorite(id: string) {
-    const user = this.auth.currentUser;
+toggleFavorite(id: string) {
+  const user = this.auth.currentUser;
 
-    if (!user) {
-      this.modal.open({
-        type: 'auth',
-        data: { reason: 'add-fav', recipeId: id, returnUrl: this.router.url },
-      });
-      return;
-    }
-
-    if (this.isFavorite(id)) {
-      this.fav.removeFavorite(user.uid, id);
-      this.favoriteIds.update((ids) => ids.filter((x) => x !== id));
-    } else {
-      this.fav.addFavorite(user.uid, id);
-      this.favoriteIds.update((ids) => [...ids, id]);
-    }
+  if (!user) {
+    this.modal.open({
+      type: 'auth',
+      data: { reason: 'add-fav', recipeId: id, returnUrl: this.router.url },
+    });
+    return;
   }
+
+  if (this.isFavorite(id)) {
+    this.fav.removeFavorite(user.uid, id)
+      .catch(err => console.error(err));
+  } else {
+    this.fav.addFavorite(user.uid, id)
+      .catch(err => console.error(err));
+  }
+}
 
   // ===== SCROLL EFFECTS =====
   @HostListener('window:scroll')
@@ -236,4 +235,10 @@ export class RecipeList {
       }
     });
   }
+
+  ngOnDestroy() {
+  if (this.ldJsonScript) {
+    this.renderer.removeChild(this.document.head, this.ldJsonScript);
+  }
+}
 }
