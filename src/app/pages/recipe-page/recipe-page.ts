@@ -245,11 +245,18 @@ export class RecipePage {
 
     this.currentURL.set(meta.currentURL);
     this.titleService.setTitle(meta.seoName);
+console.log(meta.seoDescription);
 
     const tags: MetaDefinition[] = [
-      { property: 'og:description', content: meta.seoDescription },
+     
+      { property: 'description', content: meta.seoDescription },
       { property: 'og:title', content: meta.seoName },
-      { property: 'og:image', content: meta.mainImageDesktop  },
+       { property: 'og:description', content: meta.seoDescription },
+      { property: 'og:image', content: meta.mainImage  },
+      { property: "og:image:width", content: "1920" },
+      { property: "og:image:height", content: "1080" },
+      { property: 'og:image', content: meta.mainImage  },
+      
       { property: 'og:url', content: meta.currentURL },
       { property: 'og:type', content: 'article' }, // Для рецептів краще article
       { property: 'fb:app_id', content: '433617998637385' },
