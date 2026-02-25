@@ -6,7 +6,7 @@
     @for (recipe of recipes(); track recipe.id) {
       <a
         class="related-card"
-        [appSsrLink]="['/recipe-page', recipe.id]"
+        [appSsrLink]="['recipe-page', recipe.id]"
       >
         <img
           [ngSrc]="recipe.mainImage"
