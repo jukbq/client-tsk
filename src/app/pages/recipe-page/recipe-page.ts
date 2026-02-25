@@ -249,7 +249,7 @@ console.log(meta.seoDescription);
 
     const tags: MetaDefinition[] = [
      
-      { property: 'description', content: meta.seoDescription },
+      { name: 'description', content: meta.seoDescription },
       { property: 'og:title', content: meta.seoName },
        { property: 'og:description', content: meta.seoDescription },
       { property: 'og:image', content: meta.mainImage  },

@@ -121,6 +121,7 @@ export class RecipeList {
     const tags: MetaDefinition[] = [
       { name: 'description', content: cat.seoCategoryDescription },
       { property: 'og:title', content: cat.seoCategoryName },
+      { property: 'og:description', content: cat.seoCategoryDescription },
       { property: 'og:image', content: cat.image },
       { property: 'og:url', content: this.currentURL },
       { property: 'og:type', content: 'website' },

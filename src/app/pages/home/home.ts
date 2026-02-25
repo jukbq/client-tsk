@@ -121,6 +121,7 @@ export class Home {
       content:
         'Рецепти для щоденної кухні від таверни «Синій Кіт»: супи, борщі, м’ясні страви, гарніри, випічка та напої. Готуй вдома без зайвих ускладнень.',
     });
+    this.meta.updateTag({ property: 'og:description', content: 'Рецепти для щоденної кухні від таверни «Синій Кіт»: супи, борщі, м’ясні страви, гарніри, випічка та напої. Готуй вдома без зайвих ускладнень.' });
     this.meta.updateTag({ property: 'og:image', content: img });
     this.meta.updateTag({ property: 'og:url', content: url });
 
