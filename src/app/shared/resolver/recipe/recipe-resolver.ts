@@ -106,12 +106,14 @@ export const recipeResolver: ResolveFn<RecipeResolverData | null> = (
         totalTime: seoService.convertTimeToISO(recipe.totalTime),
         recipeYield: recipe.numberServings ? `${recipe.numberServings} порцій` : undefined,
 
-        recipeCategory: recipe.dishes.dishesName,
+        recipeCategory: recipe.categoriesDishes.categoryName,
         nutrition: {
           '@type': 'NutritionInformation',
           calories: `${recipe.numberCalories} kcal`,
         },
 
+
+        
         recipeIngredient: seoService.formatIngredientsForSchema(recipe.ingredients),
         recipeInstructions: seoService.convertStepsToSchema(recipe.instructions, currentURL),
 
@@ -127,6 +129,7 @@ export const recipeResolver: ResolveFn<RecipeResolverData | null> = (
         ...(recipe.videoUrl?.trim() && { video: recipe.videoUrl }),
       };
 
+          
       // Обробка bestSeason
       const seasonImageMap: Record<string, string> = {
         winter: 'assets/icon/seasons/Winter.webp',
