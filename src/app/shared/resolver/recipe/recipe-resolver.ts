@@ -70,6 +70,8 @@ export const recipeResolver: ResolveFn<RecipeResolverData | null> = (
         currentURL: `https://tsk.in.ua${currentURL}`,
       };
 
+    
+      
       // Формуємо schema.org
       const recipeSchema = {
         '@context': 'https://schema.org/',

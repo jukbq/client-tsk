@@ -245,8 +245,6 @@ export class RecipePage {
 
     this.currentURL.set(meta.currentURL);
     this.titleService.setTitle(meta.seoName);
-console.log(meta.seoDescription);
-
     const tags: MetaDefinition[] = [
      
       { name: 'description', content: meta.seoDescription },
