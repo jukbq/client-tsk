@@ -1,6 +1,6 @@
 import { inject } from '@angular/core';
 import { ActivatedRouteSnapshot, ResolveFn, RouterStateSnapshot } from '@angular/router';
-import { map, Observable } from 'rxjs';
+import { map, Observable, take } from 'rxjs';
 import { CategoriesService } from '../../../core/services/categories/categories-service';
 
 // Тип, який резолвер повертає
@@ -20,6 +20,7 @@ export const categoryByIdResolver: ResolveFn<CategoryByIdResolveData> = (
 
 
   return categoryService.getObjectById(categoryid).pipe(
+     take(1),
     map((data) => ({
       data,
       url: `https://tsk.in.ua${currentURL}`

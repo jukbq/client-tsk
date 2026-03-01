@@ -136,9 +136,9 @@ export class RecipeList {
   private setItemListSchema(category: any, recipes: any[]) {
     const cat = category.data;
 
-    const schema = {
+    const itemListSchema = {
       '@context': 'https://schema.org',
-      '@type': 'ItemList',
+     '@type': 'CollectionPage',
       name: cat.categoryName,
       url: category.url,
       image: cat.image,
@@ -151,17 +151,49 @@ export class RecipeList {
       })),
     };
 
-    this.setSchema(schema);
+    const breadcrumbSchema = {
+      '@context': 'https://schema.org',
+      '@type': 'BreadcrumbList',
+      itemListElement: [
+        {
+          '@type': 'ListItem',
+          position: 1,
+          name: 'Головна',
+          item: 'https://tsk.in.ua/',
+        },
+        {
+          '@type': 'ListItem',
+          position: 2,
+          name: 'Рецепти Синього Кота',
+          item: 'https://tsk.in.ua/dishes',
+        },
+        {
+          '@type': 'ListItem',
+          position: 3,
+          name: cat.dishes.dishesName,
+          item: `https://tsk.in.ua/categories/${cat.dishes.id}`,
+        },
+        {
+          '@type': 'ListItem',
+          position: 4,
+          name: cat.categoryName,
+          item: category.url,
+        },
+      ],
+    };
+
+    this.setSchema([itemListSchema, breadcrumbSchema]);
   }
 
-  private setSchema(schema: any) {
+ private setSchema(schemas: any[]){
     if (this.ldJsonScript) {
       this.renderer.removeChild(this.document.head, this.ldJsonScript);
     }
+
     this.ldJsonScript = this.renderer.createElement('script');
     if (this.ldJsonScript) {
       this.ldJsonScript.type = 'application/ld+json';
-      this.ldJsonScript.text = JSON.stringify(schema);
+      this.ldJsonScript.text = JSON.stringify(schemas);
       this.renderer.appendChild(this.document.head, this.ldJsonScript);
     }
   }
@@ -190,25 +222,23 @@ export class RecipeList {
     return this.favoriteIds().includes(id);
   }
 
-toggleFavorite(id: string) {
-  const user = this.auth.currentUser;
+  toggleFavorite(id: string) {
+    const user = this.auth.currentUser;
 
-  if (!user) {
-    this.modal.open({
-      type: 'auth',
-      data: { reason: 'add-fav', recipeId: id, returnUrl: this.router.url },
-    });
-    return;
-  }
+    if (!user) {
+      this.modal.open({
+        type: 'auth',
+        data: { reason: 'add-fav', recipeId: id, returnUrl: this.router.url },
+      });
+      return;
+    }
 
-  if (this.isFavorite(id)) {
-    this.fav.removeFavorite(user.uid, id)
-      .catch(err => console.error(err));
-  } else {
-    this.fav.addFavorite(user.uid, id)
-      .catch(err => console.error(err));
+    if (this.isFavorite(id)) {
+      this.fav.removeFavorite(user.uid, id).catch((err) => console.error(err));
+    } else {
+      this.fav.addFavorite(user.uid, id).catch((err) => console.error(err));
+    }
   }
-}
 
   // ===== SCROLL EFFECTS =====
   @HostListener('window:scroll')
@@ -238,8 +268,9 @@ toggleFavorite(id: string) {
   }
 
   ngOnDestroy() {
-  if (this.ldJsonScript) {
-    this.renderer.removeChild(this.document.head, this.ldJsonScript);
+    if (!this.isBrowser) return;
+    if (this.ldJsonScript) {
+      this.renderer.removeChild(this.document.head, this.ldJsonScript);
+    }
   }
-}
 }

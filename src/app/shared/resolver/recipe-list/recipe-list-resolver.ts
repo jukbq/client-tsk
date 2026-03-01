@@ -1,11 +1,11 @@
 import { inject } from '@angular/core';
 import { ActivatedRouteSnapshot, ResolveFn } from '@angular/router';
 
-import { Observable, of } from 'rxjs';
+import { Observable, of, take } from 'rxjs';
 import { RecipeService } from '../../../core/services/recipe/recipe-service';
 
 export const recipeListResolver: ResolveFn<any[]> = (
-  route: ActivatedRouteSnapshot
+  route: ActivatedRouteSnapshot,
 ): Observable<any[]> => {
   const categoryId = route.params['categoryid'];
   const recipeService = inject(RecipeService); // ✅ ТІЛЬКИ RecipeService
@@ -14,5 +14,5 @@ export const recipeListResolver: ResolveFn<any[]> = (
     return of([]);
   }
 
-  return recipeService.getRecipeLightById(categoryId);
+  return recipeService.getRecipeLightById(categoryId).pipe(take(1));
 };
