@@ -1,10 +1,12 @@
 <section>
   <div class="background_image">
+    @if (image()) {
     <img [ngSrc]="image()" 
          [alt]="h1Title()" 
          fill 
          priority 
          class="bg_image" />
+    }
   </div>
 
   <div class="home_title">
@@ -25,10 +27,12 @@
       <div #textBlocks class="content" [class.show]="isVisible()">
         <div class="description">
           <div class="cat_img">
+            @if (additionalImage()) {
             <img [ngSrc]="additionalImage()" 
                  [alt]="h1Title()" 
                  width="400" 
                  height="400" />
+            }
           </div>
           <div [innerHTML]="dishDescription()"></div>
         </div>

@@ -58,10 +58,7 @@ export class Category {
       const wrapper = data?.dishes;
       const categories = data?.categryList;
 
-console.log(categories);
-
-
-      if (!wrapper?.data || !categories) {
+      if (!wrapper?.data || !categories?.length) {
         this.router.navigate(['/404']);
         return;
       }
@@ -92,62 +89,65 @@ console.log(categories);
     this.meta.updateTag({ property: 'og:image', content: dishes.image });
     this.meta.updateTag({ property: 'og:url', content: this.currentURL });
 
-   this.setSchema({
-  '@context': 'https://schema.org',
-  '@type': 'CollectionPage',
-  name: dishes.dishesName,
-  description: dishes.seoDescription,
-  image: dishes.image,
-  url: this.currentURL,
-  mainEntity: {
-    '@type': 'ItemList',
-    itemListElement: this.categryList().map((item, index) => ({
-      '@type': 'ListItem',
-      position: index + 1,
-      name: item.categoryName,
-      url: `${this.currentURL.replace(/\/$/, '')}/recipes-list/${item.id}`,
-    })),
-  },
-});
-
-
-this.setSchema({
-  '@context': 'https://schema.org',
-  '@type': 'BreadcrumbList',
-  itemListElement: [
-    {
-      '@type': 'ListItem',
-      position: 1,
-      name: 'Головна',
-      item: 'https://tsk.in.ua/',
-    },
-    {
-      '@type': 'ListItem',
-      position: 2,
-      name: 'Рецепти страв Таверни «Синій Кіт»',
-      item: 'https://tsk.in.ua/dishes',
-    },
-    {
-      '@type': 'ListItem',
-      position: 3,
+    const collectionSchema = {
+      '@context': 'https://schema.org',
+      '@type': 'CollectionPage',
       name: dishes.dishesName,
-      item: this.currentURL,
-    },
-  ],
-});
+      description: dishes.seoDescription,
+      image: dishes.image,
+      url: this.currentURL,
+      mainEntity: {
+        '@type': 'ItemList',
+        itemListElement: this.categryList().map((item, index) => ({
+          '@type': 'ListItem',
+          position: index + 1,
+          name: item.categoryName,
+          url: `${this.currentURL.replace(/\/$/, '')}/recipes-list/${item.id}`,
+        })),
+      },
+    };
 
+    const breadcrumbSchema = {
+      '@context': 'https://schema.org',
+      '@type': 'BreadcrumbList',
+      itemListElement: [
+        {
+          '@type': 'ListItem',
+          position: 1,
+          name: 'Головна',
+          item: 'https://tsk.in.ua/',
+        },
+        {
+          '@type': 'ListItem',
+          position: 2,
+          name: 'Рецепти страв Таверни «Синій Кіт»',
+          item: 'https://tsk.in.ua/dishes',
+        },
+        {
+          '@type': 'ListItem',
+          position: 3,
+          name: dishes.dishesName,
+          item: this.currentURL,
+        },
+      ],
+    };
 
-
-
+    this.setSchemas([collectionSchema, breadcrumbSchema]);
   }
 
-private setSchema(schema: any) {
-  const script = this.renderer.createElement('script');
-  script.type = 'application/ld+json';
-  script.text = JSON.stringify(schema);
-  this.renderer.appendChild(this.document.head, script);
-}
+  private setSchemas(schemas: any[]) {
+    const existing = this.document.getElementById('category-schema');
+    if (existing) {
+      existing.remove();
+    }
 
+    const script = this.renderer.createElement('script');
+    script.type = 'application/ld+json';
+    script.id = 'category-schema';
+    script.text = JSON.stringify(schemas);
+
+    this.renderer.appendChild(this.document.head, script);
+  }
 
   @HostListener('window:scroll')
   onScroll() {
@@ -176,5 +176,13 @@ private setSchema(schema: any) {
         this.renderer.addClass(card, 'show');
       }
     });
+  }
+
+  ngOnDestroy() {
+    if (!this.isBrowser) return;
+    const bg = this.document.querySelector('.bg_image') as HTMLElement | null;
+    if (bg) {
+      this.renderer.removeStyle(bg, 'transform');
+    }
   }
 }
