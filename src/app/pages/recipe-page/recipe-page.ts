@@ -90,6 +90,8 @@ export class RecipePage {
   instructions = signal<any[]>([]);
   accompanyingArticles = signal<any[]>([]);
 
+
+
   isNotFound = signal(false);
 
   ratingSum = signal(0);
@@ -163,6 +165,7 @@ export class RecipePage {
     this.seasons.set(ssr.bestSeason || []);
     this.ingredients.set(ssr.ingredients || []);
     this.accompanyingRecipes.set(ssr.accompanyingRecipes || []);
+    this.accompanyingArticles.set(ssr.accompanyingArticles || []);
     this.instructions.set(ssr.instructions || []);
     this.info.set(data.info || []);
 

@@ -19,7 +19,7 @@
         @for (item of accompanyingArticles(); track item.articleID) {
           @if (isExpanded() || $index === 0) {
             <li class="recipe_link">
-              <a [appSsrLink]="['recipe-page', item.articleID]">
+              <a [appSsrLink]="['article-page', item.articleID]">
                 <div class="img_black">
                   <img
                     [ngSrc]="item.articleImage"
@@ -32,7 +32,7 @@
 
               <div class="text_block">
                 <div class="recipe_name">
-                  <h4 [appSsrLink]="['recipe-page', item.articleID]">
+                  <h4 [appSsrLink]="['article-page', item.articleID]">
                     {{ item.articleName }}
                   </h4>
                 </div>

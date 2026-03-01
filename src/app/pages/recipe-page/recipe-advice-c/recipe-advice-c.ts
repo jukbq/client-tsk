@@ -31,4 +31,5 @@ export class RecipeAdviceC {
   toggleExpand(): void {
     this.isExpanded.update(v => !v);
   }
+  
 }

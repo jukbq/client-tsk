@@ -165,6 +165,8 @@ export const recipeResolver: ResolveFn<RecipeResolverData | null> = (
         ingredients: recipeService.formatIngredients(recipe.ingredients),
         accompanyingRecipes: recipeService.findRecipesWithIds(recipe.ingredients),
         accompanyingArticles: recipeService.findArticlesWithIds(recipe.ingredients),
+
+
         instructions: recipe.instructions,
         bestSeason: processedSeasons,
         advice: recipe.advice,
@@ -176,6 +178,9 @@ export const recipeResolver: ResolveFn<RecipeResolverData | null> = (
         ratingCount: recipe.ratingCount ?? 0,
       };
 
+
+ 
+      
       // Додаємо додаткові статті, якщо є
       if (recipe.articleID && recipe.articleImage && recipe.articleName) {
         recipeSSR.accompanyingArticles.push({
