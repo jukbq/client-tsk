@@ -58,6 +58,9 @@ export class Category {
       const wrapper = data?.dishes;
       const categories = data?.categryList;
 
+console.log(categories);
+
+
       if (!wrapper?.data || !categories) {
         this.router.navigate(['/404']);
         return;
