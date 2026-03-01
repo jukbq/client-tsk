@@ -89,12 +89,19 @@ export class RecipeService {
     );
   }
 
-  getRecipeLightById(categoryId: string): Observable<any[]> {
-    const queryRef = query(this.collection, where('categoriesDishes.id', '==', categoryId));
-    return collectionData(queryRef, { idField: 'id' }).pipe(
-      map((recipes) =>
-        recipes.map((recipe: any) => ({
-          id: recipe.id,
+ getRecipeLightById(categoryId: string): Observable<any[]> {
+  const queryRef = query(
+    this.collection,
+    where('categoriesDishes.id', '==', categoryId)
+  );
+
+  return from(getDocs(queryRef)).pipe(
+    map((snapshot) =>
+      snapshot.docs.map((doc) => {
+        const recipe: any = doc.data();
+
+        return {
+          id: doc.id,
           recipeTitle: recipe.recipeTitle,
           mainImage: recipe.mainImage,
           cuisine: recipe.cuisine,
@@ -103,12 +110,13 @@ export class RecipeService {
             (group.group || []).map((item: any) => ({
               name: item.selectedProduct?.productsName?.trim() || 'Невідомий інгредієнт',
               id: item.selectedProduct?.id || null,
-            })),
+            }))
           ),
-        })),
-      ),
-    );
-  }
+        };
+      })
+    )
+  );
+}
 
   getRandomRecipesByDishesID(dishesid: string, count: number): Observable<ShortRecipesResponse[]> {
     const queryRef = query(this.collection, where('dishes.id', '==', dishesid), limit(count));
