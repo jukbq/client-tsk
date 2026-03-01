@@ -138,7 +138,7 @@ export class RecipeList {
 
     const itemListSchema = {
       '@context': 'https://schema.org',
-     '@type': 'CollectionPage',
+      '@type': 'CollectionPage',
       name: cat.categoryName,
       url: category.url,
       image: cat.image,
@@ -185,7 +185,7 @@ export class RecipeList {
     this.setSchema([itemListSchema, breadcrumbSchema]);
   }
 
- private setSchema(schemas: any[]){
+  private setSchema(schemas: any[]) {
     if (this.ldJsonScript) {
       this.renderer.removeChild(this.document.head, this.ldJsonScript);
     }
