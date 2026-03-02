@@ -164,6 +164,7 @@ export class RecipePage {
     this.completion.set(ssr.completion);
     this.seasons.set(ssr.bestSeason || []);
     this.ingredients.set(ssr.ingredients || []);
+     
     this.accompanyingRecipes.set(ssr.accompanyingRecipes || []);
     this.accompanyingArticles.set(ssr.accompanyingArticles || []);
     this.instructions.set(ssr.instructions || []);
