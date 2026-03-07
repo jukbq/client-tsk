@@ -46,6 +46,7 @@ export class ArticlePage implements OnInit {
   readonly articleContent = signal<any[]>([]);
   readonly activeItem = signal(0);
   readonly adsIndexes = signal<Set<number>>(new Set());
+  readonly relatedRecipes = signal<any[]>([]);
 
   private ldJsonScript?: HTMLScriptElement;
   private menuOffset = 100;
@@ -95,6 +96,8 @@ export class ArticlePage implements OnInit {
 
     this.setupSeo(article);
     this.articleContent.set(article.articleContent || []);
+    this.relatedRecipes.set(article.relatedRecipes || []);
+    
     this.generateAdsPositions();
   }
 

@@ -48,8 +48,8 @@ section {
       @media (max-width: 980px) {
         width: 100vw;
         border: none;
-       
-     
+
+
       }
 
       h1 {
@@ -214,6 +214,14 @@ section {
               overflow-wrap: break-word;
               text-justify: inter-word;
             }
+
+            .seo_block {
+              background: #f4ead7;
+              padding: 20px;
+              border-radius: 10px;
+              font-size: 1rem;
+              line-height: 1.8;
+            }
           }
         }
       }
@@ -273,6 +281,67 @@ section {
           }
         }
       }
+
+      .related_recipes_block {
+  width: 100%;
+  margin-top: 40px;
+
+  .related_title {
+    text-align: center;
+    font-size: 2rem;
+    margin-bottom: 25px;
+  }
+
+  .related_grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+
+    @media (max-width: 900px) {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    @media (max-width: 500px) {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .related_card {
+    text-decoration: none;
+    background: var(--clr-2);
+    border-radius: 12px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+
+    &:hover {
+      transform: translateY(-5px);
+    }
+
+    .related_image {
+      width: 100%;
+      height: 180px;
+      overflow: hidden;
+
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.4s;
+      }
+    }
+
+    &:hover img {
+      transform: scale(1.08);
+    }
+
+    .related_name {
+      padding: 12px;
+      font-weight: 600;
+      color: var(--clr-4);
+      text-align: center;
+    }
+  }
+}
     }
   }
 }
