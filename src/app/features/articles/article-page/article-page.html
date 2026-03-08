@@ -21,10 +21,6 @@
         }
       </div>
 
-      <div class="adsense_block">
-        <app-display-ads></app-display-ads>
-      </div>
-
       <nav aria-label="breadcrumb" class="bread_crumbs">
         <div class="breadcrumb-wrapper">
           <ol class="breadcrumb">
@@ -73,6 +69,7 @@
                   />
                 </div>
               }
+
               @if (item.recipeID) {
                 <div class="recipe_link_block">
                   <h3>Рецепт в тему</h3>
@@ -81,14 +78,10 @@
                       <div class="img_black">
                         <img [ngSrc]="item.mainImage" width="300" height="180" alt="recipe" />
                       </div>
-                    </a>
-                    <div class="text_block">
                       <div class="recipe_name">
-                        <h4 [appSsrLink]="['recipe-page', item.recipeID]">
-                          {{ item.recipeName }}
-                        </h4>
+                        <h4>{{ item.recipeName }}</h4>
                       </div>
-                    </div>
+                    </a>
                   </div>
                 </div>
               }
@@ -101,7 +94,7 @@
           }
         </ul>
       </div>
-      
+
       @if (relatedRecipes().length) {
         <div class="related_recipes_block">
           <h2 class="related_title">Що приготувати</h2>

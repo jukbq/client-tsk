@@ -14,7 +14,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { SeoService } from '../../../core/services/seo/seo-service';
 import { Meta, MetaDefinition, Title } from '@angular/platform-browser';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { DisplayAds } from '../../../shared/components/adsense/display-ads/display-ads';
+import { DisplayAds } from "../../../shared/components/adsense/display-ads/display-ads";
 
 @Component({
   selector: 'app-article-page',
@@ -93,9 +93,12 @@ export class ArticlePage implements OnInit {
     this.aticleCategoryID.set(article.articleCategory?.id);
     this.aticleCategoryName.set(article.articleCategory?.aticleCategoryName);
     this.articleContent.set(article.articleContent || []);
+   (article.articleContent || []).forEach((item: { recipeName: any; }) => {
+  console.log(item.recipeName);
+});
+    
 
     this.setupSeo(article);
-    this.articleContent.set(article.articleContent || []);
     this.relatedRecipes.set(article.relatedRecipes || []);
     
     this.generateAdsPositions();

@@ -6,42 +6,32 @@
 
 section {
   width: 100vw;
-  min-height: 100vh;
+  position: relative;
   display: flex;
-  flex-direction: column;
-  align-items: center;
+  justify-content: center;
   margin-top: var(--header-height);
 
   .article_bloxk {
     width: 100%;
-    max-width: 1440px; // Обмеження для дуже великих екранів
     display: flex;
     align-items: flex-start;
     justify-content: center;
 
-
-
     .ads {
-      width: 20%;
-      position: sticky;
-      top: calc(var(--header-height) + 20px);
-      padding: 0 10px;
+      width: 15%;
 
       @media (max-width: 980px) {
-        display: none; // Ховаємо бічну рекламу на мобайлі
+        display: none;
       }
     }
 
     .article_bosy {
-      width: 60%;
+      width: 70%;
       min-height: 100vh;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      border-left: 1px solid var(--clr-g, #eee);
-      border-right: 1px solid var(--clr-g, #eee);
-      padding: 0 2vw;
       text-align: left; // Текст статті зазвичай краще читається зліва
       background: var(--clr-1);
 
@@ -62,7 +52,6 @@ section {
       .image_block {
         width: 100%;
         margin-bottom: 25px;
-        border-radius: 12px;
         overflow: hidden;
         display: flex;
         justify-content: center;
@@ -81,23 +70,17 @@ section {
         }
       }
 
-      // Стилі для реклами в контенті
-      /*.adsense_block {
-        width: 100%;
-        display: flex;
-        justify-content: center;
-      } */
 
       .bread_crumbs {
         width: 100%;
-        margin: 15px 0;
-        padding-bottom: 10px;
+        margin-bottom: 20px;
         border-bottom: 1px solid #ccc;
 
         .breadcrumb-wrapper {
           overflow-x: auto;
           white-space: nowrap;
           scrollbar-width: none; // Ховаємо скроллбар у Firefox
+          padding: 0px 10px !important; // Додаємо падінг для кращого вигляду
 
           &::-webkit-scrollbar {
             display: none;
@@ -143,6 +126,7 @@ section {
       }
 
       .menu_block {
+        width: 80%;
         background: var(--clr-2);
         padding: 20px;
         border-radius: 8px;
@@ -197,7 +181,7 @@ section {
             margin-bottom: 40px;
 
             h2 {
-              margin: 25px 0 15px;
+              margin: 25px 10px  15px;
               color: var(--clr-b, #222);
               text-align: center;
             }
@@ -216,9 +200,11 @@ section {
             }
 
             .seo_block {
-              background: #f4ead7;
+              background: var(--clr-2);
+              ;
               padding: 20px;
-              border-radius: 10px;
+              border-top: 1px dashed #ff5500;
+              border-bottom: 1px dashed #ff5500;
               font-size: 1rem;
               line-height: 1.8;
             }
@@ -229,31 +215,38 @@ section {
       .recipe_link_block {
         background: var(--clr-2);
         padding: 20px;
-        border-radius: 10px;
-        border: 1px dashed #ff5500;
-        margin-top: 20px;
+        border-top: 1px dashed #ff5500;
+        border-bottom: 1px dashed #ff5500;
 
         h3 {
+          width: 100%;
+          text-align: center;
           color: #ff5500;
-          margin-bottom: 15px;
+          margin: 0;
         }
 
-        .recipe_link {
+        .recipe_link a{
           display: flex;
+          flex-direction: row;
           gap: 20px;
           align-items: center;
           text-decoration: none;
+          margin-top: 20px;
 
-          @media (max-width: 500px) {
-            flex-direction: column;
+
+          @media (max-width: 520px) {
+                       flex-direction: column;
           }
 
           .img_black {
-            width: 200px;
-            height: 120px;
+            width: 50%;
             border-radius: 8px;
             overflow: hidden;
             flex-shrink: 0;
+
+                @media (max-width: 520px) {
+             width: 100%;
+          }
 
             img {
               width: 100%;
@@ -263,16 +256,10 @@ section {
             }
           }
 
-          .text_block {
-            flex-grow: 1;
-
-            h4 {
+          .recipe_name {
+                h4 {
               margin: 0;
-              color: #222;
-
-              &:hover {
-                color: #ff5500;
-              }
+              color: #ff5500;
             }
           }
 
@@ -283,65 +270,67 @@ section {
       }
 
       .related_recipes_block {
-  width: 100%;
-  margin-top: 40px;
-
-  .related_title {
-    text-align: center;
-    font-size: 2rem;
-    margin-bottom: 25px;
-  }
-
-  .related_grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 20px;
-
-    @media (max-width: 900px) {
-      grid-template-columns: repeat(2, 1fr);
-    }
-
-    @media (max-width: 500px) {
-      grid-template-columns: 1fr;
-    }
-  }
-
-  .related_card {
-    text-decoration: none;
-    background: var(--clr-2);
-    border-radius: 12px;
-    overflow: hidden;
-    transition: all 0.3s ease;
-
-    &:hover {
-      transform: translateY(-5px);
-    }
-
-    .related_image {
-      width: 100%;
-      height: 180px;
-      overflow: hidden;
-
-      img {
         width: 100%;
-        height: 100%;
-        object-fit: cover;
-        transition: transform 0.4s;
+        margin-top: 40px;
+    
+
+        .related_title {
+          text-align: center;
+          font-size: 2rem;
+          margin-bottom: 25px;
+        }
+
+        .related_grid {
+          display: grid;
+          grid-template-columns: repeat(3, 1fr);
+          gap: 20px;
+          padding: 20px;
+
+          @media (max-width: 900px) {
+            grid-template-columns: repeat(2, 1fr);
+          }
+
+          @media (max-width: 500px) {
+            grid-template-columns: 1fr;
+          }
+        }
+
+        .related_card {
+          text-decoration: none;
+          background: var(--clr-2);
+          border-radius: 12px;
+          overflow: hidden;
+          transition: all 0.3s ease;
+
+          &:hover {
+            transform: translateY(-5px);
+          }
+
+          .related_image {
+            width: 100%;
+            height: 180px;
+            overflow: hidden;
+
+            img {
+              width: 100%;
+              height: 100%;
+              object-fit: cover;
+              transition: transform 0.4s;
+            }
+          }
+
+          &:hover img {
+            transform: scale(1.08);
+          }
+
+          .related_name {
+            padding: 12px;
+            font-weight: 600;
+            color: var(--clr-4);
+            text-align: center;
+          }
+        }
       }
-    }
-
-    &:hover img {
-      transform: scale(1.08);
-    }
-
-    .related_name {
-      padding: 12px;
-      font-weight: 600;
-      color: var(--clr-4);
-      text-align: center;
-    }
-  }
-}
     }
   }
 }
