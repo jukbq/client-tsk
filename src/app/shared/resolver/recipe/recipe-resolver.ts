@@ -111,7 +111,7 @@ export const recipeResolver: ResolveFn<RecipeResolverData | null> = (
         recipeCategory: recipe.categoriesDishes.categoryName,
         nutrition: {
           '@type': 'NutritionInformation',
-          calories: `${recipe.numberCalories} kcal`,
+          calories: `${recipe.numberCalories}`,
         },
 
 
