@@ -3,8 +3,9 @@ import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
 import { Header } from './shared/components/header/header';
 import { isPlatformBrowser } from '@angular/common';
 import { filter } from 'rxjs';
-import { Footer } from "./shared/components/footer/footer";
-import { AuthModal } from "./shared/components/auth-modal/auth-modal";
+import { Footer } from './shared/components/footer/footer';
+import { AuthModal } from './shared/components/auth-modal/auth-modal';
+import { AdsenseLoaderService } from './core/services/adsense-loader/adsense-loader';
 
 @Component({
   selector: 'app-root',
@@ -13,34 +14,46 @@ import { AuthModal } from "./shared/components/auth-modal/auth-modal";
   styleUrl: './app.scss',
 })
 export class App {
-// Залежності
+  // Залежності
   private readonly router = inject(Router);
   private readonly platformId = inject(PLATFORM_ID);
   private readonly isBrowser = isPlatformBrowser(this.platformId);
+  private adsLoaded = false;
 
-// Стан (Signals)
+  // Стан (Signals)
   protected readonly title = signal('Таверна Синій кіт');
   hideFooter = signal(false);
   isScrollVisible = signal(false);
   showPatreonPopup = signal(false);
 
-constructor() {
+  constructor(private ads: AdsenseLoaderService) {
     if (this.isBrowser) {
       this.initNavigationLogic();
       this.initPatreonTimer();
     }
   }
 
+ngAfterViewInit() {
+  if (!this.isBrowser || this.adsLoaded) return;
+
+  this.adsLoaded = true;
+
+  const loadAds = () => this.ads.load();
+
+  if ('requestIdleCallback' in window) {
+    (window as any).requestIdleCallback(loadAds);
+  } else {
+    setTimeout(loadAds, 2000);
+  }
+}
   private initNavigationLogic() {
     this.router.events
-      .pipe(filter(event => event instanceof NavigationEnd))
+      .pipe(filter((event) => event instanceof NavigationEnd))
       .subscribe((event: NavigationEnd) => {
         const route = this.router.routerState.snapshot.root.firstChild;
-        
+
         // 1. Керування футером через дані роуту
         this.hideFooter.set(!!route?.data?.['hideFooter']);
-
-                 
       });
   }
 
@@ -70,7 +83,4 @@ constructor() {
   closePatreonPopup(): void {
     this.showPatreonPopup.set(false);
   }
-
-
-  
 }
