@@ -106,12 +106,12 @@ export const recipeResolver: ResolveFn<RecipeResolverData | null> = (
         prepTime: seoService.convertTimeToISO(recipe.prepTime),
         cookTime: seoService.convertTimeToISO(recipe.cookTime),
         totalTime: seoService.convertTimeToISO(recipe.totalTime),
-        recipeYield: recipe.numberServings ? `${recipe.numberServings} порцій` : undefined,
+        recipeYield: recipe.numberServings ? `${recipe.numberServings} шт.` : undefined,
 
         recipeCategory: recipe.categoriesDishes.categoryName,
         nutrition: {
           '@type': 'NutritionInformation',
-          calories: `${recipe.numberCalories}`,
+         calories: `${recipe.numberCalories} kcal per 100g`
         },
 
 
