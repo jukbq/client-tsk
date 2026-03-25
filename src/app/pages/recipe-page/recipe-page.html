@@ -22,6 +22,7 @@
       <div class="ads"></div>
       <div class="recipe_body">
         <section id="recipe-about">
+
           <app-breadcrumb
             [dishesID]="dishesID()"
             [dishesName]="dishesName()"
@@ -40,11 +41,6 @@
           >
           </app-recipe-header>
 
-          <app-recipe-descriptio
-            [recipeSubtitles]="recipeSubtitles()"
-            [descriptionRecipe]="descriptionRecipe()"
-          ></app-recipe-descriptio>
-        </section>
         <app-recipe-info [seasons]="seasons()" [info]="info()"></app-recipe-info>
 
         <section id="ingredients" class="ingredients">
@@ -53,6 +49,15 @@
             [ingredients]="ingredients()"
           ></app-ingredients>
         </section>
+
+      
+      
+          <app-recipe-descriptio
+            [recipeSubtitles]="recipeSubtitles()"
+            [descriptionRecipe]="descriptionRecipe()"
+          ></app-recipe-descriptio>
+        </section>
+      
 
         <div class="adsense_block">
           <app-display-ads></app-display-ads>
