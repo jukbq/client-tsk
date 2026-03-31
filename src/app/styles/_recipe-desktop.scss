@@ -238,6 +238,10 @@ section {
           &:hover {
             transform: translateY(-8px);
             box-shadow: 0 14px 30px rgba(0, 0, 0, 0.7);
+
+            .seoDescription {
+              opacity: 1;
+            }
           }
 
           a {
@@ -301,6 +305,30 @@ section {
               transform: none;
             }
           }
+
+          .seoDescription {
+            position: absolute;
+
+            inset: 0;
+            padding: 10px;
+            font-size: 0.85rem;
+            background: rgba(0, 0, 0, 0.9);
+            color: #fff;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+
+            opacity: 0;
+            transition: opacity 0.3s ease;
+
+            pointer-events: none;
+
+
+
+          }
+
         }
 
         @media (max-width: 1024px) {
@@ -321,6 +349,53 @@ section {
           }
         }
       }
+    }
+  }
+
+  .faq_block {
+    width: 70%;
+    margin: 3rem auto;
+    text-align: left;
+
+        @media (max-width: 768px) {
+      width: 95%;
+    }
+
+
+    h2 {
+      text-align: center;
+      font-size: 2rem;
+      margin-bottom: 2rem;
+    }
+  }
+
+  .faq_item {
+    margin-bottom: 1.5rem;
+    padding: 1rem 1.2rem;
+    background: rgba(0, 0, 0, 0.4);
+    border-radius: 8px;
+
+    h3 {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+
+      font-size: 1.1rem; // 🔥 головне — зменшили
+    
+    }
+
+    .faq_icon {
+      color: #ff4444;
+      font-size: 1rem;
+    }
+
+    p {
+      margin-top: 0.5rem;
+      margin-left: 1.6rem;
+
+      font-size: 0.95rem;
+      line-height: 1.5;
+      opacity: 0.9;
     }
   }
 }

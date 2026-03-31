@@ -71,11 +71,29 @@
                 height="32"
               />
             </div>
+
+            <div class="seoDescription">
+              {{ recipe.seoDescription }}
+            </div>
           </li>
         }
       </ul>
     </div>
   </div>
+
+@if (categoryFaq().length){
+  <div class="faq_block">
+    <h2>Поширені питання</h2>
+
+    @for (item of categoryFaq(); track item.question) {
+      <div class="faq_item">
+        <h3>{{ item.question }}</h3>
+        <p>{{ item.answer }}</p>
+      </div>
+    }
+  </div>
+}
+
 </section>
 
 

@@ -56,6 +56,8 @@ export class RecipeList {
   isVisible = signal(false);
   fontSize = signal('5vh');
 
+  categoryFaq = signal<any[]>([]);
+
   readonly isBrowser = isPlatformBrowser(this.platformId);
 
   private currentURL = '';
@@ -111,6 +113,7 @@ export class RecipeList {
     this.categoryDescription.set(cat.categoryDescription);
     this.dishesName.set(cat.dishes.dishesName);
     this.dishesID.set(cat.dishes.id);
+    this.categoryFaq.set(cat.faq || []);
 
     this.currentURL = category.url;
 
@@ -136,6 +139,24 @@ export class RecipeList {
   private setItemListSchema(category: any, recipes: any[]) {
     const cat = category.data;
 
+    const faqItems = cat.faq || [];
+
+    const faqSchema = faqItems.length
+      ? {
+          '@context': 'https://schema.org',
+          '@type': 'FAQPage',
+          mainEntity: faqItems.map((item: any) => ({
+            '@type': 'Question',
+            name: item.question,
+            acceptedAnswer: {
+              '@type': 'Answer',
+              text: item.answer,
+            },
+          })),
+        }
+      : null;
+
+    
     const itemListSchema = {
       '@context': 'https://schema.org',
       '@type': 'CollectionPage',
@@ -147,6 +168,7 @@ export class RecipeList {
         '@type': 'ListItem',
         position: index + 1,
         name: recipe.recipeTitle,
+        seoDescription: this.stripHtml(recipe.recipeDescription),
         url: `https://tsk.in.ua/recipe-page/${recipe.id}`,
       })),
     };
@@ -182,7 +204,11 @@ export class RecipeList {
       ],
     };
 
-    this.setSchema([itemListSchema, breadcrumbSchema]);
+    this.setSchema(
+  faqSchema
+    ? [itemListSchema, breadcrumbSchema, faqSchema]
+    : [itemListSchema, breadcrumbSchema]
+);
   }
 
   private setSchema(schemas: any[]) {

@@ -103,6 +103,7 @@ export class RecipeService {
             mainImage: recipe.mainImage,
             cuisine: recipe.cuisine,
             region: recipe.region,
+            seoDescription: recipe.seoDescription,
             ingredients: (recipe.ingredients || []).flatMap((group: any) =>
               (group.group || []).map((item: any) => ({
                 name: item.selectedProduct?.productsName?.trim() || 'Невідомий інгредієнт',
