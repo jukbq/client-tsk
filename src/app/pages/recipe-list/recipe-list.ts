@@ -219,19 +219,24 @@ export class RecipeList {
     this.ldJsonScript = this.renderer.createElement('script');
     if (this.ldJsonScript) {
       this.ldJsonScript.type = 'application/ld+json';
-      this.ldJsonScript.text = JSON.stringify(schemas);
+     this.ldJsonScript.text = JSON.stringify({
+  '@context': 'https://schema.org',
+  '@graph': schemas
+});
       this.renderer.appendChild(this.document.head, this.ldJsonScript);
     }
   }
 
   private stripHtml(html: string): string {
-    return html
-      ?.replace(/<[^>]+>/g, '')
-      .replace(/\s+/g, ' ')
-      .trim()
-      .slice(0, 300);
-  }
+  const text = html
+    ?.replace(/<[^>]+>/g, '')
+    .replace(/\s+/g, ' ')
+    .trim();
 
+  return text.length > 300
+    ? text.slice(0, text.lastIndexOf(' ', 300)) + '...'
+    : text;
+}
   // ===== UI =====
   updateFontSize(name: string) {
     if (!this.isBrowser) return;
