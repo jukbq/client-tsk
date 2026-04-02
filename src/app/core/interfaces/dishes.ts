@@ -1,3 +1,9 @@
+
+export interface DishesFaqItem {
+  question: string;
+  answer: string;
+}
+
 export interface DishesRequest {
   dishesindex: number;
   slug: string;
@@ -9,6 +15,8 @@ export interface DishesRequest {
   image: string;
   additionalImage: string;
   numberСategories: number;
+
+  faq?: DishesFaqItem[]; 
 }
 export interface DishesResponse extends DishesRequest {
   id: number | string;

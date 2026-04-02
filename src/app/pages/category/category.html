@@ -1,11 +1,7 @@
 <section>
   <div class="background_image">
     @if (image()) {
-    <img [ngSrc]="image()" 
-         [alt]="h1Title()" 
-         fill 
-         priority 
-         class="bg_image" />
+      <img [ngSrc]="image()" [alt]="h1Title()" fill priority class="bg_image" />
     }
   </div>
 
@@ -20,18 +16,13 @@
     </nav>
   </div>
 
-
-
   <div class="list_block">
     <div class="description_block">
       <div #textBlocks class="content" [class.show]="isVisible()">
         <div class="description">
           <div class="cat_img">
             @if (additionalImage()) {
-            <img [ngSrc]="additionalImage()" 
-                 [alt]="h1Title()" 
-                 width="400" 
-                 height="400" />
+              <img [ngSrc]="additionalImage()" [alt]="h1Title()" width="400" height="400" />
             }
           </div>
           <div [innerHTML]="dishDescription()"></div>
@@ -39,10 +30,7 @@
       </div>
     </div>
 
-
-      <h2 class="subcategory-title">
- Обери розділ у «{{ h1Title() }}»
-</h2>
+    <h2 class="subcategory-title">Обери розділ у «{{ h1Title() }}»</h2>
 
     <div class="dishes_list_block">
       <ul class="dishes_list">
@@ -50,10 +38,12 @@
           <li class="dishes_card">
             <a [appSsrLink]="['recipes-list', category.id]">
               <div class="img_black">
-                <img [ngSrc]="category.image" 
-                     [alt]="category.categoryName" 
-                     width="400" 
-                     height="225" />
+                <img
+                  [ngSrc]="category.image"
+                  [alt]="category.categoryName"
+                  width="400"
+                  height="225"
+                />
               </div>
             </a>
             <div class="text_block">
@@ -68,4 +58,17 @@
       </ul>
     </div>
   </div>
+
+  @if (faq().length) {
+    <div class="faq_block">
+      <h2>Поширені питання</h2>
+
+      @for (item of faq(); track $index){
+        <div class="faq_item">
+          <h3>{{ item.question }}</h3>
+          <p>{{ item.answer }}</p>
+        </div>
+      }
+    </div>
+  }
 </section>
