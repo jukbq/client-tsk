@@ -61,7 +61,7 @@ export class RecipeList {
   readonly isBrowser = isPlatformBrowser(this.platformId);
 
   private currentURL = '';
-  private ldJsonScript?: HTMLScriptElement;
+
 
   // ===== INIT =====
   ngOnInit() {
@@ -96,10 +96,25 @@ export class RecipeList {
       const sorted = [...recipes].sort((a, b) => a.recipeTitle.localeCompare(b.recipeTitle));
 
       this.recipesFilter.set(sorted);
-      this.recipeStateService.setRecipes(sorted);
 
-      // 3️⃣ Schema ТІЛЬКИ ТЕПЕР
-      this.setItemListSchema(data.category, sorted);
+      const itemListSchema = {
+        '@type': 'CollectionPage',
+        name: data.category.data.categoryName,
+        url: data.category.url,
+        description: this.stripHtml(data.category.data.categoryDescription),
+        itemListElement: data.recipes.map((recipe: any, index: number) => ({
+          '@type': 'ListItem',
+          position: index + 1,
+          name: recipe.recipeTitle,
+          url: `https://tsk.in.ua/recipe-page/${recipe.id}`,
+        })),
+      };
+
+      this.seoServices.setSchema({
+        '@context': 'https://schema.org',
+        '@graph': [...data.category.schemas, itemListSchema],
+      });
+      this.recipeStateService.setRecipes(sorted);
     });
   }
 
@@ -135,108 +150,18 @@ export class RecipeList {
     this.updateFontSize(cat.categoryName);
   }
 
-  // ===== SCHEMA =====
-  private setItemListSchema(category: any, recipes: any[]) {
-    const cat = category.data;
 
-    const faqItems = cat.faq || [];
 
-    const faqSchema = faqItems.length
-      ? {
-          '@context': 'https://schema.org',
-          '@type': 'FAQPage',
-          mainEntity: faqItems.map((item: any) => ({
-            '@type': 'Question',
-            name: item.question,
-            acceptedAnswer: {
-              '@type': 'Answer',
-              text: item.answer,
-            },
-          })),
-        }
-      : null;
 
-    
-    const itemListSchema = {
-      '@context': 'https://schema.org',
-      '@type': 'CollectionPage',
-      name: cat.categoryName,
-      url: category.url,
-      image: cat.image,
-      description: this.stripHtml(cat.categoryDescription),
-      itemListElement: recipes.map((recipe, index) => ({
-        '@type': 'ListItem',
-        position: index + 1,
-        name: recipe.recipeTitle,
-        seoDescription: this.stripHtml(recipe.recipeDescription),
-        url: `https://tsk.in.ua/recipe-page/${recipe.id}`,
-      })),
-    };
-
-    const breadcrumbSchema = {
-      '@context': 'https://schema.org',
-      '@type': 'BreadcrumbList',
-      itemListElement: [
-        {
-          '@type': 'ListItem',
-          position: 1,
-          name: 'Головна',
-          item: 'https://tsk.in.ua/',
-        },
-        {
-          '@type': 'ListItem',
-          position: 2,
-          name: 'Рецепти Синього Кота',
-          item: 'https://tsk.in.ua/dishes',
-        },
-        {
-          '@type': 'ListItem',
-          position: 3,
-          name: cat.dishes.dishesName,
-          item: `https://tsk.in.ua/categories/${cat.dishes.id}`,
-        },
-        {
-          '@type': 'ListItem',
-          position: 4,
-          name: cat.categoryName,
-          item: category.url,
-        },
-      ],
-    };
-
-    this.setSchema(
-  faqSchema
-    ? [itemListSchema, breadcrumbSchema, faqSchema]
-    : [itemListSchema, breadcrumbSchema]
-);
-  }
-
-  private setSchema(schemas: any[]) {
-    if (this.ldJsonScript) {
-      this.renderer.removeChild(this.document.head, this.ldJsonScript);
-    }
-
-    this.ldJsonScript = this.renderer.createElement('script');
-    if (this.ldJsonScript) {
-      this.ldJsonScript.type = 'application/ld+json';
-     this.ldJsonScript.text = JSON.stringify({
-  '@context': 'https://schema.org',
-  '@graph': schemas
-});
-      this.renderer.appendChild(this.document.head, this.ldJsonScript);
-    }
-  }
 
   private stripHtml(html: string): string {
-  const text = html
-    ?.replace(/<[^>]+>/g, '')
-    .replace(/\s+/g, ' ')
-    .trim();
+    const text = html
+      ?.replace(/<[^>]+>/g, '')
+      .replace(/\s+/g, ' ')
+      .trim();
 
-  return text.length > 300
-    ? text.slice(0, text.lastIndexOf(' ', 300)) + '...'
-    : text;
-}
+    return text.length > 300 ? text.slice(0, text.lastIndexOf(' ', 300)) + '...' : text;
+  }
   // ===== UI =====
   updateFontSize(name: string) {
     if (!this.isBrowser) return;
@@ -300,8 +225,6 @@ export class RecipeList {
 
   ngOnDestroy() {
     if (!this.isBrowser) return;
-    if (this.ldJsonScript) {
-      this.renderer.removeChild(this.document.head, this.ldJsonScript);
-    }
+
   }
 }

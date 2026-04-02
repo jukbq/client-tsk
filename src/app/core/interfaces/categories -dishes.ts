@@ -1,5 +1,11 @@
 import { DishesResponse } from "./dishes";
 
+
+export interface CategoryFaqItem {
+  question: string;
+  answer: string;
+}
+
 export interface CategoriesDishesRequest {
     dishes: DishesResponse,
     dishesName: DishesResponse,
@@ -13,6 +19,8 @@ export interface CategoriesDishesRequest {
     seoCategoryName: string,
     seoCategoryDescription: string,
     image: string,
+
+      faq?: CategoryFaqItem[]; 
 }
 
 export interface CategoriesDishesResponse extends CategoriesDishesRequest {
