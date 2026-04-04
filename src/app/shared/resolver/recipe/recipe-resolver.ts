@@ -106,12 +106,12 @@ export const recipeResolver: ResolveFn<RecipeResolverData | null> = (
         prepTime: seoService.convertTimeToISO(recipe.prepTime),
         cookTime: seoService.convertTimeToISO(recipe.cookTime),
         totalTime: seoService.convertTimeToISO(recipe.totalTime),
-        recipeYield: recipe.numberServings ? `${recipe.numberServings} шт.` : undefined,
+        recipeYield: recipe.numberServings ? `${recipe.numberServings} servings` : undefined,
 
         recipeCategory: recipe.categoriesDishes.categoryName,
         nutrition: {
           '@type': 'NutritionInformation',
-         calories: `${recipe.numberCalories} kcal per 100g`
+         calories: `${recipe.numberCalories} kcal`,
         },
 
 
@@ -119,6 +119,7 @@ export const recipeResolver: ResolveFn<RecipeResolverData | null> = (
         recipeIngredient: seoService.formatIngredientsForSchema(recipe.ingredients),
         recipeInstructions: seoService.convertStepsToSchema(recipe.instructions, currentURL),
 
+  
         ...(recipe.ratingCount > 0 && {
           aggregateRating: {
             '@type': 'AggregateRating',
@@ -130,6 +131,9 @@ export const recipeResolver: ResolveFn<RecipeResolverData | null> = (
         url: `https://tsk.in.ua${currentURL}`,
         ...(recipe.videoUrl?.trim() && { video: recipe.videoUrl }),
       };
+
+            console.log(recipeSchema.recipeInstructions);
+        
 
           
       // Обробка bestSeason

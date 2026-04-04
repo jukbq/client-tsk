@@ -146,21 +146,24 @@ export class SeoService {
     const schemaSteps: any[] = [];
     let globalStepIndex = 1;
 
-    const cleanTextForSchema = (html: string): string => {
-      return (
-        html
-          // прибираємо HTML
-          .replace(/<[^>]*>/g, '')
-          // HTML entities → нормальний текст
-          .replace(/&nbsp;/g, ' ')
-          .replace(/&mdash;/g, '—')
-          .replace(/&ndash;/g, '–')
-          .replace(/&times;/g, '×')
-          // зайві пробіли
-          .replace(/\s+/g, ' ')
-          .trim()
-      );
-    };
+const cleanTextForSchema = (html: string): string => {
+  return html
+    // видаляємо блоки з 💡 до кінця абзацу
+    .replace(/💡.*?(<\/p>|$)/gis, '')
+
+    // видаляємо HTML
+    .replace(/<[^>]*>/g, ' ')
+
+    // entities
+    .replace(/&nbsp;/g, ' ')
+    .replace(/&mdash;/g, '—')
+    .replace(/&ndash;/g, '–')
+    .replace(/&rsquo;/g, "'")
+
+    // прибрати зайві пробіли
+    .replace(/\s+/g, ' ')
+    .trim();
+};
 
     const origin = this.document?.location?.origin || 'https://tsk.in.ua';
 
@@ -168,7 +171,7 @@ export class SeoService {
       for (const step of group.group) {
         if (!step.description?.trim()) continue;
 
-        const text = cleanTextForSchema(step.description);
+        const text = cleanTextForSchema(step.fullDescription);
         if (!text) continue;
 
         const stepData: any = {
