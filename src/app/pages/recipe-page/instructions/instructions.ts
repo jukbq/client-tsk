@@ -17,7 +17,7 @@ export class Instructions {
 
   private sanitizer = inject(DomSanitizer);
   private isBrowser = isPlatformBrowser(inject(PLATFORM_ID));
-  private initialOpenCount = 1;
+  private initialOpenCount = 3;
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['instructions']) {
