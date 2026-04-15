@@ -25,24 +25,23 @@ export class Instructions {
     }
   }
 
-  private initializeAccordions() {
-    const newState: { [key: string]: boolean } = {};
-    let opened = 0;
-    const data = this.instructions() || [];
+private initializeAccordions() {
+  const newState: { [key: string]: boolean } = {};
+  const data = this.instructions() || [];
 
-    data.forEach((stepBlock, i) => {
-      stepBlock.group?.forEach((group: any, j: number) => {
-        const key = `${i}-${j}`;
-        if (group.fullDescription && opened < this.initialOpenCount) {
-          newState[key] = true;
-          opened++;
-        } else {
-          newState[key] = false;
-        }
-      });
+  data.forEach((stepBlock, i) => {
+    stepBlock.group?.forEach((group: any, j: number) => {
+      const key = `${i}-${j}`;
+
+      // Всі відкриті
+      if (group.fullDescription) {
+        newState[key] = true;
+      }
     });
-    this.accordionState.set(newState);
-  }
+  });
+
+  this.accordionState.set(newState);
+}
 
   toggleAccordion(i: number, j: number): void {
     const key = `${i}-${j}`;
