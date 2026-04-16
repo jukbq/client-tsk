@@ -1,4 +1,4 @@
-import { Component, computed, inject, input, Input, signal } from '@angular/core';
+import { Component, computed, inject, input, signal } from '@angular/core';
 import { SsrLinkDirective } from '../../../shared/SsrLinkDirective/ssr-link.directive';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { NgOptimizedImage } from '@angular/common';
@@ -15,6 +15,7 @@ export class RecipeAdviceC {
   // Inputs як сигнали
   advice = input<string>('');
   completion = input<string>('');
+  faq = input<{ question: string; answer: string }[]>([]);
   accompanyingArticles = input<any[]>([]);
 
   // Локальний стан розгортання
@@ -23,6 +24,12 @@ export class RecipeAdviceC {
   // Оптимізоване очищення HTML через computed
   safeAdvice = computed(() => this.sanitize(this.advice()));
   safeCompletion = computed(() => this.sanitize(this.completion()));
+  safeFaq = computed(() =>
+    this.faq().map(item => ({
+      question: item?.question || '',
+      answer: this.sanitize(item?.answer || ''),
+    })),
+  );
 
   private sanitize(html: string): SafeHtml {
     return this.sanitizer.bypassSecurityTrustHtml(html || '');

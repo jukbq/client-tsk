@@ -10,6 +10,20 @@
   </div>
 }
 
+@if (safeFaq().length > 0) {
+  <div class="faq_block">
+    <h2>Часті питання</h2>
+    <ul>
+      @for (item of safeFaq(); track $index) {
+        <li class="faq_item">
+          <h3>{{ item.question }}</h3>
+          <div class="text" [innerHTML]="item.answer"></div>
+        </li>
+      }
+    </ul>
+  </div>
+}
+
 @if (accompanyingArticles().length > 0) {
   <div class="article_topic">
     <h2>Статті в тему</h2>

@@ -6,7 +6,6 @@
   justify-content: center;
   color: var(--clr-2);
 
-  // --- БЛОК МЕНЮ ---
   .menu_block {
     width: 100vw;
     position: fixed;
@@ -38,7 +37,7 @@
       }
 
       @media (max-width: 780px) {
-        height: 8vh; // Меню стає вищим на мобільних
+        height: 8vh;
         flex-wrap: wrap;
       }
 
@@ -91,19 +90,17 @@
     }
   }
 
-  // --- ОСНОВНИЙ КОНТЕНТ ---
   .recipe_block {
     width: 100%;
     display: flex;
     align-items: flex-start;
     justify-content: center;
 
-    // Виправлення CLS: Резервуємо місце під меню відразу
     padding-top: calc(var(--header-height) + 4vh);
     transition: padding-top 0.3s ease;
 
     @media (max-width: 780px) {
-      padding-top: calc(var(--header-height) + 8vh); // Корекція під мобільне меню
+      padding-top: calc(var(--header-height) + 8vh);
     }
 
     .ads {
@@ -124,7 +121,6 @@
         width: 100%;
       }
 
-      // --- РЕЗЕРВУВАННЯ МІСЦЯ ПІД КОМПОНЕНТИ (CLS FIX) ---
       app-breadcrumb {
         display: block;
         min-height: 24px;
@@ -134,26 +130,14 @@
       app-recipe-header {
         display: block;
         min-height: 450px;
-        background-color: var(--clr-4); // Фон, поки не завантажилась картинка
+        background-color: var(--clr-4);
         overflow: hidden;
       }
 
       app-recipe-info {
         display: block;
         min-height: 70px;
-      /*   margin: 15px 0; */
       }
-
-      // --- РОЗУМНИЙ БЛОК РЕКЛАМИ ---
-     /*  .adsense_block {
-        width: 100%;
-               display: flex;
-        justify-content: center;
-        align-items: center;
-        background-color: var(--clr-6);
-        transition: all 0.3s ease;
-    
-      } */
     }
   }
 }

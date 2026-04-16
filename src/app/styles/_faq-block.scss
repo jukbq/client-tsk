@@ -1,0 +1,28 @@
+@mixin faq-section-title {
+  box-sizing: border-box;
+  width: 100%;
+  background-color: var(--clr-4);
+  padding: 10px;
+  margin: 0;
+  text-align: center;
+}
+
+@mixin faq-answer-text {
+  line-height: 1.6;
+
+  :where(p, ul, ol) {
+    margin: 0 0 10px;
+  }
+
+  :where(p:last-child, ul:last-child, ol:last-child) {
+    margin-bottom: 0;
+  }
+}
+
+@mixin faq-card {
+  background: linear-gradient(135deg, #4b321a, #3a2613);
+  border-radius: 12px;
+  border: 1px solid rgba(245, 230, 200, 0.12);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+  overflow: hidden;
+}

@@ -29,6 +29,7 @@ export interface RecipeSSR {
   bestSeason: any[];
   advice: string;
   completion: string;
+  faq: any[];
   currentURL: string;
 
   relatedRecipes: any[];
@@ -40,6 +41,7 @@ export interface RecipeSSR {
 export interface RecipeResolverData {
   recipeMeta: any;
   recipeSchema: any;
+  recipeFaqSchema: any | null;
   recipeSSR: RecipeSSR;
   info: any[];
 }
@@ -132,8 +134,23 @@ export const recipeResolver: ResolveFn<RecipeResolverData | null> = (
         ...(recipe.videoUrl?.trim() && { video: recipe.videoUrl }),
       };
 
-            console.log(recipeSchema.recipeInstructions);
-        
+      const recipeFaqSchema =
+        Array.isArray(recipe.faq) && recipe.faq.length > 0
+          ? {
+              '@context': 'https://schema.org',
+              '@type': 'FAQPage',
+              mainEntity: recipe.faq
+                .filter((item: any) => item?.question && item?.answer)
+                .map((item: any) => ({
+                  '@type': 'Question',
+                  name: item.question,
+                  acceptedAnswer: {
+                    '@type': 'Answer',
+                    text: item.answer,
+                  },
+                })),
+            }
+          : null;
 
           
       // Обробка bestSeason
@@ -175,6 +192,7 @@ export const recipeResolver: ResolveFn<RecipeResolverData | null> = (
         bestSeason: processedSeasons,
         advice: recipe.advice,
         completion: recipe.completion,
+        faq: recipe.faq ?? [],
         currentURL: `https://tsk.in.ua${currentURL}`,
         relatedRecipes: [],
 
@@ -264,7 +282,7 @@ export const recipeResolver: ResolveFn<RecipeResolverData | null> = (
         map((related) => {
           recipeSSR.relatedRecipes = related;
 
-          return { recipeMeta, recipeSchema, recipeSSR, info };
+          return { recipeMeta, recipeSchema, recipeFaqSchema, recipeSSR, info };
         }),
       );
     }),

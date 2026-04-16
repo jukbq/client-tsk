@@ -80,6 +80,7 @@ export class RecipePage {
   descriptionRecipe = signal('');
   advice = signal('');
   completion = signal('');
+  faq = signal<any[]>([]);
   currentURL = signal('');
 
   seasons = signal<any[]>([]);
@@ -162,6 +163,7 @@ export class RecipePage {
     this.descriptionRecipe.set(ssr.descriptionRecipe);
     this.advice.set(ssr.advice);
     this.completion.set(ssr.completion);
+    this.faq.set(ssr.faq || []);
     this.seasons.set(ssr.bestSeason || []);
     this.ingredients.set(ssr.ingredients || []);
      
@@ -208,6 +210,11 @@ export class RecipePage {
 
     this.setSchema(data.recipeSchema, 'recipe');
     this.setSchema(breadcrumbSchema, 'breadcrumb');
+    if (data.recipeFaqSchema?.mainEntity?.length) {
+      this.setSchema(data.recipeFaqSchema, 'faq');
+    } else {
+      this.removeSchema('faq');
+    }
   }
 
   private setSchema(schema: any, id: string): void {
@@ -223,6 +230,13 @@ export class RecipePage {
     }
 
     script.textContent = JSON.stringify(schema);
+  }
+
+  private removeSchema(id: string): void {
+    const script = this.document.querySelector(`script[data-schema="${id}"]`);
+    if (script) {
+      script.remove();
+    }
   }
 
   ngAfterViewInit() {
