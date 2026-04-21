@@ -100,7 +100,7 @@ export const recipeResolver: ResolveFn<RecipeResolverData | null> = (
                 datePublished: recipe.createdAt,
               }
             : {}),
-        description: recipe.seoDescription,
+        description: recipeService.cleanHtmlContent(recipe.seoDescription),
         ...(recipe.cuisine?.schemaCuisine && {
           recipeCuisine: recipe.cuisine.schemaCuisine,
         }),
@@ -175,8 +175,8 @@ export const recipeResolver: ResolveFn<RecipeResolverData | null> = (
         mainImageDesktop: recipe.mainImage,
         mainImageMobile: recipe.mainImageMobile ?? null,
 
-        recipeSubtitles: recipe.recipeSubtitles,
-        descriptionRecipe: recipe.descriptionRecipe,
+        recipeSubtitles: recipeService.cleanHtmlContent(recipe.recipeSubtitles),
+        descriptionRecipe: recipeService.cleanHtmlContent(recipe.descriptionRecipe),
 
         dishesID: recipe.dishes.id,
         dishesName: recipe.dishes.dishesName,
@@ -187,12 +187,18 @@ export const recipeResolver: ResolveFn<RecipeResolverData | null> = (
         accompanyingRecipes: recipeService.findRecipesWithIds(recipe.ingredients),
         accompanyingArticles: recipeService.findArticlesWithIds(recipe.ingredients),
 
-
-        instructions: recipe.instructions,
+        instructions: (recipe.instructions || []).map((step: any) => ({
+          ...step,
+          text: step.text ? recipeService.cleanHtmlContent(step.text) : step
+        })),
         bestSeason: processedSeasons,
-        advice: recipe.advice,
-        completion: recipe.completion,
-        faq: recipe.faq ?? [],
+        advice: recipeService.cleanHtmlContent(recipe.advice),
+        completion: recipeService.cleanHtmlContent(recipe.completion),
+        faq: (recipe.faq ?? []).map((f: any) => ({
+          ...f,
+          question: recipeService.cleanHtmlContent(f.question),
+          answer: recipeService.cleanHtmlContent(f.answer)
+        })),
         currentURL: `https://tsk.in.ua${currentURL}`,
         relatedRecipes: [],
 

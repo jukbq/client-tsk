@@ -150,7 +150,7 @@ export class RecipeService {
           const productsImages = item.selectedProduct.productsImages
             ? `${item.selectedProduct.productsImages}`
             : '';
-          const name = item.selectedProduct?.productsName?.trim() || 'Інгредієнт';
+          const name = this.cleanHtmlContent(item.selectedProduct?.productsName) || 'Інгредієнт';
           const amount = item.amount ? `${item.amount}` : '';
           const unit = item.unitsMeasure ? `${item.unitsMeasure}` : '';
           const notes = item.notes ? `(${item.notes})` : '';
@@ -172,6 +172,26 @@ export class RecipeService {
         }),
       };
     });
+  }
+
+  /**
+   * Очищає текст від HTML-сміття, коментарів та артефактів MS Word/RTF/CKEditor
+   */
+  cleanHtmlContent(text: any): string {
+    if (typeof text !== 'string' || !text) return text || '';
+
+    return text
+      // 1. Видаляємо HTML коментарі (основне джерело сміття Word)
+      .replace(/<!--[\s\S]*?-->/g, '')
+      // 2. Видаляємо технічні теги (meta, link, style, xml, mso теги типу <o:p>)
+      .replace(/<(meta|link|style|script|v:|o:|w:|xml)[^>]*>/gi, '')
+      // 3. Видаляємо inline-стилі та класи, специфічні для Office
+      .replace(/style="[^"]*mso-[^"]*"/gi, '')
+      .replace(/class="Mso[^"]*"/gi, '')
+      // 4. Нормалізуємо нерозривні пробіли та зайві порожні символи
+      .replace(/&nbsp;/g, ' ')
+      .replace(/\s+/g, ' ')
+      .trim();
   }
 
   // Приймаємо масив, який складається з об'єктів з групами інгредієнтів
