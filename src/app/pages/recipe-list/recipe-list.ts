@@ -47,6 +47,7 @@ export class RecipeList {
   // ===== STATE =====
   image = signal('');
   additionalImage = signal('');
+  verticalImage = signal('');
   categoryName = signal('');
   categoryDescription = signal('');
   dishesName = signal('');
@@ -124,6 +125,7 @@ export class RecipeList {
 
     this.image.set(cat.image);
     this.additionalImage.set(cat.additionalImage);
+    this.verticalImage.set(cat.verticalImage);
     this.categoryName.set(cat.categoryName);
     this.categoryDescription.set(cat.categoryDescription);
     this.dishesName.set(cat.dishes.dishesName);

@@ -1,7 +1,12 @@
 <section>
   <div class="background_image">
     @if (image()) {
-      <img [ngSrc]="image()" [alt]="h1Title()" fill priority class="bg_image" />
+      <picture>
+        @if (verticalImage()) {
+          <source media="(max-width: 768px)" [srcset]="verticalImage()!" />
+        }
+        <img [ngSrc]="image()" [alt]="h1Title()" fill priority class="bg_image" />
+      </picture>
     }
   </div>
 
@@ -63,7 +68,7 @@
     <div class="faq_block">
       <h2>Поширені питання</h2>
 
-      @for (item of faq(); track $index){
+      @for (item of faq(); track $index) {
         <div class="faq_item">
           <h3>{{ item.question }}</h3>
           <p>{{ item.answer }}</p>

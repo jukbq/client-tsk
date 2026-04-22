@@ -30,6 +30,8 @@ export const dishByIdResolver: ResolveFn<DishByIdResolveData | null> = (
     take(1),
 
     map((data) => {
+     
+      
       if (!data) {
         router.navigate(['/404']);
         return null;
@@ -40,6 +42,7 @@ export const dishByIdResolver: ResolveFn<DishByIdResolveData | null> = (
         title: data.seoName,
         description: data.seoDescription,
         image: data.image,
+      
         url: currentURL,
       };
 

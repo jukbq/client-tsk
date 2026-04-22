@@ -22,6 +22,7 @@ import { SsrLinkDirective } from '../../shared/SsrLinkDirective/ssr-link.directi
   templateUrl: './category.html',
   styleUrl: './category.scss',
 })
+
 export class Category {
   private readonly document = inject(DOCUMENT);
   private readonly platformId = inject(PLATFORM_ID);
@@ -38,6 +39,7 @@ export class Category {
   // Signals для реактивності
   image = signal('');
   additionalImage = signal('');
+  verticalImage = signal('');
   h1Title = signal('');
   dishDescription = signal('');
   categryList = signal<CategoriesDishesResponse[]>([]);
@@ -70,6 +72,7 @@ export class Category {
       this.dishDescription.set(wrapper.data.dishDescription);
       this.image.set(wrapper.data.image);
       this.additionalImage.set(wrapper.data.additionalImage);
+      this.verticalImage.set(wrapper.data.verticalImage);
 
       this.faq.set(wrapper.faq || []);
 

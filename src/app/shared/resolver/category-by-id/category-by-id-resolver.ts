@@ -20,6 +20,8 @@ export const categoryByIdResolver: ResolveFn<CategoryByIdResolveData> = (
   return categoryService.getObjectById(categoryid).pipe(
     take(1),
     map((data) => {
+      console.log(data);
+      
       if (!data) {
         return {
           data: null,
@@ -35,6 +37,7 @@ export const categoryByIdResolver: ResolveFn<CategoryByIdResolveData> = (
         title: data.seoCategoryName,
         description: data.seoCategoryDescription,
         image: data.image,
+        verticalImage: data.verticalImage,
         url,
       };
 

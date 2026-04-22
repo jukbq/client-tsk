@@ -19,6 +19,7 @@ export interface CategoriesDishesRequest {
     seoCategoryName: string,
     seoCategoryDescription: string,
     image: string,
+    verticalImage: string,
 
       faq?: CategoryFaqItem[]; 
 }
