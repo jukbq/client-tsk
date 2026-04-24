@@ -2,7 +2,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 <url>
   <loc>https://tsk.in.ua/recipes-list/4yeHN3g2hcFLgFGejdNT</loc>
-  <lastmod>2026-01-28T09:51:46.552Z</lastmod>
+  <lastmod>2026-04-23T06:09:07.708Z</lastmod>
   <priority>0.7</priority>
 </url>
 <url>
@@ -66,6 +66,11 @@
   <priority>0.7</priority>
 </url>
 <url>
+  <loc>https://tsk.in.ua/recipes-list/bobovi-harniry</loc>
+  <lastmod>2026-04-23T10:22:56.348Z</lastmod>
+  <priority>0.7</priority>
+</url>
+<url>
   <loc>https://tsk.in.ua/recipes-list/chernivetski-borshchi</loc>
   <lastmod>2026-01-25T07:09:04.692Z</lastmod>
   <priority>0.7</priority>
@@ -122,17 +127,22 @@
 </url>
 <url>
   <loc>https://tsk.in.ua/recipes-list/kartoplyani-harniry</loc>
-  <lastmod>2025-05-01</lastmod>
+  <lastmod>2026-04-23T07:06:54.059Z</lastmod>
   <priority>0.7</priority>
 </url>
 <url>
   <loc>https://tsk.in.ua/recipes-list/kashi</loc>
-  <lastmod>2025-05-01</lastmod>
+  <lastmod>2026-04-23T09:36:35.159Z</lastmod>
   <priority>0.7</priority>
 </url>
 <url>
   <loc>https://tsk.in.ua/recipes-list/kgBSWa5kfb5WXXmuDvOx</loc>
   <lastmod>2026-03-31T15:01:35.215Z</lastmod>
+  <priority>0.7</priority>
+</url>
+<url>
+  <loc>https://tsk.in.ua/recipes-list/kholodni-supy</loc>
+  <lastmod>2026-04-23T04:17:39.127Z</lastmod>
   <priority>0.7</priority>
 </url>
 <url>
@@ -156,6 +166,11 @@
   <priority>0.7</priority>
 </url>
 <url>
+  <loc>https://tsk.in.ua/recipes-list/makaronni-harniry</loc>
+  <lastmod>2026-04-23T10:59:07.229Z</lastmod>
+  <priority>0.7</priority>
+</url>
+<url>
   <loc>https://tsk.in.ua/recipes-list/myasni-supy</loc>
   <lastmod>2026-04-22T14:36:46.905Z</lastmod>
   <priority>0.7</priority>
@@ -172,7 +187,7 @@
 </url>
 <url>
   <loc>https://tsk.in.ua/recipes-list/ovochevi-harniry</loc>
-  <lastmod>2026-04-07T09:06:34.961Z</lastmod>
+  <lastmod>2026-04-23T09:57:41.729Z</lastmod>
   <priority>0.7</priority>
 </url>
 <url>
@@ -183,6 +198,16 @@
 <url>
   <loc>https://tsk.in.ua/recipes-list/ovochevi-stravy-z-tista</loc>
   <lastmod>2025-05-01</lastmod>
+  <priority>0.7</priority>
+</url>
+<url>
+  <loc>https://tsk.in.ua/recipes-list/rybni-supy</loc>
+  <lastmod>2026-04-23T04:31:05.000Z</lastmod>
+  <priority>0.7</priority>
+</url>
+<url>
+  <loc>https://tsk.in.ua/recipes-list/rys-i-zernovi-harniry</loc>
+  <lastmod>2026-04-23T09:34:54.999Z</lastmod>
   <priority>0.7</priority>
 </url>
 <url>
@@ -233,6 +258,11 @@
 <url>
   <loc>https://tsk.in.ua/recipes-list/stravy-z-indychky</loc>
   <lastmod>2026-04-13T16:35:49.519Z</lastmod>
+  <priority>0.7</priority>
+</url>
+<url>
+  <loc>https://tsk.in.ua/recipes-list/stravy-z-kartopli</loc>
+  <lastmod>2026-04-24T08:37:42.241Z</lastmod>
   <priority>0.7</priority>
 </url>
 <url>
