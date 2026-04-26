@@ -11,7 +11,7 @@
   src: url("../../assets/fonts/roboto-serif-v17-cyrillic_latin-regular.woff2") format("woff2");
   font-weight: 100 900;
   font-style: normal;
-  font-display: swap; /* Додано для покращення FCP */
+  font-display: swap; // Гарантуємо відсутність FOIT (невидимого тексту)
   size-adjust: 100%; 
   ascent-override: 95%;
   descent-override: 25%;
