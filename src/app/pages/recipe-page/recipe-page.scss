@@ -23,6 +23,7 @@
     .recipe_menu {
       width: 70%;
       height: 4vh;
+      -webkit-overflow-scrolling: touch; // Плавний скрол на iOS (перенесено вгору)
       display: flex;
       align-items: center;
       justify-content: center;
@@ -46,7 +47,6 @@
       &::-webkit-scrollbar {
         display: none;
       }
-      -webkit-overflow-scrolling: touch; // Плавний скрол на iOS
 
       .item_menu {
         min-width: 25%;
@@ -100,11 +100,11 @@
     align-items: flex-start;
     justify-content: center;
 
-    padding-top: calc(var(--header-height) + 4vh);
+    padding-top: 132px; // Статичне значення для запобігання CLS
     transition: padding-top 0.3s ease;
 
     @media (max-width: 780px) {
-      padding-top: calc(var(--header-height) + 8vh);
+      padding-top: 132px; // Також фіксуємо для мобільних пристроїв
     }
 
     .ads {

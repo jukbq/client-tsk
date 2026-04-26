@@ -12,7 +12,7 @@
 }
 
 <div class="image_block">
-  @if (mainImageDesktop()) {
+    @if (mainImageDesktop()) {
     <picture>
       @if (mainImageMobile()) {
         <source media="(max-width: 768px)" [srcset]="mainImageMobile()!" />

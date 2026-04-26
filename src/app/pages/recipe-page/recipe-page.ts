@@ -132,6 +132,7 @@ export class RecipePage {
 
       this.isNotFound.set(false);
       this.applyRecipeData(recipeData);
+      this.addImagePreload(recipeData.recipeSSR?.mainImageDesktop);
 
       // --- ДОДАЙТЕ ЦЕЙ БЛОК ТУТ ---
       // Коли дані застосовані, скролимо вгору
@@ -141,6 +142,17 @@ export class RecipePage {
       }
       // ----------------------------
     });
+  }
+
+  private addImagePreload(imageUrl: string) {
+    if (!imageUrl) return;
+    const link = this.renderer.createElement('link');
+    this.renderer.setAttribute(link, 'rel', 'preload');
+    this.renderer.setAttribute(link, 'as', 'image');
+    this.renderer.setAttribute(link, 'href', imageUrl);
+    this.renderer.setAttribute(link, 'fetchpriority', 'high');
+    // Додаємо в head
+    this.renderer.appendChild(this.document.head, link);
   }
 
   private applyRecipeData(data: any) {
