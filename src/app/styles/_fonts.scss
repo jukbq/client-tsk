@@ -8,7 +8,7 @@
 @font-face {
   font-family: "Roboto Serif";
   /* Видалено слеші перед комами */
-  src: url("../../assets/fonts/roboto-serif-v17-cyrillic_latin-regular.woff2") format("woff2");
+  src: url("../../assets/fonts/roboto-serif.woff2") format("woff2");
   font-weight: 100 900;
   font-style: normal;
   font-display: swap; // Гарантуємо відсутність FOIT (невидимого тексту)
@@ -22,7 +22,7 @@
 ---------------------------- */
 @font-face {
   font-family: "Rubik Dirt";
-  src: url("../../assets/fonts/rubik-dirt-v2-cyrillic_latin-regular.woff2") format("woff2");
+  src: url("../../assets/fonts/rubik-dirt.woff2") format("woff2");
   font-weight: 400;
   font-style: normal;
   font-display: swap; /* Додано для покращення FCP */
