@@ -1,4 +1,6 @@
 import {
+  afterNextRender,
+  ChangeDetectionStrategy,
   Component,
   DOCUMENT,
   ElementRef,
@@ -21,13 +23,14 @@ import { FavoritesService } from '../../core/services/favorites/favorites-servic
 import { AuthService } from '../../core/services/auth/auth-service';
 import { ModalService } from '../../core/services/modal/modal.service';
 import { isPlatformBrowser, NgOptimizedImage, ViewportScroller } from '@angular/common';
-import { debounceTime, fromEvent, of, Subscription, switchMap } from 'rxjs';
+import { debounceTime, fromEvent, of, Subscription, switchMap, take } from 'rxjs';
 
 @Component({
   selector: 'app-home',
   imports: [SsrLinkDirective, NgOptimizedImage],
   templateUrl: './home.html',
   styleUrl: './home.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Home {
   private readonly platformId = inject(PLATFORM_ID);
@@ -60,10 +63,17 @@ export class Home {
 
   private subscriptions = new Subscription();
 
+  constructor() {
+    // Defer non-critical browser logic to improve TBT
+    afterNextRender(() => {
+      this.initBrowserLogic();
+      this.loadAdditionalData();
+    });
+  }
+
   ngOnInit(): void {
     if (this.isBrowser) {
       this.viewportScroller.scrollToPosition([0, 0]);
-      this.initBrowserLogic();
     }
 
     // Отримання даних з резолверів
@@ -76,7 +86,6 @@ export class Home {
         );
 
         this.loadSeo(data.dishes?.url);
-        this.loadAdditionalData();
       }),
     );
   }
@@ -145,12 +154,15 @@ export class Home {
   private loadAdditionalData() {
     this.dishesList().forEach((dish) => {
       // Завантаження підкатегорій
-      this.categoryService.getLightById(dish.id).subscribe((categories) => {
-        this.dishCategories.update((dc) => ({
-          ...dc,
-          [dish.id]: categories.sort((a, b) => a.categoryName.localeCompare(b.categoryName)),
-        }));
-      });
+      this.categoryService
+        .getLightById(dish.id)
+        .pipe(take(1))
+        .subscribe((categories) => {
+          this.dishCategories.update((dc) => ({
+            ...dc,
+            [dish.id]: categories.sort((a, b) => a.categoryName.localeCompare(b.categoryName)),
+          }));
+        });
     });
   }
 

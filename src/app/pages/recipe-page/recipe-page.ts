@@ -1,5 +1,7 @@
 import { isPlatformBrowser, ViewportScroller } from '@angular/common';
 import {
+  afterNextRender,
+  ChangeDetectionStrategy,
   Component,
   computed,
   DOCUMENT,
@@ -51,6 +53,7 @@ interface MenuItem {
   ],
   templateUrl: './recipe-page.html',
   styleUrl: './recipe-page.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class RecipePage {
   // Залежності через inject()
@@ -116,6 +119,22 @@ export class RecipePage {
 
 
   totalOffset = computed(() => this.menuHeight());
+
+  constructor() {
+    afterNextRender(() => {
+      // Measure heights after render to avoid layout thrashing during hydration
+      const header = this.document.querySelector('header') as HTMLElement;
+      const menu = this.document.querySelector('.menu_block') as HTMLElement;
+
+      if (header) {
+        this.headerHeight.set(header.offsetHeight);
+      }
+
+      if (menu) {
+        this.menuHeight.set(menu.offsetHeight);
+      }
+    });
+  }
 
   ngOnInit() {
     if (this.isBrowser) {
@@ -252,22 +271,7 @@ export class RecipePage {
   }
 
   ngAfterViewInit() {
-    if (!this.isBrowser) return;
-
-    setTimeout(() => {
-      // Додаємо "as HTMLElement", щоб відкрити доступ до offsetHeight
-      const header = this.document.querySelector('header') as HTMLElement;
-      const menu = this.document.querySelector('.menu_block') as HTMLElement;
-
-      if (header) {
-        this.headerHeight.set(header.offsetHeight);
-      }
-
-      if (menu) {
-        // Тепер помилки не буде
-        this.menuHeight.set(menu.offsetHeight);
-      }
-    }, 0);
+    // Logic moved to afterNextRender in constructor for better TBT
   }
 
   private setMetaTags(meta: any) {
