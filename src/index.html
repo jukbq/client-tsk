@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="uk">
+<html lang="uk" data-beasties-container="">
   <head>
     <meta charset="utf-8" />
     <title>Таверна «Синій Кіт» – рецепти для дому</title>
@@ -7,10 +7,10 @@
 
     <!-- =========== Preconnect / dns-prefetch (до 4 джерел) =========== -->
     <!-- Пріоритет: storage (LCP images) та firebaseapp (auth/iframe) -->
-    <link rel="preconnect" href="https://firebasestorage.googleapis.com" crossorigin />
-    <link rel="preconnect" href="https://taverna-synii-kit-13c01.firebaseapp.com" crossorigin />
+    <link rel="preconnect" href="https://firebasestorage.googleapis.com" crossorigin="" />
+    <link rel="preconnect" href="https://taverna-synii-kit-13c01.firebaseapp.com" crossorigin="" />
     <link rel="preconnect" href="https://www.googletagmanager.com" />
-    <link rel="preconnect" href="https://pagead2.googlesyndication.com" crossorigin />
+    <link rel="preconnect" href="https://pagead2.googlesyndication.com" crossorigin="" />
 
     <!-- DNS fallback (не зашкодить) -->
     <link rel="dns-prefetch" href="https://firebasestorage.googleapis.com" />
@@ -22,14 +22,14 @@
     <!-- Переконайся, що шляхи імена файлів точні -->
     <link
       rel="preload"
-      href="/assets/fonts/roboto-serif-v17-cyrillic_latin-regular.woff2"
+      href="media/roboto-serif-v17-cyrillic_latin-regular-OXYP6DE6.woff2"
       as="font"
       type="font/woff2"
       crossorigin="anonymous"
     />
     <link
       rel="preload"
-      href="/assets/fonts/rubik-dirt.woff2" 
+      href="/assets/fonts/rubik-dirt.woff2"
       as="font"
       type="font/woff2"
       crossorigin="anonymous"
@@ -44,23 +44,106 @@
     <meta name="facebook-domain-verification" content="tavtiz53vobpm18uex6kpzx1cnpnoi" />
     <link rel="icon" type="image/x-icon" href="favicon.ico" />
 
-        <link rel="canonical" href="https://tsk.in.ua" />
+    <link rel="canonical" href="https://tsk.in.ua" />
     <link rel="alternate" hreflang="uk" href="https://tsk.in.ua/" />
     <meta property="og:locale" content="uk_UA" />
     <meta property="og:type" content="website" />
-    <meta property="og:title"  content="Рецепти для щоденної кухні – Таверна «Синій Кіт»" />
-    <meta property="og:description"   content="Домашні рецепти без пафосу: супи, борщі, м’ясо, випічка та напої. Готуй з першого разу.">
+    <meta property="og:title" content="Рецепти для щоденної кухні – Таверна «Синій Кіт»" />
+    <meta
+      property="og:description"
+      content="Домашні рецепти без пафосу: супи, борщі, м’ясо, випічка та напої. Готуй з першого разу."
+    />
     <meta property="og:url" content="https://tsk.in.ua" />
     <meta property="og:site_name" content="Таверна Синій Кіт" />
-    <meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/synikit-12dee.appspot.com/o/home%2Fbackground.webp?alt=media" />
+    <meta
+      property="og:image"
+      content="https://firebasestorage.googleapis.com/v0/b/synikit-12dee.appspot.com/o/home%2Fbackground.webp?alt=media"
+    />
     <meta property="og:image:width" content="1024" />
     <meta property="og:image:height" content="683" />
     <meta name="verify-admitad" content="71c81024ea" />
     <meta name="p:domain_verify" content="6832de458892ec93e24607a58ce261a1" />
     <meta name="google-adsense-account" content="ca-pub-0683376676562440" />
-
-    <!-- Analytics (ok to keep async) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-1W77MLHL6H"></script>
+    <style>
+      @font-face {
+        font-family: 'Roboto Serif';
+        src: url('./media/roboto-serif-v17-cyrillic_latin-regular-OXYP6DE6.woff2') format('woff2');
+        font-weight: 100 900;
+        font-style: normal;
+        font-display: swap;
+        size-adjust: 100%;
+        ascent-override: 95%;
+        descent-override: 25%;
+      }
+      body {
+        font-family: 'Roboto Serif', serif;
+        font-weight: 400;
+        font-size: 1rem;
+        line-height: 1.6;
+      }
+      :root {
+        --header-height: 8vh;
+        --menu-height: 4vh;
+      }
+      body {
+        padding: 0;
+        margin: 0;
+        overflow-x: hidden;
+        background-color: #000c;
+      }
+      :root {
+        --clr-1: #c4b299;
+        --clr-2: #f3e9d2;
+        --clr-3: #000000;
+        --clr-4: #3b2f1b;
+        --clr-5: #a67c17;
+        --clr-6: #d9c7a1;
+        --clr-g: #777777;
+        --clr-w: #ffffff;
+        --clr-b: #1c1919;
+        --transition: all 0.8s linear;
+      }
+      html,
+      body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+      body {
+        font-family: 'Roboto Serif', serif;
+        scroll-behavior: smooth;
+        line-height: 1.6;
+      }
+    </style>
+    <link rel="stylesheet" href="styles-OOIEKLAN.css" media="print" onload="this.media = 'all'" />
+    <noscript><link rel="stylesheet" href="styles-OOIEKLAN.css" /></noscript>
+  </head>
+  
+  <body ngcm="">
+    <app-root></app-root>
+    <link rel="modulepreload" href="chunk-Y3MCQRR4.js" /><link
+      rel="modulepreload"
+      href="chunk-A4X76AOD.js"
+    /><link rel="modulepreload" href="chunk-KJGVRZDU.js" /><link
+      rel="modulepreload"
+      href="chunk-GW4WLOUX.js"
+    /><link rel="modulepreload" href="chunk-SF6LXVVP.js" /><link
+      rel="modulepreload"
+      href="chunk-HSZAXUJD.js"
+    /><link rel="modulepreload" href="chunk-E7TLVRWK.js" /><link
+      rel="modulepreload"
+      href="chunk-DLWBWFI2.js"
+    /><link rel="modulepreload" href="chunk-7EFG52BA.js" /><link
+      rel="modulepreload"
+      href="chunk-NYNBFTQW.js"
+    />
+    <script src="main-4T3RWP2F.js" type="module"></script>
+    <!-- Analytics (moved to end of body to unblock rendering) -->
+    <script
+      async=""
+      defer=""
+      src="https://www.googletagmanager.com/gtag/js?id=G-1W77MLHL6H"
+    ></script>
     <script>
       window.dataLayer = window.dataLayer || [];
       function gtag() {
@@ -69,9 +152,6 @@
       gtag('js', new Date());
       gtag('config', 'G-1W77MLHL6H');
     </script>
-
-  </head>
-  <body>
-    <app-root></app-root>
   </body>
+  
 </html>
