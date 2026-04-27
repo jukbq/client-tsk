@@ -6,17 +6,18 @@
     </a>
 
     <div class="navbar_navigate">
-      <a class="header_icon facebook" href="https://www.facebook.com/groups/2412991875747035" target="_blank"></a>
-      <a class="header_icon telegram" href="https://t.me/+CczEzPwB2RJhM2My" target="_blank"></a>
-      <a class="header_icon serch" [appSsrLink]="['search']"></a>
+      <a class="header_icon facebook" href="https://www.facebook.com/groups/2412991875747035" target="_blank" aria-label="Ми у Facebook"></a>
+      <a class="header_icon telegram" href="https://t.me/+CczEzPwB2RJhM2My" target="_blank" aria-label="Наш Telegram"></a>
+      <a class="header_icon serch" [appSsrLink]="['search']" aria-label="Пошук"></a>
 
       <a class="header_icon" 
          [class.active]="isLoggedIn()" 
          [class.auth]="!isLoggedIn()"
-         [appSsrLink]="isLoggedIn() ? ['profile'] : ['auth']">
+         [appSsrLink]="isLoggedIn() ? ['profile'] : ['auth']"
+         [attr.aria-label]="isLoggedIn() ? 'Профіль' : 'Увійти'">
       </a>
 
-      <button class="burger_button" [class.open]="isMenuOpen()" (click)="toggleMenu()">
+      <button class="burger_button" [class.open]="isMenuOpen()" (click)="toggleMenu()" aria-label="Відкрити меню">
         <span></span><span></span><span></span>
       </button>
     </div>

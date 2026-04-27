@@ -18,7 +18,9 @@
                   [alt]="group.text"
                   width="40"
                   height="40"
-                  class="ing_img" />
+                  class="ing_img"
+                  loading="lazy"
+                  fetchpriority="low" />
               </div>
 
               <div class="title text">
@@ -32,7 +34,7 @@
 
     <h4>Збережи інгредієнти</h4>
     <div class="save_ibgredients">
-      <div (click)="saveToViber()" class="social_icon viber" role="button">
+      <div (click)="saveToViber()" class="social_icon viber" role="button" aria-label="Поділитися у Viber">
         <div class="icon">
           <img
             ngSrc="assets/icon/social/viber.webp"
@@ -41,7 +43,7 @@
             height="40" />
         </div>
       </div>
-      <div (click)="saveToTelegram()" class="social_icon telegram" role="button">
+      <div (click)="saveToTelegram()" class="social_icon telegram" role="button" aria-label="Поділитися у Telegram">
         <div class="icon">
           <img
             ngSrc="assets/icon/social/telegram.webp"
