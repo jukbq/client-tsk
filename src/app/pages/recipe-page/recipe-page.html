@@ -1,5 +1,5 @@
 @if (isNotFound()) {
-    <div id="soft-404-marker">
+  <div id="soft-404-marker">
     <app-soft-404></app-soft-404>
   </div>
 } @else {
@@ -22,7 +22,6 @@
       <div class="ads"></div>
       <div class="recipe_body">
         <section id="recipe-about">
-
           <app-breadcrumb
             [dishesID]="dishesID()"
             [dishesName]="dishesName()"
@@ -41,54 +40,82 @@
           >
           </app-recipe-header>
 
-        <app-recipe-info [seasons]="seasons()" [info]="info()"></app-recipe-info>
+          <app-recipe-info [seasons]="seasons()" [info]="info()"></app-recipe-info>
 
-        <section id="ingredients" class="ingredients">
-          <app-ingredients
-            [accompanyingRecipes]="accompanyingRecipes()"
-            [ingredients]="ingredients()"
-          ></app-ingredients>
-        </section>
+          <section id="ingredients" class="ingredients">
+            <app-ingredients
+              [accompanyingRecipes]="accompanyingRecipes()"
+              [ingredients]="ingredients()"
+            ></app-ingredients>
+          </section>
 
-      
-      
           <app-recipe-descriptio
             [recipeSubtitles]="recipeSubtitles()"
             [descriptionRecipe]="descriptionRecipe()"
           ></app-recipe-descriptio>
         </section>
-      
 
-        <div class="adsense_block">
-          <app-display-ads></app-display-ads>
-        </div>
+        @defer (on viewport; prefetch on idle) {
+          <div class="adsense_block">
+            <app-display-ads></app-display-ads>
+          </div>
+        } @placeholder {
+          <div style="min-height: 250px; background: #1c1919"></div>
+        }
 
         <section id="instruction">
-          <app-instructions [instructions]="instructions()"></app-instructions>
+          @defer (on viewport) {
+            <app-instructions [instructions]="instructions()"></app-instructions>
+          } @placeholder {
+            <div style="min-height: 200px"></div>
+          }
         </section>
 
         <section id="related">
-          <app-related-recipes [recipes]="relatedRecipes()"></app-related-recipes>
+          @defer (on viewport) {
+            <app-related-recipes [recipes]="relatedRecipes()"></app-related-recipes>
+          } @placeholder {
+            <div style="min-height: 300px"></div>
+          }
         </section>
 
-        <div class="adsense_block">
-          <app-display-ads></app-display-ads>
-        </div>
+        @defer (on viewport; prefetch on idle) {
+          <div class="adsense_block">
+            <app-display-ads></app-display-ads>
+          </div>
+        } @placeholder {
+          <div style="min-height: 250px; background: #1c1919"></div>
+        }
 
         <section id="council">
-          <app-recipe-advice-c
-            [advice]="advice()"
-            [completion]="completion()"
-            [faq]="faq()"
-            [accompanyingArticles]="accompanyingArticles()"
-          ></app-recipe-advice-c>
+          @defer (on viewport) {
+            <app-recipe-advice-c
+              [advice]="advice()"
+              [completion]="completion()"
+              [faq]="faq()"
+              [accompanyingArticles]="accompanyingArticles()"
+            ></app-recipe-advice-c>
+          } @placeholder {
+            <div style="min-height: 200px"></div>
+          }
         </section>
 
-        <div class="adsense_block">
-          <app-display-ads></app-display-ads>
-        </div>
+        @defer (on viewport; prefetch on idle) {
+          <div class="adsense_block">
+            <app-display-ads></app-display-ads>
+          </div>
+        } @placeholder {
+          <div style="min-height: 250px; background: #1c1919"></div>
+        }
 
-        <app-recipe-carousel [dishesID]="dishesID()" [recipeID]="recipeID()"></app-recipe-carousel>
+        @defer (on viewport) {
+          <app-recipe-carousel
+            [dishesID]="dishesID()"
+            [recipeID]="recipeID()"
+          ></app-recipe-carousel>
+        } @placeholder {
+          <div style="min-height: 200px"></div>
+        }
       </div>
 
       <div class="ads"></div>

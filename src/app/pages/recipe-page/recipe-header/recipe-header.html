@@ -17,7 +17,6 @@
       @if (mainImageMobile()) {
         <source media="(max-width: 768px)" [srcset]="mainImageMobile()!" />
       }
-
       <img
         [ngSrc]="mainImageDesktop()"
         width="1024"
@@ -27,13 +26,13 @@
         priority
         class="main-image"
         (click)="openCurrentImage()"
-        ngSkipHydration 
+        ngSkipHydration
       />
     </picture>
   } @else {
     <div class="image-skeleton"></div>
   }
-  </div>
+</div>
 
 @if (selectedImage()) {
   <div class="image-backdrop" (click)="closeImage()">
