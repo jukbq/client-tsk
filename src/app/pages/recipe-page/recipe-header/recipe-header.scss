@@ -37,18 +37,19 @@ picture {
     width: 100%;
   }
 
- .main-image {
-    width: 100%;
-    height: auto; 
-    display: block;
-    cursor: pointer;
-    object-fit: cover;
-    aspect-ratio: auto; 
-
-    @media (max-width: 768px) {
-    min-height: 350px;
-    }
+.main-image {
+  width: 100%;
+  height: auto;
+  display: block;
+  object-fit: cover;
+  // Оце змусить браузер виділити місце ЗГІДНО з width/height в HTML
+  aspect-ratio: attr(width) / attr(height); 
+  
+  @media (max-width: 768px) {
+    // Якщо для мобілки є інша картинка, пропорції підхопляться автоматично
+    min-height: auto; 
   }
+}
 
 .image-skeleton {
     position: absolute;
