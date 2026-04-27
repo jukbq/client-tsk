@@ -25,15 +25,22 @@ app-rating {
 }
 
 .image_block {
+  width: 100%;
   position: relative;
- max-width: 100%;
-  margin: 0 auto;
-   aspect-ratio: 16 / 9; 
+  background-color: #1c1919;
+  display: block;
+  overflow: hidden;
+  aspect-ratio: 16 / 9; // Desktop default
 
-  picture .main-image {
-   width: 100%;
-  height: auto;
-  cursor: pointer;
+  @media (max-width: 768px) {
+    aspect-ratio: 4 / 3; // Mobile: higher block to see the dish
+  }
+
+  .main-image {
+    width: 100%;
+    height: 100%;
+    object-fit: contain; // Show full image without cropping on mobile
+    display: block;
   }
 
   .image-skeleton {

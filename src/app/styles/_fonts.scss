@@ -18,10 +18,10 @@
 }
 
 /* ----------------------------
-   Rubik Dirt
+   Tenor Sans
 ---------------------------- */
 @font-face {
-  font-family: "Rubik Dirt";
+  font-family: "Tenor Sans";
   src: url("../../assets/fonts/tenor-sans.woff2") format("woff2");
   font-weight: 400;
   font-style: normal;
@@ -62,7 +62,7 @@ span em {
    Міксин для заголовків
 ============================ */
 @mixin heading($mobile, $tablet, $desktop, $style: normal) {
-  font-family: "Rubik Dirt", Arial, sans-serif; /* Додано запасні шрифти */
+  font-family: "Tenor Sans", Arial, sans-serif; /* Додано запасні шрифти */
   font-weight: 400;
   /* завжди за замовчуванням */
   font-style: $style;
