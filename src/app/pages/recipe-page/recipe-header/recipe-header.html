@@ -12,7 +12,7 @@
 }
 
 <div class="image_block">
-    @if (mainImageDesktop()) {
+  @if (mainImageDesktop()) {
     <picture>
       @if (mainImageMobile()) {
         <source media="(max-width: 768px)" [srcset]="mainImageMobile()!" />
@@ -22,35 +22,18 @@
         [ngSrc]="mainImageDesktop()"
         width="1024"
         height="600"
-       [alt]="recipeTitle()"
+        [alt]="recipeTitle()"
         sizes="(max-width: 768px) 100vw, 80vw"
         priority
         class="main-image"
         (click)="openCurrentImage()"
+        ngSkipHydration 
       />
     </picture>
   } @else {
     <div class="image-skeleton"></div>
   }
-  <button
-    class="fav-btn"
-    (click)="toggleFavorite(recipeID()); $event.stopPropagation()"
-    type="button"
-    [attr.aria-label]="isFavorite(recipeID()) ? 'Видалити з обраного' : 'Додати в обране'"
-  >
-    <img
-      class="fav-icon"
-      width="40"
-      height="40"
-      [src]="
-        isFavorite(recipeID())
-          ? 'assets/icon/favorite/star-favorite-filled.webp'
-          : 'assets/icon/favorite/star-favorite-empty.webp'
-      "
-      alt="Favorite icon"
-    />
-  </button>
-</div>
+  </div>
 
 @if (selectedImage()) {
   <div class="image-backdrop" (click)="closeImage()">
