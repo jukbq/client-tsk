@@ -20,7 +20,7 @@
                   height="40"
                   class="ing_img"
                   loading="lazy"
-                  fetchpriority="low" />
+                  />
               </div>
 
               <div class="title text">
@@ -40,7 +40,8 @@
             ngSrc="assets/icon/social/viber.webp"
             alt="Viber"
             width="40"
-            height="40" />
+            height="40"
+            loading="lazy" />
         </div>
       </div>
       <div (click)="saveToTelegram()" class="social_icon telegram" role="button" aria-label="Поділитися у Telegram">
@@ -49,7 +50,8 @@
             ngSrc="assets/icon/social/telegram.webp"
             alt="Telegram"
             width="40"
-            height="40" />
+            height="40"
+            loading="lazy" />
         </div>
       </div>
     </div>
@@ -71,7 +73,9 @@
                     [ngSrc]="item.recipeImage"
                     [alt]="item.recipeName"
                     width="120"
-                    height="80" />
+                    height="80"
+                    sizes="120px"
+                    loading="lazy" />
                 </div>
               </a>
 
