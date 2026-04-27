@@ -182,8 +182,7 @@ if (req.url.match(/\.(js|css|woff2|webp|png|jpg|jpeg|svg)$/)) {
   res.setHeader('Cache-Control', 'public, max-age=31536000, immutable');
 } else {
   // Для самого HTML (SSR сторінки) залишаємо невеликий кеш або no-cache
-  // щоб юзери бачили свіжі рецепти, але не вантажили сервер щосекунди
-  res.setHeader('Cache-Control', 'public, max-age=600, s-maxage=3600');
+  res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
 }
 
       // Щоб перевірити вміст сторінки на "soft-404", нам треба прочитати body.
@@ -223,4 +222,3 @@ if (isMainModule(import.meta.url) || process.env['pm_id']) {
 }
 
 export const reqHandler = createNodeRequestHandler(app);
-
