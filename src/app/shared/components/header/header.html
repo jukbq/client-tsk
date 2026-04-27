@@ -17,7 +17,11 @@
          [attr.aria-label]="isLoggedIn() ? 'Профіль' : 'Увійти'">
       </a>
 
-      <button class="burger_button" [class.open]="isMenuOpen()" (click)="toggleMenu()" aria-label="Відкрити меню">
+      <button class="burger_button" 
+              [class.open]="isMenuOpen()" 
+              (click)="toggleMenu()" 
+              aria-label="Відкрити меню"
+              [attr.aria-expanded]="isMenuOpen()">
         <span></span><span></span><span></span>
       </button>
     </div>
@@ -32,7 +36,11 @@
             <li class="head_li" [class.active]="activeMenu() === 'dishes'">
               <div class="btn_menu">
                 <a (click)="closeMenu()" class="nav-link" [appSsrLink]="'/dishes'">Рецепти Кота</a>
-                <div class="batton" (click)="onSelectItem('dishes')"></div>
+                <div class="batton" 
+                     (click)="onSelectItem('dishes')" 
+                     role="button" 
+                     aria-label="Розгорнути підміню страв"
+                     [attr.aria-expanded]="activeMenu() === 'dishes'"></div>
               </div>
 
               @if (activeMenu() === 'dishes') {
@@ -43,7 +51,11 @@
                         <a (click)="closeMenu()" [appSsrLink]="['categories', dish.id]" class="nav-link">
                           {{ dish.dishesName }}
                         </a>
-                        <div class="batton" (click)="loadSubDishes(dish.id, j)"></div>
+                        <div class="batton" 
+                             (click)="loadSubDishes(dish.id, j)" 
+                             role="button" 
+                             aria-label="Показати рецепти категорії"
+                             [attr.aria-expanded]="j === activeSubItem()"></div>
                       </div>
 
                       @if (j === activeSubItem() && subDishes().length > 0) {
@@ -66,7 +78,11 @@
             <li class="head_li" [class.active]="activeMenu() === 'articles'">
               <div class="btn_menu">
                 <a (click)="closeMenu()" class="nav-link" [appSsrLink]="'/articlses'">Байки Кота</a>
-                <div class="batton" (click)="onSelectItem('articles')"></div>
+                <div class="batton" 
+                     (click)="onSelectItem('articles')" 
+                     role="button" 
+                     aria-label="Розгорнути категорії статей"
+                     [attr.aria-expanded]="activeMenu() === 'articles'"></div>
               </div>
 
               @if (activeMenu() === 'articles') {
@@ -77,7 +93,11 @@
                         <a (click)="closeMenu()" [appSsrLink]="['article-categories', type.id]" class="nav-link">
                           {{ type.articleTypeName }}
                         </a>
-                        <div class="batton" (click)="loadArticleCategories(type.id, j)"></div>
+                        <div class="batton" 
+                             (click)="loadArticleCategories(type.id, j)" 
+                             role="button" 
+                             aria-label="Розгорнути підкатегорії статей"
+                             [attr.aria-expanded]="j === activeSubItem()"></div>
                       </div>
 
                       @if (j === activeSubItem() && subArticleCategories().length > 0) {

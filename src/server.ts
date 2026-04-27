@@ -177,7 +177,14 @@ app.use((req, res, next) => {
     .then(async (response) => {
       if (!response) return next();
 
-      res.setHeader('Cache-Control', 'no-store');
+    // Якщо це запит до статичних файлів (чанки, стилі), даємо довгий кеш
+if (req.url.match(/\.(js|css|woff2|webp|png|jpg|jpeg|svg)$/)) {
+  res.setHeader('Cache-Control', 'public, max-age=31536000, immutable');
+} else {
+  // Для самого HTML (SSR сторінки) залишаємо невеликий кеш або no-cache
+  // щоб юзери бачили свіжі рецепти, але не вантажили сервер щосекунди
+  res.setHeader('Cache-Control', 'public, max-age=600, s-maxage=3600');
+}
 
       // Щоб перевірити вміст сторінки на "soft-404", нам треба прочитати body.
       // Важливо: response.clone(), бо потік body можна прочитати лише один раз.
