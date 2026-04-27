@@ -38,7 +38,7 @@
   <div class="image-backdrop" (click)="closeImage()">
     <div class="image-modal">
       <img [src]="selectedImage()" alt="" (click)="closeImage()" />
-      <button class="close-btn" (click)="closeImage(); $event.stopPropagation()" aria-label="Закрити модальне вікно">✕</button>
+      <button class="close-btn" (click)="closeImage(); $event.stopPropagation()" aria-label="Закрити">✕</button>
     </div>
   </div>
 }

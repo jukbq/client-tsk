@@ -14,6 +14,18 @@ import fs from 'fs';
 
 const browserDistFolder = join(import.meta.dirname, '../browser');
 
+// Pre-parse index.html to extract main assets for Link: preload headers
+const indexHtmlPath = join(browserDistFolder, 'index.html');
+let preloadHeaderValue = '';
+if (fs.existsSync(indexHtmlPath)) {
+  const indexContent = fs.readFileSync(indexHtmlPath, 'utf8');
+  const matches = indexContent.match(/href="([^"]+\.css)"|src="([^"]+\.js)"/g) || [];
+  preloadHeaderValue = matches.map(m => {
+    const url = m.match(/"([^"]+)"/)?.[1];
+    return `<${url}>; rel=preload; as=${url?.endsWith('.js') ? 'script' : 'style'}`;
+  }).join(', ');
+}
+
 const app = express();
 
 console.log('🚀 SERVER.TS STARTED');
@@ -141,24 +153,9 @@ app.use(
         return;
       }
 
-      // 2. ШРИФТИ — Найвищий пріоритет (кешуємо на 1 рік)
-      // Ми додаємо перевірку на розширення woff2, woff, ttf
-      if (/\.(woff2?|ttf|otf)$/.test(path)) {
+      // 2. Статика (JS, CSS, Зображення, Шрифти) — 1 рік кешу
+      if (/\.(js|css|woff2?|ttf|otf|png|jpg|jpeg|svg|webp)$/.test(path)) {
         res.setHeader('Cache-Control', 'public, max-age=31536000, immutable');
-        return;
-      }
-
-      // 3. Інша статика (зображення, JS/CSS з хешами)
-      if (/\.[0-9a-f]{8,}\.(js|css|png|jpg|jpeg|svg|webp)$/.test(path)) {
-        res.setHeader('Cache-Control', 'public, max-age=31536000, immutable');
-        return;
-      }
-
-      /**
-       * 🕐 Інша статика — 1 година
-       */
-      if (/\.(js|css|png|jpg|jpeg|svg|webp)$/.test(path)) {
-        res.setHeader('Cache-Control', 'public, max-age=3600');
         return;
       }
 
@@ -181,7 +178,10 @@ app.use((req, res, next) => {
 if (req.url.match(/\.(js|css|woff2|webp|png|jpg|jpeg|svg)$/)) {
   res.setHeader('Cache-Control', 'public, max-age=31536000, immutable');
 } else {
-  // Для самого HTML (SSR сторінки) залишаємо невеликий кеш або no-cache
+  // Add Link preload headers for HTML responses to break critical request chains
+  if (preloadHeaderValue) {
+    res.setHeader('Link', preloadHeaderValue);
+  }
   res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
 }
 

@@ -108,7 +108,7 @@
           <div style="min-height: 250px; background: #1c1919"></div>
         }
 
-        @defer (on viewport) {
+        @defer (on timer(1s); on viewport) {
           <app-recipe-carousel
             [dishesID]="dishesID()"
             [recipeID]="recipeID()"

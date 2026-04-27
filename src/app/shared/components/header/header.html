@@ -14,7 +14,7 @@
          [class.active]="isLoggedIn()" 
          [class.auth]="!isLoggedIn()"
          [appSsrLink]="isLoggedIn() ? ['profile'] : ['auth']"
-         [attr.aria-label]="isLoggedIn() ? 'Профіль' : 'Увійти'">
+         aria-label="Особистий кабінет">
       </a>
 
       <button class="burger_button" 
