@@ -64,12 +64,8 @@
         }
 
         <section id="instruction">
-          @defer (on viewport) {
-            <app-instructions [instructions]="instructions()"></app-instructions>
-          } @placeholder {
-            <div style="min-height: 200px"></div>
-          }
-        </section>
+                <app-instructions [instructions]="instructions()"></app-instructions>
+             </section>
 
         <section id="related">
           @defer (on viewport) {
@@ -88,16 +84,13 @@
         }
 
         <section id="council">
-          @defer (on viewport) {
-            <app-recipe-advice-c
+             <app-recipe-advice-c
               [advice]="advice()"
               [completion]="completion()"
               [faq]="faq()"
               [accompanyingArticles]="accompanyingArticles()"
             ></app-recipe-advice-c>
-          } @placeholder {
-            <div style="min-height: 200px"></div>
-          }
+        
         </section>
 
         @defer (on viewport; prefetch on idle) {
