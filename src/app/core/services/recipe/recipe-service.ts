@@ -153,7 +153,7 @@ export class RecipeService {
           const name = this.cleanHtmlContent(item.selectedProduct?.productsName) || 'Інгредієнт';
           const amount = item.amount ? `${item.amount}` : '';
           const unit = item.unitsMeasure ? `${item.unitsMeasure}` : '';
-          const notes = item.notes ? `(${item.notes})` : '';
+          const notes = item.notes ? this.cleanHtmlContent(item.notes) : '';
 
           // Збираємо текстову строку
           const parts = [name, amount, unit, notes].filter(Boolean);

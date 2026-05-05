@@ -172,7 +172,7 @@ export const recipeResolver: ResolveFn<RecipeResolverData | null> = (
         recipeID,
         recipeTitle: recipe.recipeTitle,
 
-        mainImageDesktop: recipe.mainImage,
+                mainImageDesktop: recipe.mainImage,
         mainImageMobile: recipe.mainImageMobile ?? null,
 
         recipeSubtitles: recipeService.cleanHtmlContent(recipe.recipeSubtitles),
