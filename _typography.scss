@@ -5,11 +5,19 @@
 }
 
 body {
-  font-family: 'MainFont', sans-serif;
-  color: #333;
+  font-family: 'MainFont', -apple-system, sans-serif;
+  color: var(--text-color);
+  background-color: var(--bg-color);
   line-height: 1.6;
+  margin: 0;
 }
 
 h1, h2, h3 {
+  color: var(--secondary-color);
+  margin-bottom: 1rem;
+  font-weight: 700;
+}
+
+p {
   margin-bottom: 1rem;
 }
