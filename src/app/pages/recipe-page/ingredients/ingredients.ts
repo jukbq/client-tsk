@@ -12,6 +12,7 @@ export class Ingredients {
  // Використовуємо сигнали для вхідних даних
   ingredients = input<any[]>([]);
   accompanyingRecipes = input<any[]>([]);
+  
 
   // Локальний стан
   isExpanded = signal(false);

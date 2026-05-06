@@ -206,6 +206,8 @@ export class RecipePage {
     this.relatedRecipes.set(ssr.relatedRecipes || []);
     this.setMetaTags(data.recipeMeta);
 
+
+
     const breadcrumbSchema = {
       '@context': 'https://schema.org',
       '@type': 'BreadcrumbList',
