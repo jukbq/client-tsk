@@ -1,5 +1,4 @@
-@use "../../../styles/fonts";
-@use "../../../styles/base-styles";
+@use "../../../../../variables" as v;
 
 // Змінні для зручності (якщо вони не в base-styles)
 :host {
@@ -153,57 +152,7 @@
       // --- СПИСОК РЕЦЕПТІВ (Dishes List) ---
       .dishes_list {
         width: 100%;
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-        gap: 25px;
-        padding: 20px 0;
-        list-style: none;
-
-        .dishes_card {
-          position: relative;
-          background: rgba(20, 20, 20, 0.8);
-          border-radius: 12px;
-          overflow: hidden;
-          box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
-          transition: transform 0.3s ease, box-shadow 0.3s ease;
-
-          &:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.7);
-
-            .img_black img { transform: scale(1.1); }
-          }
-
-          .img_black {
-            width: 100%;
-            height: 200px;
-            overflow: hidden;
-            
-            img {
-              width: 100%;
-              height: 100%;
-              object-fit: cover;
-              transition: transform 0.5s ease;
-            }
-          }
-
-          .text_block {
-            padding: 15px;
-            text-align: center;
-
-            .recipe_name {
-              font-weight: 700;
-              font-size: 1.1rem;
-              
-              a {
-                text-decoration: none;
-                color: #f0f0f0;
-                transition: color 0.3s;
-                &:hover { color: var(--clr-1); }
-              }
-            }
-          }
-        }
+        // Використовує глобальний .dishes_list
       }
 
       // Кнопки
@@ -281,14 +230,12 @@
   }
 }
 
+
 // --- АНІМАЦІЇ ---
 .fade-in {
-  animation: fadeIn 0.6s cubic-bezier(0.22, 1, 0.36, 1);
-}
+  animation: fadeIn 0.6s cubic-bezier(0.22, 1, 0.36, 1); // Використовує глобальну анімацію
 
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
+
 }
 
 @keyframes flip-arrow {

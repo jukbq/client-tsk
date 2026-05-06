@@ -1,5 +1,4 @@
-@use "./../../../styles/fonts";
-@use "./../../../styles/base-styles";
+// Глобальні стилі fonts та base-styles тепер підключаються лише в styles.scss
 
 section.terms-container {
   width: 100vw;

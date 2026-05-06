@@ -1,11 +1,35 @@
-:root {
-  --primary-color: #f39c12;
-  --secondary-color: #2c3e50;
-  --text-color: #333;
-  --bg-color: #fff;
-  --border-color: #eee;
-  
-  // Breakpoints (sass variables for media queries stay here)
-  $tablet: 768px;
-  $desktop: 1024px;
+// Лише Sass змінні. Цей файл не створює CSS код при @use.
+$primary-color: #f39c12;
+$secondary-color: #2c3e50;
+$text-color: #333;
+$bg-color: #000c;
+$border-color: #eee;
+
+$tablet: 768px;
+$desktop: 1024px;
+
+@mixin shadow-standard {
+  box-shadow: 2px 8px 15px -3px rgba(0, 0, 0, 0.81);
+}
+
+@mixin transition-standard {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@mixin btn-primary {
+  display: inline-block;
+  background-color: #ff5500;
+  padding: 0.5rem 1.5rem;
+  border-radius: 25px;
+  font-weight: 700;
+  color: #fff;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  box-shadow: 0 3px 6px rgba(255, 85, 0, 0.6);
+  @include transition-standard;
+
+  &:hover {
+    background-color: #e04e00;
+    box-shadow: 0 5px 10px rgba(224, 78, 0, 0.8);
+  }
 }

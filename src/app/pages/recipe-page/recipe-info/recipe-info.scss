@@ -71,9 +71,9 @@
     color: #4a3728;
     text-transform: uppercase;
     letter-spacing: 1px;
-    background: linear-gradient(270deg, #a67c17, #c4b299, #f3e9d2, #d9c7a1);
+    background: linear-gradient(270deg, var(--clr-1), #c4b299, #f3e9d2, #d9c7a1);
     background-size: 400% 400%;
-    animation: colorShift 12s ease infinite;
+    animation: colorShift 12s ease infinite; // Анімація тепер у глобальному styles.scss
 
     &:hover {
       filter: contrast(1.1);
@@ -213,10 +213,4 @@
       }
     }
   }
-}
-
-@keyframes colorShift {
-  0%   { background-position: 0% 50%; }
-  50%  { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
 }

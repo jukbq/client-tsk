@@ -1,21 +1,89 @@
-/* You can add global styles to this file, and also import other style files */
-
-/* Importing Bootstrap SCSS file. */
-@use "./app/styles/base-styles";
+@use "../variables" as *; // Sass змінні та міксини (compile-time)
+@use "../typography";     // Базові стилі тегів
+@use "../layout";         // Глобальні класи лейауту
+@use "./app/styles/fonts"; // Оголошення @font-face
+@use "./app/styles/base-styles"; 
 @use "./app/styles/input_style";
-@use "./app/styles/fonts";
+
+// Шар CSS Custom Properties для доступу в Runtime (браузер/SSR)
+:root {
+  --header-height: 8vh;
+  --menu-height: 4vh;
+
+  --bg-color: #{$bg-color};      // Інтерполяція Sass-змінних у CSS-змінні
+  --text-color: #{$text-color};
+  --border-color: #{$border-color};
+  --primary-color: #{$primary-color};
+  --secondary-color: #{$secondary-color};
+}
 
 html,
 body {
   height: 100%;
   margin: 0;
   padding: 0;
+/*   background-color: var(--bg-color); */
 }
 
 body {
-  font-family: "Roboto Serif", serif;
+  font-family: 'MainFont', "Roboto Serif", serif;
   scroll-behavior: smooth;
   line-height: 1.6;
+  color: var(--text-color);
+}
+
+// Глобальні стилі для сітки рецептів (Dishes Grid)
+// Це дозволить видалити ~4-6кб з кожного компонента, де є список страв
+.dishes_list {
+  width: 100%;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: 1.5rem;
+
+  .dishes_card {
+    background: rgba(30, 30, 30, 0.85);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+    &:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 14px 30px rgba(0, 0, 0, 0.7);
+      .img_black img { transform: scale(1.1); }
+    }
+
+    .img_black {
+      width: 100%;
+      height: 180px;
+      overflow: hidden;
+      img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s ease; }
+    }
+
+    .text_block {
+      padding: 1rem;
+      text-align: center;
+      .recipe_name {
+        font-weight: 700;
+        font-size: 1.1rem;
+        a { color: #f0f0f0; text-decoration: none; &:hover { color: #ff5500; } }
+      }
+    }
+  }
+
+  @media (max-width: 768px) {
+    gap: 1rem;
+    .dishes_card {
+      // Уніфікований розмір для планшетів
+      width: 100%; 
+    }
+  }
+
+  @media (max-width: 480px) {
+    grid-template-columns: 1fr;
+  }
 }
 
 ins.adsbygoogle {
@@ -23,3 +91,33 @@ ins.adsbygoogle {
   min-height: 280px;
   background: rgba(0, 0, 0, 0.03);
 }
+
+// Глобальні анімації
+@keyframes colorShift {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+@keyframes slowPulse {
+  0%, 100% { filter: drop-shadow(0 0 5px var(--neon-blue)); opacity: 0.9; }
+  50% { filter: drop-shadow(0 0 15px var(--neon-blue)); opacity: 1; }
+}
+
+@keyframes flickerPattern {
+  0%, 19.999%, 22%, 62.999%, 64%, 64.999%, 70%, 100% {
+    opacity: 1;
+    filter: drop-shadow(0 0 5px var(--neon-blue));
+  }
+  20%, 21.999%, 63%, 63.999%, 65%, 69.999% {
+    opacity: 0.4;
+    filter: none;
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeInSimple { from { opacity: 0; } to { opacity: 1; } }
+@keyframes slideIn { from { opacity: 0; transform: translateX(10px); } to { opacity: 1; transform: translateX(0); } }
