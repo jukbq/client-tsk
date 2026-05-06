@@ -1,0 +1,15 @@
+@font-face {
+  font-family: 'MainFont';
+  src: url('/assets/fonts/main.woff2') format('woff2');
+  font-display: swap;
+}
+
+body {
+  font-family: 'MainFont', sans-serif;
+  color: #333;
+  line-height: 1.6;
+}
+
+h1, h2, h3 {
+  margin-bottom: 1rem;
+}
