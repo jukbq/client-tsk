@@ -53,6 +53,13 @@
             [recipeSubtitles]="recipeSubtitles()"
             [descriptionRecipe]="descriptionRecipe()"
           ></app-recipe-descriptio>
+
+             <app-share-recipe
+            [title]="recipeTitle()"
+            [currentUrl]="currentURL()"
+            [image]="mainImageDesktop() || mainImageMobile()"
+          ></app-share-recipe>
+
         </section>
 
         @defer (on viewport; prefetch on idle) {
@@ -64,8 +71,8 @@
         }
 
         <section id="instruction">
-                <app-instructions [instructions]="instructions()"></app-instructions>
-             </section>
+          <app-instructions [instructions]="instructions()"></app-instructions>
+        </section>
 
         <section id="related">
           @defer (on viewport) {
@@ -84,13 +91,21 @@
         }
 
         <section id="council">
-             <app-recipe-advice-c
-              [advice]="advice()"
-              [completion]="completion()"
-              [faq]="faq()"
-              [accompanyingArticles]="accompanyingArticles()"
-            ></app-recipe-advice-c>
-        
+          <app-recipe-advice-c
+            [advice]="advice()"
+            [completion]="completion()"
+          ></app-recipe-advice-c>
+
+          <app-share-recipe
+            [title]="recipeTitle()"
+            [currentUrl]="currentURL()"
+            [image]="mainImageDesktop() || mainImageMobile()"
+          ></app-share-recipe>
+
+          <app-faq
+            [faq]="faq()"
+            [accompanyingArticles]="accompanyingArticles()"
+          ></app-faq>
         </section>
 
         @defer (on viewport; prefetch on idle) {

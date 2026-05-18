@@ -1,26 +1,35 @@
 import { DOCUMENT } from '@angular/common';
-import { Component, computed, inject, input } from '@angular/core';
+import { Component, computed, inject, input, signal } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
+import { NgOptimizedImage } from '@angular/common';
+import { SsrLinkDirective } from '../../../shared/SsrLinkDirective/ssr-link.directive';
 
 @Component({
-  selector: 'app-recipe-advice-c',
+  selector: 'app-faq',
   standalone: true,
-  imports: [],
-  templateUrl: './recipe-advice-c.html',
-  styleUrl: './recipe-advice-c.scss',
+  imports: [SsrLinkDirective, NgOptimizedImage],
+  templateUrl: './faq.html',
+  styleUrl: './faq.scss',
 })
-export class RecipeAdviceC {
+export class Faq {
   private sanitizer = inject(DomSanitizer);
   private document = inject(DOCUMENT);
   private readonly allowedTags = new Set(['p', 'ul', 'ol', 'li', 'strong', 'em', 'br', 'a']);
 
-  // Inputs як сигнали
-  advice = input<string>('');
-  completion = input<string>('');
+  // Inputs як сигнали Angular 20
+  faq = input<{ question: string; answer: string }[]>([]);
+  accompanyingArticles = input<any[]>([]);
+
+  // Локальний стан розгортання
+  isExpanded = signal(false);
 
   // Оптимізоване очищення HTML через computed
-  safeAdvice = computed(() => this.sanitize(this.advice()));
-  safeCompletion = computed(() => this.sanitize(this.completion()));
+  safeFaq = computed(() =>
+    this.faq().map((item) => ({
+      question: item?.question || '',
+      answer: this.sanitize(item?.answer || ''),
+    })),
+  );
 
   private sanitize(html: string): SafeHtml {
     const sanitized = this.cleanRecipeHtml(html || '');
@@ -29,10 +38,8 @@ export class RecipeAdviceC {
 
   private cleanRecipeHtml(html: string): string {
     if (!html) return '';
-
     const container = this.document.createElement('div');
     container.innerHTML = html;
-
     const result = this.document.createElement('div');
     for (const node of Array.from(container.childNodes)) {
       const cleaned = this.cleanNode(node);
@@ -40,7 +47,6 @@ export class RecipeAdviceC {
         result.appendChild(cleaned);
       }
     }
-
     return result.innerHTML;
   }
 
@@ -48,18 +54,14 @@ export class RecipeAdviceC {
     if (node.nodeType === Node.TEXT_NODE) {
       return this.document.createTextNode(node.textContent || '');
     }
-
     if (node.nodeType !== Node.ELEMENT_NODE) {
       return null;
     }
-
     const element = node as HTMLElement;
     const tag = element.tagName.toLowerCase();
-
     if (tag === 'script' || tag === 'style') {
       return null;
     }
-
     if (tag === 'span' || !this.allowedTags.has(tag)) {
       const fragment = this.document.createDocumentFragment();
       for (const child of Array.from(element.childNodes)) {
@@ -70,9 +72,7 @@ export class RecipeAdviceC {
       }
       return fragment;
     }
-
     const cleanElement = this.document.createElement(tag);
-
     if (tag === 'a') {
       const href = this.normalizeHref(element.getAttribute('href'));
       if (href) {
@@ -81,14 +81,12 @@ export class RecipeAdviceC {
       cleanElement.setAttribute('target', '_blank');
       cleanElement.setAttribute('rel', 'noopener');
     }
-
     for (const child of Array.from(element.childNodes)) {
       const cleanedChild = this.cleanNode(child);
       if (cleanedChild) {
         cleanElement.appendChild(cleanedChild);
       }
     }
-
     return cleanElement;
   }
 
@@ -96,7 +94,6 @@ export class RecipeAdviceC {
     if (!href) return null;
     const value = href.trim();
     if (!value) return null;
-
     const lower = value.toLowerCase();
     const isSafeProtocol =
       lower.startsWith('http://') ||
@@ -107,5 +104,9 @@ export class RecipeAdviceC {
       lower.startsWith('#');
 
     return isSafeProtocol ? value : null;
+  }
+
+  toggleExpand(): void {
+    this.isExpanded.update((v) => !v);
   }
 }

@@ -29,6 +29,8 @@ import { RecipeAdviceC } from './recipe-advice-c/recipe-advice-c';
 import { RecipeCarousel } from './recipe-carousel/recipe-carousel';
 import { RelatedRecipes } from './related-recipes/related-recipes';
 import { Soft404 } from '../soft-404/soft-404';
+import { ShareRecipe } from "./share-recipe/share-recipe";
+import { Faq } from "./faq/faq";
 
 interface MenuItem {
   id: string;
@@ -50,7 +52,9 @@ interface MenuItem {
     RecipeCarousel,
     RelatedRecipes,
     Soft404,
-  ],
+    ShareRecipe,
+    Faq
+],
   templateUrl: './recipe-page.html',
   styleUrl: './recipe-page.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
