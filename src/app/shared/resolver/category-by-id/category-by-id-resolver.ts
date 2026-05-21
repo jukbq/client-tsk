@@ -20,8 +20,7 @@ export const categoryByIdResolver: ResolveFn<CategoryByIdResolveData> = (
   return categoryService.getObjectById(categoryid).pipe(
     take(1),
     map((data) => {
-      console.log(data);
-      
+           
       if (!data) {
         return {
           data: null,
@@ -43,6 +42,14 @@ export const categoryByIdResolver: ResolveFn<CategoryByIdResolveData> = (
 
       const faq = data.faq || [];
 
+      const cleanText = (html: string): string =>
+        html
+          ?.replace(/\sclass=("|')?MsoNormal("|')?/gi, '')
+          ?.replace(/<o:p>\s*<\/o:p>/gi, '')
+          ?.replace(/ /gi, ' ')
+          ?.replace(/<[^>]*>/g, '')
+          ?.trim();
+
       const faqSchema = faq.length
         ? {
             '@type': 'FAQPage',
@@ -51,7 +58,7 @@ export const categoryByIdResolver: ResolveFn<CategoryByIdResolveData> = (
               name: item.question,
               acceptedAnswer: {
                 '@type': 'Answer',
-                text: item.answer,
+                text: cleanText(item.answer),
               },
             })),
           }
