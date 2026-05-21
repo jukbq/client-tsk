@@ -1,4 +1,12 @@
-@use "../../../styles/base-styles"as *;
+@use "../../../styles/base-styles" as *;
+
+@font-face {
+  font-family: "Roboto Serif";
+  src: url("../../../../assets/fonts/roboto-serif.woff2") format("woff2");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
 
 // Змінні для зручності (якщо вони не в base-styles, вони будуть тут)
 :host {
