@@ -59,9 +59,9 @@
             </a>
 
             <div class="text_block">
-              <div class="recipe_name">
+              <h3 class="recipe_name">
                 <a [appSsrLink]="['recipe-page', recipe.id]">{{ recipe.recipeTitle }}</a>
-              </div>
+              </h3>
             </div>
 
             <div class="fav-btn" (click)="toggleFavorite(recipe.id)">

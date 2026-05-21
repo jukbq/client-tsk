@@ -63,7 +63,6 @@ export class RecipeList {
 
   private currentURL = '';
 
-
   // ===== INIT =====
   ngOnInit() {
     if (this.isBrowser) {
@@ -99,7 +98,9 @@ export class RecipeList {
       this.recipesFilter.set(sorted);
 
       const itemListSchema = {
-        '@type': 'CollectionPage',
+        '@type': 'ItemList',
+        itemListOrder: 'https://schema.org/ItemListOrderAscending',
+        numberOfItems: data.recipes.length,
         name: data.category.data.categoryName,
         url: data.category.url,
         description: this.stripHtml(data.category.data.categoryDescription),
@@ -127,10 +128,15 @@ export class RecipeList {
     this.additionalImage.set(cat.additionalImage);
     this.verticalImage.set(cat.verticalImage);
     this.categoryName.set(cat.categoryName);
-    this.categoryDescription.set(cat.categoryDescription);
+    this.categoryDescription.set(this.cleanHtml(cat.categoryDescription));
     this.dishesName.set(cat.dishes.dishesName);
     this.dishesID.set(cat.dishes.id);
-    this.categoryFaq.set(cat.faq || []);
+    this.categoryFaq.set(
+      (cat.faq || []).map((item: any) => ({
+        ...item,
+        answer: this.cleanHtml(item.answer),
+      })),
+    );
 
     this.currentURL = category.url;
 
@@ -152,9 +158,13 @@ export class RecipeList {
     this.updateFontSize(cat.categoryName);
   }
 
-
-
-
+  private cleanHtml(html: string): string {
+    return html
+      ?.replace(/\sclass=("|')?MsoNormal("|')?/gi, '')
+      ?.replace(/<o:p>\s*<\/o:p>/gi, '')
+      ?.replace(/ /gi, ' ')
+      ?.trim();
+  }
 
   private stripHtml(html: string): string {
     const text = html
@@ -227,6 +237,5 @@ export class RecipeList {
 
   ngOnDestroy() {
     if (!this.isBrowser) return;
-
   }
 }
