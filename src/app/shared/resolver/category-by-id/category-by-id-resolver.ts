@@ -34,7 +34,7 @@ export const categoryByIdResolver: ResolveFn<CategoryByIdResolveData> = (
 
       const meta = {
         title: data.seoCategoryName,
-        description: data.seoCategoryDescription,
+        description: data.seoCategoryDescription?.replace(/\s*\.{3,}$/, '.').trim(),
         image: data.image,
         verticalImage: data.verticalImage,
         url,

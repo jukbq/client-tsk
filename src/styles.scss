@@ -5,14 +5,6 @@
 @use "./app/styles/base-styles"; 
 @use "./app/styles/input_style";
 
-@font-face {
-  font-family: "Roboto Serif";
-  src: url("./assets/fonts/roboto-serif.woff2") format("woff2");
-  font-weight: 100 900;
-  font-style: normal;
-  font-display: swap;
-}
-
 // Шар CSS Custom Properties для доступу в Runtime (браузер/SSR)
 :root {
   --header-height: 8vh;
