@@ -1,11 +1,5 @@
-@font-face {
-  font-family: 'MainFont';
-  src: url('/assets/fonts/main.woff2') format('woff2');
-  font-display: swap;
-}
-
 body {
-  font-family: 'MainFont', -apple-system, sans-serif;
+  font-family: -apple-system, sans-serif;
   color: var(--text-color);
   background-color: var(--bg-color);
   line-height: 1.6;
