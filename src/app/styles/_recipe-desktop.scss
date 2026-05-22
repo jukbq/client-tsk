@@ -356,11 +356,12 @@ section {
     margin: 12px;
     padding: 0.9rem 1rem;
 
-    h3 {
+    .question {
       display: flex;
       align-items: center;
       gap: 8px;
-      font-size: 1.1rem;
+      font-size: 1.25rem;
+      font-weight: 800;
     }
 
     .faq_icon {

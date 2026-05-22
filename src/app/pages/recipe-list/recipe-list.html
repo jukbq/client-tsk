@@ -59,9 +59,9 @@
             </a>
 
             <div class="text_block">
-              <h3 class="recipe_name">
+              <div class="recipe_name">
                 <a [appSsrLink]="['recipe-page', recipe.id]">{{ recipe.recipeTitle }}</a>
-              </h3>
+              </div>
             </div>
 
             <div class="fav-btn" (click)="toggleFavorite(recipe.id)">
@@ -90,7 +90,7 @@
 
       @for (item of categoryFaq(); track item.question) {
         <div class="faq_item">
-          <h3>{{ item.question }}</h3>
+          <div class="question">{{ item.question }}</div>
           <p [innerHTML]="item.answer"></p>
         </div>
       }

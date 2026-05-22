@@ -70,8 +70,8 @@
 
       @for (item of faq(); track $index) {
         <div class="faq_item">
-          <h3>{{ item.question }}</h3>
-          <p [innerHTML]="item.answer"></p>
+          <div class="question">{{ item.question }}</div>
+                 <p [innerHTML]="item.answer"></p>
         </div>
       }
     </div>

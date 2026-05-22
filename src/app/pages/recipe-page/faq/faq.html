@@ -4,7 +4,7 @@
     <ul>
       @for (item of safeFaq(); track $index) {
         <li class="faq_item">
-          <h3>{{ item.question }}</h3>
+          <div class="question">{{ item.question }}</div>
           <div class="text" [innerHTML]="item.answer"></div>
         </li>
       }

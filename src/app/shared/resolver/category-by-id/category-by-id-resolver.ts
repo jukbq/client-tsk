@@ -20,7 +20,6 @@ export const categoryByIdResolver: ResolveFn<CategoryByIdResolveData> = (
   return categoryService.getObjectById(categoryid).pipe(
     take(1),
     map((data) => {
-           
       if (!data) {
         return {
           data: null,
@@ -42,20 +41,32 @@ export const categoryByIdResolver: ResolveFn<CategoryByIdResolveData> = (
 
       const faq = data.faq || [];
 
+      const decodeHtmlEntities = (text: string): string =>
+        text
+          ?.replace(/&nbsp;/gi, ' ')
+          ?.replace(/&mdash;/gi, '—')
+          ?.replace(/&ndash;/gi, '–')
+          ?.replace(/&quot;/gi, '"')
+          ?.replace(/&#39;/gi, "'")
+          ?.replace(/&amp;/gi, '&');
+
       const cleanText = (html: string): string =>
-        html
-          ?.replace(/\sclass=("|')?MsoNormal("|')?/gi, '')
-          ?.replace(/<o:p>\s*<\/o:p>/gi, '')
-          ?.replace(/ /gi, ' ')
-          ?.replace(/<[^>]*>/g, '')
-          ?.trim();
+        decodeHtmlEntities(
+          html
+            ?.replace(/\sclass=("|')?MsoNormal("|')?/gi, '')
+            ?.replace(/<o:p>\s*<\/o:p>/gi, '')
+            ?.replace(/ /gi, ' ')
+            ?.replace(/<[^>]*>/g, '')
+            ?.replace(/\s+/g, ' ')
+            ?.trim(),
+        );
 
       const faqSchema = faq.length
         ? {
             '@type': 'FAQPage',
             mainEntity: faq.map((item: any) => ({
               '@type': 'Question',
-              name: item.question,
+              name: cleanText(item.question),
               acceptedAnswer: {
                 '@type': 'Answer',
                 text: cleanText(item.answer),
@@ -82,13 +93,13 @@ export const categoryByIdResolver: ResolveFn<CategoryByIdResolveData> = (
           {
             '@type': 'ListItem',
             position: 3,
-            name: data.dishes?.dishesName,
+            name: cleanText(data.dishes?.dishesName || ''),
             item: `https://tsk.in.ua/categories/${data.dishes?.id}`,
           },
           {
             '@type': 'ListItem',
             position: 4,
-            name: data.categoryName,
+            name: cleanText(data.categoryName || ''),
             item: url,
           },
         ],
