@@ -60,6 +60,7 @@ export class RecipeList {
   categoryFaq = signal<any[]>([]);
 
   readonly isBrowser = isPlatformBrowser(this.platformId);
+  private isAuthInitialized = false;
 
   private currentURL = '';
 
@@ -67,17 +68,6 @@ export class RecipeList {
   ngOnInit() {
     if (this.isBrowser) {
       this.viewportScroller.scrollToPosition([0, 0]);
-
-      this.auth.user$
-        .pipe(
-          switchMap((user) => {
-            if (!user) {
-              return of([]);
-            }
-            return this.fav.getFavorites(user.uid);
-          }),
-        )
-        .subscribe((ids) => this.favoriteIds.set(ids));
     }
 
     // 🔥 ВСЕ — З RESOLVER
@@ -118,6 +108,22 @@ export class RecipeList {
       });
       this.recipeStateService.setRecipes(sorted);
     });
+  }
+
+  private initAuthAndFavorites() {
+    if (this.isAuthInitialized || !this.isBrowser) return;
+    this.isAuthInitialized = true;
+
+    this.auth.user$
+      .pipe(
+        switchMap((user) => {
+          if (!user) {
+            return of([]);
+          }
+          return this.fav.getFavorites(user.uid);
+        }),
+      )
+      .subscribe((ids) => this.favoriteIds.set(ids));
   }
 
   // ===== CATEGORY + SEO =====
@@ -162,6 +168,12 @@ export class RecipeList {
     return html
       ?.replace(/\sclass=("|')?MsoNormal("|')?/gi, '')
       ?.replace(/<o:p>\s*<\/o:p>/gi, '')
+      ?.replace(/&nbsp;/gi, ' ')
+      ?.replace(/&mdash;/gi, '—')
+      ?.replace(/&ndash;/gi, '–')
+      ?.replace(/&laquo;/gi, '«')
+      ?.replace(/&raquo;/gi, '»')
+      ?.replace(/&quot;/gi, '"')
       ?.replace(/ /gi, ' ')
       ?.trim();
   }
@@ -169,6 +181,11 @@ export class RecipeList {
   private stripHtml(html: string): string {
     const text = html
       ?.replace(/<[^>]+>/g, '')
+      .replace(/&nbsp;/gi, ' ')
+      .replace(/&mdash;/gi, '—')
+      .replace(/&ndash;/gi, '–')
+      .replace(/&quot;/gi, '"')
+      .replace(/&amp;/gi, '&')
       .replace(/\s+/g, ' ')
       .trim();
 
@@ -191,6 +208,7 @@ export class RecipeList {
   }
 
   toggleFavorite(id: string) {
+    this.initAuthAndFavorites();
     const user = this.auth.currentUser;
 
     if (!user) {
@@ -210,14 +228,22 @@ export class RecipeList {
 
   // ===== SCROLL EFFECTS =====
   @HostListener('window:scroll')
-  onScroll() {
+  @HostListener('window:click')
+  @HostListener('window:touchstart')
+  onUserInteraction() {
     if (!this.isBrowser) return;
+    this.initAuthAndFavorites();
+    this.handleScrollEffects();
+  }
 
+  private handleScrollEffects() {
     const scrollY = window.scrollY;
 
     const bg = this.document.querySelector('.bg_image') as HTMLElement;
-    if (bg) {
-      this.renderer.setStyle(bg, 'transform', `translate3d(0, ${Math.round(scrollY * 0.4)}px, 0)`);
+    if (bg && window.innerWidth > 991) {
+      window.requestAnimationFrame(() => {
+        this.renderer.setStyle(bg, 'transform', `translate3d(0, ${Math.round(scrollY * 0.4)}px, 0)`);
+      });
     }
 
     if (!this.isVisible() && this.textBlocksRef) {
