@@ -3,7 +3,7 @@
 }
 
 .mobile-sticky-ads {
-  --mobile-sticky-ads-expanded-height: 90px;
+  --mobile-sticky-ads-expanded-height: 95px;
   --mobile-sticky-ads-collapsed-height: 24px;
   --mobile-sticky-ads-handle-height: 24px;
 
@@ -50,7 +50,7 @@
 }
 
 .mobile-sticky-ads.is-collapsed .mobile-sticky-ads__handle {
-  // Translate handle to the bottom (90px - 24px = 66px)
+  // Translate handle to the bottom (95px - 24px = 71px)
   transform: translateX(-50%) translateY(calc(var(--mobile-sticky-ads-expanded-height) - var(--mobile-sticky-ads-handle-height)));
 }
 
