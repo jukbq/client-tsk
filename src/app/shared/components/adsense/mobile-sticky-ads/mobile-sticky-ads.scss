@@ -12,22 +12,23 @@
   z-index: 9990;
   width: 100%;
   height: var(--mobile-sticky-ads-expanded-height);
+  overflow: hidden; // Requirement 2: True clipping for outer container
   background: linear-gradient(180deg, #2b1f15 0%, #110e0c 100%);
   border-top: 1px solid rgba(203, 151, 74, 0.5);
   border-radius: 8px 8px 0 0;
   box-shadow: 0 -4px 14px rgba(0, 0, 0, 0.32);
   transform: translateY(0);
   transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  overflow: visible; // To let the handle shadow/border show
 }
 
 .mobile-sticky-ads.is-collapsed {
-  transform: translateY(66px); // 90px - 24px = 66px
+  // Translate 74px to leave exactly 16px of the handle area visible (90 - 74 = 16)
+  transform: translateY(74px); 
 }
 
 .mobile-sticky-ads__handle {
   position: absolute;
-  top: -1px; // Align with container top border
+  top: 0;
   left: 50%;
   transform: translateX(-50%);
   z-index: 20;
@@ -36,13 +37,12 @@
   justify-content: center;
   width: 56px;
   height: var(--mobile-sticky-ads-handle-height);
-  border: 1px solid rgba(203, 151, 74, 0.6);
+  border: 1px solid rgba(203, 151, 74, 0.4);
   border-bottom: none;
   border-radius: 12px 12px 0 0;
   background: #2b1f15;
   color: rgba(245, 220, 170, 0.92);
   cursor: pointer;
-  font: inherit;
   pointer-events: auto;
   touch-action: manipulation;
   -webkit-tap-highlight-color: transparent;
@@ -65,23 +65,20 @@
 }
 
 .mobile-sticky-ads__ad-container {
-  position: relative;
+  position: absolute;
+  top: var(--mobile-sticky-ads-handle-height); // Shifted down to prevent any bleeding in collapsed state
   z-index: 1;
-  display: block;
   width: 100%;
-  height: var(--mobile-sticky-ads-expanded-height);
-  box-sizing: border-box;
+  height: calc(100% - var(--mobile-sticky-ads-handle-height));
   overflow: hidden;
-  padding: 0;
-  border-radius: 8px 8px 0 0;
 }
 
 .mobile-sticky-ads__label {
   position: absolute;
-  top: 25px;
-  left: 0;
+  top: 4px;
+  left: 50%;
+  transform: translateX(-50%);
   z-index: 3;
-  display: block;
   width: 100%;
   color: rgba(238, 214, 174, 0.72);
   font-size: 10px;
@@ -93,7 +90,7 @@
 .mobile-sticky-ads__ad-frame {
   width: 100%;
   height: 100%;
-  padding: 34px 8px 6px;
+  padding: 16px 8px 6px; // Adjust padding relative to the new container position
   display: flex;
   justify-content: center;
   align-items: flex-start;
