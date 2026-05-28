@@ -101,7 +101,7 @@
 .mobile-sticky-ads__ad-frame {
   width: 100%;
   height: 100%;
-  padding: 12px 8px 4px; // Corrected padding to fit 50px ad + label in 66px space
+  padding: 5px 8px 4px; // Raised ad position higher to prevent top-clipping
   display: flex;
   justify-content: center;
   align-items: flex-start;
