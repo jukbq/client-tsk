@@ -13,7 +13,7 @@ import {
 import { AdsenseLoaderService } from '../../../../core/services/adsense-loader/adsense-loader';
 
 const MOBILE_QUERY = '(max-width: 1024px)';
-const EXPANDED_HEIGHT = '15vh';
+const EXPANDED_HEIGHT = '110px';
 const COLLAPSED_HEIGHT = '22px';
 
 @Component({
