@@ -10,11 +10,14 @@ import {
   inject,
   signal,
 } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { NavigationEnd, Router } from '@angular/router';
+import { filter } from 'rxjs';
 import { AdsenseLoaderService } from '../../../../core/services/adsense-loader/adsense-loader';
 
 const MOBILE_QUERY = '(max-width: 1024px)';
-const EXPANDED_HEIGHT = '110px';
-const COLLAPSED_HEIGHT = '22px';
+const EXPANDED_HEIGHT = '90px';
+const COLLAPSED_HEIGHT = '24px';
 
 @Component({
   selector: 'app-mobile-sticky-ads',
@@ -28,6 +31,7 @@ export class MobileStickyAds implements AfterViewInit {
   private readonly renderer = inject(Renderer2);
   private readonly destroyRef = inject(DestroyRef);
   private readonly adsenseLoader = inject(AdsenseLoaderService);
+  private readonly router = inject(Router);
   private readonly isBrowser = isPlatformBrowser(this.platformId);
 
   @ViewChild('adSlot')
@@ -45,6 +49,7 @@ export class MobileStickyAds implements AfterViewInit {
 
     this.mediaQuery = window.matchMedia(MOBILE_QUERY);
     this.syncViewportState(this.mediaQuery.matches);
+    this.initRouteReset();
 
     const onMediaChange = (event: MediaQueryListEvent) => {
       this.syncViewportState(event.matches);
@@ -67,6 +72,18 @@ export class MobileStickyAds implements AfterViewInit {
   protected toggleCollapsed(): void {
     this.isCollapsed.update((value) => !value);
     this.syncBodyOffset();
+  }
+
+  private initRouteReset(): void {
+    this.router.events
+      .pipe(
+        filter((event): event is NavigationEnd => event instanceof NavigationEnd),
+        takeUntilDestroyed(this.destroyRef)
+      )
+      .subscribe(() => {
+        this.isCollapsed.set(false);
+        this.syncBodyOffset();
+      });
   }
 
   private syncViewportState(matchesMobile: boolean): void {
