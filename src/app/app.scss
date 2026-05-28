@@ -1,13 +1,16 @@
 .scroll-to-top {
   position: fixed;
-  bottom: 20px;
+  bottom: calc(
+    var(--mobile-sticky-ads-current-height, 0px) + env(safe-area-inset-bottom, 0px) + 10px
+  );
   right: 20px;
-  z-index: 1000;
+  z-index: 10000;
   cursor: pointer;
- background-image: url(../assets/icon/up.png);
+  background-image: url(../assets/icon/up.png);
   width: 40px;
   height: 40px;
   background-size: cover;
+  transition: bottom 220ms ease;
 }
 
 

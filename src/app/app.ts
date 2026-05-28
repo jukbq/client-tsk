@@ -6,10 +6,11 @@ import { filter } from 'rxjs';
 import { Footer } from './shared/components/footer/footer';
 import { AuthModal } from './shared/components/auth-modal/auth-modal';
 import { AdsenseLoaderService } from './core/services/adsense-loader/adsense-loader';
+import { MobileStickyAds } from './shared/components/adsense/mobile-sticky-ads/mobile-sticky-ads';
 
 @Component({
   selector: 'app-root',
-  imports: [Header, RouterOutlet, Footer, AuthModal],
+  imports: [Header, RouterOutlet, Footer, AuthModal, MobileStickyAds],
   templateUrl: './app.html',
   styleUrl: './app.scss',
 })
