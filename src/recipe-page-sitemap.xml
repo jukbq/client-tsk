@@ -501,8 +501,18 @@
   <priority>0.7</priority>
 </url>
 <url>
+  <loc>https://tsk.in.ua/recipe-page/grybnyi-bulion</loc>
+  <lastmod>2026-06-01T06:09:48.398Z</lastmod>
+  <priority>0.7</priority>
+</url>
+<url>
   <loc>https://tsk.in.ua/recipe-page/grybnyj-sup-z-galushkamy</loc>
   <lastmod>2025-06-28</lastmod>
+  <priority>0.7</priority>
+</url>
+<url>
+  <loc>https://tsk.in.ua/recipe-page/gryby-v-smetani-na-skovorodi</loc>
+  <lastmod>2026-06-01T09:30:57.730Z</lastmod>
   <priority>0.7</priority>
 </url>
 <url>
@@ -1848,6 +1858,11 @@
 <url>
   <loc>https://tsk.in.ua/recipe-page/zapecheni-kabachky-z-syrom</loc>
   <lastmod>2026-05-17T11:37:59.565Z</lastmod>
+  <priority>0.7</priority>
+</url>
+<url>
+  <loc>https://tsk.in.ua/recipe-page/zapecheni-pecherytsi-z-syrom</loc>
+  <lastmod>2026-06-01T11:06:08.177Z</lastmod>
   <priority>0.7</priority>
 </url>
 <url>
