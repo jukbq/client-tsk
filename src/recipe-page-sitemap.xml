@@ -226,11 +226,6 @@
   <priority>0.7</priority>
 </url>
 <url>
-  <loc>https://tsk.in.ua/recipe-page/UMop9iXtClFkLOWaqdUa</loc>
-  <lastmod>2025-01-01</lastmod>
-  <priority>0.7</priority>
-</url>
-<url>
   <loc>https://tsk.in.ua/recipe-page/WbKX93aqPBJzUbbo5nNe</loc>
   <lastmod>2025-06-10</lastmod>
   <priority>0.7</priority>
@@ -503,6 +498,11 @@
 <url>
   <loc>https://tsk.in.ua/recipe-page/grybnyi-bulion</loc>
   <lastmod>2026-06-01T06:09:48.398Z</lastmod>
+  <priority>0.7</priority>
+</url>
+<url>
+  <loc>https://tsk.in.ua/recipe-page/grybnyi-zhulien</loc>
+  <lastmod>2026-06-04T06:59:58.601Z</lastmod>
   <priority>0.7</priority>
 </url>
 <url>
@@ -1308,6 +1308,11 @@
 <url>
   <loc>https://tsk.in.ua/recipe-page/salat-dymnyy-lis-svynyna-shiitake</loc>
   <lastmod>2025-11-12</lastmod>
+  <priority>0.7</priority>
+</url>
+<url>
+  <loc>https://tsk.in.ua/recipe-page/salat-iz-tsybuli</loc>
+  <lastmod>2026-06-03T16:21:18.171Z</lastmod>
   <priority>0.7</priority>
 </url>
 <url>
