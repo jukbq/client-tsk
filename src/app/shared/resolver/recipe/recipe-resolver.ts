@@ -246,7 +246,7 @@ export const recipeResolver: ResolveFn<RecipeResolverData | null> = (
           slug: 'numberCalories',
           infoLink: 'numberCalories',
           image: '/assets/icon/calories.webp',
-          name: recipe.numberCalories,
+          name: `${recipe.numberCalories} ккал на 100 г`
         },
         {
           slug: difficultyLevel,
