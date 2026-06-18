@@ -73,14 +73,7 @@
           <app-instructions [instructions]="instructions()"></app-instructions>
         </section>
 
-        <section id="related">
-          @defer (on viewport) {
-            <app-related-recipes [recipes]="relatedRecipes()"></app-related-recipes>
-          } @placeholder {
-            <div style="min-height: 300px"></div>
-          }
-        </section>
-
+     
         @defer (on viewport; prefetch on idle) {
           <div class="adsense_block">
             <app-display-ads></app-display-ads>
@@ -101,10 +94,17 @@
             [image]="mainImageDesktop() || mainImageMobile()"
           ></app-share-recipe>
         </section>
-        
         <section id="faq">
           <app-faq [faq]="faq()" [accompanyingArticles]="accompanyingArticles()"></app-faq>
         </section>
+           <section id="related">
+          @defer (on viewport) {
+            <app-related-recipes [recipes]="relatedRecipes()"></app-related-recipes>
+          } @placeholder {
+            <div style="min-height: 300px"></div>
+          }
+        </section>
+
 
         @defer (on viewport; prefetch on idle) {
           <div class="adsense_block">

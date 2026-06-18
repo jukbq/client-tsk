@@ -309,7 +309,7 @@ export class RecipePage {
     const el = this.document.getElementById(item.id);
 
     if (el) {
-      const y = el.getBoundingClientRect().top + window.scrollY - this.totalOffset();
+    const y = el.offsetTop - this.totalOffset();
 
       window.scrollTo({
         top: y,
