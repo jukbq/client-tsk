@@ -40,7 +40,7 @@
       }
 
       @media (max-width: 780px) {
-        height: 8vh;
+        height: 12vh;
         flex-wrap: wrap;
       }
 
@@ -49,7 +49,7 @@
       }
 
       .item_menu {
-        min-width: 25%;
+        min-width: 20%;
         height: 100%;
         flex: 0 0 auto;
         border: 0.5px solid var(--clr-b);
@@ -57,15 +57,14 @@
 
         @media (max-width: 780px) {
           min-width: 49%;
-          height: 50%;
+          height: auto;
+          border: none;
 
-          &:nth-child(odd) {
-            border-right: none;
+          &:last-child {
+            min-width: 100%;
           }
 
-          &:nth-child(-n + 2) {
-            border-bottom: none;
-          }
+
         }
 
         a {
@@ -85,12 +84,15 @@
         &.active {
           border-bottom: none;
           background-color: var(--clr-1);
+          color: var(--clr-4);
 
           a {
             color: var(--clr-4);
           }
         }
       }
+
+
     }
   }
 

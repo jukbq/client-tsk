@@ -29,8 +29,8 @@ import { RecipeAdviceC } from './recipe-advice-c/recipe-advice-c';
 import { RecipeCarousel } from './recipe-carousel/recipe-carousel';
 import { RelatedRecipes } from './related-recipes/related-recipes';
 import { Soft404 } from '../soft-404/soft-404';
-import { ShareRecipe } from "./share-recipe/share-recipe";
-import { Faq } from "./faq/faq";
+import { ShareRecipe } from './share-recipe/share-recipe';
+import { Faq } from './faq/faq';
 
 interface MenuItem {
   id: string;
@@ -53,8 +53,8 @@ interface MenuItem {
     RelatedRecipes,
     Soft404,
     ShareRecipe,
-    Faq
-],
+    Faq,
+  ],
   templateUrl: './recipe-page.html',
   styleUrl: './recipe-page.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -98,8 +98,6 @@ export class RecipePage {
   instructions = signal<any[]>([]);
   accompanyingArticles = signal<any[]>([]);
 
-
-
   isNotFound = signal(false);
 
   ratingSum = signal(0);
@@ -110,17 +108,17 @@ export class RecipePage {
     { id: 'ingredients', label: 'ІНГРЕДІЄНТИ', index: 1 },
     { id: 'instruction', label: 'КРОКИ', index: 2 },
     { id: 'council', label: 'ПОРАДИ', index: 3 },
+    { id: 'faq', label: 'ЧАСТІ ПИТАННЯ', index: 4 },
   ];
 
   headerHeight = signal(0);
   menuHeight = signal(60);
 
   averageRating = computed(() => {
-  const count = this.ratingCount();
-  if (!count) return 0;
-  return this.ratingSum() / count;
-});
-
+    const count = this.ratingCount();
+    if (!count) return 0;
+    return this.ratingSum() / count;
+  });
 
   totalOffset = computed(() => this.menuHeight());
 
@@ -201,7 +199,7 @@ export class RecipePage {
     this.faq.set(ssr.faq || []);
     this.seasons.set(ssr.bestSeason || []);
     this.ingredients.set(ssr.ingredients || []);
-     
+
     this.accompanyingRecipes.set(ssr.accompanyingRecipes || []);
     this.accompanyingArticles.set(ssr.accompanyingArticles || []);
     this.instructions.set(ssr.instructions || []);
@@ -209,8 +207,6 @@ export class RecipePage {
 
     this.relatedRecipes.set(ssr.relatedRecipes || []);
     this.setMetaTags(data.recipeMeta);
-
-
 
     const breadcrumbSchema = {
       '@context': 'https://schema.org',
@@ -286,15 +282,14 @@ export class RecipePage {
     this.currentURL.set(meta.currentURL);
     this.titleService.setTitle(meta.seoName);
     const tags: MetaDefinition[] = [
-     
       { name: 'description', content: meta.seoDescription },
       { property: 'og:title', content: meta.seoName },
-       { property: 'og:description', content: meta.seoDescription },
-      { property: 'og:image', content: meta.mainImage  },
-      { property: "og:image:width", content: "1920" },
-      { property: "og:image:height", content: "1080" },
-      { property: 'og:image', content: meta.mainImage  },
-      
+      { property: 'og:description', content: meta.seoDescription },
+      { property: 'og:image', content: meta.mainImage },
+      { property: 'og:image:width', content: '1920' },
+      { property: 'og:image:height', content: '1080' },
+      { property: 'og:image', content: meta.mainImage },
+
       { property: 'og:url', content: meta.currentURL },
       { property: 'og:type', content: 'article' }, // Для рецептів краще article
       { property: 'fb:app_id', content: '433617998637385' },
@@ -306,12 +301,20 @@ export class RecipePage {
     this.seoServices.setHreflang(meta.currentURL);
   }
 
-  onMenuClick(item: MenuItem) {
+  onMenuClick(item: MenuItem, event: Event) {
+    event.preventDefault();
+
     this.activeItem.set(item.index);
+
     const el = this.document.getElementById(item.id);
+
     if (el) {
       const y = el.getBoundingClientRect().top + window.scrollY - this.totalOffset();
-      window.scrollTo({ top: y, behavior: 'smooth' });
+
+      window.scrollTo({
+        top: y,
+        behavior: 'smooth',
+      });
     }
   }
 
