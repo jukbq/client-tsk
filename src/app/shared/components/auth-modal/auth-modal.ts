@@ -1,14 +1,12 @@
 import { Component, ElementRef, HostListener, Inject, PLATFORM_ID, Renderer2 } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
 import { ModalPayload, ModalService } from '../../../core/services/modal/modal.service';
 import { Subscription } from 'rxjs';
 import { Router } from '@angular/router';
-import { isPlatformBrowser } from '@angular/common';
-
-
 
 @Component({
   selector: 'app-auth-modal',
-  imports: [],
+  standalone: true,
   templateUrl: './auth-modal.html',
   styleUrl: './auth-modal.scss',
 })
@@ -47,16 +45,20 @@ export class AuthModal {
       this.previouslyFocused = document.activeElement as HTMLElement | null;
       this.open = true;
       this.renderer.addClass(document.body, 'no-scroll');
+      setTimeout(() => {
+        const dialog = this.elRef.nativeElement.querySelector<HTMLElement>('.auth-modal-window');
+        dialog?.focus();
+      }, 0);
     }
   }
 
   private hide() {
     this.open = false;
     this.payload = null;
-     if (this.isBrowser) {
-    this.renderer.removeClass(document.body, 'no-scroll');
-    setTimeout(() => this.previouslyFocused?.focus(), 0);
-  }
+    if (this.isBrowser) {
+      this.renderer.removeClass(document.body, 'no-scroll');
+      setTimeout(() => this.previouslyFocused?.focus(), 0);
+    }
   }
 
   backdropClick(event: MouseEvent) {

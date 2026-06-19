@@ -1,17 +1,37 @@
-<div
-  class="auth-modal-backdrop"
-  [class.open]="open"
-  (click)="backdropClick($event)"
-  role="dialog"
-  aria-modal="true"
-  [attr.aria-hidden]="!open"
->
-  <div class="auth-modal-window">
-    <button class="auth-modal-close" aria-label="Закрити" (click)="modal.close()">✕</button>
-    <h3>Щоб додавати рецепти в улюблені — треба увійти</h3>
-    <div class="auth-modal-actions">
-      <button class="button" (click)="goLogin()">Вхід / Реєстрація</button>
+@if (open) {
+  <div
+    class="auth-modal-backdrop open"
+    (click)="backdropClick($event)"
+  >
+    <div
+      class="auth-modal-window"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="auth-modal-title"
+      tabindex="-1"
+    >
+      <button
+        type="button"
+        class="auth-modal-close"
+        aria-label="Закрити"
+        (click)="modal.close()"
+      >
+        ✕
+      </button>
+
+      <h3 id="auth-modal-title">
+        Щоб додавати рецепти в улюблені — треба увійти
+      </h3>
+
+      <div class="auth-modal-actions">
+        <button
+          type="button"
+          class="button"
+          (click)="goLogin()"
+        >
+          ВХІД / РЕЄСТРАЦІЯ
+        </button>
+      </div>
     </div>
-   
   </div>
-</div>
+}
