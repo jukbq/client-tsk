@@ -178,19 +178,18 @@ export class RecipeList {
       ?.trim();
   }
 
-  private stripHtml(html: string): string {
-    const text = html
-      ?.replace(/<[^>]+>/g, '')
-      .replace(/&nbsp;/gi, ' ')
-      .replace(/&mdash;/gi, '—')
-      .replace(/&ndash;/gi, '–')
-      .replace(/&quot;/gi, '"')
-      .replace(/&amp;/gi, '&')
-      .replace(/\s+/g, ' ')
-      .trim();
+ private stripHtml(html: string): string {
+  return html
+    ?.replace(/<[^>]+>/g, '')
+    .replace(/&nbsp;/gi, ' ')
+    .replace(/&mdash;/gi, '—')
+    .replace(/&ndash;/gi, '–')
+    .replace(/&quot;/gi, '"')
+    .replace(/&amp;/gi, '&')
+    .replace(/\s+/g, ' ')
+    .trim();
+}
 
-    return text.length > 300 ? text.slice(0, text.lastIndexOf(' ', 300)) + '...' : text;
-  }
   // ===== UI =====
   updateFontSize(name: string) {
     if (!this.isBrowser) return;
