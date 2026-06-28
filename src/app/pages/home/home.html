@@ -46,9 +46,11 @@
             (click)="!isMobile() ? selectRecipe(i) : null"
           >
             <img [ngSrc]="item.mainImage" [alt]="item.recipeTitle" width="260" height="260" />
-            <span class="eye-icon">👁️</span>
+            @if (!isMobile()) {
+              <span class="eye-icon">👁️</span>
+            }
             @if (isMobile()) {
-              <a class="button" [appSsrLink]="['recipe-page', item.id]">Відкрити</a>
+              <a class="button mobile-button" [appSsrLink]="['recipe-page', item.id]">Відкрити</a>
             }
           </div>
         }

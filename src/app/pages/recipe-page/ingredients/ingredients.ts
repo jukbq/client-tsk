@@ -22,16 +22,24 @@ export class Ingredients {
     this.isExpanded.update(v => !v);
   }
 
-  saveToViber() {
+async shareIngredients() {
     const list = this.generateIngredientList();
-    const viberUrl = `viber://forward?text=${encodeURIComponent(list)}`;
-    window.open(viberUrl, '_blank');
-  }
-
-  saveToTelegram() {
-    const list = this.generateIngredientList();
-    const telegramUrl = `https://t.me/share/url?url=${encodeURIComponent(list)}`;
-    window.open(telegramUrl, '_blank');
+    
+    try {
+      if (navigator.share) {
+        await navigator.share({
+          title: 'Список інгредієнтів',
+          text: list
+        });
+      } else {
+        // Fallback: копіювання у буфер обміну
+        await navigator.clipboard.writeText(list);
+        alert('Список інгредієнтів скопійовано у буфер обміну');
+      }
+    } catch (error) {
+      // Обробка помилки при закритті вікна поділитися
+      console.log('Користувач скасував поділитися або виникла помилка:', error);
+    }
   }
 
   private generateIngredientList(): string {
